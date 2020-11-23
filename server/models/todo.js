@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Todo.belongsTo(models.User)
     }
   };
   Todo.init({
@@ -38,7 +39,11 @@ module.exports = (sequelize, DataTypes) => {
           msg:"Deadline must be set"
         },
         isToday(value){
-          
+          let now = new Date
+          now = now.toISOString().split('T')[0]
+          value =  value.toISOString().split('T')[0]
+          if(value <= now)
+            throw new Error('Date must be greater than today')
         }
       }
     }
