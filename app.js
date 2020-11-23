@@ -7,7 +7,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
 app.get('/',(req,res)=>{
-    res.send('Hello from app.js')
+    res.status(200).json({msg: "Hello from app.js"})
 })
 
 
