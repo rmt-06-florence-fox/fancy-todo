@@ -1,4 +1,2 @@
 # fancy-todo
-init npm, i express pg ejs seq
-express init
-config-create:db
+https://documenter.getpostman.com/view/13593391/TVewXidS
