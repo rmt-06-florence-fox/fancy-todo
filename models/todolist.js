@@ -17,7 +17,17 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     desrcription: DataTypes.STRING,
     status: DataTypes.STRING,
-    due_date: DataTypes.DATE
+    due_date: {
+      type: DataTypes.DATE,
+      validate: {
+        checkDate (value) {
+          const now  = new Date ()
+          if (value < now) {
+              throw new Error ('Tanggal harus lebih besar dari hari ini')
+          }
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'TodoList',
