@@ -37,11 +37,22 @@ module.exports = (sequelize, DataTypes) => {
                   }
                 }
               }},
-    due_date: {type: DataTypes.DATE, 
+    status: {type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: `status must be fill`
+        },
+        isFill(value){
+          if (!value || value == '' || value.trim() == '') {
+            throw new Error(`status must be fill`);
+          }
+        }
+      }},
+    due_date: {type: DataTypes.DATEONLY, 
               validate: {
-                isTrue(value){
-                  if (value < new Date()) {
-                    throw new Error(`date invalid`);
+                validDate(value){
+                  if (new Date().toISOString().split('T')[0] > value) {
+                    throw new Error(`date invalid`)
                   }
                 }
               }}
