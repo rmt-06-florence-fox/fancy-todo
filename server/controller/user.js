@@ -1,6 +1,6 @@
-const {Todo} = require('../models')
+const {User} = require('../models')
 
-class Controller{
+class UserController{
   // static async show(req,res){
   //   try {
   //     const list = await Todo.findAll()
@@ -61,4 +61,4 @@ class Controller{
 
 }
 
-module.exports = Controller
+module.exports = UserController
