@@ -10,10 +10,10 @@ class TodoController{
     }
     
     try{
-      const data = await Todo.create(newTodo)
+      const data = await Todo.create(newTodo)   
       res.status(201).json(data)
     }catch(error){
-      res.status(500).json(error)
+      res.status(500).json(error.errors[0].message)
     }
   }
 
