@@ -4,7 +4,7 @@ class Controller {
     static async getTodos(req, res) {
         try {
             const todos = await Todo.findAll();
-            res.status(200).json({todos});
+            res.status(200).json(todos);
         } catch (error) {
             res.status(500).json(error);
         }
@@ -21,6 +21,55 @@ class Controller {
             res.status(201).json(newTodo);
         } catch (error){
             res.status(500).json(error)
+        }
+    }
+    static async findOneTodo(req, res){
+        const idToFind = Number(req.params.id)
+        try {
+            const foundTodo = await Todo.findOne({where: {id: idToFind}})
+            res.status(200).json(foundTodo);
+        } catch (error) {
+            res.status(404).json('Error: Not Found');
+        }
+    }
+
+    static async updateTodo(req, res){
+        const idToUpdate = Number(req.params.id)
+        const payload = {
+            title: req.body.title,
+            description: req.body.description,
+            status: req.body.status,
+            due_date: req.body.due_date,
+        }
+        try {
+            const updatedTodo = await Todo.update(payload, {where: {id: idToUpdate}, individualHooks: true})
+            res.status(200).json(updatedTodo[1][0]);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+
+    static async updateStatusTodo(req, res){
+        const idToUpdate = req.params.id;
+        const payload = {
+            status: req.body.status
+        }
+        try {
+            const updatedTodo = await Todo.update(payload, {where: {id: idToUpdate}, individualHooks: true})
+            res.status(200).json(updatedTodo[1][0]);
+        } catch (error){
+            res.status(500).json(error);
+        }
+    }
+
+    static async removeTodo(req, res){
+        const idToRemove = req.params.id;
+        console.log(idToRemove);
+        try {
+            const removedTodo = await Todo.destroy({where: {id: idToRemove}});
+            res.status(200).json({message: 'Todo success to delete'})
+        } catch(error){
+            res.status(500).json(error);
         }
     }
 }
