@@ -91,42 +91,7 @@ GET /todos/:id
         type: "Internal Server Error", <show error>
     }
 ```
-​
-### POST /googleLogin
-​
-- Request Header
-    Not required.
-​
-- Request Body
-```json
-    {
-        "email": "nafisa@gmail.com",
-        "password": "bidadaricantik"
-    }
-```
-​
-- Response 200: OK
-```json
-    { 
-        "token": "" 
-    }
-```
-​
-- Response 400: Bad Request
-```json
-    {
-        "message": "Invalid email/password"
-    }
-
-```
-​
-- Response 500: Internal server error
-```json
-    {
-        type: "Internal Server Error", <show error>
-    }
-```
-​
+​​
 ### POST /todos
 ​
 - Request Header
