@@ -1,4 +1,5 @@
 'use strict';
+const PassHelper = require('../helper/passwordHelper')
 const {
   Model
 } = require('sequelize');
@@ -17,6 +18,11 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING
   }, {
+    hooks:{
+      beforeCreate:(user, options)=>{
+        user.password = PassHelper.passConverter(user.password)
+      }
+    },
     sequelize,
     modelName: 'User',
   });

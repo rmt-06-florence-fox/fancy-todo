@@ -1,7 +1,10 @@
 const TodoRouter = require('./todo')
 const MainRouter = require('express').Router();
 
-MainRouter.use('/todos', TodoRouter)
+const {UserController} = require('../controllers')
 
+MainRouter.use('/todos', TodoRouter)
+MainRouter.post('/register', UserController.register)
+MainRouter.post('/login', UserController.login)
 
 module.exports = MainRouter
