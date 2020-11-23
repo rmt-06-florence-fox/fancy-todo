@@ -8,7 +8,7 @@ class TodoController {
             res.status(200).json(data)
         })
         .catch(err =>{
-            res.status(500).json(`Internal Server Error`)
+            res.status(500).json({message:`Internal Server Error`})
         })
     }
     static addList(req, res){
@@ -16,18 +16,18 @@ class TodoController {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            date: req.body.date
+            date: new Date(req.body.date)
         }
+        console.log(req.body)
         Todo.create(newTodo)
         .then(result =>{
             res.status(201).json(result)
         })
         .catch(err =>{
-            if(err.message === 'due date must be greater than today dude !!'){
+            if(err.errors[0].message == 'due date must be greater than today dude !!'){
                 res.status(400).json(err.message)
             } else {
-
-                res.status(500).json(`Internal Server Error`)
+                res.status(500).json({message:`Internal Server Error`})
             }
         })
     }
@@ -41,6 +41,95 @@ class TodoController {
         })
         .catch(err =>{
             res.status(404).json(err)
+        })
+    }
+
+    static putNewList(req, res){
+        let putId = +req.params.id
+        let newTodo = {
+            title: req.body.title,
+            description: req.body.description,
+            status: req.body.status,
+            date: new Date(req.body.date)
+        }
+
+        Todo.update(newTodo, {
+            where:{
+                id: putId
+            }
+        })
+        .then(data =>{
+            if(data){
+                return Todo.findByPk(putId)
+                
+            } else {
+                res.status(404).json({message: 'Error not found'})
+            }
+        })
+        .then(result =>{
+            res.status(200).json(result)
+        })
+        .catch(err =>{
+            if(err.errors[0].message == 'due date must be greater than today dude !!'){
+                res.status(400).json(err.message)
+            } else {
+
+                res.status(500).json({message:`Internal Server Error`})
+            }
+        })
+
+    }
+
+    static patchList(req, res){
+        let patchData = {
+            status: req.body.status
+        }
+        let patchId = req.params.id
+
+        Todo.update(patchData, {
+            where: {
+                id : patchId 
+            } 
+        })
+        .then(data =>{
+            if(data){
+                return Todo.findByPk(patchId)
+            } else {
+                res.status(404).json({message: 'Error not found'})
+            }
+        })
+        .then(result =>{
+            res.status(200).json(result)
+
+        })
+        .catch(err =>{
+            if(err.errors[0].message == 'due date must be greater than today dude !!'){
+                res.status(400).json(err.message)
+            } else {
+
+                res.status(500).json({message:`Internal Server Error`})
+            }
+        })
+    }
+
+    static destroyList(req, res){
+        let deleteId = +req.params.id
+
+        Todo.destroy({
+            where:{
+                id: deleteId
+            }
+        })
+        .then(result =>{
+            if(data){
+
+            res.status(200).json({message: 'todo success to delete'})
+            } else {
+                res.status(404).json({message: 'Error not found'})
+            }
+        })
+        .catch(err =>{
+            res.status(500).json({message:`Internal Server Error`})
         })
     }
 

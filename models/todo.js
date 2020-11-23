@@ -17,11 +17,12 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     description: DataTypes.STRING,
     status: DataTypes.STRING,
-    date: {
+    date: 
+    {
       type: DataTypes.DATE,
       validate:{
         gtToday(value){
-          let today = new Date().toISOString.substr(0, 10)
+          let today = new Date()
           if(value < today){
             throw new Error('due date must be greater than today dude !!')
           }
