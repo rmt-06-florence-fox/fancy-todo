@@ -39,7 +39,19 @@ module.exports = (sequelize, DataTypes) => {
         }
       } 
     },
-    status: DataTypes.BOOLEAN,
+    status: {
+      type : DataTypes.BOOLEAN,
+      allowNull : false,
+      validate : {
+        notNull : {
+          msg : `The status must not null`
+        },
+        isIn : {
+          args : [[true,false]],
+          msg : `the status must be boolean`
+        }
+      } 
+    },
     due_date: {
       type : DataTypes.DATE,
       allowNull : false,
@@ -62,6 +74,13 @@ module.exports = (sequelize, DataTypes) => {
     hooks : {
       beforeCreate : (inst, opt) =>{
         inst.status = false
+      },
+      beforeUpdate : (inst, opt) => {
+        if (inst.status === 'false') {
+          inst.status = false
+        } else {
+          inst.status = true
+        }
       }
     },
     sequelize,
