@@ -3,10 +3,13 @@ const Controller = require('../controllers/controller')
 
 
 route.get('/todos', Controller.listTodos)
-route.post('/addTodos', Controller.addTodos)
-route.patch('/updateStatusTodos/:id', Controller.updateTodos)
+route.post('/todos/add', Controller.addTodos)
+route.patch('/todos/updateStatus/:id', Controller.updateTodos)
+route.put('/todos/edit/:id', Controller.editTodos)
+route.get('/todos/:id', Controller.detailTodo)
+route.delete('/todos/delete/:id', Controller.deleteTodo)
 
-route.post('/addUser', Controller.addUser)
-route.post('/login', Controller.login)
+route.post('/user/register', Controller.addUser)
+route.post('/user/login', Controller.login)
 
 module.exports = route
