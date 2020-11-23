@@ -18,14 +18,14 @@ class TodoController {
             status: req.body.status,
             date: new Date(req.body.date)
         }
-        console.log(req.body)
+        
         Todo.create(newTodo)
         .then(result =>{
             res.status(201).json(result)
         })
         .catch(err =>{
             if(err.errors[0].message == 'due date must be greater than today dude !!'){
-                res.status(400).json(err.message)
+                res.status(400).json({message: err.message})
             } else {
                 res.status(500).json({message:`Internal Server Error`})
             }
@@ -59,7 +59,7 @@ class TodoController {
             }
         })
         .then(data =>{
-            if(data){
+            if(data[0]){
                 return Todo.findByPk(putId)
                 
             } else {
@@ -71,7 +71,7 @@ class TodoController {
         })
         .catch(err =>{
             if(err.errors[0].message == 'due date must be greater than today dude !!'){
-                res.status(400).json(err.message)
+                res.status(400).json({message: err.message})
             } else {
 
                 res.status(500).json({message:`Internal Server Error`})
@@ -92,7 +92,7 @@ class TodoController {
             } 
         })
         .then(data =>{
-            if(data){
+            if(data[0]){
                 return Todo.findByPk(patchId)
             } else {
                 res.status(404).json({message: 'Error not found'})
@@ -104,7 +104,7 @@ class TodoController {
         })
         .catch(err =>{
             if(err.errors[0].message == 'due date must be greater than today dude !!'){
-                res.status(400).json(err.message)
+                res.status(400).json({message: err.message})
             } else {
 
                 res.status(500).json({message:`Internal Server Error`})
@@ -121,10 +121,10 @@ class TodoController {
             }
         })
         .then(result =>{
-            if(data){
-
+            if(result){
             res.status(200).json({message: 'todo success to delete'})
             } else {
+                console.log(result)
                 res.status(404).json({message: 'Error not found'})
             }
         })
