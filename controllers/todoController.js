@@ -47,7 +47,11 @@ class TodoController{
             res.status(200).json(value)
          })
          .catch(error => {
-            res.status(500).json(`oops sorry, it seems server is problem`)
+            if (error.name == 'SequelizeValidationError') {
+                res.status(400).json(error.errors[0].message)
+            }else{
+                res.status(500).json(`oops sorry, it seems server is problem`)
+            }
         })
     }
     static getTodos(req, res){
@@ -67,7 +71,11 @@ class TodoController{
             include: [User]
         })
         .then(value => {
-            res.status(200).json(value)
+            if (!value) {
+                res.status(404).json(`data not found`)
+            }else{
+                res.status(200).json(value)
+            }
         })
         .catch(error => {
             res.status(500).json(`oops sorry, it seems server is problem`)
@@ -81,15 +89,75 @@ class TodoController{
             status: req.body.status,
             due_date: req.body.due_date
         }
-        Todo.update(obj,{ where: {
-             id
-        }, returning: true})
+        Todo.findByPk(id)
+         .then(value => {
+             if (!value) {
+                res.status(404).json(`data not found`)
+             }else{
+                return Todo.update(obj, {
+                    where: {id : id},
+                    returning: true
+                  })
+             }
+         })
+        // Todo.update(obj,{ where: {
+        //      id
+        // }, returning: true})
         .then(value => {
             console.log(value);
             res.status(200).json(value)
         })
         .catch(error => {
-            res.status(500).json(`oops sorry, it seems server is problem`)
+            if (error.name == 'SequelizeValidationError') {
+                res.status(400).json(error.errors[0].message)
+            }else{
+                res.status(500).json(`oops sorry, it seems server is problem`)
+            }
+        })
+    }
+    static patch(req, res){
+        const id = +req.params.id
+        const obj = {status: req.body.status}
+        Todo.findByPk(id)
+         .then(value => {
+            if (!value) {
+                res.status(404).json(`data not found`)
+             }else{
+                return Todo.update(obj, {
+                    where: {id : id},
+                    returning: true
+                  })
+             }
+         })
+         .then(value => {
+            console.log(value);
+            res.status(200).json(value)
+        })
+        .catch(error => {
+            if (error.name == 'SequelizeValidationError') {
+                res.status(400).json(error.errors[0].message)
+            }else{
+                res.status(500).json(`oops sorry, it seems server is problem`)
+            }
+        })
+    }
+    static remove(req, res){
+        const id = +req.params.id
+        Todo.findByPk(id)
+         .then(value => {
+            if (!value) {
+                res.status(404).json(`data not found`)
+             }else{
+                return Todo.destroy({
+                    where: {id : id},
+                  })
+             }
+         })
+         .then(value => {
+            res.status(200).json(`todo succes to delete`)
+        })
+        .catch(error => {
+                res.status(500).json(`oops sorry, it seems server is problem`)
         })
     }
 }

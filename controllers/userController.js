@@ -15,8 +15,11 @@ class UserController{
             res.status(200).json({name: value.name, email: value.email})
         })
         .catch(error => {
-            console.log(error);
-            res.status(500).json(`oopss sorry, it seems any error`)
+            if (error.name == 'SequelizeValidationError') {
+                res.status(400).json(error.errors[0].message)
+            }else{
+                res.status(500).json(`oops sorry, it seems server is problem`)
+            }
         })
     }
     static login(req, res){
