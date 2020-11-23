@@ -126,6 +126,51 @@ _Response (500)_
 }
 ```
 
+### GET /todos/:id
+
+> Get todo detail by id
+
+_Request Header_
+```
+{
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ1c2VyMkBnbWFpbC5jb20iLCJpYXQiOjE2MDQyMTIzMzR9.tP1dBk7IY0AXtIYHrstuTnm1_o5Pu94Eam4oXK3tICo"
+}
+```
+
+_Request Params_
+```
+{
+    id: "2"
+}
+```
+
+_Response (200)_
+```
+{
+    id: "2",
+    title: "Core Gundam's Body Unit",
+    description: "Build Core Gundam's Body Unit",
+    status: "On-Going",
+    due_date: "2020-11-28T18:25:43-05:00",
+    createdAt: "2020-11-28T18:25:43-05:00",
+    updatedAt: "2020-11-28T18:25:43-05:00"
+}
+```
+
+_Response (404)_
+```
+{
+    message: "Not Found!"
+}
+```
+
+_Response (500)_
+```
+{
+    message: "Internal Server Error"
+}
+```
+
 ### POST /todos
 
 > Create new Todo
