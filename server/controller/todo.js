@@ -7,7 +7,7 @@ class TodoController{
       if (list) {
         res.status(200).json(list)
       } else {
-        throw `error, the list is not found`
+        res.status(404).json(`error not found`)
       }
     } catch (error) {
       res.status(500).json(error)
@@ -38,7 +38,11 @@ class TodoController{
     try {
       const list = await Todo.findOne({where: {id}})
       if (list) {
-        res.status(200).json(list)
+        if (list) {
+          res.status(200).json(list)
+        } else {
+          res.status(404).json(`error not found`)
+        }
       } else {
         throw `error, the list is not found`
       }
@@ -57,7 +61,11 @@ class TodoController{
     }
     try {
       const data = await Todo.update(obj,{where : {id}, returning: true})
-      res.status(200).json(data[1][0])
+      if (data) {
+        res.status(200).json(data[1][0])
+      } else {
+        res.status(404).json(`error not found`)
+      }
     } catch (error) {
       if (error.name == 'SequelizeValidationError') {
         res.status(400).json(error.errors)
@@ -74,7 +82,11 @@ class TodoController{
     }
     try {
       const data = await Todo.update({status : obj.status},{where : {id}, returning: true})
-      res.status(200).json(data[1][0])
+      if (data) {
+        res.status(200).json(data[1][0])
+      } else {
+        res.status(404).json(`error not found`)
+      }
     } catch (error) {
       if (error.name == 'SequelizeValidationError') {
         res.status(400).json(error.errors)
@@ -84,19 +96,19 @@ class TodoController{
     }
   }
 
-  // static async delete(req,res){
-  //   let id = req.params.id
-  //   try {
-  //     const list = await Todo.findOne({where: {id}})
-  //     if (list) {
-  //       res.status(200).json(list)
-  //     } else {
-  //       throw `error, the list is not found`
-  //     }
-  //   } catch (error) {
-  //     res.status(500).json(error)
-  //   }
-  // }
+  static async delete(req,res){
+    let id = req.params.id
+    try {
+      const list = await Todo.destroy({where: {id}})
+      if (list) {
+        res.status(200).json(`todo success to delete`)
+      } else {
+        res.status(404).json(`error not found`)
+      }
+    } catch (error) {
+      res.status(500).json(error)
+    }
+  }
 
 }
 
