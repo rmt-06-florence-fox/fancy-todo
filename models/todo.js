@@ -16,7 +16,18 @@ module.exports = (sequelize, DataTypes) => {
   Todo.init({
     title: DataTypes.STRING,
     description: DataTypes.STRING,
-    date: DataTypes.DATE
+    status: DataTypes.STRING,
+    date: {
+      type: DataTypes.DATE,
+      validate:{
+        gtToday(value){
+          let today = new Date().toISOString.substr(0, 10)
+          if(value < today){
+            throw new Error('due date must be greater than today dude !!')
+          }
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Todo',
