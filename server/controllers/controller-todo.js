@@ -16,25 +16,57 @@ class ControllerTodo {
             const list = await TodoList.create(req.body, {
                 returning: true
             })
-            console.log(list)
-            res.status(200).json({list})
+            res.status(201).json({list})
         } catch (err) {
-            console.log(err)
-            res.status(500).json({message: err.errors[0].message})
+            res.status(500).json({message: err.errors})
         }
     }
     
     static async getId (req, res) {
-        
+        try  {
+            const todo = await TodoList.findByPk(req.params.id)
+            res.status(201).json({todo})
+        } catch (err) {
+            res.status(500).json({message:'error not found'})
+        }
     }
     static async putId (req, res) {
-        
+        try {
+            const update = await TodoList.update(req.body, {
+                where: {
+                    id: req.params.id
+                },
+                returning: true
+            })
+            res.status(201).json({update})
+        } catch (err) {
+            res.status(500).json({message: err.errors})
+        }
     }
     static async patchId (req, res) {
-        
+        try {
+            const update = await TodoList.update({status: true}, {
+                where: {
+                    id: req.params.id
+                },
+                returning: true
+            })
+            res.status(201).json({update})
+        } catch (err) {
+            res.status(500).json({message: err.errors})
+        }
     }
     static async deleteId (req, res) {
-        
+        try {
+            const del = await TodoList.destroy({
+                where: {
+                    id: req.params.id
+                }
+            })
+            res.status(201).json({message: 'item deleted'})
+        } catch (err) {
+            res.status(500).json({err})
+        }
     }
 
 }

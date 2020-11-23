@@ -14,16 +14,50 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   TodoList.init({
-    title: DataTypes.STRING,
+    title: {
+      type:DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Tidak boleh kosong'
+        },
+        notEmpty: {
+          msg: 'Tidak boleh kosong'
+        }
+      }
+    },
     desrcription: DataTypes.STRING,
-    status: DataTypes.STRING,
+    status: {
+      type:DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+      validate: {
+        notNull: {
+          msg: 'Tidak boleh kosong'
+        },
+        notEmpty: {
+          msg: 'Tidak boleh kosong'
+        }
+      },
+    },
     due_date: {
       type: DataTypes.DATE,
+      allowNull: false,
       validate: {
+        isDate: {
+          args: true,
+          msg: 'Hanya boleh format tanggal'
+        }, 
+        notNull: {
+          msg: 'Tidak boleh kosong'
+        },
+        notEmpty: {
+          msg: 'Tidak boleh kosong'
+        },
         checkDate (value) {
           const now  = new Date ()
           if (value < now) {
-              throw new Error ('Tanggal harus lebih besar dari hari ini')
+              throw new Error ('Tanggal harus lebih besar dari sekarang')
           }
         }
       }

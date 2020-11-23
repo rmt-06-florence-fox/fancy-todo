@@ -9,15 +9,18 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       desrcription: {
         type: Sequelize.STRING
       },
       status: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.BOOLEAN
       },
       due_date: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       createdAt: {
