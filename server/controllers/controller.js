@@ -1,4 +1,6 @@
-const {Todo} = require('../models/index')
+const {Todo,User} = require('../models/index')
+const {decrypt} = require('../helpers/crypt')
+const jwt = require('jsonwebtoken');
 
 class Controller {
    static getHome(req,res){
@@ -126,12 +128,43 @@ class Controller {
       }
    }
 
-   static login(req,res){
+   static async login(req,res){
+      const target = {
+         email:req.body.email,
+         password:req.body.password
+      }
 
+      try{
+         let data = await User.findOne({where:{email:target.email}})
+         if(!data){
+            res.status(400).json({error:"invalid email/password"})
+         }else if(decrypt(target.password,data.password)){
+            const token = jwt.sign({id:data.id,email:data.email},'sshhh')
+            res.status(200).json({token})
+         }
+      }catch(err){
+         res.status(400).json({error:"invalid email/password"})
+      }
    }
 
-   static register(req,res){
-      
+   static async register(req,res){
+      const target = {
+         email:req.body.email,
+         password:req.body.password
+      }
+      try{
+         const user = await User.create(target,{
+            returning:true
+         })
+         res.status(200).json({id:user.id,email:user.email})
+      }catch(err){
+         let errors = err.message
+         if(err.name === 'SequelizeValidationError'){
+            res.status(400).json({errors})
+         }else{
+            res.status(500).json({errors})
+         }
+      }
    }
 }
 

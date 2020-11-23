@@ -1,4 +1,6 @@
 'use strict';
+const {encrypt} = require('../helpers/crypt')
+
 const {
   Model
 } = require('sequelize');
@@ -15,11 +17,31 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    email: {
+      type:DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          msg:"email must be filled"
+        }
+      }
+    },
+    password: {
+      type:DataTypes.STRING,
+      validate:{
+        len:{
+          args:[8],
+          msg:"password must be at least 8 character"
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'User',
   });
+
+  User.beforeCreate((instance,option) =>{
+    instance.password = encrypt(instance.password)
+  })
+
   return User;
 };
