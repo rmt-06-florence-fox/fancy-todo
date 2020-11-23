@@ -14,8 +14,20 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Todo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: { msg: `Title can't be empty` }
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      validate: {
+        emptyDesc(desc) {
+          if (!desc) throw new Error(`Description can't be empty`)
+        }
+      }
+    },
     status: DataTypes.STRING,
     dueDate: {
       type: DataTypes.DATEONLY,
@@ -29,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Todo.addHook('beforeCreate', (todo) => {
-    if (!todo.status) todo.status = false
+    if (!todo.status) todo.status = 'Pending'
   })
 
   return Todo;
