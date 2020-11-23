@@ -1,4 +1,6 @@
 'use strict';
+const { getHash } = require ('../helpers/helper')
+
 const {
   Model
 } = require('sequelize');
@@ -26,19 +28,24 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args:true,
-          msg: 'Password tidak boleh kosong'
+          msg: `Password Can't be empty`
         },
         notEmpty: {
-          msg: `Password tidak boleh kosong`
+          msg: `Password Can't be empty`
         },
         minSixLong (value) {
           if (value.length < 6) {
-            throw new Error ('Password minimal 6 karakter')
+            throw new Error (`Password must be longer than 5 character`)
           }
         }
       }
     }
   }, {
+    hooks: {
+      beforeCreate: (instance, options) => {
+        instance.password = getHash (instance.password)
+      }
+    },
     sequelize,
     modelName: 'User',
   });

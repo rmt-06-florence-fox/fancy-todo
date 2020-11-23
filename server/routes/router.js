@@ -1,8 +1,9 @@
 const router = require('express').Router()
 const routerTodo = require ('./router-todo')
-const { ControllerMain } = require ('../controllers/index')
+const routerUser = require ('./router-user')
 
-router.get('/', ControllerMain.home)
+
+router.use('/', routerUser)
 
 /* /todos */
 router.use('/todos', routerTodo)

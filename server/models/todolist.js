@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
-          msg: 'Tidak boleh kosong'
+          msg: `Can't be empty`
         },
         notEmpty: {
-          msg: 'Tidak boleh kosong'
+          msg: `Can't be empty`
         }
       }
     },
@@ -34,10 +34,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
       validate: {
         notNull: {
-          msg: 'Tidak boleh kosong'
+          msg: `Can't be empty`
         },
         notEmpty: {
-          msg: 'Tidak boleh kosong'
+          msg: `Can't be empty`
         }
       },
     },
@@ -47,18 +47,18 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isDate: {
           args: true,
-          msg: 'Hanya boleh format tanggal'
+          msg: 'Date only'
         }, 
         notNull: {
-          msg: 'Tidak boleh kosong'
+          msg: `Can't be empty`
         },
         notEmpty: {
-          msg: 'Tidak boleh kosong'
+          msg: `Can't be empty`
         },
         checkDate (value) {
           const now  = new Date ()
           if (value < now) {
-              throw new Error ('Tanggal harus lebih besar dari sekarang')
+              throw new Error ('Date must be greater than now')
           }
         }
       }
