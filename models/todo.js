@@ -1,4 +1,5 @@
 'use strict';
+const Helper = require('../helper')
 const {
   Model
 } = require('sequelize');
@@ -17,7 +18,15 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     description: DataTypes.STRING,
     status: DataTypes.STRING,
-    due_date: DataTypes.DATE
+    due_date: {
+      type : DataTypes.DATE,
+      validate : {
+        isAfter : {
+          args : [Helper.getToday()],
+          msg : 'the due date must be, at least, tommorow'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'ToDo',
