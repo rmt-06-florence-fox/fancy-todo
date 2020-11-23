@@ -16,7 +16,16 @@ module.exports = (sequelize, DataTypes) => {
   Todo.init({
     title: DataTypes.STRING,
     description: DataTypes.STRING,
-    status: DataTypes.STRING,
+    status: {
+      type: DataTypes.STRING,
+      validate: {
+        isGreaterThan(value) {
+          if (this.due_date < this.updatedAt.toISOString().split('T')[0]) {
+            throw new Error('Due Date harus lebih dari sama dengan tanggal membuat Todo')
+          }
+        }
+      }
+    },
     due_date: DataTypes.DATEONLY
   }, {
     sequelize,
