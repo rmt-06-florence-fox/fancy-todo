@@ -15,9 +15,36 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Todo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    due_date: DataTypes.DATE
+    title: {type: DataTypes.STRING,
+            validate: {
+              notEmpty: {
+                msg: `title must be fill`
+              },
+              isFill(value){
+                if (!value || value == '' || value.trim() == '') {
+                  throw new Error(`title must be fill`);
+                }
+              }
+            }},
+    description: {type: DataTypes.STRING,
+              validate: {
+                notEmpty: {
+                  msg: `description must be fill`
+                },
+                isFill(value){
+                  if (!value || value == '' || value.trim() == '') {
+                    throw new Error(`description must be fill`);
+                  }
+                }
+              }},
+    due_date: {type: DataTypes.DATE, 
+              validate: {
+                isTrue(value){
+                  if (value < new Date()) {
+                    throw new Error(`date invalid`);
+                  }
+                }
+              }}
   }, {
     sequelize,
     modelName: 'Todo',
