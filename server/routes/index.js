@@ -1,8 +1,7 @@
 const TodoRouter = require('./todo')
+const MainRouter = require('express').Router();
+
+MainRouter.use('/todos', TodoRouter)
 
 
-
-
-module.exports = {
-  TodoRouter
-}
+module.exports = MainRouter

@@ -1,8 +1,8 @@
 const router = require('express').Router()
-const controller = require('../controllers')
+const {TodoController} = require('../controllers')
 
-router.post('/todos', controller.create)
-router.get('/todos', controller.findAll)
+router.post('/', TodoController.create)
+router.get('/', TodoController.findAll)
 
 
 module.exports = router

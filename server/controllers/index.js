@@ -1,16 +1,6 @@
-const {Todo}= require('../models')
+const TodoController = require('./todo')
 
 
-class Controller{
-
-  static create(req,res){
-    
-  }
-
-  static findAll(req,res){
-    res.send('asad')
-  }
+module.exports = {
+  TodoController
 }
-
-
-module.exports = Controller

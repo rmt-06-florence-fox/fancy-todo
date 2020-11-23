@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.DATEONLY,
       validate:{
         isAfter: {
-          args: new Date(),
+          args: new Date().toISOString().split('T')[0],
           msg: "the date must be greater than today"
         }
       }
