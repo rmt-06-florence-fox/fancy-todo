@@ -57,7 +57,7 @@ class TodoController {
             due_date: new Date(req.body.due_date).toISOString().split('T')[0]
         }
         try {
-            const todo = await Todo.update(payload, {where: {id}, returning: true})
+            const todo = await Todo.update(payload, {where: {id}, returning: true, individualHooks: true})
             if (todo[0] == 0) {
                 res.status(404).json({message: `Error Not Found`})
             } else {
@@ -79,16 +79,21 @@ class TodoController {
         const payload = {
             status: req.body.status
         }
+        console.log(payload);
         try {
-            const todo = await Todo.update(payload, {where: {id}, returning: true})
+            const todo = await Todo.update(payload, {
+                where: {id}, 
+                returning: true
+            })
             if (todo[0] == 0) {
                 res.status(404).json({message: `Error Not Found`})
             } else {
                 res.status(200).json(todo[1][0])
             }
+
         } catch (error) {
-            console.log(error.name);
-            if (error.message == `Validation error: Validation isAfter on due_date failed`) {
+            console.log(error.message);
+            if (error.message == `Validation error: Validation isAfter on due_date failed` || error.message == `Validation error: Validation isIn on status failed`) {
                 res.status(400).json({message: error.message})
             } else {
                 res.status(500).json({message: `Internal Server Error`})

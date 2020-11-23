@@ -16,7 +16,15 @@ module.exports = (sequelize, DataTypes) => {
   Todo.init({
     title: DataTypes.STRING,
     description: DataTypes.STRING,
-    status: DataTypes.BOOLEAN,
+    status: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      validate: {
+        notNull:true,
+        notEmpty:true,
+        isIn: [['true', 'false']]
+      }
+    },
     due_date: {
       type:DataTypes.DATE,
       validate: {
@@ -31,5 +39,6 @@ module.exports = (sequelize, DataTypes) => {
   Todo.beforeCreate((instance, opt) => {
     instance.status = false
   })
+
   return Todo;
 };
