@@ -13,7 +13,7 @@ class TodoController {
             if (error.name == "SequelizeValidationError") {
                 res.status(400).json(error.errors[0].message);                
             } else {
-                res.status(500).json(error);
+                res.status(500).json({message: `Internal server error`})
             }
         }
     }
@@ -24,7 +24,7 @@ class TodoController {
             res.status(200).json({todo});   
         }
         catch (error) {
-            res.status(500).json(error);    
+            res.status(500).json({message: `Internal server error`})
         }
     }
 
@@ -34,7 +34,7 @@ class TodoController {
             const todo = await Todo.findByPk(id);
             res.status(200).json(todo)            
         } catch (error) {
-            res.status(500).json(error)
+            res.status(500).json({message: `Internal server error`})
         }
     }
 
@@ -49,7 +49,7 @@ class TodoController {
             });
             res.status(200).json(todo[1][0])            
         } catch (error) {
-            res.status(500).json(error)
+            res.status(500).json({message: `Internal server error`})
         }
     }
 
@@ -63,7 +63,7 @@ class TodoController {
             });
             res.status(200).json(todo[1][0])            
         } catch (error) {
-            res.status(500).json(error)
+            res.status(500).json({message: `Internal server error`})
         }
     }
 
@@ -75,7 +75,7 @@ class TodoController {
             });
             res.status(200).json({message: 'todo succes to delete'})            
         } catch (error) {
-            res.status(500).json(error)
+            res.status(500).json({message: `Internal server error`})
         }
     }
 
