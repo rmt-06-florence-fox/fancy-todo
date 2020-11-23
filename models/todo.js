@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           args: true,
-          msg: 'Cannot be blank'
+          msg: 'title cannot be blank'
         }
       }
     },
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           args: true,
-          msg: 'Cannot be blank'
+          msg: ' description cannot be blank'
         }
       }
     },

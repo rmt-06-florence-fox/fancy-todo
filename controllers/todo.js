@@ -27,7 +27,9 @@ class Controller {
        if(error.name === "SequelizeValidationError"){
          res.status(400).json(error.errors[0].message)
        }
+       else{
        res.status(500).json(error)
+       }
      }
 
 
@@ -71,7 +73,13 @@ class Controller {
 
     }
     catch (error){
-      res.status(500).json(error)
+        if(error.name === "SequelizeValidationError"){
+          res.status(400).json(error.errors[0].message)
+        }
+        else {
+          res.status(500).json(error)
+        }
+        
 
     }
   }
@@ -86,18 +94,23 @@ class Controller {
       const data = await Todo.update(updateStatus,{
         where: {id}, returning:true
       })
-      if (!data){
+      console.log(data)
+      if (data[1].length === 0){
         res.status(404).json({message : 'Data not found'})
       }
-      res.status(200).json(data[1][0])
-
-
+      else{
+        res.status(200).json(data[1][0])
+      }
+    
     }
     catch (error){
       if(error.name === "SequelizeValidationError"){
         res.status(400).json(error.errors[0].message)
       }
-      res.status(500).json(error)
+      else {
+        res.status(500).json(error)
+      }
+      
 
     }
   }
