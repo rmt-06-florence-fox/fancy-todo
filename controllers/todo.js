@@ -1,4 +1,3 @@
-const e = require('express')
 const { Todo } = require('../models')
 
 class TodoController {
@@ -113,9 +112,9 @@ class TodoController {
             }
         } catch (error){
             if(error.message = 'Error not found'){
-            res.status(404).json(error)
+                res.status(404).json(error)
             } else {
-            res.status(500).json(error)
+                res.status(500).json(error)
             }
         }
     }
