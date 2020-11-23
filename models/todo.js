@@ -17,7 +17,19 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       description: DataTypes.STRING,
       status: DataTypes.STRING,
-      due_date: DataTypes.DATEONLY,
+      due_date: {
+        type: DataTypes.DATEONLY,
+        validate: {
+          isDate: {
+            args: true,
+            msg: `Please use date format MM/DD/YYYY!`,
+          },
+          isAfter: {
+            args: new Date().toDateString(),
+            msg: `Due Date can be filled with date after today.`,
+          },
+        },
+      },
       UserId: DataTypes.INTEGER,
     },
     {
