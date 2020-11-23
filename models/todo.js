@@ -23,11 +23,22 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     description: DataTypes.STRING,
-    status: DataTypes.STRING,
+    status: {
+      type: DataTypes.STRING,
+      validate:{
+        isIn:{
+          args: [['done','not done']],
+          msg:'insert status correctly'
+        }
+      }
+    },
     due_date: {
       type: DataTypes.DATE,
+      allowNull: false,
       validate:{
-        isAfter: {args: new Date().toString() , msg: 'due date must be greater than today'}
+        isAfter: {args: new Date().toString() , msg: 'due date must be greater than today'},
+        notNull: { msg: 'date cannot be empty'},
+        notEmpty: { msg: 'date cannot be empty'}
       }
     }
   }, {
