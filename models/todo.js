@@ -23,31 +23,42 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    description: DataTypes.STRING,
+    description: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Cannot be blank'
+        }
+      }
+    },
     status: DataTypes.STRING,
-    due_date: DataTypes.DATEONLY
+     
+    due_date:  {
+      type: DataTypes.DATE,
+      validate: {
+        isAfter: {
+          args: new Date().toDateString(),
+          msg: 'Deadline can not be less than today'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Todo',
   });
 
   Todo.beforeCreate((instance,options)=>{
-    const today = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
-    let arr_today = today.split("-")
-    let dateInput = instance.due_date
-    let arr_dateInput = dateInput.split("-")
-
-    if (arr_dateInput[0] < arr_today [0]){
-      return `Deadline can not be less than today date`
-    }
+    instance.status = "still on progress"
+   
     
   })
 
-  Todo.beforeUpdate((instance,options)=>{
-    const today = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
-    if (arr_dateInput < arr_today){
-      return `Deadline can not be less than today date`
-    }
-  })
+  // Todo.beforeUpdate((instance,options)=>{
+  //   const today = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
+  //   if (arr_dateInput < arr_today){
+  //     return `Deadline can not be less than today date`
+  //   }
+  // })
   return Todo;
 };

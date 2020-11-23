@@ -10,8 +10,6 @@ class Controller {
     catch(error) {
       res.status(500).json(error)
     }
-    
-   
   }
 
   static async postTodo(req,res){
@@ -88,10 +86,17 @@ class Controller {
       const data = await Todo.update(updateStatus,{
         where: {id}, returning:true
       })
+      if (!data){
+        res.status(404).json({message : 'Data not found'})
+      }
       res.status(200).json(data[1][0])
+
 
     }
     catch (error){
+      if(error.name === "SequelizeValidationError"){
+        res.status(400).json(error.errors[0].message)
+      }
       res.status(500).json(error)
 
     }
@@ -103,10 +108,11 @@ class Controller {
           let data = await Todo.destroy({
               where: {id},returning: true
           })
-       
-          res.status(200).json(data[1][0])
+          
           if(!data){
-              res.status(404).json({message: `error not found`})
+            res.status(404).json({message: 'Data not found'})
+          } else{
+            res.status(200).json({message:`Success Deleted`})
           }
       } 
       catch (error) {
