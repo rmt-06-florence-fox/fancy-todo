@@ -1,3 +1,4 @@
 const { TodoController } = require('./todocontroller')
+const { UserController } = require('./usercontroller')
 
-module.exports = { TodoController }
+module.exports = { TodoController, UserController }
