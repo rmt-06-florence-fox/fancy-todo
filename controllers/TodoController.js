@@ -95,7 +95,7 @@ class TodoController {
         Todo.destroy({ where: { id: req.params.id } })
         .then(data => {
             if (data) {
-                res.status(200).json({ message: 'todo succes to delete' });
+                res.status(200).json({ message: 'todo success to delete' });
             } 
             else {
                 res.status(404).json({ message: 'error not found' });
