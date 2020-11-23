@@ -6,6 +6,7 @@ router.get('/', TodoController.findAll)
 router.get('/:id', TodoController.findOne)
 router.put('/:id', TodoController.editPut)
 router.patch('/:id', TodoController.editPatch)
+router.delete('/:id', TodoController.delete)
 
 
 

@@ -29,7 +29,7 @@ class TodoController{
   static async findOne(req,res){
     try{
       const id = +req.params.id
-      const todo = await Todo.findOne({where: id})
+      const todo = await Todo.findOne({where: {id:id}})
       res.status(200).json(todo)
     }catch(error){
       res.status(404).json(error)
@@ -81,7 +81,20 @@ class TodoController{
       }
     }
   }
-  
+
+  static async delete(req,res){
+    const id = req.params.id
+    try {
+      const data = await Todo.destroy({where: {id:id},returning:true})
+      if(data>0){
+        res.status(200).json({message:'todo success to delete'})
+      }else{
+        res.status(404).json({error: 'Id not found'})
+      }
+    } catch (error) {
+      res.status(500).json(error)
+    }
+  }
 }
 
 module.exports = TodoController
