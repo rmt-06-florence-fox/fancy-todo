@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: "Date should not be empty"
+          msg: "Date should not be empty!"
         },
         isAfterDate(value){
           if (value){
@@ -54,17 +54,17 @@ module.exports = (sequelize, DataTypes) => {
             let year = dateNow.getFullYear()
             let month = dateNow.getMonth()
             let date = dateNow.getDate()
-    
-            if (value.getFullYear() < year){
-              throw new Error("Date should be greater than recent date")
+
+            if(value.getFullYear() < year){
+              throw new Error("Date should be greater than recent date!")
             }
             else {
               if (value.getMonth() < month){
-                throw new Error("Date should be greater than recent date")
+                throw new Error("Date should be greater than recent date!")
               }
               else {
                 if (value.getDate() < date){
-                  throw new Error("Date should be greater than recent date")
+                  throw new Error("Date should be greater than recent date!")
                 }
               }
             }
