@@ -39,14 +39,14 @@ class Controller {
                     password: req.body.password
                     })
                 } else {
-                    res.status(500).json({message: "email/password salah"})
+                    res.status(404).json({message: "email/password salah"})
                 } 
             } else {
-                res.status(500).json({message: "email/password salah"})
+                res.status(404).json({message: "email/password salah"})
             }
         })
         .catch(error => {
-            res.status(500).json({message: "email/password salah"})
+            res.status(500).json({message: "internal server error"})
         })
     }
 
@@ -135,7 +135,7 @@ class Controller {
                     due_date: data.due_date
                 })
             }else {
-
+                res.status(404).json({message: "id not found!"})
             }
         })
         .catch(error => {
