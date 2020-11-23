@@ -108,11 +108,7 @@
 
 * **Request Headers**
 
-     ```
-    {
-      "access_token": "<your access token>"
-    }
-    ```
+    none
   
 * **URL Params**
    
@@ -153,11 +149,8 @@
   `GET`
 
 * **_Request Header_**
-```
-{
-  "accesstoken": "<your access token>"
-}
-```
+
+    none
 
 * **_Request Body_**
 ```
@@ -213,11 +206,8 @@ not needed
   `GET`
 
 * **_Request Header_**
-```
-{
-  "accesstoken": "<your access token>"
-}
-```
+
+    none
 
 * **_Request Params_**
 ```
@@ -269,11 +259,8 @@ not needed
   `PUT`
 
 * **_Request Header_**
-```
-{
-  "accesstoken": "<your access token>"
-}
-```
+
+    none
 
 * **_Request Params_**
    
@@ -321,11 +308,7 @@ not needed
 
 * **_Request Header_**
 
-```
-{
-  "accesstoken": "<your access token>"
-}
-```
+    none
 
 * **_Request Params_**
    
@@ -367,11 +350,7 @@ not needed
 
 * **_Request Header_**
 
-```
-{
-  "accesstoken": "<your access token>"
-}
-```
+    none
 
 * **_Request Params_**
    
