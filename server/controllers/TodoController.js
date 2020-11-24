@@ -13,7 +13,7 @@ class TodoController {
       res.status(201).json(data);
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
-        res.status(400).json(error);
+        res.status(400).json(error.message);
       } else {
         res.status(500).json({ msg: "Internal Server Error" });
       }
@@ -81,7 +81,7 @@ class TodoController {
         res.status(200).json(data[1][0]);
       }
     } catch (error) {
-      res.status(404).json({ msg: "data not found" });
+      res.status(404).json({ message: "data not found" });
       res.status(500).json({ msg: "Internal Server Error" });
     }
   }

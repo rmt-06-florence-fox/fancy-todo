@@ -11,15 +11,42 @@ module.exports = (sequelize, DataTypes) => {
   Todo.init({
     title: {
       type: DataTypes.STRING,
+      validate: {
+        notEmpty: `title cannot be blank`
+      },
     },
-    description: DataTypes.STRING,
-    status: DataTypes.STRING,
-    due_date: DataTypes.DATEONLY,
+    description: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: `description cannot be blank`
+      },
+    },
+    status: {
+      type: DataTypes.STRING
+    },
+    due_date: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        isAfter: {
+          args: new Date().toString(),
+          msg: 'due date must be greater than today'
+        }
+      },
+    },
     // UserId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Todo',
   });
-  // Todo.beforeCreate()
+
+  Todo.addHook('beforeCreate', (ini) => {
+    if (!ini.status) {
+      ini.status = 'Pending'
+    }
+    // if (!due_date) {
+    //   ini.due_date = new Date()
+    // }
+  })
+  2
   return Todo;
 };
