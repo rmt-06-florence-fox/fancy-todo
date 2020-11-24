@@ -16,7 +16,7 @@ class UserController {
       })
       .catch (err=>{
         console.log(err)
-        res.status(500).json(err)
+        next(err)
       })
 
   }
@@ -38,7 +38,7 @@ class UserController {
       })
       .catch (err=>{
         console.log(err)
-        res.status(500).json(err)
+        next(err)
       })
 
   }

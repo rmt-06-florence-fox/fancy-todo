@@ -8,11 +8,11 @@ const router = express.Router()
 router.use(authentication)
 router.post('/', Controller.postTodo) //add
 router.get('/',Controller.getTodo) //show all
-
 router.get('/:id', Controller.getTodoId)
-router.put('/:id',otorisesion, Controller.putTodoId) //updateall
 
+router.use('/:id',otorisesion)
+router.put('/:id', Controller.putTodoId) //updateall
 router.patch('/:id', Controller.patchTodo) //updateStat
-router.delete('/:id',otorisesion, Controller.deleteTodo)
+router.delete('/:id', Controller.deleteTodo)
 
 module.exports = router
