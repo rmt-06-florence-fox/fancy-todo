@@ -1,5 +1,5 @@
 'use strict';
-const bcrypt = require('bcryptjs')
+const { hashPass } = require("../helper/generatePass")
 
 const {
   Model
@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Todo, {
+        foreignKey: "UserId",
+        sourceKey: "id"
+      })
     }
   };
   User.init({
@@ -21,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate: (user, opt) => {
-        const salt = bcrypt.genSaltSync(8)
-        user.password = bcrypt.hashSync(user.password, salt)
+        // const salt = bcrypt.genSaltSync(8)
+        user.password = hashPass(user.password)
       }
     },
     sequelize,

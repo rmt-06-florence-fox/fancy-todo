@@ -1,6 +1,6 @@
-const {User} = require("../models")
-const bcrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken")
+const { User } = require("../models")
+const { comparePass } = require("../helper/generatePass")
+const { generateToken } = require("../helper/generateToken")
 
 class UserControllers {
     static signUp(req, res) {
@@ -19,7 +19,7 @@ class UserControllers {
             .catch(err => {
                 console.log(err)
                 res.status(500).json({
-                    message: "internal service error"
+                    msg: "internal service error"
                 })
             })
     }
@@ -29,19 +29,21 @@ class UserControllers {
             .then(data => {
                 if(!data) {
                     // tidak boleh memberikan spesifik error
-                    res.status(404).json({message: "Invalid account"})
+                    res.status(404).json({msg: "Invalid account"})
                 } else {
-                    const access_token = jwt.sign({id: data.id, email: data.password}, process.env.SECRET)
-                    if (bcrypt.compareSync(req.body.password, data.password)) {
+                    // const access_token = jwt.sign({id: data.id, email: data.email}, process.env.SECRET)
+                    const access_token = generateToken({id: data.id, email: data.email})
+                    // bcrypt.compareSync(req.body.password, data.password)
+                    if (comparePass(req.body.password, data.password)) {
                         res.status(200).json({access_token})                        
                     } else {
-                        res.status(401).json({message: "invalid email/password"})
+                        res.status(401).json({msg: "invalid email/password"})
                     }
                 }
             })
             .catch(err => {
                 console.log(err)
-                res.status(500).json({message: "internal service error"})
+                res.status(500).json({msg: "internal service error"})
             })
     }
 }
