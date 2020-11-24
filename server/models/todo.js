@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         // isIn: [['true', 'false']]
         isBoolean: function (val) {
           if (!_.isBoolean(val)) {
-            throw new Error('Not boolean.');
+            throw new Error('Status must boolean.');
           }
         }
       }
@@ -33,7 +33,10 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.DATE,
       validate: {
         isDate: true,
-        isAfter: new Date().toISOString().split('T')[0]
+        isAfter: {
+          args: new Date().toISOString().split('T')[0],
+          msg: `Date must be greater than today`
+        }
       }
     },
     UserId: DataTypes.INTEGER

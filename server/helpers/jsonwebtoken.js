@@ -5,7 +5,17 @@ class Token {
     }
 
     static verifyToken(token) {
-        return jwt.verify(token, process.env.SECRET); // ? output object
+        
+        try {
+            let verified = jwt.verify(token, process.env.SECRET); // ? output object
+            return verified
+        } catch(err) {
+            // err
+            throw {
+                status: 401,
+                message: `Please Login First`
+            }
+        }
     }
 }
 

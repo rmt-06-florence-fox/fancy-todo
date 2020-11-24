@@ -3,7 +3,7 @@ const {Todo} = require('../models')
 class TodoController {
 
     // ? POST '/todos'
-    static async inputTodo(req, res) {
+    static async inputTodo(req, res, next) {
         const payload = {
             title: req.body.title,
             description: req.body.description,
@@ -14,17 +14,12 @@ class TodoController {
             const todo = await Todo.create(payload)
             res.status(201).json({todo})
         } catch (error) {
-            console.log(error);
-            if (error.message == `Validation error: Validation isAfter on due_date failed`) {
-                res.status(400).json({message: error.message})
-            } else {
-                res.status(500).json({message: `Internal Server Error`})
-            }
+            next(error)
         }
     }
 
     // ? GET '/todos'
-    static async showTodo(req, res) {
+    static async showTodo(req, res, next) {
         try {
             const todo = await Todo.findAll({
                 where: {
@@ -33,28 +28,30 @@ class TodoController {
             })
             res.status(200).json(todo)
         } catch (error) {
-            res.status(500).json({message: `Internal Server Error`})
+            next(error)
         }
     }
 
     // ? GET '/todos/:id'
-    static async showById(req, res) {
+    static async showById(req, res, next) {
         const id = +req.params.id
 
         try {
-            const todo = await Todo.findByPk(id)
-            if (!todo) {
-                res.status(404).json({message: `Error Not Found`})
-            } else {
-                res.status(200).json(todo)
-            }
+            const todo = await Todo.findOne({
+                where: {
+                    id: id
+                }
+            })
+
+            res.status(200).json(todo)
+
         } catch (error) {
-            res.status(500).json({message: `Internal Server Error`})
+            next(error)
         }
     }
 
     // ? PUT '/todos/:id'
-    static async editTodo(req, res) {
+    static async editTodo(req, res, next) {
         const id = req.params.id
         const payload = {
             title: req.body.title,
@@ -63,24 +60,20 @@ class TodoController {
             due_date: new Date(req.body.due_date).toISOString().split('T')[0]
         }
         try {
-            const todo = await Todo.update(payload, {where: {id}, returning: true, individualHooks: true})
-            if (todo[0] == 0) {
-                res.status(404).json({message: `Error Not Found`})
-            } else {
-                res.status(200).json(todo[1][0])
-            }
+            const todo = await Todo.update(payload, {
+                where: {id}, 
+                returning: true, 
+                individualHooks: true
+            })
+
+            res.status(200).json(todo[1][0])
         } catch (error) {
-            console.log(error.name);
-            if (error.message == `Validation error: Validation isAfter on due_date failed` || error.message == `Validation error: Validation isIn on status failed` || error.message == `Validation error: Not boolean.`)  {
-                res.status(400).json({message: error.message})
-            } else {
-                res.status(500).json({message: `Internal Server Error`})
-            }
+            next(error)
         }
     }
 
     // ? PATCH '/todos/:id'
-    static async editStatusTodo(req, res) {
+    static async editStatusTodo(req, res, next) {
         const id = req.params.id
         const payload = {
             status: req.body.status
@@ -91,36 +84,24 @@ class TodoController {
                 where: {id}, 
                 returning: true
             })
-            if (todo[0] == 0) {
-                res.status(404).json({message: `Error Not Found`})
-            } else {
-                res.status(200).json(todo[1][0])
-            }
-            // res.status(200).json({message: "oke"})
-
+            
+            res.status(200).json(todo[1][0])
+            
         } catch (error) {
-            console.log(error.message);
-            if (error.message == `Validation error: Validation isAfter on due_date failed` || error.message == `Validation error: Validation isIn on status failed` || error.message == `Validation error: Not boolean.`) {
-                res.status(400).json({message: error.message})
-            } else {
-                res.status(500).json({message: `Internal Server Error`})
-            }
+            next(error)
         }
     }
 
     // ? DELETE '/todos/:id'
-    static async deleteTodo(req, res) {
+    static async deleteTodo(req, res, next) {
         const id = +req.params.id
-
         try {
             const todo = await Todo.destroy({where: {id}})
-            if (!todo) {
-                res.status(404).json({message: `Error Not Found`})
-            } else {
-                res.status(200).json({message: `todo success to delete`})
-            }
+            
+            res.status(200).json({message: `todo success to delete`})
+            
         } catch (error) {
-            res.status(500).json({message: `Internal Server Error`})
+            next(error)
         }
     }
 

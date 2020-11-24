@@ -8,13 +8,20 @@ module.exports = async (req, res, next) => {
                 id:req.params.id
             }
         })
-        // console.log(todo);
-        if (req.loggedIn.id == todo.UserId) {
+        if (!todo) {
+            throw {
+                message: `Error Not Found`,
+                status: 404
+            }
+        } else if (req.loggedIn.id == todo.UserId) {
             next()
         } else {
-            res.status(401).json({message: `you're not authorized to access this todo`})
+            throw {
+                status: 401,
+                message: `you're not authorized to access this todo`
+            }
         }
     } catch (error) {
-        res.status(500).json({message: `internal server error`})
+        next(error)
     }
 }
