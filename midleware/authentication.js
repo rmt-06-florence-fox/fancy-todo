@@ -12,9 +12,8 @@ async function authenticatoin(req,res,next){
         const token = req.headers.access_token
         if(token){
             console.log('==================Decoded=================')
-            const decoded = decodedToken(token)
-
-            console.log(decoded.payload.id)
+            const decoded = await decodedToken(token)
+            console.log(decoded)
 
             const user = await User.findOne({
                 where : {
@@ -28,15 +27,22 @@ async function authenticatoin(req,res,next){
                 req.loggedInUser = decoded
                 next()
             }else{
-                res.status(401).json({message : 'please login'})
+                // res.status(401).json({message : 'please login'})
+                throw {
+                    status : 401,
+                    message : 'Please login'
+                }
             }
         }else {
-            res.status(401).json({message : 'please login'})
+            // res.status(401).json({message : 'please login'})
+            throw {
+                status : 401,
+                message : 'Please login'
+            }
         }
     } 
     catch (error) {
-        console.log('================Error 401 ==============')
-        res.status(401).json({error : 'please logIn'})
+        next(error)
     }
 }
 

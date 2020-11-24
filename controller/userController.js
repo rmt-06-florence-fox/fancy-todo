@@ -5,7 +5,7 @@ const {getToken} = require('../helper/jwt.js')
 
 class UserController {
 
-    static async registerUser(req,res){
+    static async registerUser(req,res,next){
         const newUser  = {
             name : req.body.name,
             email : req.body.email,
@@ -21,11 +21,12 @@ class UserController {
             console.log(regUser)
             res.status(201).json(regUser)
         } catch (error) {
-            res.status(400).json({error})
+            next(error)
+            // res.status(400).json({error})
         }
     }
 
-    static async signInUser(req,res){
+    static async signInUser(req,res,next){
         const email = req.body.email
         const password = req.body.password
         console.log('=========== Get User Sign In Data=================')
@@ -42,17 +43,26 @@ class UserController {
             console.log(user)
 
             if(!user){
-                throw 'Invalid email/password'
+                throw {
+                    status : 400,
+                    message : 'Invalid email/password'
+                }
+                // throw 'Invalid email/password'
             }else if(comparePassword(password,user.password)){
                 console.log('===========Correct Pass==========')
                 const access_token = getToken({ id : user.id , email:user.email })
                 console.log(access_token)
                 res.status(200).json(access_token)
             }else {
-                throw 'Invalid email/password'
+                throw {
+                    status : 400,
+                    message : 'Invalid email/password'
+                }
+                // throw 'Invalid email/password'
             }
         } catch (error) {
-            res.status(400).json({error})
+            next(error)
+            // res.status(400).json({error})
         }
     }
 }

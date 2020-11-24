@@ -7,9 +7,17 @@ function getToken(payload){
     return token
 }
 
-function decodedToken(token){
-    const decoded = jwt.verify(token,process.env.SECRET)
-    return decoded
+async function decodedToken(token){
+    try {
+        const decoded = await jwt.verify(token,process.env.SECRET)
+        return decoded
+    }catch {
+        throw {
+            status : 401,
+            message : 'please Login'
+        }
+    }
+
 }
 
 module.exports = {

@@ -7,6 +7,7 @@ async function authorization(req,res,next){
         console.log('============== Authorization=================')
         const todoId = req.params.id 
         const userId = req.loggedInUser.payload.id
+        console.log('here')
         const todo = await Todo.findOne({
             where : {
                 [Op.and] : [
@@ -16,17 +17,23 @@ async function authorization(req,res,next){
                 ]
             }
         })
-
-        console.log(todo.dataValues)
+        console.log('===========Success findone======')
+        console.log(todo)
         if(todo){
             next()
         }else {
-            res.status(401).json({message : 'Unauthorized to access'})
+            console.log('==========Cannot Get data======')
+            throw {
+                status : 401,
+                message : 'Unauthorized to access'
+            }
         }
 
-
-    } catch (error) {
-        res.status(401).json({message : 'Unauthorized to access'})
+    }catch(error) {
+        console.log('==========Authorized error=========')
+        console.log(error)
+        // res.status(401).json({message : 'Unauthorized to access'})
+        next(error)
     }
 }
 
