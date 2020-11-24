@@ -1,7 +1,7 @@
 const { Todo } = require("../models");
 
 class TodoController {
-  static postTodo(req, res) {
+  static postTodo(req, res, next) {
     Todo.create({
       title: req.body.title,
       description: req.body.description,
@@ -11,41 +11,47 @@ class TodoController {
     })
       .then((data) => {
         if (!data) {
-          res.status(400).json({ message: "Validation Error" });
+          throw {
+            status: 400,
+            message: "Validation Error",
+          };
         } else {
           res.status(201).json(data);
         }
       })
       .catch((err) => {
-        res.status(500).json(err);
+        next(err);
       });
   }
 
-  static getTodo(req, res) {
+  static getTodo(req, res, next) {
     Todo.findAll({ where: { UserId: req.userData.id } })
       .then((data) => {
         res.status(200).json(data);
       })
       .catch((err) => {
-        res.status(500).json(err);
+        next(err);
       });
   }
 
-  static getTodoId(req, res) {
+  static getTodoId(req, res, next) {
     Todo.findByPk(req.params.id)
       .then((data) => {
         if (!data) {
-          res.status(404).json({ message: "Error Not Found" });
+          throw {
+            status: 404,
+            message: "Error Not Found",
+          };
         } else {
           res.status(200).json(data);
         }
       })
       .catch((err) => {
-        res.status(500).json(err);
+        next(err);
       });
   }
 
-  static putTodoId(req, res) {
+  static putTodoId(req, res, next) {
     Todo.update(
       {
         title: req.body.title,
@@ -59,23 +65,18 @@ class TodoController {
         if (data) {
           res.status(200).json(data);
         } else {
-          res.status(404).json({ message: "Error Not Found" });
+          throw {
+            status: 404,
+            message: "Error Not Found",
+          };
         }
       })
       .catch((err) => {
-        let arr = [];
-        for (let i = 0; i < err.errors.length; i++) {
-          arr.push(err.errors[i].message);
-        }
-        if (arr.length > 0) {
-          res.status(400).json({ error: arr.join(",") });
-        } else {
-          res.status(500).json(err);
-        }
+        next(err);
       });
   }
 
-  static patchTodoId(req, res) {
+  static patchTodoId(req, res, next) {
     Todo.update(
       {
         status: req.body.status,
@@ -86,33 +87,31 @@ class TodoController {
         if (data) {
           res.status(200).json(data);
         } else {
-          res.status(404).json({ message: "Error Not Found" });
+          throw {
+            status: 404,
+            message: "Error Not Found",
+          };
         }
       })
       .catch((err) => {
-        let arr = [];
-        for (let i = 0; i < err.errors.length; i++) {
-          arr.push(err.errors[i].message);
-        }
-        if (arr.length > 0) {
-          res.status(400).json({ error: arr.join(",") });
-        } else {
-          res.status(500).json(err);
-        }
+        next(err);
       });
   }
 
-  static deleteTodoId(req, res) {
+  static deleteTodoId(req, res, next) {
     Todo.destroy({ where: { id: req.params.id } })
       .then((data) => {
         if (data) {
-          res.status(200).json({ message: "todo succes to delete" });
+          res.status(200).json({ message: "todo success to delete" });
         } else {
-          res.status(404).json({ message: "Object Not Found" });
+          throw {
+            status: 404,
+            message: "Object Not Found",
+          };
         }
       })
       .catch((err) => {
-        res.status(500).json(err);
+        next(err);
       });
   }
 }

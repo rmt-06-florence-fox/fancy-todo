@@ -16,40 +16,36 @@ module.exports = (sequelize, DataTypes) => {
       title: {
         type: DataTypes.STRING,
         validate: {
-          isTitleEmpty(value) {
-            if (value == "") {
-              throw new Error("Title Required");
-            }
+          notEmpty: {
+            args: true,
+            msg: "title cannot be empty",
           },
         },
       },
       description: {
         type: DataTypes.STRING,
         validate: {
-          isDescEmpty(value) {
-            if (value == "") {
-              throw new Error("Description Required");
-            }
+          notEmpty: {
+            args: true,
+            msg: "description cannot be empty",
           },
         },
       },
       status: {
         type: DataTypes.STRING,
         validate: {
-          isStatusEmpty(value) {
-            if (value == "") {
-              throw new Error("Status Required");
-            }
+          notEmpty: {
+            args: true,
+            msg: "status cannot be empty",
           },
         },
       },
       due_date: {
         type: DataTypes.DATEONLY,
         validate: {
-          isDateEmpty(value) {
-            if (value == "") {
-              throw new Error("Date Required");
-            }
+          notEmpty: {
+            args: true,
+            msg: "date cannot be empty",
           },
         },
       },
