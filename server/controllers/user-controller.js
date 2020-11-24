@@ -1,6 +1,5 @@
 const {User} = require('../models/')
 const Helper = require('../helper')
-const jwt = require('jsonwebtoken')
 
 class UserController {
     
@@ -8,7 +7,7 @@ class UserController {
         res.status(200).json({message : 'go to registration form'})
     }
 
-    static async register(req, res){
+    static async register(req, res, next){
         let {fullName, userName, email, password} = req.body
         let data = { fullName, userName, email, password }
         //console.log(data)
@@ -16,18 +15,8 @@ class UserController {
             await User.create(data) 
             res.status(201).json(data)
             
-        } catch (error) {
-            if (error.name === "SequelizeValidationError" || error.name === "SequelizeUniqueConstraintError"){
-                //console.log(';masuk validasi')
-                let message = error.errors.map(e => {
-                    return e.message
-                })
-                res.status(400).json({error : message})
-
-            } else {
-
-                res.status(400).json({error : error.message})
-            }
+        } catch (err) {
+           next(err)
             
         }
     }
@@ -37,7 +26,7 @@ class UserController {
 
     }
 
-    static async login(req, res){
+    static async login(req, res, next){
         let {email, password} = req.body
         
         //console.log(req.body)
@@ -47,26 +36,26 @@ class UserController {
                     email
                 }
             })
-            if (data){
+            if (data && Helper.checkPassword(password, data.password)){
                 //res.status(200).json(data)
-                if (Helper.checkPassword(password, data.password)){
-                    const token = jwt.sign({
-                        id : data.id,
-                        userName : data.userName,
-                        email : data.email
-                    }, )  
+                const token = Helper.generateToken({
+                    id : data.id,
+                    userName : data.userName,
+                    email : data.email
+                })
 
-                } else {
-                    throw new Error('cannot find email or password')
-
-                }
+                res.status(201).json({token})  
 
             } else {
-                throw new Error ('cannot find email or password')
+                throw   {
+                    message: 'cannot find email or password',
+                    status : 400
+                } 
 
             }
+
         } catch (err) {
-            res.status(201).json({error : err.message})
+           next(err)
         }
     }
 

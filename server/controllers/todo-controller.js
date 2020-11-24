@@ -3,16 +3,17 @@ const {ToDo} = require('../models/')
 
 class ToDoController {
 
-    static findAll(req, res){
-       ToDo
-            .findAll()
-            .then(data => {
-                res.status(200).json(data)
-            })
-            .catch(err => {res.status(500).json({error : err.message})})  
+    static async findAll(req, res, next){
+       try {
+           let data = await ToDo.findAll()
+           res.status(200).json(data)
+
+       } catch (err) {
+           next(err)
+       }
     }
 
-    static async addTodo(req, res){
+    static async addTodo(req, res, next){
         let {title, description, due_date} = req.body
         //console.log( req.get('Content-Type'))
         //console.log(req.body) 
@@ -23,22 +24,11 @@ class ToDoController {
             res.status(201).json(data)
 
         } catch(err){
-            //res.status(500).json(err.name)
-            if (err.name === "SequelizeValidationError" || err.name === "SequelizeUniqueConstraintError") {
-                //console.log(';masuk validasi')
-                let message = err.errors.map(e => {
-                    return e.message
-                })
-                res.status(400).json({ errors: message })
-
-            } else {
-
-                res.status(500).json({ error: err.message })
-            }
+           next(err)
         }
     }
 
-    static async findById(req, res){
+    static async findById(req, res, next){
         let id = +req.params.id
 
         try {
@@ -48,16 +38,18 @@ class ToDoController {
                 res.status(200).json(datum)
             
             } else {
-                throw new Error('todo are not found')
-
+                throw {
+                    message : 'requested data doesnt exist',
+                    status : 404
+                }
             }
 
         } catch (err){
-            res.status(404).json({error : err.message})
+            next(err)
         }
     }
 
-    static async updateById(req, res){
+    static async updateById(req, res, next){
         let id = +req.params.id
         let {title, description, status, due_date} = req.body
         let newRecord = { title, description, status, due_date }
@@ -74,24 +66,18 @@ class ToDoController {
                 res.status(200).json(updatedDatum[1][0])
 
             } else {
-                res.status(404).json({error : 'target data not are found'})
+                throw {
+                    status : 404,
+                    message: 'target data not are found'
+                }
             }
+
         } catch (err){
-            if (err.name === "SequelizeValidationError" || err.name === "SequelizeUniqueConstraintError") {
-                //console.log(';masuk validasi')
-                let message = err.errors.map(e => {
-                    return e.message
-                })
-                res.status(400).json({ errors: message })
-
-            } else {
-
-                res.status(500).json({ error: err.message })
-            }
+           next(err)
         }
     }
 
-    static async updateStatus(req, res){
+    static async updateStatus(req, res, next){
         let id = +req.params.id
         let {status} = req.body
         //console.log(status)
@@ -105,35 +91,27 @@ class ToDoController {
                     returning : true                    
                 })
 
-                res.status(200).json(datum)
+                res.status(200).json(datum[1][0])
 
             } else {
-                res.status(404).json({error : 'target data are not found'})
-
+                throw {
+                    status: 404,
+                    message: 'target data are not found'
+                }
             }
 
         } catch (err){
-            if (err.name === "SequelizeValidationError" || err.name === "SequelizeUniqueConstraintError") {
-                //console.log(';masuk validasi')
-                let message = err.errors.map(e => {
-                    return e.message
-                })
-                res.status(400).json({ errors: message })
-
-            } else {
-
-                res.status(500).json({ error: err.message })
-            }
+           next(err)
         }
     }
 
-    static async deleteById(req, res){
+    static async deleteById(req, res, next){
         let id = +req.params.id
 
         try {
             let datum = await ToDo.findByPk(id)
 
-            if(datum){
+            if (datum) {
                 await ToDo.destroy({
                     where : {
                         id : id
@@ -142,21 +120,14 @@ class ToDoController {
                 res.status(200).json(datum)
 
             } else {
-                res.status(404).json({error : 'target data not found'})
+                throw {
+                    status: 404,
+                    message: 'target data are not found'
+                }
             }
 
         } catch (err) {
-            if (err.name === "SequelizeValidationError" || err.name === "SequelizeUniqueConstraintError") {
-                //console.log(';masuk validasi')
-                let message = err.errors.map(e => {
-                    return e.message
-                })
-                res.status(400).json({ errors: message })
-
-            } else {
-
-                res.status(500).json({ error: err.message })
-            }
+            next(err)
         }
     }
 

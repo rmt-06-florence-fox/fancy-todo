@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      ToDo.belongsTo(models.User)
     }
   };
   ToDo.init({
@@ -56,7 +57,8 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'due date cannot be empty'
         }
       }
-    }
+    },
+    UserId : DataTypes.INTEGER
   }, {
     hooks : {
       beforeCreate : (instance, option) => {
