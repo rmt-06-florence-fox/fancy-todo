@@ -22,9 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'User',
   });
-  User.beforeCreate((isntance, opt) => {
-    const hashed = Password.hashPassword(isntance.password)
-    isntance.password = hashed
+  User.beforeCreate((instance, opt) => {
+    const hashed = Password.hashPassword(instance.password)
+    instance.password = hashed
   })
   return User;
 

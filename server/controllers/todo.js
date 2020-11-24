@@ -7,12 +7,14 @@ class TodoController {
         const payload = {
             title: req.body.title,
             description: req.body.description,
-            due_date: new Date(req.body.due_date).toISOString().split('T')[0]
+            due_date: new Date(req.body.due_date).toISOString().split('T')[0],
+            UserId: req.loggedIn.id
         }
         try {
             const todo = await Todo.create(payload)
             res.status(201).json({todo})
         } catch (error) {
+            console.log(error);
             if (error.message == `Validation error: Validation isAfter on due_date failed`) {
                 res.status(400).json({message: error.message})
             } else {
@@ -24,7 +26,11 @@ class TodoController {
     // ? GET '/todos'
     static async showTodo(req, res) {
         try {
-            const todo = await Todo.findAll()
+            const todo = await Todo.findAll({
+                where: {
+                    UserId: req.loggedIn.id
+                }
+            })
             res.status(200).json(todo)
         } catch (error) {
             res.status(500).json({message: `Internal Server Error`})
@@ -90,6 +96,7 @@ class TodoController {
             } else {
                 res.status(200).json(todo[1][0])
             }
+            // res.status(200).json({message: "oke"})
 
         } catch (error) {
             console.log(error.message);

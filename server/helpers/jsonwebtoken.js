@@ -1,12 +1,11 @@
 const jwt = require('jsonwebtoken');
-const secretKey = process.env.SECRET
 class Token {
     static getToken(obj) {
-        return jwt.sign(obj, secretKey); // ? output string token
+        return jwt.sign(obj, process.env.SECRET); // ? output string token
     }
 
     static verifyToken(token) {
-        return jwt.verify(token, secretKey); // ? output object
+        return jwt.verify(token, process.env.SECRET); // ? output object
     }
 }
 

@@ -20,10 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     status: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
       validate: {
-        notNull:true,
-        notEmpty:true,
         // isIn: [['true', 'false']]
         isBoolean: function (val) {
           if (!_.isBoolean(val)) {
