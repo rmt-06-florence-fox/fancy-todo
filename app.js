@@ -1,6 +1,5 @@
-const { urlencoded } = require('body-parser')
+require('dotenv').config()
 const express = require('express')
-const { url } = require('inspector')
 const app = express()
 const port = 3000
 const routes = require('./routes/index')
