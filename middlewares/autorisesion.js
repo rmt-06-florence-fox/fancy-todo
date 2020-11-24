@@ -1,28 +1,25 @@
 
 const { verifyToken } = require("../helpers/jwt")
-const {User} = require('../models')
+const {User,Todo} = require('../models')
 
 module.exports = async (req,res,next) => {
   try {
-    const access_token = req.headers.access_token
-    if(!access_token){
-      res.status(401).json({message: `Login First`})
-      console.log(access_token)
-    }
-    else{
+   
+    const loggedUserId = req.loginUser
+   
+   
       const decoded = verifyToken(access_token)
-      let id = decoded.id
-      req.loginUser = decoded
+      let id = req.params.id
       
-      let data = await User.findOne({where: {id: id}})
+      let data = await Todo.findOne({where: {UserId: id}})
       // console.log(data)
-      if (data) {
+      if (data.UserId === loggedUserId) {
         next()
       }
       else {
-        res.status(401).json({message: `No account`})
+        res.status(401).json({message: `You Dont Have Permission to Edit`})
       }
-    }
+    
 
   }
   catch(error){
