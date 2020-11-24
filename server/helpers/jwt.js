@@ -4,4 +4,10 @@ function generateToken(payload){
     return jwt.sign(payload, process.env.SECRETKEY)
 }
 
-module.exports = {generateToken}
+function verifyToken(token){
+    return jwt.verify(token, process.env.SECRETKEY)
+}
+
+module.exports = {
+    generateToken , verifyToken
+}

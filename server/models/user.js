@@ -12,12 +12,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Todo)
     }
   };
   User.init({
     email: {
       type:DataTypes.STRING,
       allowNull:false,
+      unique: true,
       validate:{
         notEmpty: {msg: 'email cannot be empty'},
         isEmail: {msg: 'please input correct email'}

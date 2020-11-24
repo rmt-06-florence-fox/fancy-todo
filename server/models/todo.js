@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Todo.belongsTo(models.User)
     }
   };
   Todo.init({
@@ -40,10 +41,14 @@ module.exports = (sequelize, DataTypes) => {
         notNull: { msg: 'date cannot be empty'},
         notEmpty: { msg: 'date cannot be empty'}
       }
-    }
+    },
+    UserId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Todo'
   });
+  Todo.beforeCreate('beforeCreate',(todo,options)=>{
+    todo.status = 'not done'
+  })
   return Todo;
 };
