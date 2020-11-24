@@ -33,6 +33,8 @@ class UserController{
                 res.status(401).json(`invalid account`)
             }else if(Bcrypt.compare(password, value.password)){
                 const token = jwt.sign({id: value.id, email:value.email}, process.env.secret)
+                req.headers.token = token
+                req.userId = value.id
                 res.status(200).json(token)
             }else{
                 res.status(401).json(`email or password invalid`)

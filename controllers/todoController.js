@@ -40,7 +40,7 @@ class TodoController{
             description: req.body.description,
             status: req.body.status,
             due_date: req.body.due_date,
-            UserId: req.body.UserId
+            UserId: req.UserId
         }
         Todo.create(obj)
          .then(value => {
@@ -55,8 +55,9 @@ class TodoController{
         })
     }
     static getTodos(req, res){
+        const id = req.UserId
         Todo.findAll({
-            include: [User]
+            where: {id : id}
         })
         .then(value => {
             res.status(200).json(value)

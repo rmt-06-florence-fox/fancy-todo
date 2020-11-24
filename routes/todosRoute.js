@@ -1,8 +1,9 @@
 const route = require('express').Router()
 const TodoController = require('../controllers/todoController')
+const authentication = require('../middlewares/authentication')
 
-route.post('/', TodoController.create)
-route.get('/', TodoController.getTodos)
+route.post('/', authentication, TodoController.create)
+route.get('/', authentication, TodoController.getTodos)
 
 route.get('/:id', TodoController.findById)
 
