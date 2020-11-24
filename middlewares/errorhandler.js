@@ -9,7 +9,7 @@ module.exports = (err, req, res, next) => {
             message: err.errors[0].message
         })
     } else if (err.name == 'JsonWebTokenError'){
-        res.status(500).json(err.message)
+        res.status(401).json(err.message)
     } else {
         res.status(500).json(err)
     }
