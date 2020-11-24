@@ -1,6 +1,6 @@
 const { User } = require('../models')
 const { comparePwd } = require('../helpers/password')
-const jwt = require('jsonwebtoken')
+const { generateToken }= require('../helpers/jsonwebtoken')
 
 class UserController {
   static signUpUser(req, res) {
@@ -27,7 +27,7 @@ class UserController {
       .then(data => {
         if (!data) res.status(401).json({ message: 'Invalid account' })
         else if (comparePwd(req.body.password, data.password)) {
-          const accessToken = jwt.sign({ id: data.id, email: data.email }, 'hahihuheho')
+          const accessToken = generateToken({ id: data.id, email: data.email })
           res.status(200).json({ accessToken })
         }
         else res.status(400).json({ message: 'Invalid email / password' })

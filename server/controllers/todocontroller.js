@@ -7,7 +7,8 @@ class TodoController {
         title: req.body.title,
         description: req.body.description,
         status: req.body.status,
-        dueDate: req.body.dueDate
+        dueDate: req.body.dueDate,
+        UserId: req.signedInUser.id
       }
       const dataTodo = await Todo.create(newData)
       res.status(201).json(dataTodo)
