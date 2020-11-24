@@ -64,7 +64,7 @@ class TodoController {
       }
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
-        res.status(400).json({ msg: "bad request"})
+        res.status(400).json({ msg: "bad request" });
       } else {
         res.status(500).json({ msg: "Internal Server Error" });
       }
@@ -102,8 +102,8 @@ class TodoController {
           return Todo.destroy({
             where: {
               id: id,
-            }
-          })
+            },
+          });
         }
       })
       .then(() => {
