@@ -20,13 +20,13 @@ class Controller {
                 console.log(targetMail)
                 const OAuth2 = google.auth.OAuth2;
                 const oauth2Client = new OAuth2(
-                    "888944489978-93a3kk2q3c9spi82hob9dc1lf2eu7gca.apps.googleusercontent.com", // ClientID
-                    "nw7vNSXUEtVPIiHvT8QV63E-", // Client Secret
+                    process.env.CLIENTID, // ClientID
+                    process.env.CLIENTSECRET, // Client Secret
                     "https://developers.google.com/oauthplayground" // Redirect URL
                 );
     
                 oauth2Client.setCredentials({
-                refresh_token: "1//04A3ocbLuv5syCgYIARAAGAQSNwF-L9IrOnCHJkpmo8AjFp93VQtTFkAy852zS5CzZvv_YWKBH89Qq0pA6Y5N-D9tnBihy-V_HBI"
+                refresh_token: process.env.REFRESHTOKEN
                 });
                 const accessToken = oauth2Client.getAccessToken()
                 const smtpTransport = nodemailer.createTransport({
@@ -34,9 +34,9 @@ class Controller {
                     auth: {
                          type: "OAuth2",
                          user: "ask.untara@gmail.com", 
-                         clientId: "888944489978-93a3kk2q3c9spi82hob9dc1lf2eu7gca.apps.googleusercontent.com",
-                         clientSecret: "nw7vNSXUEtVPIiHvT8QV63E-",
-                         refreshToken: "1//04A3ocbLuv5syCgYIARAAGAQSNwF-L9IrOnCHJkpmo8AjFp93VQtTFkAy852zS5CzZvv_YWKBH89Qq0pA6Y5N-D9tnBihy-V_HBI",
+                         clientId: process.env.CLIENTID,
+                         clientSecret: process.env.CLIENTSECRET,
+                         refreshToken: process.env.REFRESHTOKEN,
                          accessToken: accessToken
                     }
                });
