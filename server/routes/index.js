@@ -1,9 +1,10 @@
 const router = require('express').Router()
+const todoRouter = require('./todo')
 
-router.use('/', (req, res) => {
-  res.send('Welcome server fancy todo')
+router.get('/', (req, res) => {
+  res.send('Welcome to server fancy todo')
 })
 
-router.post()
+router.get('/todos', todoRouter)
 
 module.exports = router
