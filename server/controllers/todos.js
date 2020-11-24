@@ -6,7 +6,8 @@ class TodosController {
       title: req.body.title,
       description: req.body.description,
       status: req.body.status,
-      due_date: req.body.due_date
+      due_date: req.body.due_date,
+      UserId: req.SignedIn.id
     }
 
     try {
@@ -19,7 +20,7 @@ class TodosController {
 
   static async showTodos(req, res) {
     try {
-      const data = await Todo.findAll()
+      const data = await Todo.findAll({ where: { UserId: req.SignedIn.id } })
       res.status(200).json(data)
     } catch (error) {
       res.status(500).json(error)
@@ -29,7 +30,7 @@ class TodosController {
   static async showTodosId(req, res) {
     try {
       const id = +req.params.id
-      const data = await Todo.findByPk(id)``
+      const data = await Todo.findByPk(id)
       res.status(200).json(data)
     } catch (error) {
       res.status(500).json(error)
@@ -54,6 +55,9 @@ class TodosController {
   }
 
   static async updateTodos(req, res) {
+    // console.log(req.SignedIn);
+    // console.log('ini update todo');
+    // res.status(200).json({msg: `lewat midelwer`})
     try {
       const id = +req.params.id
       const value = {

@@ -10,10 +10,16 @@ module.exports = async (req, res, next) => {
       })
     } else {
       const decoded = verifyToken(token)
-      console.log(decoded);
-      // const data = await User.findOne({where: {id: decoded.id}})
-      // console.log(data);
-      // next()
+      req.SignedIn = decoded
+      console.log(req.SignedIn.id );
+      const data = await User.findOne({where: {id: decoded.id}})
+      if (data) {
+        next()
+      } else {
+        res.status(404).json({
+          message: `Please register account first`
+        })
+      }
     }
   } catch (error) {
     res.status(500).json(error)

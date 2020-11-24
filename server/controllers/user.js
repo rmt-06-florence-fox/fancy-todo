@@ -9,15 +9,16 @@ class UserController {
       email: req.body.email,
       password: req.body.password
     }
-
     try {
       const data = await User.create(value)
+      console.log(value);
       res.status(201).json({
         id: data.id,
         name: data.name,
         email: data.email
       })
     } catch (error) {
+      console.log(error);
       res.status(500).json(error)
     }
   }
@@ -29,7 +30,8 @@ class UserController {
         res.status(401).json({ message: `Invalid Account` })
       } else if (comparing(req.body.password, data.password)) {
         const value = {
-          email: req.body.email
+          id: data.id,
+          email: data.email
         }
         const token = generateToken(value)
         res.status(200).json({ token })
