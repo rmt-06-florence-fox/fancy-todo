@@ -1,5 +1,5 @@
 'use strict';
-const bcrypt = require('bcryptjs')
+const { hashPwd } = require('../helpers/password')
 const {
   Model
 } = require('sequelize');
@@ -39,8 +39,7 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   User.addHook('beforeCreate', (user) => {
-    var salt = bcrypt.genSaltSync(8)
-    user.password = bcrypt.hashSync(user.password, salt)
+    user.password = hashPwd(user.password)
   })
 
   return User
