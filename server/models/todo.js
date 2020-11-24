@@ -18,16 +18,12 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate:{
         notEmpty:{
           args: true,
           msg:"Todo's name can't be empty"
         }
       },
-      unique:{
-        msg:"Please choose another Name"
-      }
     },
     description: DataTypes.STRING,
     due: {
@@ -54,12 +50,17 @@ module.exports = (sequelize, DataTypes) => {
         if(instance.category === ''){
           instance.category = 'Personal'
         }
-      }
-    }
+      },
+      beforeUpdate(instance, option){
+        if(instance.status === ''){
+          instance.status = 'Listed'
+        }
+        if(instance.category === ''){
+          instance.category = 'Personal'
+        }
+      },
+    },
   });
-  // (async () => {
-  //   await sequelize.sync({ force: true });
-  // })();
 
   return Todo;
 };
