@@ -16,8 +16,16 @@ class UserController {
       res.status(201).json(user)
 
     } catch (error) {
-        console.group(error.message)
-        res.status(500).json({message: "Invalid Server Error"})
+        if(error.name === "SequelizeUniqueConstraintError" || error.name === "SequelizeValidationError"){
+          let errors = []
+          for (let i = 0; i < error.errors.length; i++){
+            errors.push(error.errors[i].message)
+          }
+          res.status(400).json({message: errors})
+        }
+        else {
+          res.status(500).json({message: "Invalid Server Error"})
+        }
     }
   }
 
@@ -37,8 +45,8 @@ class UserController {
           let access_token = generateToken({
             id: data.id,
             email: data.email
-          }, "secretKey")
-          res.status(200).json(access_token)
+          }, process.env.SECRET)
+          res.status(200).json({ access_token })
         }
         else {
           res.status(401).json({message: "Invalid email/password"})

@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Todo.belongsTo(models.User)
     }
   };
   Todo.init({
@@ -50,6 +51,9 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    UserId: {
+      type: DataTypes.INTEGER
+    },
     due_date: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -75,8 +79,10 @@ module.exports = (sequelize, DataTypes) => {
                 throw new Error("Date should be greater than recent date!")
               }
               else {
-                if (value.getDate() < date){
-                  throw new Error("Date should be greater than recent date!")
+                if (value.getMonth() === month){
+                  if (value.getDate() < date){
+                    throw new Error("Date should be greater than recent date!")
+                  }
                 }
               }
             }

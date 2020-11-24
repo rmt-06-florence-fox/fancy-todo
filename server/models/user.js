@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Todo)
     }
   };
   User.init({
@@ -43,8 +44,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
-      unique: true,
       allowNull: false,
+      unique: true,
       validate: {
         notEmpty: {
           msg: "Email should not be empty"
@@ -63,6 +64,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         notNull: {
           msg: "Password should not be empty"
+        },
+        lengthPassword(value){
+          if(value.length < 6){
+            throw new Error ("Password length should be more than 5 characters")
+          }
         }
       }
     }
