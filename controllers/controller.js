@@ -1,38 +1,37 @@
 const { Todo, User } = require('../models')
 const { hash, compare } = require('../helpers/bcrypt-pass')
-const jwt = require('jsonwebtoken')
+const { getToken } = require('../helpers/jwt-token')
 
 class Controller {
     static async listTodos(req, res) {
         try {
-            const data = await Todo.findAll()
+            const data = await Todo.findOne({where: {UserId: req.loggedInUser.id}})
             res.status(200).json(data)
         } catch (error) {
-            res.status(500).json({message: 'Internal server error'})
+            next({
+                status: 500,
+                message: 'Internal Server Error'
+            })
         }
     }
 
-    static async addTodos(req, res) {
+    static async addTodos(req, res, next) {
         const obj = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
             due_date: req.body.due_date,
-            UserId: req.body.UserId
+            UserId: req.loggedInUser.id
         }
         try {
-            if (new Date(obj.due_date) > new Date()) {
-                const data = await Todo.create(obj)
-                res.status(201).json(data)
-            } else {
-                res.status(400).json({message: 'Validation error'})
-            }
+            const data = await Todo.create(obj)
+            res.status(201).json(data)
         } catch (error) {
-            res.status(500).json({message: 'Internal server error'})
+            next(error)
         }
     }
 
-    static async updateTodos(req, res) {
+    static async updateTodos(req, res, next) {
         const id = Number(req.params.id)
         const obj = {
             status: req.body.status
@@ -43,58 +42,78 @@ class Controller {
                 const dataUpdated = await Todo.update(obj, {where: {id: id}, returning: true})
                 res.status(200).json(dataUpdated[1][0])
             } else {
-                res.status(404).json({message: 'Error not found'})
+                throw{
+                    status: 404,
+                    message: 'Data not found'
+                }
             }
         } catch (error) {
-            res.status(500).json({message: 'Internal server error'})
+            next(error)
         }
     }
 
-    static async addUser(req, res) {
+    static async addUser(req, res, next) {
         const obj = {
             name: req.body.name,
             username: req.body.username,
             password: req.body.password
         }
         try {
-            const data = await User.create(obj)
-            res.status(201).json(data)
+            const compare = User.findOne({where: {username: obj.username}})
+            if(compare) {
+                throw{
+                    status: 400,
+                    message: 'Username is already!!'
+                }
+            } else {
+                const data = await User.create(obj)
+                res.status(201).json(data)
+            }
         } catch (error) {
-            res.status(500).json({message: 'Internal server error'})
+            next(error)
         }
     }
 
-    static async login(req, res) {
+    static async login(req, res, next) {
         try {
             const data = await User.findOne({where: {username: req.body.username}})
             if (!data) {
-                res.status(404).json({message: 'Invalid account'})
+                throw {
+                    status: 401,
+                    message: 'Invalid Account'
+                }
             } else if (compare(req.body.password, data.password)) {
-                const access_token = jwt.sign({id: data.id, username: data.username}, 'rahasiaya')
+                const access_token = getToken(data)
                 res.status(200).json({access_token})
             } else {
-                res.status(404).json({message: 'Invalid email/password'})
+                throw {
+                    status: 401,
+                    message: 'Username / Password is incorrect'
+                }
             }
         } catch (error) {
-            res.status(500).json({message: 'Internal server error'})
+            next(error)
         }
     }
 
-    static async detailTodo(req, res) {
+    static async detailTodo(req, res, next) {
         const id = Number(req.params.id)
         try {
             const data = await Todo.findByPk(id, {include: User})
             if (!data) {
-                res.status(404).json({message: 'Error not found'})
+                throw{
+                    status: 404,
+                    message: 'Data not found'
+                }
             } else {
                 res.status(200).json(data)
             }
         } catch (error) {
-            res.status(500).json({message: 'Internal server error'})
+            next(error)
         }
     }
 
-    static async editTodos(req, res) {
+    static async editTodos(req, res, next) {
         const id = req.params.id
         const obj = {
             title: req.body.title,
@@ -107,19 +126,25 @@ class Controller {
             if (data) {
                 const dataEdited = await Todo.update(obj, {where: {id}, returning: true})
                 if (!dataEdited) {
-                    res.status(404).json({message: 'Validation Error'})
+                    throw{
+                        status: 404,
+                        message: 'Data not found'    
+                    }
                 } else {
                     res.status(200).json(dataEdited[1][0])
                 }
             } else {
-                res.status(404).json({message: 'Error not found'})
+                throw{
+                    status: 404,
+                    message: 'Data not found'
+                }
             }
         } catch (error) {
-            res.status(500).json({message: 'Internal server error'})
+            next(error)
         }
     }
 
-    static async deleteTodo(req, res) {
+    static async deleteTodo(req, res, next) {
         const id = Number(req.params.id)
         try {
             const data = await Todo.findByPk(id)
@@ -127,10 +152,13 @@ class Controller {
                 const dataDeleted = await Todo.destroy({where: {id}})
                 res.status(200).json({message: 'todo success to delete'})
             } else {
-                res.status(404).json({message: 'error not found'})
+                throw{
+                    status: 404,
+                    message: 'Data not found'
+                }
             }
         } catch (error) {
-            res.status(500).json({message: 'Internal server error'})
+            next(error)
         }
     }
 }

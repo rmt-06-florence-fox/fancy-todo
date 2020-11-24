@@ -18,7 +18,15 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     description: DataTypes.TEXT,
     status: DataTypes.STRING,
-    due_date: DataTypes.DATEONLY,
+    due_date: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        validateDate(value) {
+          if (new Date(value) <= new Date()) {
+            throw new Error ('Due Date must greater than today!!')
+          }
+        }
+      }},
     UserId: DataTypes.INTEGER
   }, {
     sequelize,
