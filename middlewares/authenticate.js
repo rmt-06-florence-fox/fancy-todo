@@ -7,7 +7,11 @@ module.exports = async (req, res, next) => {
 
     try {
         if (!access_token) {
-            res.status(401).json({message: "Login First"})
+            throw {
+                status: 401,
+                msg: "Login First"
+            }
+            // res.status(401).json({message: "Login First"})
         } else {
             const decoded = verifyToken(req.headers.access_token)
             // console.log(decoded)
@@ -17,11 +21,16 @@ module.exports = async (req, res, next) => {
             if (user) {
                 next()
             } else {
-                res.status(401).json({message: "Login First"})
+                throw {
+                    status: 401,
+                    msg: "Login First"
+                }
+                // res.status(401).json({message: "Login First"})
             }
         }    
-    } catch (error) {
+    } catch (err) {
         // console.log(err)
-        res.status(500).json({msg: "err"})
+        next(err)
+        // res.status(500).json({msg: "err"})
     }
 }

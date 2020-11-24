@@ -3,7 +3,7 @@ const { comparePass } = require("../helper/generatePass")
 const { generateToken } = require("../helper/generateToken")
 
 class UserControllers {
-    static signUp(req, res) {
+    static signUp(req, res, next) {
         const signup = {
             email: req.body.email,
             password: req.body.password
@@ -18,32 +18,34 @@ class UserControllers {
             })
             .catch(err => {
                 console.log(err)
-                res.status(500).json({
-                    msg: "internal service error"
-                })
+                next(err)
             })
     }
 
-    static signIn(req, res) {
+    static signIn(req, res, next) {
         User.findOne({ where: { email: req.body.email }})
             .then(data => {
                 if(!data) {
                     // tidak boleh memberikan spesifik error
-                    res.status(404).json({msg: "Invalid account"})
+                    throw {
+                        status: 404,
+                        msg: "DataNotFound"
+                    }
                 } else {
-                    // const access_token = jwt.sign({id: data.id, email: data.email}, process.env.SECRET)
                     const access_token = generateToken({id: data.id, email: data.email})
-                    // bcrypt.compareSync(req.body.password, data.password)
                     if (comparePass(req.body.password, data.password)) {
                         res.status(200).json({access_token})                        
                     } else {
-                        res.status(401).json({msg: "invalid email/password"})
+                        throw {
+                            status: 401,
+                            msg: "InvalidAccount"
+                        }
                     }
                 }
             })
             .catch(err => {
                 console.log(err)
-                res.status(500).json({msg: "internal service error"})
+                next(err)
             })
     }
 }

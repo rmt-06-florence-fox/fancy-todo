@@ -1,8 +1,10 @@
 const { Todo } = require("../models")
+const axios = require("axios")
+const { response } = require("express")
 
 class TodoController {
 
-    static postTodo(req, res) {
+    static postTodo(req, res, next) {
         // console.log("success")
         // console.log(req.body)
         // console.log(req.logInUser)
@@ -20,26 +22,30 @@ class TodoController {
                 res.status(201).json(data)
             })
             .catch(err => {
-                if (err.name === "SequelizeValidationError") {
-                    res.status(400).json({msg: err.errors[0].message})
-                }
-                res.status(500).json(err)
+                // if (err.name === "SequelizeValidationError") {
+                //     res.status(400).json({msg: err.errors[0].message})
+                // }
+                next(err)
             })
     }
 
-    static getAllTodo(req, res) {
+    static async getAllTodo(req, res, next) {
+        
         Todo.findAll({where: {UserId: req.logInUser.id}})
             .then(data => {
                 // res.send(data)
                 if (data.length === 0) {
-                    res.status(404).json({msg: "data not found"})
+                    throw {
+                        status: 404,
+                        msg: "DataNotFound"
+                    }
                 } else {
                     res.status(200).json(data)
                 }
             })
             .catch(err => {
                 // res.send(err)
-                res.status(400).json(err)
+                next(err)
             })
     }
 
@@ -51,16 +57,18 @@ class TodoController {
                 if (data) {
                     res.status(200).json(data)
                 } else {
-                    res.status(404).json({msg: "data not found"})
+                    throw {
+                        status: 404,
+                        msg: "DataNotFound"
+                    }
                 }
             })
             .catch(err => {
-                res.status(500).json(err)
+                next(err)
             })
     }
 
-    static updateTodoById(req, res) {
-        // res.status(200).json({msg: "test"})
+    static updateTodoById(req, res, next) {
         const editPayload = {
             title: req.body.title,
             description: req.body.description,
@@ -78,20 +86,20 @@ class TodoController {
         )
             .then(data => {
                 if (!data[1][0]) {
-                    res.status(404).json({msg: "data not found"})
+                    throw {
+                        status: 404,
+                        msg: "DataNotFound"
+                    }
                 } else {
                     res.status(200).json(data[1][0])
                 }
             })
             .catch(err => {
-                if (err.name === "SequelizeValidationError") {
-                    res.status(400).json({msg: err.errors[0].message})
-                }
-                res.status(500).json({msg: "error"})
+                next(err)
             })
     }
 
-    static updateSpesificTodoById(req, res) {
+    static updateSpesificTodoById(req, res, next) {
         const id = req.params.id
 
         Todo.update({status: req.body.status}, {
@@ -103,16 +111,16 @@ class TodoController {
             .then(data => {
                 // console.log(data)
                 if (!data[1][0]) {
-                    res.status(404).json({msg: "data not found"})
+                    throw {
+                        status: 404,
+                        msg: "DataNotFound"
+                    }
                 } else {
                     res.status(200).json(data[1][0])
                 }
             })
             .catch(err => {
-                if (err.name === "SequelizeValidationError") {
-                    res.status(400).json({msg: err.errors[0].message})
-                }
-                res.status(500).json(err)
+                next(err)
             })
     }
 
@@ -135,13 +143,36 @@ class TodoController {
             .then(data => {
                 console.log(data)
                 if (!data) {
-                    res.status(404).json({msg: "data not found"})
+                    throw {
+                        status: 404,
+                        msg: "DataNotFound"
+                    }
                 } else {
                     res.status(200).json({msg: "todo success to delete"})
                 }
             })
             .catch(err => {
-                res.status(500).json({msg: "error"})
+                next(err)
+            })
+    }
+
+    static getHolidays(req, res) {
+        axios({
+            url: "https://calendarific.com/api/v2/holidays",
+            method: "GET",
+            params: {
+                api_key: process.env.CAL_SECRET,
+                country: "ID",
+                year: "2020",
+                month: "12"
+            }
+        })
+            .then(response   => {
+                res.status(200).json(response.data)
+            })
+            .catch(err => {
+                next(err)
+                console.log(err)
             })
     }
 }
