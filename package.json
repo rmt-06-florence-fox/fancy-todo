@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/nafisalfiani/fancy-todo#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "pg": "^8.5.1",
     "sequelize": "^6.3.5"

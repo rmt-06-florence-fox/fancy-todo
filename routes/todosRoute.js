@@ -1,5 +1,4 @@
 const router = require('express').Router()
-const { Router } = require('express')
 const { TodoController } = require('../controller')
 
 router.get('/', TodoController.getTodos)

@@ -1,15 +1,9 @@
-const {Todo} = require('../models')
+const { Todo } = require('../models')
 class TodoController {
     static async getTodos(req, res) {
     // res.status(200).json([
     //     {
-    //         "title": "Learn REST API",
-    //         "description": "Learn how to create RESTful API with Express and Sequelize",
-    //         "due_date": "2020-01-29"
-    //     }
-    // ])
-
-    // const todos = await Todo.findAll()
+    //nz
     // res.status(200).json(todos)
 
     try {
