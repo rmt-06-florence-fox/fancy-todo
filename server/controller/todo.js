@@ -3,7 +3,7 @@ const {Todo} = require('../models')
 class TodoController{
   static async show(req,res){
     try {
-      const list = await Todo.findAll()
+      const list = await Todo.findAll({where : {UserId : req.userLogin.id}})
       if (list) {
         res.status(200).json(list)
       } else {
@@ -20,6 +20,7 @@ class TodoController{
       description : req.body.description,
       status : false,
       due_date : req.body.due_date,
+      UserId : req.userLogin.id
     }
     try {
       const data = await Todo.create(obj)
