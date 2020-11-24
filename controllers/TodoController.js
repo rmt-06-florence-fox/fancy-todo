@@ -6,8 +6,8 @@ class TodoController {
       title: req.body.title,
       description: req.body.description,
       status: req.body.status,
-      due_date: new Date(req.body.due_date),
-      UserId: +req.body.UserId,
+      due_date: req.body.due_date,
+      UserId: req.loggedInUser.id,
     };
     try {
       let data = await Todo.create(obj);
@@ -22,7 +22,7 @@ class TodoController {
   }
   static async show(req, res) {
     try {
-      let data = await Todo.findAll();
+      let data = await Todo.findAll({ where: { UserId: req.loggedInUser.id } });
       res.status(200).json(data);
     } catch (error) {
       res.status(500).json(error);
@@ -71,7 +71,7 @@ class TodoController {
   static async updateStatus(req, res) {
     let id = +req.params.id;
     let obj = {
-      status: req.body.status,  
+      status: req.body.status,
     };
     try {
       let data = await Todo.findByPk(id);
