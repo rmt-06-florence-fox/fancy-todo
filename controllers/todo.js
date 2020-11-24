@@ -1,20 +1,28 @@
 const { ToDo } = require('../models');
-
+// const axios = require('axios')
 class ToDoController {
 
-    static async getToDo(req, res) {
+    static async getToDo(req, res, err) {
         try {
             const todos = await ToDo.findAll({where : {
                 UserId: req.loggedInUser.id
             }});
-            res.status(200).json(todos);
+            if(todos.length == 0) {
+                throw {
+                    status: 404,
+                    message: 'No to do found'
+                }
+            }
+            else {
+                res.status(200).json(todos);
+            }
         }
         catch (error) {
-            res.status(500).json(error)
+            next(err)
         }
     };
 
-    static createToDo(req, res) {
+    static createToDo(req, res, next) {
         const data = {
             title: req.body.title,
             description: req.body.description,
@@ -29,11 +37,11 @@ class ToDoController {
                 res.status(201).json(result)
             })
             .catch(err => {
-                res.status(400).json(err.message)
+                next(err)
             })
     };
 
-    static async getToDoById(req, res) {
+    static async getToDoById(req, res, next) {
         let todoId = req.params.id
         try {
             const todo = await ToDo.findOne({
@@ -42,17 +50,20 @@ class ToDoController {
                 }
             })
             if(todo == null) {
-                res.status(404).json('No to do found')
+                throw {
+                    status: 404,
+                    message: 'No to do found'
+                }
             }
             res.status(200).json(todo)
         }
 
         catch (err) {
-            res.status(500).json(err)
+            next(err)
         }
     }
 
-    static checkToDo(req, res) {
+    static checkToDo(req, res, next) {
         const todoId = req.params.id
         const data = {
             status: req.body.status
@@ -66,7 +77,10 @@ class ToDoController {
             })
             .then(result => {
                 if (result == 0) {
-                    res.status(404).json('No to do found')
+                    throw {
+                        status: 404,
+                        message: 'No to do found'
+                    }
                 }
                 ToDo.findOne({where : {
                     id: todoId
@@ -76,12 +90,12 @@ class ToDoController {
                     })
             })
             .catch(err => {
-                res.status(400).json(err.message)
+                next(err)
             })
 
     };
 
-    static async updateToDo(req, res) {
+    static async updateToDo(req, res, next) {
         const todoId = req.params.id
         const update = {
             title: req.body.title,
@@ -97,7 +111,10 @@ class ToDoController {
                 }
             })
             if (updateToDo == 0) {
-                res.status(404).json('No to do found')
+                throw {
+                    status: 404,
+                    message: 'No to do found'
+                }
             }
             ToDo.findOne({where : {
                 id: todoId
@@ -106,8 +123,8 @@ class ToDoController {
                     res.status(200).json(result2)
                 })
         }
-        catch (error) {
-            res.status(400).json(error.message)
+        catch (err) {
+            next(err)
         }
     };
 

@@ -18,10 +18,24 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       validate: {
-        isEmail: true
+        isEmail: true,
+        isEmpty: function(value) {
+          if(value == '' || value == undefined) {
+            throw new Error('Email harus diisi!')
+          }
+        }
       }
     },
-    password: DataTypes.STRING
+    password: {
+      type: DataTypes.STRING,
+      validate : {
+        isEmpty: function(value) {
+          if(value == '' || value == undefined) {
+            throw new Error('Password harus diisi!')
+          }
+        }
+      }
+    } 
   }, {
     hooks: {
       beforeCreate(instance, option) {

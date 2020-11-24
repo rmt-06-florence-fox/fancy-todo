@@ -14,12 +14,13 @@ module.exports = async (req, res, next) => {
             next()
         }
         else {
-            res.status(401).json({
+            throw {
+                status: 401,
                 message: 'You are not authorized'
-            })
+            }
         }
     }
     catch (err) {
-        res.status(500).json({message: 'Internal server error' })
+        next(err)
     }
 }

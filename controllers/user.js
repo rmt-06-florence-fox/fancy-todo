@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const { generateToken } = require('../helpers/jwt')
 
 class UserController {
-    static register (req, res) {
+    static register (req, res, next) {
         let userData = {
             email: req.body.email,
             password: req.body.password
@@ -15,20 +15,22 @@ class UserController {
             res.status(201).json({email: result.email, id: result.id})
         })
         .catch(err => {
-            res.status(400).json(err.message)
+            next(err)
         })
     }
 
-    static login (req, res) {
+    static login (req, res, next) {
         User.findOne({
             where : {
                 email: req.body.email
             }
         })
         .then(result => {
-            // console.log(result)
             if(!result) {
-                res.status(401).json({message: 'Invalid account'})
+                throw {
+                    status: 400,
+                    message: 'Invalid email/password'
+                }
             }
             else {
                 if (bcrypt.compareSync(req.body.password, result.password)) {
@@ -36,12 +38,15 @@ class UserController {
                     res.status(200).json({access_token})
                 }
                 else {
-                    res.status(401).json({message: 'Invalid email/password'})
+                    throw {
+                        status: 400,
+                        message: 'Invalid email/password'
+                    }
                 }
             }
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
         })
     }
 }
