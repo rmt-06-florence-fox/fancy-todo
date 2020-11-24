@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 const route = require('./routes/index.js')
-
+require('dotenv').config()
 //setting
 
 app.use(express.urlencoded({extended:true}))
