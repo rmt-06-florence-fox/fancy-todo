@@ -1,23 +1,43 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const {Model} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      Todo.belongsTo(models.User)
     }
   };
   Todo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    status: DataTypes.STRING,
-    due_date: DataTypes.DATE
+    title: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'field title is required'
+        }
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'field description is required'
+        }
+      }
+    },
+    status: {
+      type: DataTypes.STRING,
+      validate: {
+        args: true,
+        msg: 'field status is required'
+      }
+    },
+    due_date: {
+      type: DataTypes.DATE,
+      dateValidate(currentDate) {
+        if (currentDate < new Date()) throw new Error ('Date must be greater than today')
+      }
+    }
   }, {
     sequelize,
     modelName: 'Todo',

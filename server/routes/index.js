@@ -1,10 +1,8 @@
 const router = require('express').Router()
 const todoRouter = require('./todo')
+const userRouter = require('./user')
 
-router.get('/', (req, res) => {
-  res.send('Welcome to server fancy todo')
-})
-
-router.get('/todos', todoRouter)
+router.use('/', userRouter)
+router.use('/todos', todoRouter)
 
 module.exports = router
