@@ -9,11 +9,12 @@ class TodosController {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId: req.userLogIn.id
         }
         Todo.create(payload)
             .then(data => {
-                throw error
+                // throw error
                 res.status(201).json(data)
             })
             .catch(err => {
@@ -26,7 +27,9 @@ class TodosController {
     }
 
     static allTodo(req, res) {
-        Todo.findAll()
+        Todo.findAll({where: {
+            UserId: req.userLogIn.id
+        }})
             .then(data => {
                 // throw error
                 res.status(200).json(data)
