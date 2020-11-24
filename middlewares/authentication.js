@@ -10,10 +10,15 @@ module.exports = async (req, res, next) => {
             if (decoded) {
                 next()
             }else{
-                res.status(400).json({msg: `your session is time up`})
+                // res.status(400).json({msg: `your session is time up`})
+                throw {
+                    status: 401,
+                    message: `your session is time up`
+                }
             }
         } catch (error) {
-            res.status(500).json({msg: `Any Problem from server`})
+            // res.status(500).json({msg: `Any Problem from server`})
+            next(error)
         }
     }
 }

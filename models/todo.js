@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     title: {type: DataTypes.STRING,
             validate: {
               notEmpty: {
-                msg: `title must be fill`
+                message: `title must be fill`
               },
               isFill(value){
                 if (!value || value == '' || value.trim() == '') {
@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     description: {type: DataTypes.STRING,
               validate: {
                 notEmpty: {
-                  msg: `description must be fill`
+                  message: `description must be fill`
                 },
                 isFill(value){
                   if (!value || value == '' || value.trim() == '') {
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     status: {type: DataTypes.STRING,
       validate: {
         notEmpty: {
-          msg: `status must be fill`
+          message: `status must be fill`
         },
         isFill(value){
           if (!value || value == '' || value.trim() == '') {
