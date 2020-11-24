@@ -1,5 +1,6 @@
 const {User} = require('../models')
 const PassHelper = require('../helper/passwordHelper')
+const JwtHelper = require('../helper/jwtHelper')
 const jwt = require('jsonwebtoken')
 
 class UserController{
@@ -20,10 +21,9 @@ class UserController{
   static async login(req,res){
     try {
       const data = await User.findOne({ where : { email : req.body.email}})
-      console.log(data);
+
       if(data && PassHelper.compare(req.body.password, data.password)){
-        const access_token = jwt.sign({id:data.id,email:data.email},'apajaboleh')
-        console.log(access_token);
+        const access_token = JwtHelper.generateToken({id:data.id,email:data.email})
         res.status(200).json(access_token)
       }else{
         res.status(401).json({message:"invalid"})
