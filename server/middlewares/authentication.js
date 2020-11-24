@@ -5,7 +5,10 @@ module.exports = async (req, res, next) => {
   try {
     const { accesstoken } = req.headers
     if (!accesstoken) {
-      res.status(401).json({ message: 'Please login first' })
+      throw {
+        status: 401,
+        message: 'Please login first'
+      }
     }
     else {
       const decoded = verifyToken(accesstoken)
@@ -13,10 +16,14 @@ module.exports = async (req, res, next) => {
       req.signedInUser = decoded
       const checkUser = await User.findOne({ where: { id: decoded.id } })
       if (checkUser) next()
-      else res.status(401).json({ message: 'Please login first' })
+      else {
+        throw {
+          status: 401,
+          message: 'Please login first'
+        }
+      }
     }
   } catch (error) {
-    console.log(error)
-    res.status(401).json({ message: 'Please login first' })
+    next(error)
   }
 }

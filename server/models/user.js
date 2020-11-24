@@ -25,13 +25,13 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       validate: {
-        isEmail: { args: [{ message: `Email must be filled with email format` }] }
+        isEmail: true
       }
     },
     password: {
       type: DataTypes.STRING,
       validate: {
-        len: [6, 12, { message: 'Password must be greater than 6 and less than 12' }]
+        len: [6, 12]
       }
     }
   }, {

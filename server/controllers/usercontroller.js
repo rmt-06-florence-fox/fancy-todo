@@ -3,26 +3,18 @@ const { comparePwd } = require('../helpers/password')
 const { generateToken }= require('../helpers/jsonwebtoken')
 
 class UserController {
-  static signUpUser(req, res) {
+  static signUpUser(req, res, next) {
     let userAccount = {
       username: req.body.username,
       email: req.body.email,
       password: req.body.password
     }
     User.create(userAccount)
-      .then((data) => res.status(201).json({ id: data.id, email: data.email }))
-      .catch((error) => {
-        const filterErrors = error.errors.map(e => {
-          const errorDetails = e.validatorArgs.filter(el => {
-            if (typeof el.message === 'string') return el.message
-          })
-          return errorDetails
-        })
-        res.status(400).json(filterErrors)
-      })
+      .then(data => res.status(201).json({ id: data.id, email: data.email }))
+      .catch(error => next(error))
   }
 
-  static signInUser(req, res) {
+  static signInUser(req, res, next) {
     User.findOne({ where: { email: req.body.email } })
       .then(data => {
         if (!data) res.status(401).json({ message: 'Invalid account' })
@@ -32,7 +24,7 @@ class UserController {
         }
         else res.status(400).json({ message: 'Invalid email / password' })
       })
-      .catch(err => res.status(500).json({ message: 'Internal server error' }))
+      .catch(error => next(error))
   }
 }
 

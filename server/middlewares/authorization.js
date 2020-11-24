@@ -6,9 +6,12 @@ module.exports = async (req, res, next) => {
     if (checker.UserId === req.signedInUser.id) {
       next()
     } else {
-      res.status(401).json({ message: `You're not belongs to this todo` })
+      throw {
+        status: 401,
+        message: `You're not belongs to this todo` 
+      }
     }
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' })
+    next(error)
   }
 }
