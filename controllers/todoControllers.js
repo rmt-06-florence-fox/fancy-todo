@@ -1,38 +1,43 @@
-const { static } = require("express")
 const {Todo} = require("../models/index")
 
 class TodoController{
-    static async getTodos (req, res){
+    static async getTodos (req, res, next){
         try {
             const todos = await Todo.findAll()
             res.status(200).json(todos)
         } catch (error) {
-            res.status(500).json(error)   
+            next(error)
         }
     }
 
-    static addTodo(req, res){
+    static addTodo(req, res, next){
+        // console.log(req.body)
+        
+        // res.status(201).json({message: 'masuk create movie'})
         const obj = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
             due_date: req.body.due_date,
+            UserId: req.body.UserId
         }
         Todo.create(obj)
         .then(data=>{
             // console.log(data)
+            console.log(req.loginUser)
             res.status(201).json(data)
         })
         .catch(e=>{
-            if (e.name === 'SequelizeValidationError'){
-                res.status(400).json({message: `${e.message}`})
-            } else {
-                res.status(500).json({message: `internal server error`})
-            }
+            next(e)
+            // if (e.name === 'SequelizeValidationError'){ 
+            //     res.status(400).json({message: `${e.message}`})
+            // } else {
+            //     res.status(500).json({message: `internal server error`})
+            // }
         })
     }
     
-    static filterId(req, res){
+    static filterId(req, res, next){
         const id = req.params.id
         Todo.findByPk(id)
         .then(data=>{
@@ -43,11 +48,11 @@ class TodoController{
             }
         })
         .catch(e=>{
-            res.status(500).json({message: `internal server error`})
+            next(e)
         })
     }
 
-    static putTodos(req, res){
+    static putTodos(req, res, next){
         const id = req.params.id
         const obj = {
             title: req.body.title,
@@ -69,17 +74,11 @@ class TodoController{
             }
         })
         .catch(e=>{
-            // console.log(e)
-            // console.log(e.name)
-            if (e.name === 'SequelizeValidationError'){
-                res.status(400).json({message: `date must be greater than today`})
-            } else {
-                res.status(500).json({message: `internal server error`})
-            }
+            next(e)
         })
     }
 
-    static editStatusTodo(req, res){
+    static editStatusTodo(req, res, next){
         const id = req.params.id
         const obj = {
             status: req.body.status
@@ -91,25 +90,18 @@ class TodoController{
             returning: true
         })
         .then(data=>{
-            
             if(!data){
                 res.status(404).json({message: 'data not found'})
             } else {
-                throw err
                 res.status(200).json(data[1][0])
             }
         })
         .catch(e=>{
-            console.log(e)
-            if (e.name === 'SequelizeValidationError'){
-                res.status(400).json({message: `status is required`})
-            } else {
-                res.status(500).json({message: `internal server error`})
-            }
+            next(e)
         })
     }
 
-    static deleteId(req, res){
+    static deleteId(req, res, next){
         const id = req.params.id
         Todo.destroy({
             where:{
@@ -124,7 +116,7 @@ class TodoController{
             }
         })
         .catch(e=>{
-            res.status(500).json({message: `internal server error`})
+            next(e)
         })
     }
 }

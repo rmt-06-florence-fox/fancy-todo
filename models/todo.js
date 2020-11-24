@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Todo.belongsTo(models.User)
     }
   };
   Todo.init({
@@ -18,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING,
       validate: {
         notEmpty: {
-          msg: `status is required`
+          msg: `title is required`
         }
       }
     },
@@ -26,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING,
       validate: {
         notEmpty: {
-          msg: `status is required`
+          msg: `description is required`
         }
       }
     },
@@ -41,9 +42,15 @@ module.exports = (sequelize, DataTypes) => {
     due_date: {
       type: DataTypes.DATEONLY,
       validate: {
-        isAfter: new Date().toISOString().slice(0,10)
+        // isAfter: new Date().toISOString().slice(0,10)
+        isGreaterThan(value){
+          if(new Date().toISOString().slice(0,10) >= this.due_date){
+            throw `Date must be greater than today`
+          }
+        }
       }
-    }
+    },
+    UserId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Todo',

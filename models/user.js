@@ -12,10 +12,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Todo)
     }
   };
   User.init({
-    first_name: DataTypes.STRING,
+    first_name: {
+      type:DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: `first_name is required`
+        }
+      }
+    },
     last_name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING
@@ -24,8 +32,10 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'User',
   });
   User.beforeCreate((instance, options)=>{
-    var salt = bcrypt.genSalt(8);
+    var salt = bcrypt.genSaltSync(8)
+    console.log(instance.password)
     instance.password = bcrypt.hashSync(instance.password, salt)
+    console.log(instance.password)
 
   })
   return User;
