@@ -6,6 +6,8 @@ const authorization = require('../middlewares/authorization')
 route.post('/', authentication, TodoController.create)
 route.get('/', authentication, TodoController.getTodos)
 
+route.get('/holiday', TodoController.listHoliday)
+
 route.get('/:id', authentication, authorization,TodoController.findById)
 
 route.put('/:id', authentication, authorization, TodoController.put)

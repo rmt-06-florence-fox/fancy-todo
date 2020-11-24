@@ -18,7 +18,7 @@ class UserController{
             next(error)
         })
     }
-    static login(req, res){
+    static login(req, res, next){
         const email = req.body.email
         const password = req.body.password
         User.findOne({where:{

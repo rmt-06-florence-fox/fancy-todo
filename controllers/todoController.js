@@ -165,5 +165,19 @@ class TodoController{
             next(error)
         })
     }
+    static listHoliday(req, res, next){
+        axios({
+            method: 'get',
+            url: `https://holidayapi.com/v1/holidays${process.env.rdparty}`
+            
+          })
+        .then(value => {
+            res.status(200).json(value)
+        })
+        .catch(error => {
+            console.log(error);
+            next(error)
+        })
+    }
 }
 module.exports = TodoController
