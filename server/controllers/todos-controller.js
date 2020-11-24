@@ -33,6 +33,7 @@ class TodosController {
             UserId: req.userLogIn.id
         }})
             .then(data => {
+                throw(err)
                 res.status(200).json(data)
             })
             .catch(err => {
@@ -125,7 +126,7 @@ class TodosController {
         Todo.destroy({where: {id}})
             .then(data => {
                 if (data != 0){
-                    res.status(200).json('todo success to delete')
+                    res.status(200).json({message: 'todo success to delete'})
                 } else {
                     throw{
                         status: 404,

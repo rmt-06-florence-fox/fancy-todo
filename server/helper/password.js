@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs')
 
 function comparePw(pw, hashPw){
-    return bcrypt.compare(pw, hashPw)
+    return bcrypt.compareSync(pw, hashPw)
 }
 
-module.exports = {comparePw}
+module.exports = comparePw
