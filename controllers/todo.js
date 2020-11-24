@@ -65,7 +65,7 @@ class TodoController {
             }
         } catch (error) {
             console.log(error.name);
-            if (error.message == `Validation error: Validation isAfter on due_date failed`) {
+            if (error.message == `Validation error: Validation isAfter on due_date failed` || error.message == `Validation error: Validation isIn on status failed` || error.message == `Validation error: Not boolean.`)  {
                 res.status(400).json({message: error.message})
             } else {
                 res.status(500).json({message: `Internal Server Error`})
@@ -93,7 +93,7 @@ class TodoController {
 
         } catch (error) {
             console.log(error.message);
-            if (error.message == `Validation error: Validation isAfter on due_date failed` || error.message == `Validation error: Validation isIn on status failed`) {
+            if (error.message == `Validation error: Validation isAfter on due_date failed` || error.message == `Validation error: Validation isIn on status failed` || error.message == `Validation error: Not boolean.`) {
                 res.status(400).json({message: error.message})
             } else {
                 res.status(500).json({message: `Internal Server Error`})

@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const _ = require('lodash');
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     /**
@@ -11,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Todo.belongsTo(models.User)
     }
   };
   Todo.init({
@@ -22,7 +24,12 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull:true,
         notEmpty:true,
-        isIn: [['true', 'false']]
+        // isIn: [['true', 'false']]
+        isBoolean: function (val) {
+          if (!_.isBoolean(val)) {
+            throw new Error('Not boolean.');
+          }
+        }
       }
     },
     due_date: {
@@ -31,7 +38,8 @@ module.exports = (sequelize, DataTypes) => {
         isDate: true,
         isAfter: new Date().toISOString().split('T')[0]
       }
-    }
+    },
+    UserId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Todo',
