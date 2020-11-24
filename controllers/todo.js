@@ -1,9 +1,11 @@
 const {Todo} = require('../models')
+const { login } = require('./user')
 
 class Controller {
   static async getTodo(req,res){
+    console.log('halo dr getTodo')
     try{
-      const data = await Todo.findAll()
+      const data = await Todo.findAll({where: {UserId:req.loginUser.id }})
       res.status(200).json(data)
       // res.send('ya')
     }
@@ -13,11 +15,13 @@ class Controller {
   }
 
   static async postTodo(req,res){
+    console.log(req.loginUser)
     const todo = {
       title: req.body.title,
         description: req.body.description,
         status: req.body.status,
         due_date: new Date(req.body.due_date),
+        UserId: req.loginUser.id
     }
      try {
        let data = await Todo.create(todo)
@@ -39,7 +43,7 @@ class Controller {
       try {
         let id = req.params.id
        
-        let data = await Todo.findByPk(id)
+        let data = await Todo.findOne({where: {id:id}})
         if (!data){
           res.status(404).json({message : 'Data not found'})
         }

@@ -1,6 +1,8 @@
 'use strict';
+const helpbcrypt = require('../helpers/bcrypt')
+const bcrypt = require('bcryptjs')
 const {
-  Model
+  Model, UniqueConstraintError
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -11,15 +13,35 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Todo)
     }
   };
   User.init({
     namae: DataTypes.STRING,
-    email: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail:true,
+        notEmpty: {
+          args: true,
+          msg: 'Email Cannot be Blank'
+        },
+        unique: {
+          args: true,
+          msg: 'Email address already in use!'
+        }
+      }
+  },
     password: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',
+  });
+
+  User.beforeCreate((instance, options) => {
+    const salt = bcrypt.genSaltSync(10)
+    const hash = bcrypt.hashSync(instance.password, salt)
+    instance.password = hash
   });
   return User;
 };
