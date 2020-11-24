@@ -33,9 +33,13 @@ class TodoController {
     try {
       const id = +req.params.id;
       const data = await Todo.findByPk(id);
-      res.status(200).json(data);
+      if (!data) {
+        res.status(404).json({ msg: "data not found!" });
+      } else {
+        res.status(200).json(data);
+      }
     } catch (error) {
-      res.status(404).json({ msg: "data not found" });
+      res.status(500).json({ msg: "Internal Server Error" });
     }
   }
 
@@ -54,13 +58,16 @@ class TodoController {
         returning: true,
       });
       if (!data) {
-        throw error;
+        res.status(404).json({ msg: "data not found!" });
       } else {
         res.status(200).json(data[1][0]);
       }
     } catch (error) {
-      res.status(404).json({ msg: "data not found" });
-      res.status(500).json({ msg: "Internal Server Error" });
+      if (error.name === "SequelizeValidationError") {
+        res.status(400).json({ msg: "bad request"})
+      } else {
+        res.status(500).json({ msg: "Internal Server Error" });
+      }
     }
   }
 
@@ -71,54 +78,54 @@ class TodoController {
       };
       const data = await Todo.update(payload, {
         where: {
-          id: +req.params.id
+          id: +req.params.id,
         },
-        returning: true
+        returning: true,
       });
       if (!data) {
-        throw error;
+        res.status(404).json({ msg: "data not found!" });
       } else {
         res.status(200).json(data[1][0]);
       }
     } catch (error) {
-      res.status(404).json({ message: "data not found" });
       res.status(500).json({ msg: "Internal Server Error" });
     }
   }
 
   static delete(req, res) {
-    const id = +req.params.id
-      Todo.findByPk(id)    
-        .then(() => { 
-          if (!id) {
-            res.status(404).json({ msg: "data not found" });
-          } else {
-            Todo.destroy({
-              where: {
-                id: id
-              }
-            })
-            res.status(200).json({ msg: "todo success to delete" })
-          }
-        }) 
-        .catch((err) => { 
-          res.status(500).json({ msg: "Internal Server Error" });
-        })
+    const id = +req.params.id;
+    Todo.findByPk(id)
+      .then(() => {
+        if (!id) {
+          res.status(404).json({ msg: "data not found" });
+        } else {
+          return Todo.destroy({
+            where: {
+              id: id,
+            }
+          })
+        }
+      })
+      .then(() => {
+        res.status(200).json({ msg: "todo success to delete" });
+      })
+      .catch((err) => {
+        res.status(500).json({ msg: "Internal Server Error" });
+      });
   }
 
   // static async delete(req, res) {
   //   try {
-  //     const id = +req.params.id
+  //     const id = +req.params.id;
   //     const data = await Todo.destroy({
-  //       id: id
+  //       id: id,
   //     });
-  //     res.status(200).json({ data, msg: "todo success to delete" });
-  //     // if (id) {
-  //     // } else {
-  //     //   throw error;
-  //     // }
+  //     if (!data) {
+  //       res.status(404).json({ msg: "data not found!" });
+  //     } else {
+  //       res.status(200).json({ msg: "todo success to delete" });
+  //     }
   //   } catch (error) {
-  //     res.status(404).json({ msg: "data not found" });
   //     res.status(500).json({ msg: "Internal Server Error" });
   //   }
   // }
