@@ -1,6 +1,7 @@
 const { User } = require("../models/index")
 const comparePassword = require("../helpers/comparepassword")
 const generateToken = require("../helpers/generateToken")
+const sendEmail = require("../nodemailer")
 
 class UserController {
   static async register(req, res, next){
@@ -13,6 +14,15 @@ class UserController {
         password: req.body.password
       }
       const user = await User.create(payload)
+      
+      sendEmail(user.email, "Account Verification", "Test verification", (err, info) => {
+        if(err){
+          throw(err)
+        }
+        else {
+          console.log("Successfully send email")
+        }
+      })
       res.status(201).json(user)
 
     } catch (error) {
