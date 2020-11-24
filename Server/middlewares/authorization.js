@@ -11,8 +11,13 @@ module.exports = async (req, res, next)=>{
       }
     })
     if(data) next()
-    else res.status(401).json({msg: `You aren't authorized to access this todo`})
+    else{
+      throw{
+        status: 401,
+        message: `You aren't authorized to access this todo`
+      }
+    }
   }catch(err){
-    res.status(500).json({msg: 'Tidak bisa authorization'})
+    next(err)
   }
 }

@@ -4,7 +4,7 @@ const axios = require('axios')
 require('dotenv').config()
 
 class Controller{
-  static async getQuotes(req, res){
+  static async getQuotes(req, res, next){
     try{
       console.log('--- Get Quotes ---');
       const quotes = await axios({
@@ -13,10 +13,10 @@ class Controller{
       })
       res.status(200).json({result: quotes.data})
     }catch(err){
-      res.status(500).json(err)
+      next(err)
     }
   }
-  static async getRestaurants(req, res){
+  static async getRestaurants(req, res, next){
     try{
       console.log('--- Get Restaurants ---');
       const dataRestaurants = await axios({
@@ -32,7 +32,7 @@ class Controller{
       console.log(dataRestaurants);
       res.status(200).json({result: dataRestaurants.data.collections})
     }catch(err){
-      res.status(500).json(err)
+      next(err)
     }
   }
 }
