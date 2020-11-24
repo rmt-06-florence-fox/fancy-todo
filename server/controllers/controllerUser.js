@@ -1,5 +1,7 @@
 const { Todo,User } = require('../models')
 const { compare } = require('../helper/bcrypt')
+const jwt = require('jsonwebtoken')
+
 
 class ControllerUser {
 
@@ -28,7 +30,6 @@ class ControllerUser {
             for (let i = 0 ; i < error.errors.length; i++){
                 err.push(error.errors[i].message)
             }
-            console.log(err)
             res.status(500).json({message: err})
         })
     }
@@ -38,14 +39,15 @@ class ControllerUser {
         .then(data => {
             if (data){
                 if(compare(req.body.password,data.password)){
-                    res.status(200).json({
-                    id: data.id,
-                    firstname: data.firstname,
-                    lastname: data.lastname,
-                    email: data.email,
-                    password: req.body.password
-                    })
+                    // res.status(200).json({
+                    // id: data.id,
+                    // firstname: data.firstname,
+                    // lastname: data.lastname,
+                    // email: data.email,
+                    // password: req.body.password
+                    // })
                     const access_token = jwt.sign({id: data.id, email:data.email}, process.env.SECRET)
+                    res.status(200).json({ access_token })
                 } else {
                     res.status(404).json({message: "email/password salah"})
                 } 
