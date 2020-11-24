@@ -48,6 +48,7 @@ class Controller {
             description: req.body.description,
             status: req.body.status,
             due_date: req.body.due_date,
+            UserId: req.loggedInUser.id
         }
 
         Todo.create(obj)
@@ -66,7 +67,7 @@ class Controller {
     }
 
     static todoList(req, res) {
-        Todo.findAll()
+        Todo.findAll({where: {UserId: req.loggedInUser.id}})
         .then(data => {
             res.status(200).json(data)
         })
