@@ -14,6 +14,7 @@ module.exports = async (req,res,next)=>{
     if(access_token){
       const user = await User.findOne({where:{id: access_token.id}})
       if(user){
+        req.currentUser = access_token
         next();
       } else res.status(401).json({message: 'please login first'})
     }else{
@@ -22,6 +23,4 @@ module.exports = async (req,res,next)=>{
   } catch (error) {
     res.status(500).json(error)
   }
-
-  // next();
 }

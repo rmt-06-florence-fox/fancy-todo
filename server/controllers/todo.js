@@ -6,7 +6,8 @@ class TodoController{
       tittle : req.body.tittle,
       description : req.body.description,
       status : req.body.status,
-      due_date: req.body.due_date
+      due_date: req.body.due_date,
+      UserId: req.currentUser.id
     }
     
     try{
@@ -37,13 +38,13 @@ class TodoController{
   }
 
   static async editPut(req,res){
-    
     const id = req.params.id
     const editedTodo = {
       tittle : req.body.tittle,
       description : req.body.description,
       status : req.body.status,
-      due_date: req.body.due_date
+      due_date: req.body.due_date,
+      UserId: req.currentUser.id
     }
     try{
       const data = await Todo.update(editedTodo,{where : {id:id}, returning:true})
