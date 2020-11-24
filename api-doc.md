@@ -11,6 +11,12 @@
    **Required:**
     None
 
+*  **HEADERS**
+    {
+    "token_access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtb3phcnRAbWFpbC5jb20iLCJpYXQiOjE2MDYyMDQ4MjJ9.uNDT6RdhmGOMf0jxd3NpQUjlzjPiMVUow81TCo9-rmc"
+    }
+
+
 * **Data Params**
 
     None
@@ -48,6 +54,11 @@
 
    **Required:**
     None
+
+*  **HEADERS**
+    {
+    "token_access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtb3phcnRAbWFpbC5jb20iLCJpYXQiOjE2MDYyMDQ4MjJ9.uNDT6RdhmGOMf0jxd3NpQUjlzjPiMVUow81TCo9-rmc"
+    }
 
 * **Data Params**
 
@@ -110,6 +121,11 @@
    **Required:**
     `id=[integer]`
 
+*  **HEADERS**
+    {
+    "token_access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtb3phcnRAbWFpbC5jb20iLCJpYXQiOjE2MDYyMDQ4MjJ9.uNDT6RdhmGOMf0jxd3NpQUjlzjPiMVUow81TCo9-rmc"
+    }
+
 * **Data Params**
 
     None
@@ -149,6 +165,11 @@
 
    **Required:**
     `id=[integer]`
+
+*  **HEADERS**
+    {
+    "token_access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtb3phcnRAbWFpbC5jb20iLCJpYXQiOjE2MDYyMDQ4MjJ9.uNDT6RdhmGOMf0jxd3NpQUjlzjPiMVUow81TCo9-rmc"
+    }
 
 * **Data Params**
     None

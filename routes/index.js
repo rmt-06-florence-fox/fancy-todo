@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const routerTodo = require('./routerTodo')
+const authentic = require('../Middlewares/authentic')
 const UserController = require('../controllers/userController')
 
 router.use('/todos', routerTodo)

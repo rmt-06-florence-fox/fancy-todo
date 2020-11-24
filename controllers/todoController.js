@@ -3,7 +3,11 @@ const { Todo } = require('../models')
 class TodoController {
 
     static showList(req, res){
-        Todo.findAll()
+        Todo.findAll({
+            where: {
+                id: req.loggedId.id
+            }
+        })
         .then(data =>{
             res.status(200).json(data)
         })
@@ -12,13 +16,14 @@ class TodoController {
         })
     }
     static addList(req, res){
+
         let newTodo = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            date: new Date(req.body.date)
+            date: new Date(req.body.date),
+            UserId: req.loggedId.id
         }
-        
         Todo.create(newTodo)
         .then(result =>{
             res.status(201).json(result)
@@ -40,6 +45,7 @@ class TodoController {
             res.status(200).json(data)
         })
         .catch(err =>{
+            console.log(err)
             res.status(404).json(err)
         })
     }

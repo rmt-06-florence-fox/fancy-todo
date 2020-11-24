@@ -1,6 +1,7 @@
 
 const {User} = require('../models')
 const jwt = require('jsonwebtoken')
+const {getToken} = require('../helper/jwt')
 const checker = require('../helper/bcrypt')
 
 class UserController {
@@ -27,8 +28,9 @@ static loginForm(req, res){
             res.status(401).json({message: 'Invalid Account'})
         } else {
             if(checker(req.body.password, data.password)){
-                let getToken = jwt.sign({id: data.id, email: data.email}, process.env.SECRET)
-                res.status(200).json({getToken})
+                let token_access = getToken({id: data.id, email: data.email})
+                // let getToken = jwt.sign(, process.env.SECRET)
+                res.status(200).json({token_access})
             } else {
                 res.status(401).json({message: 'invalid email / password'})
             }
