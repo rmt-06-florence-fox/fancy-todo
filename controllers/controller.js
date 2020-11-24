@@ -1,6 +1,7 @@
 const { Todo, User } = require('../models')
 const { hash, compare } = require('../helpers/bcrypt-pass')
 const { getToken } = require('../helpers/jwt-token')
+const { default: Axios } = require('axios')
 
 class Controller {
     static async listTodos(req, res) {
@@ -59,18 +60,17 @@ class Controller {
             password: req.body.password
         }
         try {
-            const compare = User.findOne({where: {username: obj.username}})
-            if(compare) {
-                throw{
-                    status: 400,
-                    message: 'Username is already!!'
-                }
-            } else {
-                const data = await User.create(obj)
-                res.status(201).json(data)
-            }
+            const data = await User.create(obj)
+            res.status(201).json(data)
         } catch (error) {
-            next(error)
+            if (error.message === 'Validation error') {
+                next({
+                    status: 400,
+                    message: 'Username is already exist!!'
+                })
+            } else {
+                next(error)
+            }
         }
     }
 
@@ -160,6 +160,22 @@ class Controller {
         } catch (error) {
             next(error)
         }
+    }
+
+    static holidays(req, res) {
+        Axios({
+            url: `https://calendarific.com/api/v2/holidays?&api_key=${process.env.API_KEY}&country=ID&year=2020` ,
+            method: 'GET'
+        })
+        .then(response => {
+            res.status(200).json(response.data)
+        })
+        .catch(err => {
+            next({
+                status: 500,
+                message: 'Invalid Server Error'
+            })
+        })
     }
 }
 

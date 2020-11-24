@@ -16,5 +16,6 @@ route.put('/todos/edit/:id', authorization, Controller.editTodos)
 route.get('/todos/:id', authorization, Controller.detailTodo)
 route.delete('/todos/delete/:id', authorization, Controller.deleteTodo)
 
+route.get('/holidays', Controller.holidays)
 
 module.exports = route
