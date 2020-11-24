@@ -2,6 +2,7 @@ const {Todo, User} = require('../models/index')
 const jwt = require('jsonwebtoken')
 const {compare} = require('../helper/bcrypt')
 const bcrypt = require('../helper/bcrypt')
+const {generateToken} = require('../helper/jwt')
 
 class Controller {
     static async register(req, res) {
@@ -26,7 +27,7 @@ class Controller {
             if(!data){
                 res.status(401).json({message: `Invalid Account`})
             } else if(compare(req.body.password, data.password)){
-                    const access_token = jwt.sign({id: data.id, email: data.email}, process.env.SECRET)
+                    const access_token = generateToken({id: data.id, email: data.email})
                     res.status(200).json({access_token})
             } else {
                 res.status(401).json({message: `invalid email / password`})
