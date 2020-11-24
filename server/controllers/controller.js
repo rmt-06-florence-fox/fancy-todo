@@ -1,10 +1,22 @@
 const {Todo,User} = require('../models/index')
 const {decrypt} = require('../helpers/crypt')
 const {sign} = require('../helpers/jwt')
+const axios = require('axios')
 
 class Controller {
    static getHome(req,res){
-      res.send('Test')
+      axios({
+         url : 'https://quote-garden.herokuapp.com/api/v2/quotes/random',
+         method :"GET",
+      })
+         .then(response => {
+            res.status(200).json(response.data)
+            
+         })
+         .catch(error => {
+            next(error)
+         })
+      
    }
 
    static async postTodo(req,res,next){
