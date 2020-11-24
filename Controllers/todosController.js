@@ -3,7 +3,7 @@ const {Todo} = require('../models');
 class Controller {
     static async getTodos(req, res) {
         try {
-            const todos = await Todo.findAll();
+            const todos = await Todo.findAll({where: {UserId: req.loggedIn.id}});
             res.status(200).json(todos);
         } catch (error) {
             res.status(500).json(error);
