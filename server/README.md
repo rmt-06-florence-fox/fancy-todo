@@ -1,7 +1,7 @@
 # fancy-todo App Server
 
 Fancy todo App is an application to manage your todo list. This app has : 
-* RESTful endpoint for asset's CRUD operation
+* RESTful endpoint for todo's CRUD operation
 * JSON formatted response
 
 &nbsp;
