@@ -14,6 +14,10 @@ class Helper {
 	static genToken(data) {
 		return jwt.sign(data, process.env.KEY);
 	}
+
+	static degenToken(data) {
+		return jwt.verify(data, process.env.KEY)
+	}
 }
 
 module.exports = Helper;
