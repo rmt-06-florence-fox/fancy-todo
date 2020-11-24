@@ -49,7 +49,7 @@ class UserController {
                 console.log(access_token)
                 res.status(200).json(access_token)
             }else {
-                throw 'Invalide email/password'
+                throw 'Invalid email/password'
             }
         } catch (error) {
             res.status(400).json({error})
