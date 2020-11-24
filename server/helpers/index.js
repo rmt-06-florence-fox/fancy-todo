@@ -1,17 +1,9 @@
-const bcrypt= require('bcryptjs')
+const {hashPassword, checkPassword} = require('./bcrypt')
+const jwt = require('./jwt')
 
-function hashPassword(plainPassword) {
-  const salt=bcrypt.genSaltSync(12);
-  const hash=bcrypt.hashSync(plainPassword,salt);
 
-  return hash;
-  
+module.exports={
+  hashPassword,
+  checkPassword,
+  jwt
 }
-
-function checkPassword(plain,hashed) {
-
-  return bcrypt.compareSync(plain,hashed)
-  
-}
-
-module.exports= {hashPassword, checkPassword}
