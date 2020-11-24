@@ -1,6 +1,6 @@
 const {User} = require('../models')
 const {comparePassword} = require('../helpers/bcrypt')
-const {sign} = require('../helpers/jwt')
+const {generateToken} = require('../helpers/jwt')
 class UserController{
     static async register(req, res){
         try {
@@ -23,7 +23,7 @@ class UserController{
             if (!data) {
                 throw({message: 'Invalid Account'})
             } else if(comparePassword(req.body.password, data.password)){
-                const access_token = sign({id: data.id, email:data.email}, process.env.SECRET)
+                const access_token = generateToken({id: data.id, email:data.email}, process.env.SECRET)
                 res.status(200).json({access_token})
             } else {
                 throw({message: 'Invalid Email/Password'})

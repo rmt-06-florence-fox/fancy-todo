@@ -8,7 +8,8 @@ class TodoController {
                 title: req.body.title,
                 description: req.body.description,
                 status: req.body.status,
-                due_date: req.body.due_date
+                due_date: req.body.due_date,
+                UserId: +req.loggedInUser.id
             }
 
             const data = await Todo.create(payload)
@@ -24,7 +25,7 @@ class TodoController {
     
     static async getTodos(req, res){
         try {
-            const data = await Todo.findAll();
+            const data = await Todo.findAll({where:{UserId: +req.loggedInUser.id}});
             res.status(200).json(data)
         } catch (error){
             res.status(500).json(error)
