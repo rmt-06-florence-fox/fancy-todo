@@ -12,12 +12,12 @@ module.exports = (req, res, next) => {
             next()
         } else {
             throw {
+                status: 401,
                 message: ` You don't have the Authorization for this action`
             }
         }
     })
     .catch(err =>{
-        console.log('err from authorize')
-        res.status(500).json(err)
+        next(err)
     })
 }

@@ -2,7 +2,7 @@ const { Todo } = require('../models')
 
 class TodoController {
 
-    static showList(req, res){
+    static showList(req, res, next){
         Todo.findAll({
             where: {
                 id: req.loggedId.id
@@ -12,10 +12,10 @@ class TodoController {
             res.status(200).json(data)
         })
         .catch(err =>{
-            res.status(500).json({message:`Internal Server Error`})
+            next(err)
         })
     }
-    static addList(req, res){
+    static addList(req, res, next){
 
         let newTodo = {
             title: req.body.title,
@@ -29,15 +29,11 @@ class TodoController {
             res.status(201).json(result)
         })
         .catch(err =>{
-            if(err.errors[0].message == 'due date must be greater than today dude !!'){
-                res.status(400).json({message: err.message})
-            } else {
-                res.status(500).json({message:`Internal Server Error`})
-            }
+            next(err)
         })
     }
 
-    static getList(req, res){
+    static getList(req, res, next){
         let dataId = +req.params.id
 
         Todo.findByPk(dataId)
@@ -45,12 +41,11 @@ class TodoController {
             res.status(200).json(data)
         })
         .catch(err =>{
-            console.log(err)
-            res.status(404).json(err)
+            next(err)
         })
     }
 
-    static putNewList(req, res){
+    static putNewList(req, res, next){
         let putId = +req.params.id
         let newTodo = {
             title: req.body.title,
@@ -69,24 +64,21 @@ class TodoController {
                 return Todo.findByPk(putId)
                 
             } else {
-                res.status(404).json({message: 'Error not found'})
+                next({
+                    status: 404,
+                    message: 'Error not found'})
             }
         })
         .then(result =>{
             res.status(200).json(result)
         })
         .catch(err =>{
-            if(err.errors[0].message == 'due date must be greater than today dude !!'){
-                res.status(400).json({message: err.message})
-            } else {
-
-                res.status(500).json({message:`Internal Server Error`})
-            }
+            next(err)
         })
 
     }
 
-    static patchList(req, res){
+    static patchList(req, res, next){
         let patchData = {
             status: req.body.status
         }
@@ -101,7 +93,9 @@ class TodoController {
             if(data[0]){
                 return Todo.findByPk(patchId)
             } else {
-                res.status(404).json({message: 'Error not found'})
+                next({
+                    status: 404,
+                    message: 'Error not found'})
             }
         })
         .then(result =>{
@@ -109,16 +103,11 @@ class TodoController {
 
         })
         .catch(err =>{
-            if(err.errors[0].message == 'due date must be greater than today dude !!'){
-                res.status(400).json({message: err.message})
-            } else {
-
-                res.status(500).json({message:`Internal Server Error`})
-            }
+            next(err)
         })
     }
 
-    static destroyList(req, res){
+    static destroyList(req, res, next){
         let deleteId = +req.params.id
 
         Todo.destroy({
@@ -130,12 +119,13 @@ class TodoController {
             if(result){
             res.status(200).json({message: 'todo success to delete'})
             } else {
-                console.log(result)
-                res.status(404).json({message: 'Error not found'})
+                next({
+                    status: 404,
+                    message: 'Error not found'})
             }
         })
         .catch(err =>{
-            res.status(500).json({message:`Internal Server Error`})
+            next(err)
         })
     }
 
