@@ -1,5 +1,5 @@
-const { verifyToken } = require("../helpers/tokenHandler");
 const { User } = require("../models");
+const { verifyToken } = require("../helpers/tokenHandler");
 
 module.exports = async (req, res, next) => {
   try {
@@ -7,12 +7,12 @@ module.exports = async (req, res, next) => {
     if (access_token) {
       const decoded = verifyToken(access_token);
       req.loggedin = decoded;
-
       const findUser = await User.findOne({
         where: {
           id: decoded.id,
         },
       });
+      console.log(findUser, "<<< si ini")
       if (findUser) {
         next();
       } else {
@@ -26,5 +26,4 @@ module.exports = async (req, res, next) => {
       msg: "Internal Server Error",
     });
   }
-  next();
 };

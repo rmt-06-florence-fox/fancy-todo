@@ -46,13 +46,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Todo.addHook("beforeCreate", (ini) => {
-    if (!ini.status) {
-      ini.status = "Pending";
-    }
-    // if (!due_date) {
-    //   ini.due_date = new Date()
-    // }
-  });
+  // Todo.addHook("beforeCreate", (ini) => {
+  //   //kalau misal status kosong, maka diisi pending
+  //   if (!ini.status) {
+  //     ini.status = "Pending";
+  //   }
+  //   //kalau misal due_date kosong, diisi besok
+  //   // if (!due_date) {
+  //   //   const today = new Date()
+  //   //   const tomorrow = new Date(today)
+  //   //   ini.due_date = tomorrow.setDate(tomorrow.getDate() + 1)
+  //   // }
+  // });
   return Todo;
 };
