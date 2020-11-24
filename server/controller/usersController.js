@@ -26,7 +26,7 @@ class UserController {
                 res.status(404).json({message : 'Account not found'})  
             } else {
                 if (bcrypt.compareSync(req.body.password, data.password)) {
-                    const access_token = jwt.sign({id : data.id, email : data.email}, 'bidadaricantik')
+                    const access_token = jwt.sign({id : data.id, email : data.email}, process.env.SECRET, {expiresIn : 300 * 60})
                     res.status(200).json({ access_token }) 
                 } else {
                     res.status(401).json({message : 'Invalid password or email'})
