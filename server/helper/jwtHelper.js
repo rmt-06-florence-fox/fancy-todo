@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken')
 class JwtHelper{
 
   static generateToken(object) {
-    return jwt.sign(object,'apajaboleh')
+    return jwt.sign(object, process.env.SECRET)
   }
 
   static decodeToken(token){
-    return jwt.verify(token,'apajaboleh')
+    return jwt.verify(token,process.env.SECRET)
   }
 }
 
