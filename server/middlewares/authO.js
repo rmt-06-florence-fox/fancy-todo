@@ -4,15 +4,15 @@ module.exports = async (req, res, next) => {
     try {
         const list = await TodoList.findOne ({
             where: {
-                id: req.loggedUser.id
+                id: req.params.id
             }
         })
 
-        if (list.UserId) {
+        if (list.UserId == req.loggedUser.id) {
             next ()
         }
 
     } catch (err) {
-        res.status(500).json({message: `Not Authorized`})
+         res.status(500).json({message: `Not Authorized`})
     }
 }

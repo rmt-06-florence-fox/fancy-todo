@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
         console.log(userData)
         const user = User.findOne ({
                         where: {
-                            id:'userData.id'
+                            id: userData.id
                         }
                     })
         

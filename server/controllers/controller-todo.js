@@ -3,7 +3,11 @@ const { TodoList } = require('../models');
 class ControllerTodo {
 	static async get(req, res) {
 		try {
-			const list = await TodoList.findAll();
+			const list = await TodoList.findAll({
+				where: {
+					UserId: req.loggedUser.id
+				}
+			});
 			res.status(200).json({ list });
 		} catch (err) {
 			res.status(500).json({ err });
@@ -11,8 +15,10 @@ class ControllerTodo {
 	}
 
 	static async post(req, res) {
+		let newList = req.body
+		newList.UserId = req.loggedUser.id
 		try {
-			const list = await TodoList.create(req.body, {
+			const list = await TodoList.create(newList, {
 				returning: true,
 			});
 			res.status(201).json({ list });
