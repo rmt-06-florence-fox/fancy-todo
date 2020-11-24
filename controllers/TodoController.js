@@ -58,6 +58,7 @@ class TodoController {
           returning: true }
         )
         .then(data => {
+            console.log(data)
             if (data) {
                 res.status(200).json(data[1][0]);
             } 
