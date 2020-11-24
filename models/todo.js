@@ -10,11 +10,20 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      ToDo.belongsTo(models.User, { foreignKey: "UserId", targetKey: "id" })
     }
   };
   ToDo.init({
-    title: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmpty: function(value) {
+          if(value == '' || value == undefined) {
+            throw new Error('Title harus diisi!')
+          }
+        }
+      }
+    }, 
     description: DataTypes.STRING,
     status: {
       type: DataTypes.STRING,
@@ -30,12 +39,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       validate: {
         isNewer: function(value) {
-          if(value > new Date) {
+          if(value < new Date) {
             throw new Error('Tanggal tidak boleh yang sudah dilewati hari ini!')
           }
-        }
+        },
+        isNull: function(value) {
+          if(value == null || value == undefined) {
+            throw new Error('Tanggal harus diisi!')
+          }
+        } 
       }
-    }
+    },
+    UserId: DataTypes.INTEGER
   }, {
     hooks : {
       beforeCreate(instance, options) {

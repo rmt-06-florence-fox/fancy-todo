@@ -4,7 +4,9 @@ class ToDoController {
 
     static async getToDo(req, res) {
         try {
-            const todos = await ToDo.findAll();
+            const todos = await ToDo.findAll({where : {
+                UserId: req.loggedInUser.id
+            }});
             res.status(200).json(todos);
         }
         catch (error) {
@@ -17,7 +19,8 @@ class ToDoController {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: new Date(req.body.due_date)
+            due_date: new Date(req.body.due_date),
+            UserId: req.loggedInUser.id
         }
 
         ToDo
@@ -84,7 +87,8 @@ class ToDoController {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: new Date(req.body.due_date)
+            due_date: new Date(req.body.due_date),
+            UserId: req.loggedInUser.id
         }
         try {
             const updateToDo = await ToDo.update(update, {

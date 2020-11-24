@@ -1,6 +1,7 @@
 const { User } = require('../models')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const { generateToken } = require('../helpers/jwt')
 
 class UserController {
     static register (req, res) {
@@ -25,12 +26,13 @@ class UserController {
             }
         })
         .then(result => {
+            // console.log(result)
             if(!result) {
                 res.status(401).json({message: 'Invalid account'})
             }
             else {
                 if (bcrypt.compareSync(req.body.password, result.password)) {
-                    const access_token = jwt.sign({id : result.id, email: result.email}, process.env.SECRET)
+                    const access_token = generateToken({id : result.id, email: result.email})
                     res.status(200).json({access_token})
                 }
                 else {
