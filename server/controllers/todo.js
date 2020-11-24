@@ -23,6 +23,7 @@ class TodoController{
       const todos =  await Todo.findAll()
       res.status(200).json(todos)
     }catch(error){
+      // console.log(error);
       next(error)
     }
   }
@@ -30,9 +31,17 @@ class TodoController{
   static async findOne(req,res,next){
     try{
       const id = +req.params.id
+      console.log(id);
       const todo = await Todo.findOne({where: {id:id}})
-      res.status(200).json(todo)
+      console.log(todo);
+      if(todo){
+        res.status(200).json(todo)
+      }else{
+        //aslinya ga perlu sih, make sure aja
+        throw {status:404, message:'data not found'}
+      }
     }catch(error){
+      //aslinya ga perlu sih, make sure aja
       next({status: 404, message:'data not found'})
     }
   }
