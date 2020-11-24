@@ -2,7 +2,7 @@ const {Todo} = require('../models')
 
 module.exports = async (req, res, next)=>{
   try{
-    // console.log(req.params.id, '<<<< id movie');
+    // console.log(req.params.id, '<<<< id todo');
     // console.log(req.loginUser, '<<< User di authorization');
     const data = await Todo.findOne({
       where: {

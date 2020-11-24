@@ -9,9 +9,9 @@ class UserController{
       const payload = {
         username: req.body.username,
         email: req.body.email,
-        password: Helper.hashPassword(req.body.password)
+        password: req.body.password
       }
-      const result = await User.create(payload, { returning: true })
+      const result = await User.create(payload)
       res.status(201).json({ id: result.id, email: result.email })
     }catch(err){
       res.status(400).json({err})
