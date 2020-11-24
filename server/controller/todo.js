@@ -27,6 +27,18 @@ class TodoController{
     }
   }
 
+  static async weather(req,res){
+    try {
+      const weather = await axios({
+        url: `http://api.weatherstack.com/current?access_key=${process.env.weatherSecret}&query=Bandung`,
+        method : 'GET'
+      })
+      res.status(200).json(weather.data)
+    } catch (error) {
+      res.status(500).json(error)
+    }
+  }
+
   static async create(req,res){
     let obj = {
       title : req.body.title,
