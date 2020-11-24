@@ -7,6 +7,7 @@ class TodoController {
       description: req.body.description,
       status: req.body.status,
       due_date: req.body.due_date,
+      UserId: req.userData.id,
     })
       .then((data) => {
         if (!data) {
@@ -21,7 +22,7 @@ class TodoController {
   }
 
   static getTodo(req, res) {
-    Todo.findAll()
+    Todo.findAll({ where: { UserId: req.userData.id } })
       .then((data) => {
         res.status(200).json(data);
       })
