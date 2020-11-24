@@ -1,3 +1,8 @@
-const todosController = require('./todosController');
+const TodoController = require ('./todosController');
+const UserController = require ('./userController');
 
-module.exports = todosController;
+
+module.exports = {
+    TodoController,
+    UserController
+}

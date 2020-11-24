@@ -1,12 +1,17 @@
 const express = require('express');
 const route = express.Router();
-const todosController = require('../Controllers');
+const TodoController = require('../Controllers').TodoController;
+const authentication = require('../middlewares/authentication');
+const authorization = require('../middlewares/authorization');
 
+route.use(authentication);
+route.get('/', TodoController.getTodos);
+route.post('/', TodoController.postTodos);
 
-route.get('/', todosController.getTodos);
-route.post('/', todosController.postTodos);
-route.get('/:id', todosController.findOneTodo);
-route.put('/:id', todosController.updateTodo);
-route.patch('/:id', todosController.updateStatusTodo);
-route.delete('/:id', todosController.removeTodo);
+route.use('/:id', authorization);
+route.get("/:id", TodoController.findOneTodo);
+route.put("/:id", TodoController.updateTodo);
+route.patch("/:id", TodoController.updateStatusTodo);
+route.delete("/:id", TodoController.removeTodo);
+
 module.exports = route;

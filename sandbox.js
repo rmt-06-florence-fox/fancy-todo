@@ -1,4 +1,6 @@
-let kemarin = new Date('11/23/2020')
-let besok = new Date('11/24/2020');
+const {checkPassword, generatePassword} = require('./helpers/bcrypt');
 
-console.log(kemarin < besok);
+let a = generatePassword('tuyetuye');
+let b = 'tuyetuya';
+
+console.log(true && checkPassword(b, a));

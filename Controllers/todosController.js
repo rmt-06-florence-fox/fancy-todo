@@ -14,13 +14,13 @@ class Controller {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId: req.loggedIn.id
         }
         try {
             const newTodo = await Todo.create(newInputTodo);
             res.status(201).json(newTodo);
         } catch (error){
-            console.log(error.errors[0].message);
             if(error.errors[0].message == 'Date must be greater than now' || error.errors[0].message == "Use 'MM/DD/YYYY' Format" || error.erros[0].message == "Status must be 'Sedang dikerjakan' or 'Akan dikerjakan' or 'Sudah dikerjakan"){
                 res.status(400).json(error);
             } else {
@@ -51,7 +51,6 @@ class Controller {
         }
         try {
             const updatedTodo = await Todo.update(payload, {where: {id: idToUpdate}, individualHooks: true})
-            console.log(updatedTodo);
             if(!updatedTodo[1][0]){
                 throw new Error('Id Not Found');
             }
@@ -94,7 +93,6 @@ class Controller {
         const idToRemove = req.params.id;
         try {
             const removedTodo = await Todo.destroy({where: {id: idToRemove}});
-            console.log(removedTodo);
             if(!removedTodo){
                 throw new Error('Id Not Found')
             }
