@@ -18,7 +18,8 @@ class ControllerTodos {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.dueDate
+            due_date: req.body.due_date,
+            UserId: req.loggedInUser.id
         }
 
         ToDo.create(payload)
@@ -36,6 +37,7 @@ class ControllerTodos {
     }
 
     static showToDosById(req, res) {
+        console.log(req.params.id);
         const id = req.params.id
 
         ToDo.findOne({
@@ -51,6 +53,7 @@ class ControllerTodos {
             }
         })
         .catch(err => {
+            console.log(err);
             res.status(500).json('Internal Server Error!')
         })
     }

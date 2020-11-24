@@ -1,5 +1,7 @@
 'use strict';
-const bcrypt = require('bcryptjs')
+const {
+  encrypt
+} = require('../helpers/passwordHandler')
 
 const {
   Model
@@ -13,19 +15,57 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.ToDo)
     }
   };
   User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: {
+          msg: 'username cannot be empty!'
+        },
+        notNull: {
+          msg: 'username cannot be empty!'
+        }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: {
+          args: [6],
+          msg: 'Password too short! Password length must be 6 characters minimum!'
+        }
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: {
+          args: true,
+          msg: 'Email format is not valid!'
+        },
+        notNull: {
+          msg: 'Email cannot be empty!'
+        }
+      }
+    },
+    first_name: DataTypes.STRING,
+    last_name: DataTypes.STRING,
+    birthdate: DataTypes.DATEONLY
   }, {
     sequelize,
     modelName: 'User',
   });
 
   User.beforeCreate((instance, options) => {
-    const salt = bcrypt.genSaltSync(12)
-    instance.password = bcrypt.hashSync(instance.password, salt)
+    instance.password = encrypt(instance.password)
   })
   return User;
 };
