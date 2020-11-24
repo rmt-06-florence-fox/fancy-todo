@@ -46,7 +46,6 @@ class Controller {
         Todo.findOne({where: {id: req.params.id}})
         .then(data => {
             if (data){
-                console.log(data)
                 res.status(200).json({
                     title: data.title,
                     description: data.description,
@@ -84,20 +83,28 @@ class Controller {
     }
 
     static updateStatusTodo(req,res){
+        console.log(req.body)
+        console.log(req.params.id)
         Todo.update({
             status: req.body.status,
         },{where: {id: req.params.id}})
         .then(data => {
-            if (data){
-                res.status(200).json({
-                    title: data.title,
-                    description: data.description,
-                    status: data.status,
-                    due_date: data.due_date
-                })
-            }else {
-                res.status(404).json({message: "id not found!"})
-            }
+            return Todo.findOne({where: {id: req.params.id}})
+            .then(data2 => {
+                if (data2){
+                    
+                    res.status(200).json({
+                        title: data2.title,
+                        description: data2.description,
+                        status: data2.status,
+                        due_date: data2.due_date,
+                        UserId: data2.UserId
+                    })
+                }else {
+                    res.status(404).json({message: "id not found!"})
+                }
+            })
+            
         })
         .catch(error => {
             res.status(500).json({message: 'internal server error'})
