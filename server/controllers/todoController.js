@@ -9,18 +9,17 @@ class TodoController {
                 }
             })
             if (todos.length <= 0) {
-                res.status(200).json({message : 'you have not entered any todo'})
+                res.status(200).json({message : 'you do not have any todo'})
             }else {
                 res.status(200).json(todos)
             }
         }
         catch (error) {
-            console.log('kalo ini')
             res.status(500).json(error)
         }
     }
 
-    static async addTodo (req, res) {
+    static async addTodo (req, res, next) {
         try {
             const {title, description, due_date, status} = req.body
             const newTodo = await Todo.create({title, description, due_date, status, UserId:req.loggedIn.id})
@@ -28,12 +27,7 @@ class TodoController {
             res.status(201).json(newTodo)
         }
         catch (error) {
-            if(error.name === 'SequelizeValidationError') {
-                res.status(400).json(error.errors[0].message)
-            }
-            else {
-                res.status(500).json(error)
-            }
+            next(error)
         }
     }
     static async getTodo(req, res) {
@@ -44,18 +38,19 @@ class TodoController {
                     id: id
                 }
             })
+            console.log('nyampe')
             if(!todo) {
-                res.status(404).json({message : 'Todo not found'})
+                res.status(404).json({message : 'Todo not Found'})
             }
             else {
                 res.status(200).json(todo)
             }
         }catch (error) {
-            res.status(500).json(error)
+            next(error)
         }
     }
 
-    static async changeTodo(req, res) {
+    static async changeTodo(req, res, next) {
         try {
             const id = req.params.id
             const { title, description, status, due_date } = req.body
@@ -70,16 +65,11 @@ class TodoController {
             })
             res.status(200).json(change[1][0])
         } catch (error) {
-            if(error.name === 'SequelizeDatabaseError') {
-                res.status(400).json({message: 'all columns must be fulfilled'})
-            }
-            else {
-                res.status(500).json(error)
-            }
+            next(error)
         }
     }
 
-    static async editStatus(req, res) {
+    static async editStatus(req, res, next) {
         try {
             const id = req.params.id
             const { status } = req.body
@@ -100,11 +90,11 @@ class TodoController {
             })
             res.status(200).json(patch[1][0])
         }catch(error) {
-            res.status(500).json(error)
+            next(error)
         }
     }
 
-    static async destroyTodo(req, res) {
+    static async destroyTodo(req, res, next) {
         try {
             const id = req.params.id
             const todos = await Todo.findByPk(id)
@@ -120,7 +110,7 @@ class TodoController {
             })
             res.status(200).json({message : 'deleted Todo success'})
         }catch (error) {
-            res.status(500).json(error)
+            next(error)
         }
     }
 }

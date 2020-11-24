@@ -1,12 +1,12 @@
 const { Todo } = require('../models/index')
 
 async function authorization (req, res, next) {
+    const { id } = req.params
     try {
-        const { id } = req.params.id
         const todos = await Todo.findByPk(id)
         if(!todos) {
             throw {
-                message: 'Todo not Found'
+                message: 'Todo not Found', status: 404
             }
         }else if(todos.UserId === req.loggedIn.id) {
             next()
@@ -17,7 +17,7 @@ async function authorization (req, res, next) {
             }
         }
     }catch(error) {
-        res.status(500).json(error)
+        next(error)
     }
 }
 

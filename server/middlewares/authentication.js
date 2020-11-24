@@ -25,9 +25,7 @@ async function authentication (req, res, next) {
         }
     }
     catch(error) {
-        const status = error.status || 500
-        const message = error.msg || 'Internal server error'
-        res.status(tatus).json({error: msg})
+        next(error)
     }
 }
 

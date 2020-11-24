@@ -4,7 +4,7 @@ const { signToken } = require('../helpers/jwt')
 
 
 class UserController {
-    static async register(req, res) {
+    static async register(req, res, next) {
         try {
             const payload = {
                 email: req.body.email,
@@ -17,12 +17,11 @@ class UserController {
                 email: newuser.email
             })
         }catch (error){
-            console.log(error)
-            res.status(500).json(error)
+            next(error)
         }
     }
 
-    static async login (req, res) {
+    static async login (req, res, next) {
         try {
             const payload = {
                 email: req.body.email,
@@ -52,7 +51,7 @@ class UserController {
                 })
             }
         }catch(error){
-            res.status(500).json(error)
+            next(error)
         }
     }
 }

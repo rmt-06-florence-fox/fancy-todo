@@ -42,12 +42,16 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    due_date: {
-      type: DataTypes.STRING,
+    due_date: { 
+      type: DataTypes.DATE,
       validate: {
-        notEmpty: {
-          args: true,
-          msg: 'Todo has to have Date'
+        notEmpty: { 
+          args: true, 
+          msg: 'Todo has to have Date' },
+        dateCustom(value) {
+          const validate = value > new Date()
+          if (!validate) 
+          throw new Error('Date must be greater than today')
         }
       }
     },
