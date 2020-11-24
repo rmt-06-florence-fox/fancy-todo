@@ -7,7 +7,7 @@ class TodoController{
       if (list) {
         res.status(200).json(list)
       } else {
-        res.status(404).json(`error not found`)
+        res.status(404).json({message :`error not found`})
       }
     } catch (error) {
       res.status(500).json(error)
@@ -41,10 +41,10 @@ class TodoController{
         if (list) {
           res.status(200).json(list)
         } else {
-          res.status(404).json(`error not found`)
+          res.status(404).json({message :`error not found`})
         }
       } else {
-        throw `error, the list is not found`
+        res.status(404).json({message :`error not found`})
       }
     } catch (error) {
       res.status(500).json(error)
@@ -64,7 +64,7 @@ class TodoController{
       if (data) {
         res.status(200).json(data[1][0])
       } else {
-        res.status(404).json(`error not found`)
+        res.status(404).json({message :`error not found`})
       }
     } catch (error) {
       if (error.name == 'SequelizeValidationError') {
@@ -85,7 +85,7 @@ class TodoController{
       if (data) {
         res.status(200).json(data[1][0])
       } else {
-        res.status(404).json(`error not found`)
+        res.status(404).json({message :`error not found`})
       }
     } catch (error) {
       if (error.name == 'SequelizeValidationError') {
@@ -101,9 +101,9 @@ class TodoController{
     try {
       const list = await Todo.destroy({where: {id}})
       if (list) {
-        res.status(200).json(`todo success to delete`)
+        res.status(200).json({message :`todo success to delete`})
       } else {
-        res.status(404).json(`error not found`)
+        res.status(404).json({message :`error not found`})
       }
     } catch (error) {
       res.status(500).json(error)
