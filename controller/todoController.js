@@ -18,7 +18,6 @@ class TodoController {
             res.status(200).json(todoData)
         } catch (error) {
             next(error)
-            // res.status(500).json(error)
         }
     }
 
@@ -40,9 +39,10 @@ class TodoController {
             console.log(`===============Get Data By Id ${id}========================`)
             console.log(todoById)
             if (!todoById.length){
+                // res.status(200).json(todoById)
                 throw {
                     status : 404,
-                    message : 'Data not Found'
+                    message : 'Todo Id Not Found'
                 }
             }else {
                 res.status(200).json(todoById)
@@ -70,11 +70,6 @@ class TodoController {
             res.status(201).json(data)
         } catch (error) {  
             next((error))
-            // if(error.name = "SequelizeValidationError") {
-            //     res.status(400).json({error: 'Validation Error'})
-            // }else {
-            //     res.status(500).json(error)
-            // }
         }
     }
 
@@ -103,23 +98,13 @@ class TodoController {
                 console.log('===============Eror Not Found============')
                 throw {
                     status : 404,
-                    message : 'Data Not found'
+                    message : 'Todo Id not found'
                 }
             }else {
                 res.status(200).json(data[1][0])
             }
         } catch (error) {
             next (error)
-            // if (error == 'Error Not Found'){
-            //     console.log('=====================404============================')
-            //     res.status(404).json({error: "Error Not Found"})
-            // }else if(error.name == 'SequelizeValidationError'){
-            //     console.log('===============Validation Error =============')
-            //     res.status(400).json({error : error.message})
-            // }
-            // else {
-            //     res.status(500).json(error)
-            // }
         }
     }
 
@@ -152,19 +137,11 @@ class TodoController {
             res.status(200).json(statusEdited[1][0])
         } catch (error) {
             next(error)
-            // if (error.name == "SequelizeValidationError"){
-            //     res.status(400).json({error:error.message})
-            // }else if(error == 'Error Not Found'){
-            //     res.status(404).json({error:'Error Not Found'})
-            // }else {
-            //     res.status(500).json(error)
-            // }
         }
     }
 
     static async destroyTodo(req,res,next){
         const id = req.params.id
-
         try {
             const destroyed = await Todo.destroy({
                 where : {
@@ -182,12 +159,6 @@ class TodoController {
             }
         } catch (error) {
             next(error)
-            // if( error == 'Error Not Found'){
-            //     res.status(404).json({error: 'Error Not Found'})
-            // }
-            // else {
-            //     res.status(500).json(error)
-            // }
 
         }
     }
@@ -196,7 +167,7 @@ class TodoController {
         try {
             const exchangeData = await axios({
                 method : 'get',
-                url : `https://v6.exchangerate-api.com/v6/${process.env.exchange_rate_key}/latest/IDR`
+                url : `https://v6.exchangerate-api.com/v6/${process.env.exchange_rate_key}/latest/USD`
             })
             console.log(exchangeData)
             res.status(200).json(exchangeData.data)

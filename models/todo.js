@@ -15,7 +15,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Todo.init({
-    title: DataTypes.STRING,
+    title: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty : {
+          msg : 'Please enter the title of your activitt'
+        }
+      }
+    },
     description: DataTypes.STRING,
     due_date: {
       type : DataTypes.DATEONLY,
@@ -25,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
           console.log(new Date(value) , new Date())
           console.log(new Date(value) < new Date())
           if(new Date(value) < new Date () ){
-            throw new Error('Due_date harus lebih besar dari tanggal hari ini')
+            throw new Error('Due_date must be at future date')
           }
 
         }
@@ -37,5 +44,14 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Todo',
   });
+
+  Todo.beforeCreate( (instance, option ) =>{
+    console.log('============== Masuk Hook TOdo========')
+    console.log(instance)
+    if(instance.status.trim() == '' || instance.status == undefined ){
+      instance.status = 'Ongoing'
+    }
+  } )
+
   return Todo;
 };

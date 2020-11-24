@@ -22,7 +22,6 @@ class UserController {
             res.status(201).json(regUser)
         } catch (error) {
             next(error)
-            // res.status(400).json({error})
         }
     }
 

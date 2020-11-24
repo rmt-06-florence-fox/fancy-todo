@@ -1,2 +1,1 @@
-let tanggal = new Date()
-console.log(tanggal)
+const post = getCu
