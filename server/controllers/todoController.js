@@ -2,7 +2,7 @@ const e = require('express');
 const { Todo } = require('../models')
 
 class TodoController {
-    static async createTodo (req, res) {
+    static async createTodo (req, res, next) {
         const { title, description, status, due_date} = req.body
         const UserId = req.loggedInUser.id
         const payload = { title, description, status, due_date, UserId}
@@ -12,15 +12,11 @@ class TodoController {
             res.status(201).json({todo});   
         }
         catch (error) {
-            if (error.name == "SequelizeValidationError") {
-                res.status(400).json(error.errors[0].message);                
-            } else {
-                res.status(500).json({message: `Internal server error`})
-            }
+            next(error)
         }
     }
 
-    static async getTodo (req, res) {
+    static async getTodo (req, res, next) {
         try {
             const todo = await Todo.findAll({
                 where: {
@@ -30,21 +26,21 @@ class TodoController {
             res.status(200).json({todo});   
         }
         catch (error) {
-            res.status(500).json({message: `Internal server error`})
+            next(error)
         }
     }
 
-    static async getOneTodo (req, res) {
+    static async getOneTodo (req, res, next) {
         try {
             const id = +req.params.id
             const todo = await Todo.findByPk(id);
                 res.status(200).json(todo)
         } catch (error) {
-            res.status(500).json({message: `Internal server error`})
+            next(error)
         }
     }
 
-    static async editTodo (req, res) {
+    static async editTodo (req, res, next) {
         try {
             const id = +req.params.id
             const { title, description, status, due_date} = req.body
@@ -55,16 +51,11 @@ class TodoController {
             });
             res.status(200).json(todo[1][0])            
         } catch (error) {
-            console.log(error)
-            if (error.name == "SequelizeValidationError") {
-                res.status(400).json(error.errors[0].message);                
-            } else {
-                res.status(500).json({message: `Internal server error`})
-            }
+            next(error)
         }
     }
 
-    static async updateTodoStatus (req, res) {
+    static async updateTodoStatus (req, res, next) {
         try {
             const id = +req.params.id
             const payload = { status: req.body.status }
@@ -74,11 +65,11 @@ class TodoController {
             });
             res.status(200).json(todo[1][0])            
         } catch (error) {
-            res.status(500).json({message: `Internal server error`})
+            next(error)
         }
     }
 
-    static async deleteTodo (req, res) {
+    static async deleteTodo (req, res, next) {
         try {
             const id = +req.params.id
             await Todo.destroy({
@@ -86,7 +77,7 @@ class TodoController {
             });
             res.status(200).json({message: 'todo succes to delete'})            
         } catch (error) {
-            res.status(500).json({message: `Internal server error`})
+            next(error)
         }
     }
 

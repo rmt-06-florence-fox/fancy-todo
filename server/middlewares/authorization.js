@@ -8,13 +8,19 @@ module.exports = async (req, res, next) => {
             }
         })
         if (!todo) {
-            res.status(404).json({message: `Error, Data Not Found`})
+            throw {
+                status: 404,
+                message: `Error, Data Not Found`
+            }
         } else if (todo.UserId == req.loggedInUser.id) {
             next()
         } else {
-            res.status(401).json({message: `You are not authorized to access this data`})
+            throw {
+                status: 401,
+                message: `You are not authorized to access this data`
+            }
         }
     } catch (error) {
-        res.status(500).json(error)
+        next(error)
     }
 }
