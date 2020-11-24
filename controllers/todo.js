@@ -1,5 +1,5 @@
 const { Todo } = require('../models')
-
+const axios = require('axios')
 class TodoController {
 
     static async create(req, res, next){
@@ -76,6 +76,18 @@ class TodoController {
             const data = await Todo.destroy({where:{id}})
             res.status(200).json({message: 'todo success to delete'})
         } catch (error){
+            next(error)
+        }
+    }
+
+    static async weather(req, res, next){
+        try {
+            const response = await axios({
+                url: `https://api.weatherbit.io/v2.0/forecast/daily?&city=Jakarta&country=ID&key=${process.env.WEATHERBIT}`,
+                method: "GET",
+            })
+            res.json(response.data)
+        } catch (error) {
             next(error)
         }
     }
