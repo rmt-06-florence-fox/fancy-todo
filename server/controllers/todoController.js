@@ -3,7 +3,11 @@ const { Todo } = require('../models')
 class TodoController {
     static async findAll (req, res) {
         try {
-            const todos = await Todo.findAll()
+            const todos = await Todo.findAll({
+                where: {
+                    UserId: req.loggedIn.id
+                }
+            })
             if (todos.length <= 0) {
                 res.status(200).json({message : 'you have not entered any todo'})
             }else {
@@ -19,7 +23,8 @@ class TodoController {
     static async addTodo (req, res) {
         try {
             const {title, description, due_date, status} = req.body
-            const newTodo = await Todo.create({title, description, due_date, status})
+            const newTodo = await Todo.create({title, description, due_date, status, UserId:req.loggedIn.id})
+            console.log(newTodo)
             res.status(201).json(newTodo)
         }
         catch (error) {
