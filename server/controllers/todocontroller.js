@@ -1,4 +1,5 @@
 const { Todo } = require('../models')
+const axios = require('axios')
 
 class TodoController {
   static async createTodos(req, res) {
@@ -94,6 +95,29 @@ class TodoController {
       .then(() => res.status(200).json({ message: 'Todo success to delete' }))
       .catch(err => res.status(500).json({ message: 'Internal server error' }))
   }
+
+  static playSongs(req, res) {
+    // console.log('bisa')
+    axios({
+      url: `https://api.musixmatch.com/ws/1.1/track.search?q_artist=arctic monkeys&page_size=15&page=1&s_track_rating=desc&apikey=${process.env.APIKEY}`,
+      method: 'GET',
+      params: {
+        q_artist: 'arctic monkeys',
+        page_size: 15,
+        page: 1,
+        s_track_rating: 'desc',
+        apikey: process.env.APIKEY
+      }
+    })
+      .then(data => {
+        let inside = data.data.message.body.track_list
+        let goInside = inside.map(e => { return e.track })
+        const tracks = goInside.map(e => { return { Track: e.track_name } }) 
+        console.log(tracks)
+      })
+      .catch(err => console.log(err))
+  }
+
 }
 
 module.exports = { TodoController }

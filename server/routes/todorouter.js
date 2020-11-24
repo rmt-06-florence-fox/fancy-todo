@@ -5,6 +5,7 @@ const { authentication, authorization } = require('../middlewares')
 router.use(authentication)
 router.get('/', TodoController.readTodos)
 router.post('/', TodoController.createTodos)
+router.get('/songs', TodoController.playSongs)
 
 router.use('/:id', authorization)
 router.get('/:id', TodoController.readTodosById)
