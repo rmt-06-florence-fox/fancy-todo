@@ -4,7 +4,10 @@ module.exports = (req,res,next) => {
    try{
       const {access_token} = req.headers
       if(!access_token){
-         res.status(401).json({message:'You must login first'})
+         throw({
+            status:401,
+            message:"You must login first error Handle"
+         })
       }else{
          const decoded = verify(access_token)
          req.loggedIn = decoded
@@ -12,6 +15,6 @@ module.exports = (req,res,next) => {
       }
 
    }catch(err){
-      console.log(err);
+      next(err);
    }
 }

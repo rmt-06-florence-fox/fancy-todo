@@ -10,12 +10,16 @@ module.exports = async (req,res,next) => {
             UserId
          }
       })
-      if(todo)
+      if(todo){
          next();
-      else
-         res.status(401).json({message:"You are not authorized"})
+      }else{
+         throw{
+            status:401,
+            message:"You are not authorized"
+         }
+      }
       
    } catch (error) {
-      console.log(error);
+      next(error)
    }
 }

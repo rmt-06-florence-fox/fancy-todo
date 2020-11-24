@@ -7,7 +7,7 @@ class Controller {
       res.send('Test')
    }
 
-   static async postTodo(req,res){
+   static async postTodo(req,res,next){
       const {title,description,status,due_date} = req.body
       try{
          let data = await Todo.create(
@@ -24,17 +24,12 @@ class Controller {
          )
          res.status(201).json(data)
       }catch(err){
-         let errors = err.message
-         if(err.name === 'SequelizeValidationError'){
-            res.status(400).json({errors})
-         }else{
-            res.status(500).json({errors})
-         }
+         next(err)
       }
       
    }
 
-   static async getTodo(req,res){
+   static async getTodo(req,res,next){
       const UserId = req.loggedIn.id
       try {
          let todos = await Todo.findAll({
@@ -44,25 +39,28 @@ class Controller {
          })
          res.status(200).json(todos)
       } catch (error) {
-         res.status(500)
+         next(error)
       }
 
    }
 
-   static async getTodoById(req,res){
+   static async getTodoById(req,res,next){
       const id = +req.params.id
       try{
          let todo = await Todo.findByPk(id)
          if(todo)
             res.status(200).json(todo)
          else
-            res.status(404).json({errors:"Not Found"})
+            throw{
+               status:404,
+               message:"Todo Not Found"
+            }
       }catch(err){
-         res.status(404).json({errors:"Not Found"})
+         next(err)
       }
    }
 
-   static async modify(req,res){
+   static async modify(req,res,next){
       const id = +req.params.id
       const target = {
          title:req.body.title,
@@ -80,18 +78,16 @@ class Controller {
          if(updatedData[0] !== 0)
             res.status(200).json(updatedData[1][0])
          else
-            res.status(400).json({error:"Not Found"})
+            throw{
+               status:404,
+               message:"Todo Not Found"
+            }
       } catch (err) {
-         let errors = err.message
-         if(err.name === 'SequelizeValidationError'){
-            res.status(400).json({errors})
-         }else{
-            res.status(500).json({errors})
-         }
+         next(err)
       }
    }
 
-   static async update(req,res){
+   static async update(req,res,next){
       const id = +req.params.id
       const newStatus = req.body.status
       try {
@@ -104,18 +100,16 @@ class Controller {
          if(updatedData[0] !== 0)
             res.status(200).json(updatedData)
          else
-            res.status(400).json({error:"Not Found"})
+            throw{
+               status:404,
+               message:"Todo Not Found"
+            }
       } catch (err) {
-         let errors = err.message
-         if(err.name === 'SequelizeValidationError'){
-            res.status(400).json({errors})
-         }else{
-            res.status(500).json({errors})
-         }
+         next(err)
       }
    }
 
-   static async deleteTodo(req,res){
+   static async deleteTodo(req,res,next){
       const id = +req.params.id
       try{
          let todo = await Todo.destroy({
@@ -127,13 +121,16 @@ class Controller {
          if(todo)
             res.status(200).json({message:'todo success to delete'})
          else
-            res.status(404).json({errors:"Not Found"})
+            throw{
+               status:404,
+               message:"Todo Not Found"
+            }
       }catch(err){
-         res.status(500)
+         next(err)
       }
    }
 
-   static async login(req,res){
+   static async login(req,res,next){
       const target = {
          email:req.body.email,
          password:req.body.password
@@ -141,18 +138,21 @@ class Controller {
 
       try{
          let data = await User.findOne({where:{email:target.email}})
-         if(!data){
-            res.status(400).json({error:"invalid email/password"})
+         if(!data || !decrypt(target.password,data.password)){
+            throw{
+               status:400,
+               message:"Invalid email/password"
+            }
          }else if(decrypt(target.password,data.password)){
             const token = sign(data)
             res.status(200).json({token})
          }
       }catch(err){
-         res.status(400).json({error:"invalid email/password"})
+         next(err);
       }
    }
 
-   static async register(req,res){
+   static async register(req,res,next){
       const target = {
          email:req.body.email,
          password:req.body.password
@@ -163,12 +163,7 @@ class Controller {
          })
          res.status(200).json({id:user.id,email:user.email})
       }catch(err){
-         let errors = err.message
-         if(err.name === 'SequelizeValidationError'){
-            res.status(400).json({errors})
-         }else{
-            res.status(500).json({errors})
-         }
+         next(err)
       }
    }
 }
