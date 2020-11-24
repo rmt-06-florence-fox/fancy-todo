@@ -1,13 +1,17 @@
 const route = require('express').Router()
 const {TodoController} = require('../controller/index.js')
+const authentication = require('../midleware/authentication.js')
+const authorization = require('../midleware/authorization.js')
 
 
-
+route.use(authentication)
 
 route.get('/', TodoController.getData)
-route.get('/:id', TodoController.getDataById)
 route.post('/', TodoController.createTodo)
-route.put('/:id', TodoController.replaceTodo)
+
+route.use('/:id',authorization)
+route.get('/:id',TodoController.getDataById)
+route.put('/:id',TodoController.replaceTodo)
 route.patch('/:id',TodoController.modifyTodo)
 route.delete('/:id', TodoController.destroyTodo)
 

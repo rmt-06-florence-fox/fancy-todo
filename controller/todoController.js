@@ -1,11 +1,19 @@
 const {Todo} = require('../models/index.js')
+const { Op } = require('sequelize')
 
 
 class TodoController {
     
     static async getData(req,res) {
+        console.log('================== Token decoded data==============')
+        console.log(req.loggedInUser.payload.id)
+        const userId = req.loggedInUser.payload.id
         try {
-            const todoData = await Todo.findAll()
+            const todoData = await Todo.findAll({
+                where : {
+                    UserId : userId
+                }
+            })
             res.status(200).json(todoData)
         } catch (error) {
             res.status(500).json(error)
@@ -13,7 +21,9 @@ class TodoController {
     }
 
     static async getDataById(req,res){
-        const id = +req.params.id
+
+        // Find todo by Id
+        const id= req.params.id
         try {
             const todoById = await Todo.findByPk(id)
             console.log(`===============Get Data By Id ${id}========================`)
@@ -29,12 +39,13 @@ class TodoController {
     }
 
     static async createTodo(req,res) {
+        const userId = req.loggedInUser.payload.id
         const newData = {
             title : req.body.title,
             description : req.body.description,
             due_date : req.body.due_date,
-            status : req.body.status
-
+            status : req.body.status,
+            UserId : userId
         }
         console.log(newData)
 
@@ -54,6 +65,7 @@ class TodoController {
 
     static async replaceTodo(req,res){
         const id = +req.params.id
+        
         const editedData = {
             title : req.body.title,
             description : req.body.description,
@@ -94,6 +106,7 @@ class TodoController {
 
     static async modifyTodo(req,res){
         const id = req.params.id 
+
         const status = {
             status : req.body.status
         }

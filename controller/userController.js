@@ -45,7 +45,7 @@ class UserController {
                 throw 'Invalid email/password'
             }else if(comparePassword(password,user.password)){
                 console.log('===========Correct Pass==========')
-                const access_token = getToken({ name:user.name, id : user.id , email:user.email }, process.env.SECRET)
+                const access_token = getToken({ id : user.id , email:user.email })
                 console.log(access_token)
                 res.status(200).json(access_token)
             }else {
