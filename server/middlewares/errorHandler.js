@@ -13,13 +13,24 @@ module.exports = function(err, req, res, next){
     }
     else if (msg === "SequelizeUniqueConstraintError"){
         status = 400
-        const error = err.errors
         msg = "email must be unique"
     }
     else if (msg === "AuthenticationFailed"){
         status = 401
-        const error = err.errors
         msg = "Please login first"
+    }
+    else if (msg === "TodoNotfound"){
+        status = 404
+        
+        msg = "Sorry, no todo was found with matching credentials"
+    }
+    else if (msg === "NotAuthorized"){
+        status = 401
+        msg ="Sorry, you are not authorized to access this todo"
+    }
+    else {
+        status = 500
+        msg = "internal server error"
     }
     res.status(status).json({msg})
 }
