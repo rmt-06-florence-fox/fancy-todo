@@ -12,18 +12,16 @@ module.exports = async (req, res, next) => {
           id: decoded.id,
         },
       });
-      console.log(findUser, "<<< si ini")
       if (findUser) {
         next();
       } else {
-        res.status(401).json({
-          msg: "Please Login First",
-        });
+        throw {
+          status: 401,
+          message: "Login dulu dong"
+        }
       }
     }
   } catch (error) {
-    res.status(500).json({
-      msg: "Internal Server Error",
-    });
+    next(error)
   }
 };

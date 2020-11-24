@@ -11,11 +11,12 @@ module.exports = async (req, res, next) => {
     if (find.UserId === req.loggedin.id) {
       next()
     } else {
-      res.status(401).json({
-        msg: "You're not privileged"
-      })
+      throw {
+        status: 401,
+        message: "You're not privileged"
+      }
     }
   } catch (error) {
-    res.status(500).json({ messege: "Internal Server Error" })
+    next(error)
   }
 }

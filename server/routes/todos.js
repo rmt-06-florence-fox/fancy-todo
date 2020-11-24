@@ -5,6 +5,7 @@ const { authentication, authorization } = require("../middleware");
 todos.use(authentication)
 todos.post("/", TodoController.create);
 todos.get("/", TodoController.read);
+todos.get('/waktusolat', TodoController.solat)
 
 todos.use("/:id", authorization)
 todos.get("/:id", TodoController.findId);
