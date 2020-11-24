@@ -2,10 +2,11 @@ const { degenToken } = require ('../helpers/helper')
 const { User } = require('../models/index');
 
 module.exports = async (req, res, next) => {
+    
     if (req.headers.access_token) {
         const userData = degenToken(req.headers.access_token)
         console.log(userData)
-        const user = await User.findOne ({
+        const user = User.findOne ({
                         where: {
                             id:'userData.id'
                         }
