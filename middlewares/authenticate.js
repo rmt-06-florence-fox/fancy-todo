@@ -11,21 +11,29 @@ module.exports = async (req, res, next) => {
                     id: decoded.id
                 }
             })
+
             if (user) {
                 req.loggedInUser = decoded  
                 next()
             } else {
-                res.status(401).json({message:'Please login first'})
+                throw ({
+                    status: 401,
+                    message: 'Please login first!'
+                })
             }
+            
         } else {
-            // next({
-            //     status: 400,
-            //     message: 'Please login first!'
-            // })
-            res.status(401).json({message: 'Please login first!'})
+            throw ({
+                status: 401,
+                message: 'Please login first!'
+            })
+            // res.status(401).json({message: 'Please login first!'})
         }
     } catch (error) {
         console.log(error);
-        res.status(401).json({message: 'Please login first!'})
+        next ({
+            status: 401,
+            message: 'Please login first!'
+        })
     } 
 }

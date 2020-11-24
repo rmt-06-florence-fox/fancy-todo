@@ -4,7 +4,7 @@ const { generateToken } = require('../helpers/tokenHandler')
 
 class ControllerUsers {
 
-    static registerUser(req, res) {
+    static registerUser(req, res, next) {
         const payload = {
             username: req.body.username,
             email: req.body.email,
@@ -19,12 +19,13 @@ class ControllerUsers {
             res.status(201).json(data)
         })
         .catch(err => {
-            console.log(err);
-            res.status(500).json('Internal Server Error!')
+            // console.log(err);
+            next (err)
+            // res.status(500).json('Internal Server Error!')
         })
     }
 
-    static loginUser(req, res) {
+    static loginUser(req, res, next) {
         const payload = {
             username: req.body.username,
             password: req.body.password
@@ -42,15 +43,24 @@ class ControllerUsers {
                     const token = generateToken(data.id, data.username)
                     res.status(200).json({access_token: token})
                 } else {
-                    res.status(400).json('Username/Password is invalid!')
+                    throw({
+                        status: 400,
+                        message: 'Username/password is invalid!'
+                    })
+                    // res.status(400).json('Username/Password is invalid!')
                 }
             } else {
-                res.status(404).json('Email not found! Please register first.')
+                throw({
+                    status: 401,
+                    message: 'Email not found! Please register first.'
+                })
+                // res.status(404).json('Email not found! Please register first.')
             }
         })
         .catch(err => {
-            console.log(err);
-            res.status(500).json('Internal Server Error!')
+            // console.log(err);
+            next(err)
+            // res.status(500).json('Internal Server Error!')
         })
     }   
 }

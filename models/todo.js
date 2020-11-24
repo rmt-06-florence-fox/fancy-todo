@@ -2,7 +2,9 @@
 const {
   Model
 } = require('sequelize');
-const { options } = require('../routes');
+const {
+  options
+} = require('../routes');
 module.exports = (sequelize, DataTypes) => {
   class ToDo extends Model {
     /**
@@ -19,7 +21,14 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     description: DataTypes.STRING,
     status: DataTypes.STRING,
-    due_date: DataTypes.DATEONLY
+    due_date: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        notEmpty: {
+          msg: 'Date input cannot be empty!'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'ToDo',
@@ -27,14 +36,14 @@ module.exports = (sequelize, DataTypes) => {
 
   ToDo.beforeCreate((instance, options) => {
     const dateToday = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
-    if (instance.due_date < dateToday ) {
+    if (instance.due_date < dateToday) {
       throw new Error(`Can't input date before today!`)
     }
   })
 
   ToDo.beforeBulkUpdate((instance, options) => {
     const dateToday = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
-    if (instance.attributes.due_date < dateToday ) {
+    if (instance.attributes.due_date < dateToday) {
       throw new Error(`Can't input date before today!`)
     }
     // console.log(instance);
