@@ -1,6 +1,7 @@
 const { Todo,User } = require('../models')
 const { compare } = require('../helper/bcrypt')
 const jwt = require('jsonwebtoken')
+const { generateToken,verifyToken } = require('../helper/jwt')
 
 
 class ControllerUser {
@@ -46,7 +47,7 @@ class ControllerUser {
                     // email: data.email,
                     // password: req.body.password
                     // })
-                    const access_token = jwt.sign({id: data.id, email:data.email}, process.env.SECRET)
+                    const access_token = generateToken({id: data.id, email:data.email})
                     res.status(200).json({ access_token })
                 } else {
                     res.status(404).json({message: "email/password salah"})

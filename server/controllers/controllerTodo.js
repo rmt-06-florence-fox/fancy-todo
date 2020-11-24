@@ -18,7 +18,8 @@ class Controller {
                 title: data.title,
                 description: data.description,
                 status: data.status,
-                due_date: data.due_date
+                due_date: data.due_date,
+                UserId: req.loggedInUser.id
             })
         })
         .catch(error => {
@@ -45,11 +46,13 @@ class Controller {
         Todo.findOne({where: {id: req.params.id}})
         .then(data => {
             if (data){
+                console.log(data)
                 res.status(200).json({
                     title: data.title,
                     description: data.description,
                     status: data.status,
-                    due_date: data.due_date
+                    due_date: data.due_date,
+                    UserId: data.UserId
                 })
             } else {
                 res.status(404).json({message: "id not found!"})
