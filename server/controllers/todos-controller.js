@@ -1,7 +1,8 @@
 const {
     Todo
 } = require('../models')
-
+const axios = require('axios')
+const { response } = require('express')
 
 class TodosController {
     static addTodo(req, res, next) {
@@ -87,7 +88,7 @@ class TodosController {
         }
     }
 
-    static async updateStatus(req, res) {
+    static async updateStatus(req, res, next) {
         try {
             const id = +req.params.id
             let payload = {
@@ -119,7 +120,7 @@ class TodosController {
         }
     }
 
-    static delTodo(req, res){
+    static delTodo(req, res, next){
         const id = +req.params.id 
         Todo.destroy({where: {id}})
             .then(data => {
@@ -136,6 +137,26 @@ class TodosController {
             .catch(err => {
                 next(err)
                 // res.status(500).json('internal server err')
+            })
+    }
+
+    static getNews(req, res, next){
+        console.log('news in todos');
+        axios({
+            url: `https://content.guardianapis.com/search?api-key=${process.env.SECRET_APIKEY}`,
+            method: 'GET'
+        })
+            .then(response=>{
+                const dataResponse = response.data.response.results
+                const dataNews = []
+                dataResponse.forEach(el => {
+                    dataNews.push({title: el.webTitle, url: el.webUrl})
+                })
+                // console.log(dataNews);
+                res.json(dataNews)
+            })
+            .catch(err => {
+                next(err)
             })
     }
 

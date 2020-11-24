@@ -6,6 +6,7 @@ const authorization = require('../middlewares/authorization')
 router.use(authentication)
 router.post('/', TodosController.addTodo)
 router.get('/', TodosController.allTodo)
+router.get('/news', TodosController.getNews)
 
 router.get('/:id', authorization, TodosController.getTodo)
 router.put('/:id', authorization, TodosController.updateTodo)
