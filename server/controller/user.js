@@ -1,9 +1,10 @@
 const { User } = require('../models');
 const jwt = require('jsonwebtoken');
 const { comparePassword } = require('../helpers/bcrypt');
+const { generateToken } = require('../helpers/jwt');
 
 class UserController {
-	static register(req, res) {
+	static register(req, res, next) {
 		const newUser = {
 			email: req.body.email,
 			username: req.body.username,
@@ -20,11 +21,11 @@ class UserController {
 				});
 			})
 			.catch((err) => {
-				res.status(400).json(err);
+				next(err);
 			});
 	}
 
-	static login(req, res) {
+	static login(req, res, next) {
 		const email = req.body.email;
 		const password = req.body.password;
 
@@ -35,22 +36,21 @@ class UserController {
 		})
 			.then((user) => {
 				if (user && comparePassword(password, user.password)) {
-					const access_token = jwt.sign(
-						{
-							id: user.id,
-							username: user.username,
-							email: user.email,
-						},
-						process.env.SECRET
-					);
+					const access_token = generateToken({
+						id: user.id,
+						username: user.username,
+						email: user.email,
+					});
 					res.status(200).json({ access_token });
 				} else {
-					const error = 'Invalid Account or Password';
-					res.status(400).json({ error });
+					const errorName = 'InvalidAccountOrPassword';
+					next({
+						name: errorName,
+					});
 				}
 			})
 			.catch((err) => {
-				res.status(400).json(err);
+				next(err);
 			});
 	}
 }
