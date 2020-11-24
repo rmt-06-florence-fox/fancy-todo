@@ -12,8 +12,10 @@ class Helper {
     }
 
     static getToday(){
-        let date = new Date()
-        return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+        let date = new Date().toDateString()
+        //return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+        //console.log(date)
+        return date
     }
 }
 
