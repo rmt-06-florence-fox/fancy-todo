@@ -5,25 +5,16 @@ const Controller = require('../controllers/Controller')
 router.post('/register', Controller.register)
 router.post('/login', Controller.login)
 
-// router.get('/', Controller.home)
+router.post('/todos', Controller.addTodo)
+router.get('/todos', Controller.todoList)
 
-// router.get('/movies', Controller.moviesList)
-// router.get('/movies/add', Controller.addNewMovie)
-// router.post('/movies/add', Controller.saveNewMovie)
-// router.get('/movies/edit/:id', Controller.editForm)
-// router.post('/movies/edit/:id', Controller.updateEdit)
-// router.get('/movies/delete/:id', Controller.destroy)
+router.get('/todos/:id', Controller.getTodo)
 
-// router.get('/casts', Controller.castsList)
-// router.get('/casts/add', Controller.addNewCast)
-// router.post('/casts/add', Controller.saveNewCast)
-// router.get('/casts/edit/:id', Controller.editFormCast)
-// router.post('/casts/edit/:id', Controller.updateEditCast)
-// router.get('/casts/delete/:id', Controller.destroyCast)
+router.put('/todos/:id', Controller.updateTodo)
 
-// router.get('/addcasts/:id', Controller.addcast)
-// router.post('/addcasts/:id', Controller.addcastUpdate)
+router.patch('/todos/:id', Controller.updateStatusTodo)
 
-// router.get('/casts/:id', Controller.showCast)
+router.delete('/todos/:id', Controller.deleteTodo)
+
 
 module.exports = router
