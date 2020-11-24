@@ -24,10 +24,12 @@ async function authenticatoin(req,res,next){
             console.log(user)
 
             if(user){
+                console.log('=============User=========')
                 req.loggedInUser = decoded
                 next()
             }else{
                 // res.status(401).json({message : 'please login'})
+                console.log('===========Else error USer======')
                 throw {
                     status : 401,
                     message : 'Please login'
@@ -35,6 +37,7 @@ async function authenticatoin(req,res,next){
             }
         }else {
             // res.status(401).json({message : 'please login'})
+            console.log('============Else Error handler===========')
             throw {
                 status : 401,
                 message : 'Please login'

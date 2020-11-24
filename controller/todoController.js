@@ -1,5 +1,6 @@
 const {Todo} = require('../models/index.js')
 const { Op } = require('sequelize')
+const axios = require('axios')
 
 
 class TodoController {
@@ -24,12 +25,21 @@ class TodoController {
     static async getDataById(req,res,next){
 
         // Find todo by Id
+        const userId = req.loggedInUser.payload.id
+        console.log(userId)
         const id= req.params.id
         try {
-            const todoById = await Todo.findByPk(id)
+            const todoById = await Todo.findAll({
+                where : {
+                    [Op.and] : [
+                        {id},
+                        {UserId : userId}
+                    ]
+                }
+            })
             console.log(`===============Get Data By Id ${id}========================`)
             console.log(todoById)
-            if (!todoById){
+            if (!todoById.length){
                 throw {
                     status : 404,
                     message : 'Data not Found'
@@ -68,7 +78,7 @@ class TodoController {
         }
     }
 
-    static async replaceTodo(req,res){
+    static async replaceTodo(req,res,next){
         const id = +req.params.id
         
         const editedData = {
@@ -113,7 +123,7 @@ class TodoController {
         }
     }
 
-    static async modifyTodo(req,res){
+    static async modifyTodo(req,res,next){
         const id = req.params.id 
 
         const status = {
@@ -152,7 +162,7 @@ class TodoController {
         }
     }
 
-    static async destroyTodo(req,res){
+    static async destroyTodo(req,res,next){
         const id = req.params.id
 
         try {
@@ -179,6 +189,19 @@ class TodoController {
             //     res.status(500).json(error)
             // }
 
+        }
+    }
+
+    static async exchangeAPI(req,res,next){
+        try {
+            const exchangeData = await axios({
+                method : 'get',
+                url : `https://v6.exchangerate-api.com/v6/${process.env.exchange_rate_key}/latest/IDR`
+            })
+            console.log(exchangeData)
+            res.status(200).json(exchangeData.data)
+        } catch (error) {
+            next(error)
         }
     }
 }

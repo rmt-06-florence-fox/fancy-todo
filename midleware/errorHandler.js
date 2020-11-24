@@ -5,7 +5,7 @@ function  errorHandler(err,req,res,next){
         console.log('============= Get Error Status===============')
         console.log(err.status)
         res.status(err.status).json({message : err.message})
-    }else if(err.name == 'SequelizeValidationError' || err.message == 'Validation error' ){
+    }else if(err.name == 'SequelizeValidationError' || err.name == 'SequelizeUniqueConstraintError' ){
         console.log('================Error Sequelize=================')
         console.log(err.name)
         if(Array.isArray(err)){
@@ -21,7 +21,7 @@ function  errorHandler(err,req,res,next){
         }
     }else {
         console.log('===================== Error 500=================')
-        res.status(500).json({err : err.message})
+        res.status(500).json({err : 'Internal Server Error'})
     }
 }
 

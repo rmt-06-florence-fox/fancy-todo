@@ -4,13 +4,14 @@ const authentication = require('../midleware/authentication.js')
 const authorization = require('../midleware/authorization.js')
 
 
+route.get('/exchange', TodoController.exchangeAPI)
 route.use(authentication)
 
 route.get('/', TodoController.getData)
 route.post('/', TodoController.createTodo)
+route.get('/:id',TodoController.getDataById)
 
 route.use('/:id',authorization)
-route.get('/:id',TodoController.getDataById)
 route.put('/:id',TodoController.replaceTodo)
 route.patch('/:id',TodoController.modifyTodo)
 route.delete('/:id', TodoController.destroyTodo)
