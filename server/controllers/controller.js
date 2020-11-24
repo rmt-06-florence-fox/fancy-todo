@@ -1,6 +1,6 @@
 const {Todo,User} = require('../models/index')
 const {decrypt} = require('../helpers/crypt')
-const jwt = require('jsonwebtoken');
+const {sign} = require('../helpers/jwt')
 
 class Controller {
    static getHome(req,res){
@@ -9,14 +9,14 @@ class Controller {
 
    static async postTodo(req,res){
       const {title,description,status,due_date} = req.body
-      let now = new Date
       try{
          let data = await Todo.create(
          {
             title,
             description,
             status,
-            due_date
+            due_date,
+            UserId:req.loggedIn.id
          },
          {
             returning:true
@@ -35,8 +35,13 @@ class Controller {
    }
 
    static async getTodo(req,res){
+      const UserId = req.loggedIn.id
       try {
-         let todos = await Todo.findAll()
+         let todos = await Todo.findAll({
+            where:{
+               UserId
+            }
+         })
          res.status(200).json(todos)
       } catch (error) {
          res.status(500)
@@ -139,7 +144,7 @@ class Controller {
          if(!data){
             res.status(400).json({error:"invalid email/password"})
          }else if(decrypt(target.password,data.password)){
-            const token = jwt.sign({id:data.id,email:data.email},'sshhh')
+            const token = sign(data)
             res.status(200).json({token})
          }
       }catch(err){
