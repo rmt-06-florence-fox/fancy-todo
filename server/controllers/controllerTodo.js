@@ -69,7 +69,12 @@ class Controller {
             })
         })
         .catch(error => {
-            res.status(500).json({message: "internal server error"})
+            const err = []
+            for (let i = 0 ; i < error.errors.length; i++){
+                err.push(error.errors[i].message)
+            }
+            console.log(err)
+            res.status(500).json({message: err})
         })
     }
 
@@ -153,6 +158,7 @@ class Controller {
             }
         })
         .catch( error => {
+            console.log(req.params)
             res.status(500).json({message: 'internal server error'})
         })
     }

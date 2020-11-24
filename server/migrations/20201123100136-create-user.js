@@ -9,16 +9,34 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       firstname: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg : 'firstname cannot be empty'
+          }
+        }
       },
       lastname: {
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg : 'email cannot be empty'
+          }
+        }
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg : 'password cannot be empty'
+          }
+        }
       },
       createdAt: {
         allowNull: false,
