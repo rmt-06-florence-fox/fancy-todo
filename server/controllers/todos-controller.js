@@ -4,7 +4,7 @@ const {
 
 
 class TodosController {
-    static addTodo(req, res) {
+    static addTodo(req, res, next) {
         let payload = {
             title: req.body.title,
             description: req.body.description,
@@ -14,43 +14,45 @@ class TodosController {
         }
         Todo.create(payload)
             .then(data => {
-                // throw error
+                // throw err
                 res.status(201).json(data)
             })
             .catch(err => {
-                if (err.name == "SequelizeValidationError") {
-                    res.status(400).json(err.errors)
-                } else {
-                    res.status(500).json('internal server error')
-                }
+                next(err)
+                // if (err.name == "SequelizeValidationError") {
+                //     res.status(400).json(err)
+                // } else {
+                //     res.status(500).json('internal server err')
+                // }
             })
     }
 
-    static allTodo(req, res) {
+    static allTodo(req, res, next) {
         Todo.findAll({where: {
             UserId: req.userLogIn.id
         }})
             .then(data => {
-                // throw error
                 res.status(200).json(data)
             })
             .catch(err => {
-                res.status(500).json('internal server error')
+                next(err)
+                // res.status(500).json('internal server err')
             })
     }
 
-    static async getTodo(req, res) {
+    static async getTodo(req, res, next) {
         try {
             const id = +req.params.id
-            // throw error
+            // throw err
             const data = await Todo.findByPk(id)
             res.status(200).json(data)
-        } catch (error) {
-            res.status(500).json('internal server error')
+        } catch (err) {
+            next(err)
+            // res.status(500).json('internal server err')
         }
     }
 
-    static async updateTodo(req, res) {
+    static async updateTodo(req, res, next) {
         try {
             const id = +req.params.id
             let payload = {
@@ -69,14 +71,19 @@ class TodosController {
             if (data[0] != 0){
                 res.status(200).json(data[1][0])
             } else {
-                res.status(404).json('error not found')
+                throw{
+                    status: 404,
+                    message: 'error not found'
+                }
+                // res.status(404).json('err not found')
             }
-        } catch (error) {
-            if (error.name == "SequelizeValidationError") {
-                res.status(400).json(error.errors)
-            } else {
-                res.status(500).json('internal server error')
-            }
+        } catch (err) {
+            next(err)
+            // if (err.name == "SequelizeValidationError") {
+            //     res.status(400).json(err.errors)
+            // } else {
+            //     res.status(500).json('internal server err')
+            // }
         }
     }
 
@@ -96,14 +103,19 @@ class TodosController {
             if (data[0] != 0){
                 res.status(200).json(data[1][0])
             } else {
-                res.status(404).json('error not found')
+                throw{
+                    status: 404,
+                    message: 'error not found'
+                }
+                // res.status(404).json('err not found')
             }
-        } catch (error) {
-            if (error.name == "SequelizeValidationError") {
-                res.status(400).json(error.errors)
-            } else {
-                res.status(500).json('internal server error')
-            }
+        } catch (err) {
+            next(err)
+            // if (err.name == "SequelizeValidationError") {
+            //     res.status(400).json(err.errors)
+            // } else {
+            //     res.status(500).json('internal server err')
+            // }
         }
     }
 
@@ -114,12 +126,16 @@ class TodosController {
                 if (data != 0){
                     res.status(200).json('todo success to delete')
                 } else {
-                    // throw err
-                    res.status(404).json('error not found')
+                    throw{
+                        status: 404,
+                        message: 'error not found'
+                    }
+                    // res.status(404).json('err not found')
                 }
             })
             .catch(err => {
-                res.status(500).json('internal server error')
+                next(err)
+                // res.status(500).json('internal server err')
             })
     }
 
