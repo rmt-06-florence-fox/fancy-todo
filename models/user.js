@@ -11,12 +11,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.todo)
     }
   };
   User.init({
     email: DataTypes.STRING,
     password: DataTypes.STRING
   }, {
+    hooks: {
+      beforeCreate(instance, options) {
+        const hash = helper.hashPassword(instance.password)
+        instance.password = hash
+      }
+    },
     sequelize,
     modelName: 'User',
   });
