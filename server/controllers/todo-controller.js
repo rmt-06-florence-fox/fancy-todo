@@ -52,7 +52,6 @@ class ToDoController {
 
             }
 
-
         } catch (err){
             res.status(404).json({error : err.message})
         }
@@ -95,18 +94,16 @@ class ToDoController {
     static async updateStatus(req, res){
         let id = +req.params.id
         let {status} = req.body
-        
+        //console.log(status)
         try {
             let datum = await ToDo.findByPk(id)
             
             if(datum){
-                datum.status = status
-                await ToDo.update(datum, {
-                    where : {
-                        id : id
-                    }                    
+                datum = await ToDo.update({status}, {
+                    where : {id : id}, 
+                    fields : ['status'],
+                    returning : true                    
                 })
-                //console.log(updatedDatum)
 
                 res.status(200).json(datum)
 
