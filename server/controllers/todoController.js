@@ -1,4 +1,5 @@
 const { Todo } = require('../models/index')
+const axios = require('axios')
 
 class TodoController{
     static async postTodo(req,res,next){
@@ -115,6 +116,18 @@ class TodoController{
             }else{
                 res.status(200).json(deletedTodo)
             }
+        } catch (err) {
+            next(err)
+        }
+    }
+    static async weatherApi(req,res,next){
+        try {
+            let news = await axios({
+                method: 'GET',
+                baseURL:  `http://api.weatherstack.com`,
+                url:`/current?access_key=${process.env.access_key}&query=Jakarta`,
+            })
+            res.json({data: news.data})
         } catch (err) {
             next(err)
         }
