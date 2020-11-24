@@ -31,14 +31,7 @@ class TodoController {
         try {
             let id = +req.params.id
             const data = await Todo.findByPk(id)
-            if(data){
-                res.status(200).json(data)
-            } else {
-                throw{
-                    status: 404,
-                    message: "Error Not Found"
-                }
-            }
+            res.status(200).json(data)
         } catch (error) {
             next(error)
         }
@@ -54,15 +47,9 @@ class TodoController {
                 due_date: req.body.due_date
             }
             const found = await Todo.findByPk(id)
-            if(found){
-                const data = await Todo.update(payload, {where: {id}, returning:true})
-                res.status(200).json(data[1][0])
-            } else {
-                throw {
-                    status: 404,
-                    message: "Error Not Found"
-                }
-            } 
+            const data = await Todo.update(payload, {where: {id}, returning:true})
+            res.status(200).json(data[1][0])
+            
         } catch (error){
             next(error)
         }
@@ -75,15 +62,8 @@ class TodoController {
                 status: req.body.status
             }
             const found = await Todo.findByPk(id)
-            if(found){
-                const data = await Todo.update(payload, {where: {id}, returning:true})
-                res.status(200).json(data[1][0])
-            } else {
-                throw{
-                    status: 404,
-                    message: "Error Not Found"
-                }
-            } 
+            const data = await Todo.update(payload, {where: {id}, returning:true})
+            res.status(200).json(data[1][0])
         } catch (error){
             next(error)
         }
@@ -93,15 +73,8 @@ class TodoController {
         try {
             let id = +req.params.id
             const found = await Todo.findByPk(id)
-            if(found){
-                const data = await Todo.destroy({where:{id}})
-                res.status(200).json({message: 'todo success to delete'})
-            } else {
-                throw{
-                    status: 404,
-                    message: "Error Not Found"
-                }
-            }
+            const data = await Todo.destroy({where:{id}})
+            res.status(200).json({message: 'todo success to delete'})
         } catch (error){
             next(error)
         }
