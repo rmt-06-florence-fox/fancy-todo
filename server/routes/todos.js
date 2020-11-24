@@ -15,6 +15,7 @@ router.delete(
   authorization,
   TodoController.deleteTodoId
 );
+router.get("/dadjokes", TodoController.getDadJokes);
 router.post("/register", UserController.postRegister);
 router.post("/login", UserController.postLogin);
 

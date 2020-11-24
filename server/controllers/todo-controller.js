@@ -1,4 +1,5 @@
 const { Todo } = require("../models");
+const axios = require("axios");
 
 class TodoController {
   static postTodo(req, res, next) {
@@ -109,6 +110,19 @@ class TodoController {
             message: "Object Not Found",
           };
         }
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+
+  static getDadJokes(req, res, next) {
+    axios({
+      url: "https://icanhazdadjoke.com/",
+      method: "GET",
+    })
+      .then((data) => {
+        res.json(data.joke);
       })
       .catch((err) => {
         next(err);
