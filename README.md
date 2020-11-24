@@ -32,7 +32,7 @@ GET /todos/:id
 {
     "id": 1,
     "email": "nafisa@gmail.com",
-    "password": "",
+    "password": "$2a$08$6k.Zo3CsX5UACEN6KfsCs.kh4ya/oUUP7DpfB2OVzmwN7RdsoMRH6",
     "updatedAt": "2020-08-08T03:19:54.940Z",
     "createdAt": "2020-08-08T03:19:54.940Z"
 }

@@ -13,7 +13,7 @@ const userRoute = require('./userRoute')
 
 
 router.use('/todos', todosRoute)
-router.use('/users', userRoute)
+router.use('/', userRoute)
 
 module.exports = router
 
