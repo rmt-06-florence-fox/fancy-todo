@@ -1,8 +1,10 @@
 const router = require('express').Router()
-const userRoutes = require('./user')
 const todoRoutes = require('./todo')
+const { UserController } = require('../controllers')
 
-router.use('/users', userRoutes)
+router.post('/signUp', UserController.signUp)
+router.post('/signIn', UserController.signIn)
+
 router.use('/todos', todoRoutes)
 
 module.exports = router

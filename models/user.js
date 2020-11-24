@@ -12,12 +12,43 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Todo)
     }
   };
   User.init({
     name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'Email Is Mandatory!'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'Email Is Mandatory!'
+        },
+        isEmail: {
+          args: true,
+          msg: 'Please check again your email!'
+        }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'Password Is Mandatory!!'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'Password Is Mandatory!'
+        }
+      }
+    }
   }, {
     hooks:{
       beforeCreate: (instance, opt) => {
