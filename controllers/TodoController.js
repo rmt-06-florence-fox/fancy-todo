@@ -47,6 +47,7 @@ class TodoController {
         const id = req.params.id
         Todo.findByPk(id)
             .then(data => {
+                console.log(data)
                 if (data) {
                     res.status(200).json(data)
                 } else {
@@ -59,36 +60,35 @@ class TodoController {
     }
 
     static updateTodoById(req, res) {
-        res.json({msg: "test"})
-        // const editPayload = {
-        //     title: req.body.title,
-        //     description: req.body.description,
-        //     status: req.body.status,
-        //     due_date: req.body.due_date
-        // }
+        // res.status(200).json({msg: "test"})
+        const editPayload = {
+            title: req.body.title,
+            description: req.body.description,
+            status: req.body.status,
+            due_date: req.body.due_date
+        }
         
-        // const id = req.params.id
-        // Todo.update(editPayload, {
-        //     where: {
-        //         id: id
-        //     },
-        //     returning: true
-        // }
-        // )
-        //     .then(data => {
-        //         // console.log(data)
-        //         if (!data[1][0]) {
-        //             res.status(404).json({msg: "data not found"})
-        //         } else {
-        //             res.status(200).json(data[1][0])
-        //         }
-        //     })
-        //     .catch(err => {
-        //         if (err.name === "SequelizeValidationError") {
-        //             res.status(400).json({msg: err.errors[0].message})
-        //         }
-        //         res.status(500).json(err)
-        //     })
+        const id = req.params.id
+        Todo.update(editPayload, {
+            where: {
+                id: id
+            },
+            returning: true
+        }
+        )
+            .then(data => {
+                if (!data[1][0]) {
+                    res.status(404).json({msg: "data not found"})
+                } else {
+                    res.status(200).json(data[1][0])
+                }
+            })
+            .catch(err => {
+                if (err.name === "SequelizeValidationError") {
+                    res.status(400).json({msg: err.errors[0].message})
+                }
+                res.status(500).json({msg: "error"})
+            })
     }
 
     static updateSpesificTodoById(req, res) {
@@ -116,7 +116,7 @@ class TodoController {
             })
     }
 
-    static deleteTodoById(req, res) {
+    static async deleteTodoById(req, res) {
         const id = req.params.id
 
         const payload = {
@@ -128,11 +128,12 @@ class TodoController {
         
         Todo.destroy({
             where: {
-                id
+                id,
+                UserId: req.logInUser.id
             }
         })
             .then(data => {
-                // console.log(data)
+                console.log(data)
                 if (!data) {
                     res.status(404).json({msg: "data not found"})
                 } else {
@@ -140,7 +141,7 @@ class TodoController {
                 }
             })
             .catch(err => {
-                res.status(500).json(err)
+                res.status(500).json({msg: "error"})
             })
     }
 }
