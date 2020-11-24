@@ -1,4 +1,6 @@
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 class Helper{
   static hashPassword(password){
@@ -8,6 +10,12 @@ class Helper{
   }
   static comparePassword(plainPassword, hashPassword){
     return bcrypt.compareSync(plainPassword, hashPassword)
+  }
+  static generateToken(payload){
+    return jwt.sign(payload. process.env.SECRET)
+  }
+  static verifyToken(token){
+    return jwt.verify(token, process.env.SECRET)
   }
 }
 

@@ -48,10 +48,15 @@ module.exports = (sequelize, DataTypes) => {
         //   msg: 'Date must be greater than today'
         // }
         isGreaterThan(value){
-          if(this.updatedAt.toISOString().split('T')[0] >= this.due_date) throw new Error('Date must be greater than today')
+          // if(this.updatedAt.toISOString().split('T')[0] >= this.due_date) throw new Error('Date must be greater than today')
+          if(new Date().toISOString().split('T')[0] >= this.due_date) throw new Error('Date must be greater than today')
         },
         notNull: true
       }
+    },
+    UserId: {
+      type: DataTypes.INTEGER,
+      // allowNull: false
     }
   }, {
     sequelize,

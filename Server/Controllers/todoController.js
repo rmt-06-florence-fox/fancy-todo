@@ -9,10 +9,8 @@ class TodoController{
         status: req.body.status,
         due_date: req.body.due_date
       }
-      const result = await Todo.create(payload, {
-        returning : true
-      })
-      res.status(200).json(result)
+      const result = await Todo.create(payload)
+      res.status(201).json(result)
     }catch(err){
       if(err.name === 'SequelizeValidationError') res.status(400).json(err)
       else res.status(500).json({message: `Internal server error`})
@@ -20,6 +18,7 @@ class TodoController{
   }
   static async readAllData(req, res){
     try{
+      console.log(req.loginUser, '<<<< user login dari controller');
       const result = await Todo.findAll()
       res.status(200).json({data: result})
     }catch(err){
@@ -48,6 +47,7 @@ class TodoController{
       .then(data =>{
         if(!data) res.status(404).json({message: `Error Not Found`})
         else{
+          // res.status(200).json({data})
           return Todo.update(payload, {
             where: {id},
             returning: true
@@ -66,17 +66,20 @@ class TodoController{
     Todo.findByPk(id)
       .then(data =>{
         if(!data) res.status(404).json({message: `Error Not Found`})
+        else if(!req.body.status) res.status(400).json({message: `Status can't be empty`})
         else{
           return Todo.update(payload, {
             where: {id},
-            returning: true
+            returning: true,
+            validate: false     //dipakai karena jika dia mengubah status menjadi 'selesai', maka ga akan kena validasi
           })
         }
       })
       .then(data => res.status(200).json({result: data[1]}))
       .catch(err =>{
-        if(err.name === 'SequelizeValidationError') res.status(400).json(err)
-        else res.status(500).json({message: `Internal server error`})
+        res.status(500).json({message: `Internal server error`})
+        // if(err.name === 'SequelizeValidationError') res.status(400).json(err)
+        // else res.status(500).json({message: `Internal server error`})
       })
   }
   static async deleteData(req, res){
