@@ -20,6 +20,11 @@ module.exports = async (req, res, next) => {
           message: "Login dulu dong"
         }
       }
+    } else {
+      throw {
+        status: 401,
+        message: "login dulu"
+      }
     }
   } catch (error) {
     next(error)
