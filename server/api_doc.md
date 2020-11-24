@@ -108,7 +108,11 @@
 
 * **Request Headers**
 
-    none
+       ```
+    {
+      "access_token": "<your access token>"
+    }
+    ```
   
 * **URL Params**
    
@@ -127,12 +131,13 @@
 * **Error Response:**
 
   * **Code:** 400 BAD REQUEST <br />
-    **Content:** `{ message : "Invalid email or password!" }`
+    **Content:** `{ message : "Title/Description/status/due_date required" }`
 
   OR
 
   * **Code:** 500 INTERNAL SERVER ERROR <br />
     **Content:** `{ message : "Internal server error!" }`
+
 
 ------------------------------------------------------------------------------------
 
@@ -150,7 +155,11 @@
 
 * **_Request Header_**
 
-    none
+     ```
+    {
+      "access_token": "<your access token>"
+    }
+    ```
 
 * **_Request Body_**
 ```
@@ -185,11 +194,16 @@ not needed
 }
 ```
 
-* **_Response (500 - Internal server error)_**
-```
-{
-  "errors": "internal server error"
-}
+* **Error Response:**
+
+  * **Code:** 400 BAD REQUEST <br />
+    **Content:** `{ message : "You do not have any Todo" }`
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ message : "Internal server error!" }`
+
 ```
 ------------------------------------------------------------------------------------
 
@@ -207,7 +221,11 @@ not needed
 
 * **_Request Header_**
 
-    none
+      ```
+    {
+      "access_token": "<your access token>"
+    }
+    ```
 
 * **_Request Params_**
 ```
@@ -231,17 +249,16 @@ not needed
 }
 ```
 
-* **_Response (404 - Not Found)_**
-```
-{
-  "errors": "Todo not found"
-}
-```
-* **_Response (500 - Internal server error)_**
-```
-{
-  "errors": "internal server error"
-}
+* **Error Response:**
+
+  * **Code:** 400 BAD REQUEST <br />
+    **Content:** `{ message : "Todo not Found" }`
+
+  OR
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ message : "Internal server error!" }`
+
 ```
 
 ------------------------------------------------------------------------------------
@@ -260,7 +277,11 @@ not needed
 
 * **_Request Header_**
 
-    none
+    ```
+    {
+      "access_token": "<your access token>"
+    }
+    ```
 
 * **_Request Params_**
    
@@ -288,6 +309,11 @@ not needed
 
   OR
 
+  * **Code:** 401 BAD REQUEST <br />
+    **Content:** `{ message : "Not Authorized" }`
+
+  OR
+
   * **Code:** 500 INTERNAL SERVER ERROR <br />
     **Content:** `{ message : "Internal server error!" }`
 
@@ -308,7 +334,11 @@ not needed
 
 * **_Request Header_**
 
-    none
+     ```
+    {
+      "access_token": "<your access token>"
+    }
+    ```
 
 * **_Request Params_**
    
@@ -316,7 +346,7 @@ not needed
 
 * **Success Response:**
 
-  * **Code:** 201 CREATED <br />
+  * **Code:** 201 <br />
     **Content:**
 {
     "id": 4,
@@ -350,7 +380,11 @@ not needed
 
 * **_Request Header_**
 
-    none
+     ```
+    {
+      "access_token": "<your access token>"
+    }
+    ```
 
 * **_Request Params_**
    
@@ -358,10 +392,104 @@ not needed
 
 * **Success Response:**
 
-  * **Code:** 201 CREATED <br />
+  * **Code:** 201 <br />
     **Content:**
 {
     "message": "deleted Todo success"
+}
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ message : "Internal server error!" }`
+
+
+------------------------------- 3RD API ---------------------------------------
+
+
+**GET WEATHER**
+----
+> get Weather in Jakarta
+
+* **URL**
+
+  /weather
+
+* **Method:**
+  
+  `GET`
+
+* **_Request Header_**
+
+  none
+
+* **_Request Params_**
+   
+     ```
+    {
+      "appid": "<your appid>"
+    }
+    ``
+
+* **Success Response:**
+
+  * **Code:** 201 <br />
+    **Content:**
+{
+    {
+    "weather": {
+        "main": "Rain",
+        "description": "moderate rain",
+        "temp": 300.65,
+        "country": "ID",
+        "name": "Jakarta"
+    }
+}
+}
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ message : "Internal server error!" }`
+
+
+**GET MUSIC**
+----
+> get recomendation Music
+
+* **URL**
+
+  /music
+
+* **Method:**
+  
+  `GET`
+
+* **_Request Header_**
+
+  none
+
+* **_Request Params_**
+   
+  none
+
+* **Success Response:**
+
+  * **Code:** 201 <br />
+    **Content:**
+{
+[
+    {
+        "title": "Bohemian Rhapsody",
+        "artist": "Queen",
+        "album": "A Night At The Opera (2011 Remaster)"
+    },
+    {
+        "title": "Don't Stop Me Now",
+        "artist": "Queen",
+        "album": "Jazz (2011 Remaster)"
+    },
+]
 }
  
 * **Error Response:**
