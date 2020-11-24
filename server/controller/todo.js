@@ -1,4 +1,5 @@
 const {Todo} = require('../models')
+const axios = require('axios')
 
 class TodoController{
   static async show(req,res){
@@ -9,6 +10,18 @@ class TodoController{
       } else {
         res.status(404).json({message :`error not found`})
       }
+    } catch (error) {
+      res.status(500).json(error)
+    }
+  }
+
+  static async news(req,res){
+    try {
+      const news = await axios({
+        url: `https://newsapi.org/v2/top-headlines?country=id&apiKey=${process.env.newsApiSecret}`,
+        method : 'GET'
+      })
+      res.status(200).json(news.data)
     } catch (error) {
       res.status(500).json(error)
     }
@@ -38,12 +51,9 @@ class TodoController{
     let id = req.params.id
     try {
       const list = await Todo.findOne({where: {id}})
+      console.log(list);
       if (list) {
-        if (list) {
-          res.status(200).json(list)
-        } else {
-          res.status(404).json({message :`error not found`})
-        }
+        res.status(200).json(list)
       } else {
         res.status(404).json({message :`error not found`})
       }
