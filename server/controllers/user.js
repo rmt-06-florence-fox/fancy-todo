@@ -3,7 +3,7 @@ const comparePassword = require("../helpers/comparepassword")
 const generateToken = require("../helpers/generateToken")
 
 class UserController {
-  static async register(req, res){
+  static async register(req, res, next){
     try {
       let payload = {
         first_name: req.body.first_name,
@@ -16,20 +16,11 @@ class UserController {
       res.status(201).json(user)
 
     } catch (error) {
-        if(error.name === "SequelizeUniqueConstraintError" || error.name === "SequelizeValidationError"){
-          let errors = []
-          for (let i = 0; i < error.errors.length; i++){
-            errors.push(error.errors[i].message)
-          }
-          res.status(400).json({message: errors})
-        }
-        else {
-          res.status(500).json({message: "Invalid Server Error"})
-        }
+        next(error)
     }
   }
 
-  static async login(req, res){
+  static async login(req, res, next){
     try {
       const data = await User.findOne({
         where: {
@@ -37,7 +28,10 @@ class UserController {
         }
       })
       if (!data){
-        res.status(401).json({message: "Invalid email/password"})
+        throw({
+          status: 401,
+          message: "Invalid email/password"
+        })
       }
       else {
         if (comparePassword(req.body.password, data.password) === true){
@@ -49,12 +43,14 @@ class UserController {
           res.status(200).json({ access_token })
         }
         else {
-          res.status(401).json({message: "Invalid email/password"})
+          throw({
+            status: 401,
+            message: "Invalid email/password"
+          })
         }
       }
     } catch (error) {
-      console.group(error.message)
-      res.status(500).json({message: "Invalid Server Error"})
+      next(error)
     }
   }
 }

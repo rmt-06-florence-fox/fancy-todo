@@ -1,7 +1,7 @@
 const { Todo } = require("../models/index.js")
 
 class TodosController {
-  static async showTodos(req, res){
+  static async showTodos(req, res, next){
     try {
       const data = await Todo.findAll({
         where: {
@@ -10,11 +10,11 @@ class TodosController {
       })
       res.status(200).json(data)
     } catch (error) {
-      res.status(500).json({message: "Internal Server Error"})
+      next(error)
     }
   }
 
-  static async createTodo(req, res){
+  static async createTodo(req, res, next){
     try {
       let payload = {
         title: req.body.title,
@@ -27,35 +27,28 @@ class TodosController {
       res.status(201).json(data)
       
     } catch (error) {
-      if (error.name === "SequelizeValidationError"){
-        let errors = []
-        for (let i = 0; i < error.errors.length; i++){
-          errors.push(error.errors[i].message)
-        }
-        console.log(error)
-        res.status(400).json({message: errors})
-      }
-      else {
-        res.status(500).json({message: "Internal Server Error"})
-      }
+      next(error)
     }
   }
 
-  static async getTodoById(req, res){
+  static async getTodoById(req, res, next){
     try {
       const data = await Todo.findByPk(req.params.id)
       if (!data){
-        res.status(404).json({message: "Error! Data not found"})
+        throw({
+          status: 404,
+          message: "Error! Data not found"
+        })
       }
       else {
         res.status(200).json(data)
       }
     } catch (error) {
-      res.status(500).json({message: "Internal Server Error"})
+      next(error)
     }
   }
 
-  static async replaceTodo(req, res){
+  static async replaceTodo(req, res, next){
     try {
       let payload = {
         title: req.body.title,
@@ -70,28 +63,21 @@ class TodosController {
         returning: true
       })
       if (!data[1].length){
-        res.status(404).json({message: "Error! Data not found"})
+        throw({
+          status: 404,
+          message: "Error! Data not found"
+        })
       }
       else {
         res.status(200).json(data[1][0])
       }
       
     } catch (error) {
-      if (error.name === "SequelizeValidationError"){
-        let errors = []
-        for (let i = 0; i < error.errors.length; i++){
-          errors.push(error.errors[i].message)
-        }
-        console.log(error)
-        res.status(400).json({message: errors})
-      }
-      else {
-        res.status(500).json({message: "Internal Server Error"})
-      }
+      next(error)
     }
   }
 
-  static async editStatus(req, res){
+  static async editStatus(req, res, next){
     try {
       let payload = {
         status: req.body.status
@@ -106,28 +92,21 @@ class TodosController {
 
       })
       if (!data[1].length){
-        res.status(404).json({message: "Error! Data not found"})
+        throw({
+          status: 404,
+          message: "Error! Data not found"
+        })
       }
       else {
         res.status(200).json(data[1][0])
       }
       
     } catch (error) {
-      if (error.name === "SequelizeValidationError"){
-        let errors = []
-        for (let i = 0; i < error.errors.length; i++){
-          errors.push(error.errors[i].message)
-        }
-        console.log(error)
-        res.status(400).json({message: errors})
-      }
-      else {
-        res.status(500).json({message: "Internal Server Error"})
-      }
+      next(error)
     }
   }
 
-  static async deleteTodo(req, res) {
+  static async deleteTodo(req, res, next) {
     try {
       const data = await Todo.destroy({
         where: {
@@ -135,14 +114,16 @@ class TodosController {
         }
       })
       if (data === 0){
-        res.status(404).json({message: "Error! Data not found"})
+        throw({
+          status: 404,
+          message: "Error! Data not found"
+        })
       }
       else {
         res.status(200).json({message: "Todo is deleted successfully"})
       }
     } catch (error) {
-      console.log(error.message)
-      res.status(500).json({message: "Internal Server Error"})
+      next(error)
     }
   }
 }

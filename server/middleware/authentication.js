@@ -6,7 +6,8 @@ function authenticateUser(req, res, next){
     const { access_token } = req.headers
 
     if(!access_token){
-      res.status(401).json({
+      throw({
+        status: 401,
         message: "Please log in first"
       })
     }
@@ -24,17 +25,16 @@ function authenticateUser(req, res, next){
             next()
           }
           else {
-            res.status(401).json({
+            throw({
+              status: 401,
               message: "Please log in first"
             })
           }
         })
     }
   } catch (error) {
-      console.log(error.message)
-      res.status(401).json({
-        message: "Please log in first"
-      })
+      //console.log(error.message)
+      next(error)
   }
 }
 

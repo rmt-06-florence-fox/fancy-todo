@@ -8,23 +8,25 @@ function authorization(req, res, next){
   })
   .then(todo => {
     if(!todo){
-      res.status(404).json({message: "Error! Data not found"})
+      throw({
+        status: 404,
+        message: "Error! Data not found"
+      })
     }
     else {
       if (todo.UserId === req.loggedInUser.id){
         next()
       }
       else {
-        res.status(401).json({
+        throw({
+          status: 401,
           message: "You are not authorized to access this page"
         })
       }
     }
   })
   .catch(err => {
-    res.status(500).json({
-      message: "Internal Server Error"
-    })
+    next(err)
   })
 }
 
