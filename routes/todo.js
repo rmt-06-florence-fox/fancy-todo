@@ -1,12 +1,16 @@
 const router = require("express").Router()
 const { todoController } = require("../controllers")
+const authentication = require("../middlewares/authentication")
+const authorization = require("../middlewares/authorization")
 
-router.get("/", todoController.todoGet) // read all
-router.post("/", todoController.todoPost) // create
+router.use(authentication)
+router.get("/", todoController.todoGet) // read all 2
+router.get("/:id", todoController.todoById) // read by id 
 
-router.get("/:id", todoController.todoById) // read by id
-router.put("/:id", todoController.todoUpdatePut) // update all by id
-router.patch("/:id", todoController.todoUpdatePatch) // update some field by id
-router.delete("/:id", todoController.todoDelete) // destroy by id
+router.post("/", todoController.todoPost) // create 2
+
+router.put("/:id", authorization, todoController.todoUpdatePut) // update all by id
+router.patch("/:id", authorization, todoController.todoUpdatePatch) // update some field by id
+router.delete("/:id", authorization, todoController.todoDelete) // destroy by id
 
 module.exports = router

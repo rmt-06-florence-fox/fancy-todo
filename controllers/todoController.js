@@ -2,8 +2,9 @@ const { Todo } = require("../models")
 
 class todoController {
     static async todoPost(req, res) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< static
+        const UserId = req.loggedInUser.id
         const { title, description, status, due_date } = req.body
-        const input = { title, description, status, due_date }
+        const input = { title, description, status, due_date, UserId }
         try {
             const todo = await Todo.create(input)
             res.status(201).json({ todo })
@@ -13,7 +14,12 @@ class todoController {
     }
     static async todoGet(req, res) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< static
         try {
-            const todo = await Todo.findAll()
+            const todo = await Todo.findAll({
+                where: {
+                    UserId: req.loggedInUser.id
+                }
+            })
+            console.log(todo);
             res.status(200).json({ todo })
         } catch (error) {
             res.status(500).json({error: error.message})
@@ -21,7 +27,12 @@ class todoController {
     }
     static async todoById(req, res) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< static
         try {
-            const todo = await Todo.findByPk(req.params.id)
+            const todo = await Todo.findOne({ 
+                where: {
+                    id: req.params.id,
+                    UserId: req.loggedInUser.id
+                } 
+            })
             res.status(200).json(todo)
         } catch (error) {
             res.status(500).json({error: error.message})
