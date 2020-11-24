@@ -12,11 +12,13 @@ class ControllerMain {
 
 	static async login(req, res) {
 		try {
+			console.log(process.env.SALT)
 			const getUser = await User.findOne({
 				where: {
 					email: req.body.email,
 				},
-			});
+			})
+			console.log(compareHash(req.body.password, getUser.password))
 			if (compareHash(req.body.password, getUser.password)) {
 				const access_token = genToken({
 					id: getUser.id,
@@ -25,6 +27,7 @@ class ControllerMain {
 				res.status(201).json({ user: getUser, access_token });
 			}
 		} catch (err) {
+			console.log(err)
 			res.status(500).json({ message: `password/email don't match` });
 		}
 	}
