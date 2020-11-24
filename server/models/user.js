@@ -1,5 +1,5 @@
 'use strict';
-const { hashing } = require('../helpers/hashing-comparing')
+const { hashing } = require('../helpers/bcrypt')
 const {
   Model
 } = require('sequelize');
@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Todo)
     }
   };
   User.init({

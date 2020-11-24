@@ -1,6 +1,6 @@
 const { User } = require('../models')
-const { comparing } = require('../helpers/hashing-comparing')
-const jwt = require('jsonwebtoken')
+const { comparing } = require('../helpers/bcrypt')
+const { generateToken } = require('../helpers/jwt')
 
 class UserController {
   static async signUp(req, res) {
@@ -28,11 +28,10 @@ class UserController {
       if (!data) {
         res.status(401).json({ message: `Invalid Account` })
       } else if (comparing(req.body.password, data.password)) {
-        const token = jwt.sign({
-          id: data.id,
-          name: data.name,
-          email: data.email
-        }, process.env.SECRET)
+        const value = {
+          email: req.body.email
+        }
+        const token = generateToken(value)
         res.status(200).json({ token })
       } else {
         res.status(401).json({ message: `Invalid email/password` })
