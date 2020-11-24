@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 
 class UserController{
 
-  static async register(req,res){
+  static async register(req,res,next){
     let payload = {
       email : req.body.email,
       password : req.body.password
@@ -14,7 +14,7 @@ class UserController{
       const data =  await User.create(payload)
       res.status(201).json({email: data.email, id:data.id})
     } catch (error) {
-      res.status(400).json(error)
+      next({status:400,message:error})
     }
   }
 
@@ -26,10 +26,11 @@ class UserController{
         const access_token = JwtHelper.generateToken({id:data.id,email:data.email})
         res.status(200).json(access_token)
       }else{
-        res.status(401).json({message:"invalid"})
+        throw {status:401, message:"invalid"}
+        // res.status(401).json({message:"invalid"})
       }
     } catch (error) {
-      res.status(500).json(error)
+      next(error);
     }
   }
 }

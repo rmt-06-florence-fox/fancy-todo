@@ -12,10 +12,9 @@ module.exports = async (req,res,next)=>{
     const todo = await Todo.findOne({where:{id: +req.params.id}})
     if(todo.UserId == req.currentUser.id){
       next()
-    }else res.status(401).json({message: `you're not the one`});
+    }else next({status: 401, message: `you're not the one` })
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
- 
-  
 }
+

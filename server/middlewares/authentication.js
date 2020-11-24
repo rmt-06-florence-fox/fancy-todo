@@ -7,7 +7,7 @@ module.exports = async (req,res,next)=>{
   try {
     access_token = JwtHelper.decodeToken(rawtoken)
   } catch (error) {
-    res.status(401).json({message: 'please login first'})
+    next({status: 401, message: 'please login first' })
   }
 
   try {
@@ -16,11 +16,11 @@ module.exports = async (req,res,next)=>{
       if(user){
         req.currentUser = access_token
         next();
-      } else res.status(401).json({message: 'please login first'})
+      } else next({status: 401, message: 'please login first' })
     }else{
-      res.status(401).json({message: 'please login first'})
+      next({status: 401, message: 'please login first' })
     }
   } catch (error) {
-    res.status(500).json(error)
+    next({status: 401, message: 'internal server error' })
   }
 }
