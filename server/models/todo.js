@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: "Title should not be empty"
+        },
+        notNull: {
+          msg: "Title should not be empty"
         }
       }
     },
@@ -28,6 +31,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
+          msg: "Description should not be empty"
+        },
+        notNull: {
           msg: "Description should not be empty"
         }
       }
@@ -38,6 +44,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: "Status should not be empty"
+        },
+        notNull: {
+          msg: "Status should not be empty"
         }
       }
     },
@@ -47,6 +56,9 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: "Date should not be empty!"
+        },
+        notNull: {
+          msg: "Date should not be empty"
         },
         isAfterDate(value){
           if (value){
