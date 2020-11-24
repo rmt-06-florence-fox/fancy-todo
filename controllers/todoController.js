@@ -1,15 +1,27 @@
 const { Todo } = require('../models')
+const axios = require('axios');
+const { response } = require('express');
 
 class TodoController {
 
     static showList(req, res, next){
+        let listTodo;
         Todo.findAll({
             where: {
-                id: req.loggedId.id
+                UserId: req.loggedId.id
             }
         })
         .then(data =>{
-            res.status(200).json(data)
+            listTodo = data
+            return axios ({
+                method: 'get',
+                url: 'https://quote-garden.herokuapp.com/api/v2/quotes/random'
+            })
+            // res.status(200).json(data)
+        })
+        .then(result =>{
+            let quote = result.data.quote
+            res.status(200).json({quote, listTodo})
         })
         .catch(err =>{
             next(err)
