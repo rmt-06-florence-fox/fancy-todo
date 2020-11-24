@@ -2,15 +2,15 @@ const { User } = require('../models/index');
 const { compareHash, genToken } = require('../helpers/helper');
 
 class ControllerMain {
-	static async home(req, res) {
+	static async home(req, res, next) {
 		try {
 			res.status(200).json({ message: 'hello' });
 		} catch (err) {
-			res.status(500).json({ message: 'error loading page' });
+			next(err)
 		}
 	}
 
-	static async login(req, res) {
+	static async login(req, res, next) {
 		try {
 			const getUser = await User.findOne({
 				where: {
@@ -23,19 +23,20 @@ class ControllerMain {
 					email: getUser.email,
 				});
 				res.status(201).json({ user: getUser, access_token });
+			} else {
+				throw {status: 401, message:`password/email don't match`}
 			}
 		} catch (err) {
-			res.status(500).json({ message: `password/email don't match` });
+			next(err);
 		}
 	}
 
-	static async register(req, res) {
-		console.log(req.body);
+	static async register(req, res, next) {
 		try {
 			const newUSer = await User.create(req.body);
 			res.status(201).json({ message: 'acount created' });
 		} catch (err) {
-			res.status(500).json({ message: err.errors });
+			next(err)
 		}
 	}
 }

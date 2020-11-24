@@ -10,9 +10,11 @@ module.exports = async (req, res, next) => {
 
         if (list.UserId == req.loggedUser.id) {
             next ()
+        } else {
+            throw {status: 401, message: `Not Authorized`}
         }
 
     } catch (err) {
-         res.status(500).json({message: `Not Authorized`})
+         next(err)
     }
 }

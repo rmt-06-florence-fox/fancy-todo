@@ -2,7 +2,7 @@ const { TodoList } = require('../models');
 const axios = require('axios');
 
 class ControllerTodo {
-	static async get(req, res) {
+	static async get(req, res, next) {
 		try {
 			const list = await TodoList.findAll({
 				where: {
@@ -11,11 +11,11 @@ class ControllerTodo {
 			});
 			res.status(200).json({ list });
 		} catch (err) {
-			res.status(500).json({ err });
+			next(err)
 		}
 	}
 
-	static async post(req, res) {
+	static async post(req, res, next) {
 		let newList = req.body
 		newList.UserId = req.loggedUser.id
 		try {
@@ -24,19 +24,19 @@ class ControllerTodo {
 			});
 			res.status(201).json({ list });
 		} catch (err) {
-			res.status(500).json({ message: err.errors });
+			next(err)
 		}
 	}
 
-	static async getId(req, res) {
+	static async getId(req, res, next) {
 		try {
 			const todo = await TodoList.findByPk(req.params.id);
 			res.status(201).json({ todo });
 		} catch (err) {
-			res.status(500).json({ message: 'error not found' });
+			next(err)
 		}
 	}
-	static async putId(req, res) {
+	static async putId(req, res, next) {
 		try {
 			const update = await TodoList.update(req.body, {
 				where: {
@@ -46,10 +46,10 @@ class ControllerTodo {
 			});
 			res.status(201).json({ update });
 		} catch (err) {
-			res.status(500).json({ message: err.errors });
+			next(err)
 		}
 	}
-	static async patchId(req, res) {
+	static async patchId(req, res, next) {
 		try {
 			const update = await TodoList.update(
 				{ status: true },
@@ -62,10 +62,10 @@ class ControllerTodo {
 			);
 			res.status(201).json({ update });
 		} catch (err) {
-			res.status(500).json({ message: err.errors });
+			next(err)
 		}
 	}
-	static async deleteId(req, res) {
+	static async deleteId(req, res, next) {
 		try {
 			const del = await TodoList.destroy({
 				where: {
@@ -74,17 +74,19 @@ class ControllerTodo {
 			});
 			res.status(201).json({ message: 'item deleted' });
 		} catch (err) {
-			res.status(500).json({ err });
+			next(err)
 		}
 	}
 
-	static async suggest (req, res) {
+	static async suggest (req, res, next) {
 		try {
 			const randomAct = await axios.get(process.env.RANDOM)
-			console.log(randomAct)
-			res.status(200).json({try: randomAct.data})
+			res.status(200).json({try: {
+				activity: randomAct.data.activity,
+				type: randomAct.data.type
+			}})
 		} catch (err) {
-			res.status(500).json({ err });
+			next(err)
 		}
 	}
 }
