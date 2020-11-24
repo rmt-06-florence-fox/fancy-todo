@@ -3,6 +3,7 @@ const {
   Model
 } = require('sequelize');
 const bycrypt = require('bcryptjs')
+require('dotenv').config();
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -67,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   User.addHook("beforeCreate", (instance, option) => {
-    let hashedPass = bycrypt.hashSync(instance.password, 10)
+    let hashedPass = bycrypt.hashSync(instance.password, +process.env.Hash)
     instance.password = hashedPass
   })
 

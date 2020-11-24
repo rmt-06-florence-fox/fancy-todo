@@ -107,7 +107,7 @@ class ControllerTodo {
         })
             .then(data => {
                 if(data) {
-                    res.status(200).json(data)
+                    res.status(200).json({ The_number_of_destroyed_rows: data})
                 }else {
                     res.status(404).json({ error: "error not found"})
                 }

@@ -1,6 +1,7 @@
 const { User } = require("../models/index")
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); // dont forget require if will use jwt
+require('dotenv').config(); // dont forget require dotenv
 
 class ControllerUser {
     static addDataUser(req, res) {
@@ -35,7 +36,7 @@ class ControllerUser {
                     let passwordInDataBase = data.password
                     if(bcrypt.compareSync(password, passwordInDataBase)) {
                         // console.log("=====================================")
-                        const accesToken = jwt.sign({ fullName: data.fullName(), id: data.id, email: data.email }, "belajargeneratetoken")
+                        const accesToken = jwt.sign({ fullName: data.fullName(), id: data.id, email: data.email }, process.env.SECRET)
                         // console.log(accesToken, "<----------------")
                         res.status(200).json({accesToken})
                     }else {
