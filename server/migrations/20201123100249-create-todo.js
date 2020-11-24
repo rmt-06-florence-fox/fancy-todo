@@ -41,6 +41,11 @@ module.exports = {
         validate:{
           notEmpty: {
             msg: 'due date cannot be empty'
+          },
+          isNone(value) {
+            if (value % 4 == 0){
+              throw new Error('tahun rilis tidak boleh tahun kabisat')
+            }
           }
         }
       },
