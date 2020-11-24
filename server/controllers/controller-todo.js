@@ -1,4 +1,5 @@
 const { TodoList } = require('../models');
+const axios = require('axios');
 
 class ControllerTodo {
 	static async get(req, res) {
@@ -72,6 +73,16 @@ class ControllerTodo {
 				},
 			});
 			res.status(201).json({ message: 'item deleted' });
+		} catch (err) {
+			res.status(500).json({ err });
+		}
+	}
+
+	static async suggest (req, res) {
+		try {
+			const randomAct = await axios.get(process.env.RANDOM)
+			console.log(randomAct)
+			res.status(200).json({try: randomAct.data})
 		} catch (err) {
 			res.status(500).json({ err });
 		}
