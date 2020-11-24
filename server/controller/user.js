@@ -1,33 +1,25 @@
 const {User} = require('../models')
 
 class UserController{
-  // static async show(req,res){
-  //   try {
-  //     const list = await Todo.findAll()
-  //     res.status(200).json(list)
-  //   } catch (error) {
-  //     res.status(500).json(error)
-  //   }
-  // }
 
-  // static async create(req,res){
-  //   let obj = {
-  //     title : req.params.title,
-  //     description : req.params.description,
-  //     status : req.params.status,
-  //     due_date : req.params.due_date,
-  //   }
-  //   try {
-  //     const data = await Todo.create(obj, {returning : true})
-  //     res.status(200).json(data[1][0])
-  //   } catch (error) {
-  //     if (error.name == 'SequelizeValidationError') {
-  //       res.status(400).json(error.errors)
-  //     } else {
-  //       res.status(500).json(error)
-  //     }
-  //   }
-  // }
+  static async register(req,res){
+    let obj = {
+      first_name : req.body.first_name,
+      last_name : req.body.last_name,
+      email : req.body.email,
+      password : req.body.password,
+    }
+    try {
+      const data = await User.create(obj)
+      res.status(201).json(data)
+    } catch (error) {
+      if (error.name == 'SequelizeValidationError') {
+        res.status(400).json(error.errors)
+      } else {
+        res.status(500).json(error)
+      }
+    }
+  }
 
   // static async seeList(req,res){
   //   let id = req.params.id
@@ -42,8 +34,8 @@ class UserController{
   // static async update(req,res){
   //   let id = req.params.id
   //   let obj = {
-  //     title : req.params.title,
-  //     description : req.params.description,
+  //     first_name : req.params.first_name,
+  //     last_name : req.params.last_name,
   //     status : req.params.status,
   //     due_date : req.params.due_date,
   //   }
