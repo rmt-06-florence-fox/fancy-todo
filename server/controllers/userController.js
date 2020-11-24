@@ -1,6 +1,6 @@
 const { User } = require('../models')
 const { comparePwd } = require('../helpers/password')
-const jwt = require('jsonwebtoken')
+const { generateToken } = require('../helpers/jwt')
 
 
 class UserController {
@@ -11,18 +11,24 @@ class UserController {
         .then(data => {
             res.status(201).json({email: data.email, password: data.password})
         })
-        .catch(err => {
-            res.status(500).json({message: `Internal server error`})
+        .catch(error => {
+            if (error.name == "SequelizeUniqueConstraintError") {
+                res.status(400).json({message: error.errors[0].message})
+            } else if (error.name == "SequelizeValidationError") {
+                res.status(400).json({message: error.errors[0].message});                
+            } else {
+                res.status(500).json({message: `Internal server error`})
+            }
         })
     }
-
+    
     static login(req, res) {
         User.findOne({ where: {email: req.body.email}})
         .then(data => {
             if (!data) {
                 res.status(401).json({message: `Invalid account`})
             } else if (comparePwd(req.body.password, data.password)) {
-                const acces_token = jwt.sign({id: data.id, email: data.email}, process.env.SECRET, { expiresIn: 60 * 60 })
+                const acces_token = generateToken({id: data.id, email: data.email})
                 res.status(200).json({acces_token})
             } else {
                 res.status(401).json({message: `Invalid email/password`})

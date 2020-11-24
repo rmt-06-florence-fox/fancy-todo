@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Todo.belongsTo(models.User)
     }
   };
   Todo.init({
@@ -49,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isAfter: {
-          args: "2020-11-23",
+          args: (new Date()).toISOString(),
           msg: "Date is expired, please select valid date"
         },
         notEmpty : {
