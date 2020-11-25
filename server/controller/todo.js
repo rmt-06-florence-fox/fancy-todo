@@ -62,7 +62,6 @@ class TodoController{
     let id = req.params.id
     try {
       const list = await Todo.findOne({where: {id}})
-      console.log(list);
       if (list) {
         res.status(200).json(list)
       } else {
