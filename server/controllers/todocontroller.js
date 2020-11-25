@@ -20,7 +20,7 @@ class TodoController {
 
   static async readTodos(req, res, next) {
     try {
-      const dataTodo = await Todo.findAll()
+      const dataTodo = await Todo.findAll({ where: { UserId: req.signedInUser.id } })
       res.status(200).json(dataTodo)
     } catch (error) {
       next(error)
@@ -31,64 +31,48 @@ class TodoController {
     try {
       const findId = req.params.id
       const dataTodo = await Todo.findByPk(findId)
-      console.log(dataTodo)
-      if (!dataTodo) {
-        throw {
-          status: 404,
-          message: 'Error! not found'
-        }
-      } else {
-        res.status(200).json(dataTodo)
-      }
+      res.status(200).json(dataTodo)
     } catch (error) {
       console.log(error)
       next(error)
     }
   }
 
-  static editTodosByRow(req, res, next) {
-    const findId = req.params.id
-    const editData = {
-      title: req.body.title,
-      description: req.body.description,
-      status: req.body.status,
-      dueDate: req.body.dueDate
+  static async editTodosByRow(req, res, next) {
+    try {
+      const findId = req.params.id
+      const editData = {
+        title: req.body.title,
+        description: req.body.description,
+        status: req.body.status,
+        dueDate: req.body.dueDate
+      }
+      const editedData = await Todo.update(editData, { where: { id: findId }, returning: true })
+      res.status(200).json(editedData[1][0])
+    } catch (error) {
+      next(error)
     }
-    Todo.findByPk(findId)
-      .then(todoData => {
-        if (!todoData) {
-          throw {
-            status: 404,
-            message: 'Error not found'
-          }
-        }
-        else return Todo.update(editData, { where: { id: findId }, returning: true })
-      })
-      .then(editedData => res.status(200).json(editedData[1][0]))
-      .catch(error => next(error))
   }
 
-  static editTodosByColumn(req, res, next) {
-    const findId = req.params.id
-    const editData = { status: req.body.status }
-    Todo.findByPk(findId)
-      .then(todoData => {
-        if (!todoData) throw { status: 404, message: 'Error not found' }
-        else return Todo.update(editData, { where: { id: findId }, returning: true })
-      })
-      .then(editedData => res.status(200).json(editedData[1][0]))
-      .catch(error => next(error))
+  static async editTodosByColumn(req, res, next) {
+    try {
+      const findId = req.params.id
+      const editData = { status: req.body.status }
+      const editedData = await Todo.update(editData, { where: { id: findId }, returning: true })
+      res.status(200).json(editedData[1][0])
+    } catch (error) {
+      next(error)
+    }
   }
 
-  static deleteTodos(req, res, next) {
-    const findId = req.params.id
-    Todo.findByPk(findId)
-      .then(todoData => {
-        if (!todoData) throw { status: 404, message: 'Error not found' }
-        else return Todo.destroy({ where: { id: findId }})
-      })
-      .then(() => res.status(200).json({ message: 'Todo success to delete' }))
-      .catch(error => next(error))
+  static async deleteTodos(req, res, next) {
+    try {
+      const findId = req.params.id
+      await Todo.destroy({ where: { id: findId }})
+      res.status(200).json({ message: 'Todo success to delete' })
+    } catch (error) {
+      next(error)
+    }
   }
 
   static async playSongs(req, res, next) {
