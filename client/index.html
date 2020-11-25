@@ -97,7 +97,7 @@
             }
         })
         .done(response=>{
-            showLoginPage()
+            showMainPage()
             localStorage.setItem('access_token', response.access_token)
         })
         .fail(xhr=>{
@@ -239,7 +239,7 @@
     function editTodo(data){
         $.ajax({
             method: 'GET',
-            url: `http://localhost/todos/${data}`,
+            url: `http://localhost:3000/todos/${data}`,
             headers: {
                 access_token: localStorage.getItem('access_token')
             }
@@ -264,11 +264,11 @@
         console.log(title, description, status, due_date)
         $.ajax({
             method: 'PUT',
-            url: `http://localhost/todos/${data}`,
+            url: `http://localhost:3000/todos/${data}`,
             headers: {
                 access_token: localStorage.getItem('access_token')
             },
-            data:{
+            data: {
                 title,
                 description,
                 status,
@@ -277,6 +277,7 @@
         })
         .done(response=>{
             console.log(response)
+            // editData(data)
         })
         .fail(xhr=>{
             console.log(xhr)
@@ -308,6 +309,7 @@
         })
         $("#edit-form").on("submit", function(e){
             e.preventDefault
+            editData(data)
         })
     })
 </script>

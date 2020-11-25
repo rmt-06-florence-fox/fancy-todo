@@ -29,7 +29,7 @@ class TodoController{
         Todo.create(obj)
         .then(data=>{
             // console.log(data)
-            console.log(req.loginUser)
+            // console.log(req.loginUser)
             res.status(201).json(data)
         })
         .catch(e=>{
@@ -47,7 +47,6 @@ class TodoController{
         Todo.findByPk(id)
         .then(data=>{
             if(!data){
-                throw `error`
                 res.status(404).json({message: `data not found`})
             } else {
                 res.status(200).json(data)
@@ -66,6 +65,7 @@ class TodoController{
             status: req.body.status,
             due_date: req.body.due_date
         }
+        console.log(obj)
         Todo.update(obj, {
             where:{
                 id

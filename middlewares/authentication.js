@@ -8,7 +8,7 @@ module.exports = async (req, res, next)=>{
         // console.log("access this third")
         
         const decoded = Helper.verifyToken(access_token)
-        // console.log("access this too")
+        console.log("access this too")
         req.loginUser = decoded
         const user = await User.findOne({
             where:{
