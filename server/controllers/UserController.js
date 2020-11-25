@@ -3,7 +3,7 @@ const { compare } = require("../helpers/password-bcrypt");
 const { encode } = require("../helpers/jwt");
 
 class UserController {
-  static async register(req, res) {
+  static async register(req, res, next) {
     const obj = {
       email: req.body.email,
       password: req.body.password,
@@ -11,15 +11,18 @@ class UserController {
     try {
       const data = await User.create(obj);
       res.status(201).json({ email: data.email, id: data.id });
-    } catch (error) {
-      res.status(500).json(error);
+    } catch (err) {
+      next(err);
     }
   }
-  static async login(req, res) {
+  static async login(req, res, next) {
     try {
       const data = await User.findOne({ where: { email: req.body.email } });
       if (!data) {
-        res.status(404).json({ message: "Invalid account" });
+        throw {
+          status: 400,
+          message: "Invalid account",
+        };
       } else if (compare(req.body.password, data.password)) {
         const token = encode({
           id: data.id,
@@ -27,10 +30,13 @@ class UserController {
         });
         res.status(200).json({ access_token: token });
       } else {
-        res.status(404).json({ message: "Invalid email/password" });
+        throw {
+          status: 400,
+          message: "Invalid email/password",
+        };
       }
-    } catch (error) {
-      res.status(500).json({ message: "Internal server error" });
+    } catch (err) {
+      next(err);
     }
   }
 }

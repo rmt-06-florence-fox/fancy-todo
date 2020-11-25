@@ -6,7 +6,7 @@ router.get(`/`, (req, res) => {
   res.send(`Welcome to Fancy To-do!`);
 });
 
-router.use(`/users`, userRoutes);
+router.use(`/`, userRoutes);
 router.use(`/todos`, todoRoutes);
 
 module.exports = router;

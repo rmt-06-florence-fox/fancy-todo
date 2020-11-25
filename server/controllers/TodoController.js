@@ -1,7 +1,7 @@
 const { Todo, User } = require("../models");
 
 class TodoController {
-  static async add(req, res) {
+  static async add(req, res, next) {
     let obj = {
       title: req.body.title,
       description: req.body.description,
@@ -11,37 +11,36 @@ class TodoController {
     };
     try {
       let data = await Todo.create(obj);
-      if (!data) {
-        res.status(400).json({ message: "Validation Errors" });
-      } else {
-        res.status(201).json(data);
-      }
-    } catch (error) {
-      res.status(500).json(error);
+      res.status(201).json(data);
+    } catch (err) {
+      next(err);
     }
   }
-  static async show(req, res) {
+  static async show(req, res, next) {
     try {
       let data = await Todo.findAll({ where: { UserId: req.loggedInUser.id } });
       res.status(200).json(data);
-    } catch (error) {
-      res.status(500).json(error);
+    } catch (err) {
+      next(err);
     }
   }
-  static async find(req, res) {
+  static async find(req, res, next) {
     let id = +req.params.id;
     try {
       let data = await Todo.findByPk(id);
       if (!data) {
-        res.status(404).json({ message: "Error, Data Not Found!" });
+        throw {
+          status: 404,
+          message: "Error, Data Not Found!",
+        };
       } else {
         res.status(200).json(data);
       }
-    } catch (error) {
-      res.status(500).json(error);
+    } catch (err) {
+      next(err);
     }
   }
-  static async update(req, res) {
+  static async update(req, res, next) {
     let id = +req.params.id;
     let obj = {
       title: req.body.title,
@@ -57,18 +56,21 @@ class TodoController {
           returning: true,
         });
         if (!dataUpdated) {
-          res.status(400).json({ message: "Validation Errors" });
+          throw err;
         } else {
           res.status(200).json(dataUpdated[1][0]);
         }
       } else {
-        res.status(404).json({ message: "Error, Data Not Found!" });
+        throw {
+          status: 404,
+          message: "Error, Data Not Found!",
+        };
       }
-    } catch (error) {
-      res.status(500).json(error);
+    } catch (err) {
+      next(err);
     }
   }
-  static async updateStatus(req, res) {
+  static async updateStatus(req, res, next) {
     let id = +req.params.id;
     let obj = {
       status: req.body.status,
@@ -92,12 +94,15 @@ class TodoController {
       res.status(500).json(error);
     }
   }
-  static async delete(req, res) {
+  static async delete(req, res, next) {
     try {
       const id = +req.params.id;
       const data = await Todo.findByPk(id);
       if (!data) {
-        res.status(404).json({ message: "Error, Data Not Found!" });
+        throw {
+          status: 404,
+          message: "Error, Data Not Found!",
+        };
       } else {
         await Todo.destroy({
           where: {
@@ -106,8 +111,8 @@ class TodoController {
         });
         res.status(200).json({ message: "todo success to delete" });
       }
-    } catch (error) {
-      res.status(500).json(error);
+    } catch (err) {
+      next(err);
     }
   }
 }
