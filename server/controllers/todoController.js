@@ -27,9 +27,11 @@ class todoController {
     }
     static async todoById(req, res, next) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< static
         try {
+            console.log("disini");
+            const id = +req.params.id
             const todo = await Todo.findOne({ 
                 where: {
-                    id: req.params.id,
+                    id: id,
                     UserId: req.loggedInUser.id
                 } 
             })
