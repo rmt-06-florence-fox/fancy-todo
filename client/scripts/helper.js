@@ -103,18 +103,34 @@ function homepage () {
             const list = msg.list
 
             list.forEach(el => {
-                $('#list').prepend(`
-                        <tr class='row'>
-                            <td class="col"><b>${el.title}</b><br>
-                                ${el.desrcription} 
-                            </td>
-                            <td class="col-md-auto d-flex align-items-center">
-                            <button type="button" class="btn btn-warning btn-sm mr-1">Edit</button>
-                            <button type="button" class="btn btn-success btn-sm mr-1">Mark As Done</button>
-                            <button type="button" class="btn btn-dark btn-sm">Delete</button>
-                            </td>
-                        </tr>
-                                    `)
+                if (el.status == false) {
+                    $('#list').prepend(`
+                    <tr class='row'>
+                        <td class="col"><b>${el.title}</b><br>
+                            ${el.desrcription} 
+                        </td>
+                        <td class="col-md-auto d-flex align-items-center">
+                        <button type="button" class="btn btn-warning btn-sm mr-1">Edit</button>
+                        <button type="button" class="btn btn-success btn-sm mr-1">Mark As Done</button>
+                        <button type="button" class="btn btn-dark btn-sm">Delete</button>
+                        </td>
+                    </tr>
+                                `)
+                } else {
+                    $('#list').prepend(`
+                    <tr class='row'>
+                        <td class="col"><b>${el.title}</b><br>
+                            ${el.desrcription} 
+                        </td>
+                        <td class="col-md-auto d-flex align-items-center">
+                        <button type="button" class="btn btn-warning btn-sm mr-1">Edit</button>
+                        <button type="button" class="btn btn-danger btn-sm mr-1">Mark Undone</button>
+                        <button type="button" class="btn btn-dark btn-sm">Delete</button>
+                        </td>
+                    </tr>
+                                `)
+                }
+
             })
             console.log(list)
         })
