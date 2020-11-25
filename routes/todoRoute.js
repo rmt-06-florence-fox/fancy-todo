@@ -5,7 +5,7 @@ const authorization = require ('../middlewares/authorization.js')
 
 router.use (authentication)
 router.get ("/", TodoController.findTodos)
-router.post ("/", authorization, TodoController.addTodos)
+router.post ("/", TodoController.addTodos)
 router.patch ("/:id", authorization, TodoController.updateTodo)
 router.put ("/:id", authorization, TodoController.updateTodoo)
 router.delete ("/:id", authorization, TodoController.removeTodo)

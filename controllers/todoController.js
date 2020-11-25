@@ -1,4 +1,5 @@
 const { Todo } = require ("../models/index.js")
+const axios = require ('axios')
 
 class TodoController {
     
@@ -34,6 +35,7 @@ class TodoController {
 
     static async addTodos (req, res, next) {
         try {
+            console.log (req.dataUser)
             let data = {
                 title : req.body.title,
                 description : req.body.description,

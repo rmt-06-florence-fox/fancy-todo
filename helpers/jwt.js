@@ -5,7 +5,7 @@ function generateToken (obj) {
 }
 
 function verifyToken (token) {
-    return jwt.sign(token, process.env.SECRET)
+    return jwt.verify(token, process.env.SECRET)
 }
 
 module.exports = {generateToken, verifyToken}
