@@ -88,7 +88,7 @@ class TodosController {
           id: +req.params.id
         },
         fields: ['status'],
-        returning: true,
+        returning: true
 
       })
       if (!data[1].length){

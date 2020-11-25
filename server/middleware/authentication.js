@@ -8,7 +8,7 @@ function authenticateUser(req, res, next){
     if(!access_token){
       throw({
         status: 401,
-        message: "Please log in first"
+        message: "Please log in first no access token"
       })
     }
     else {
@@ -27,7 +27,7 @@ function authenticateUser(req, res, next){
           else {
             throw({
               status: 401,
-              message: "Please log in first"
+              message: "Please log in first failed authentication"
             })
           }
         })
