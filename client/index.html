@@ -30,9 +30,10 @@
       </div>
     </nav>
   </div>
+  <div class="container p-5">
   <!-- login -->
   <div id="login-page">
-    <div class="container p-5">
+    
       <form id="login-form">
         <div class="form-group">
           <label for="inputEmail">Email</label>
@@ -45,11 +46,11 @@
         <input type="submit" id="submit-login" value="login">
       </form>
       <a href="" id="link-register">register</a>
-    </div>
+    
   </div>
   <!-- register -->
   <div id="register-page">
-    <div class="container p-5">
+    
       <form id="register-form">
         <div class="form-group">
           <label for="inputEmail">Email</label>
@@ -61,16 +62,34 @@
         </div>
         <input class="btn btn-primary" type="submit" id="submit-register" value="register">
       </form>
-    </div>
+    
   </div>
 
   <div id="main-page">
-    <div id="create-todo">
-      <h1>ini create-todo</h1>
+    <div id="create-todo-form">
+      <form id="add-form">
+        <div class="form-group">
+          <label for="inputTittle">Tittle</label>
+          <input type="text" id="inputTittle" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="inputDescription">Description</label>
+          <input type="text" id="inputDescription" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="inputStatus">Status</label>
+          <input type="text" id="inputStatus" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="inputDuedate">Due date</label>
+          <input type="date" id="inputDuedate" class="form-control">
+        </div>
+        <input type="submit" id="submit-add" value="add">
+      </form>
     </div>
-    <div id="list-todo" class="row row-cols-1 row-cols-md-4">
-      
-    </div>
+    <br>
+    <div id="list-todo" class="row row-cols-1 row-cols-md-4"></div>
+  </div>
   </div>
   
 
@@ -170,17 +189,19 @@
         }
       })
         .done(todos => {
-          console.log(todos);
+          $('#list-todo').empty()
+         
           todos.forEach(e => {
             $('#list-todo').append(`
             <div class="col mb-4">
               <div class="card">
                 <h5 class="card-header">${e.tittle}</h5>
                 <div class="card-body">
-                  <h3 class="card-title">${e.status}</h3>
-                  <p class="card-text">${e.description}</p>
+                  <h3 class="card-title">status : ${e.status}</h3>
+                  <p class="card-text">description : ${e.description}</p>
+                  <p class="card-text">due date : ${e.due_date}</p>
                   <a href="#" class="btn btn-primary">edit</a>
-                  <a href="#" class="btn btn-primary">delete</a>
+                  <a href="#" class="btn btn-primary" onclick = "deleteTodo(${e.id})">delete</a>
                 </div>
               </div>
             </div>
@@ -191,6 +212,59 @@
           console.log(xhr, textStatus);
         })
         .always()
+    }
+
+    function create() {
+      const tittle = $('#inputTittle').val();
+      const description = $('#inputDescription').val();
+      const status = $('#inputStatus').val();
+      const due_date = $('#inputDuedate').val();
+
+      console.log(tittle,description,status,due_date);
+
+      $.ajax({
+        method :'POST',
+        url : 'http://localhost:3000/todos',
+        headers:{
+          access_token: localStorage.getItem('access_token')
+        },
+        data:{
+          tittle,
+          description,
+          status,
+          due_date
+        }
+      })
+      .done(_=>{
+        fetchAll();
+      })
+      .fail((xhr,textStatus)=>{
+        console.log(xhr,textStatus);
+      })
+      .always(_=>{
+        $('#inputTittle').val("");
+        $('#inputDescription').val("");
+        $('#inputStatus').val("");
+        $('#inputDuedate').val("");
+      })
+    }
+
+    function deleteTodo(id){
+      console.log(id);
+      $.ajax({
+        method : 'DELETE',
+        url : `http://localhost:3000/todos/${id}`,
+        headers:{
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+      .done(_=>{
+        fetchAll()
+      })
+      .fail((xhr, textStatus)=>{
+        console.log(xhr, textStatus);
+      })
+      
     }
 
     function checkToken() {
@@ -217,6 +291,11 @@
       $('#register-form').on('submit', (e) => {
         e.preventDefault();
         register();
+      })
+
+      $('#add-form').on('submit', (e)=>{
+        e.preventDefault();
+        create();
       })
 
     })
