@@ -80,24 +80,26 @@
         </form>
     </div>
 
-    <div id="div-ToDos" class="col-md-5 mx-auto">
-        <table class="table">
+    <div class="col-lg-9 mx-auto">
+        <table class="table" id="table-todos">
             <thead>
-                <th colspan="2">To Do List</th>
-                <th class="text-right" colspan="4">
-                    <input class="btn btn-primary" type="button" value="Add" onclick="addToDo()">
-                    <input class="btn btn-success" type="button" value="Show All">
-                </th>
+                <tr>
+                    <th colspan="2">To Do List</th>
+                    <th class="text-right" colspan="4">
+                        <input class="btn btn-primary" type="button" value="Add" onclick="addToDo()">
+                        <input class="btn btn-success" type="button" value="Show All">
+                    </th>
+                </tr>
+                <tr>
+                    <th>No.</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Due-Date</th>
+                    <th>Action</th>
+                </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Title</td>
-                    <td>Description</td>
-                    <td>Status</td>
-                    <td>Due-Date</td>
-                    <td>Action</td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -162,6 +164,7 @@
             hideAll()
             $("#btn-logout").show()
             $("#div-ToDos").show()
+            fetchToDos()
         }
 
         function showRegisterationPage() {
@@ -174,25 +177,25 @@
                 event.preventDefault()
                 const email = $("#email").val()
                 const password = $("#password").val()
-                
+
                 $.ajax({
-                    url: 'http://localhost:3000/users/login',
-                    method: 'POST',
-                    data: {
-                        email,
-                        password
-                    }
-                })
-                .done(response => {
-                    localStorage.setItem('access_token', response.access_token)
-                    showHomePage()
-                })
-                .fail((xhr, status) => {
-                    console.log(xhr.responseJSON, status);
-                })
-                .always(_=> {
-                    $("#form-login").trigger("reset")
-                })
+                        url: 'http://localhost:3000/users/login',
+                        method: 'POST',
+                        data: {
+                            email,
+                            password
+                        }
+                    })
+                    .done(response => {
+                        localStorage.setItem('access_token', response.access_token)
+                        showHomePage()
+                    })
+                    .fail((xhr, status) => {
+                        console.log(xhr.responseJSON, status);
+                    })
+                    .always(_ => {
+                        $("#form-login").trigger("reset")
+                    })
             })
         }
 
@@ -205,7 +208,7 @@
         function register() {
             showRegisterationPage()
 
-            $("#form-register").on("submit", function(event) {
+            $("#form-register").on("submit", function (event) {
                 event.preventDefault()
                 const data = {
                     username: $("#user-name").val(),
@@ -225,12 +228,43 @@
             // })
         }
 
+        function fetchToDos() {
+            $("#table-todos > tbody").empty()
+            $.ajax({
+                    url: 'http://localhost:3000/todos',
+                    method: 'GET',
+                    headers: {
+                        access_token: localStorage.getItem('access_token')
+                    }
+                })
+                .done(response => {
+                    for (let i = 0; i < response.length; i++) {
+                        $("#table-todos > tbody").append(`
+                        <tr>
+                            <td>${i+1}</td>
+                            <td>${response[i].title}</td>
+                            <td>${response[i].description}</td>
+                            <td>${response[i].status}</td>
+                            <td>${response[i].due_date}</td>
+                            <td>
+                                <input class="btn btn-block btn-info" type="button" value="Edit" onclick="editToDo(${response[i].id})">
+                                <input class="btn btn-block btn-danger" type="button" value="Delete" onclick="deleteToDo(${response[i].id})">
+                            </td>
+                        </tr>`)
+                        console.log(response[i]);
+                    }
+                })
+                .fail((xhr, status) => {
+                    console.log(xhr, status);
+                })
+        }
+
         function addToDo() {
             hideAll()
             $("#div-addToDos").show()
             $("#btn-logout").show()
 
-            $("#form-todo").on("submit", function(event) {
+            $("#form-todo").on("submit", function (event) {
                 event.preventDefault()
 
                 const data = {
@@ -241,22 +275,43 @@
                 }
 
                 $.ajax({
-                    url: 'http://localhost:3000/todos/',
-                    method: 'POST',
-                    headers: {
-                        access_token: localStorage.getItem('access_token')
-                    },
-                    data
-                })
-                .done(response => {
-                    console.log(response);
-                })
-                .fail((xhr, status) => {
-                    console.log(xhr, status);
-                })
-                .always(_=> {
-                    $("#form-todo").trigger("reset")
-                })
+                        url: 'http://localhost:3000/todos/',
+                        method: 'POST',
+                        headers: {
+                            access_token: localStorage.getItem('access_token')
+                        },
+                        data
+                    })
+                    .done(response => {
+                        console.log(response);
+                    })
+                    .fail((xhr, status) => {
+                        console.log(xhr, status);
+                    })
+                    .always(_ => {
+                        $("#form-todo").trigger("reset")
+                    })
+            })
+        }
+
+        function editToDo(id) {
+            console.log(id);
+        }
+
+        function deleteToDo(id) {
+            $.ajax({
+                url: `http://localhost:3000/todos/${id}`,
+                method: 'DELETE',
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                }
+            })
+            .done(response => {
+                console.log(response);
+                fetchToDos()
+            })
+            .fail((xhr, status) => {
+                console.log(xhr, status);
             })
         }
 
@@ -266,7 +321,6 @@
             } else {
                 showLoginPage()
             }
-            
         })
     </script>
 </body>

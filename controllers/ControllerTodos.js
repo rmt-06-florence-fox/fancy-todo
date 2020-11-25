@@ -5,7 +5,7 @@ class ControllerTodos {
     static showToDos(req, res, next) {
         ToDo.findAll({
             where: {
-                id: req.loggedInUser.id
+                UserId: req.loggedInUser.id
             }
         })
             .then(data => {
