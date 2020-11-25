@@ -3,7 +3,12 @@ const {Todo} = require("../models/index")
 class TodoController{
     static async getTodos (req, res, next){
         try {
-            const todos = await Todo.findAll()
+            const todos = await Todo.findAll({
+                where:{
+                    UserId: req.loginUser.id
+                }
+            })
+            //use where
             res.status(200).json(todos)
         } catch (error) {
             next(error)
@@ -19,7 +24,7 @@ class TodoController{
             description: req.body.description,
             status: req.body.status,
             due_date: req.body.due_date,
-            UserId: req.body.UserId
+            UserId: req.loginUser.id
         }
         Todo.create(obj)
         .then(data=>{
@@ -42,6 +47,7 @@ class TodoController{
         Todo.findByPk(id)
         .then(data=>{
             if(!data){
+                throw `error`
                 res.status(404).json({message: `data not found`})
             } else {
                 res.status(200).json(data)
