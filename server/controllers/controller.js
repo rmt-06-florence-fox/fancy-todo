@@ -4,9 +4,9 @@ const { getToken } = require('../helpers/jwt-token')
 const { default: Axios } = require('axios')
 
 class Controller {
-    static async listTodos(req, res) {
+    static async listTodos(req, res, next) {
         try {
-            const data = await Todo.findOne({where: {UserId: req.loggedInUser.id}})
+            const data = await Todo.findAll({where: {UserId: req.loggedInUser.id}})
             res.status(200).json(data)
         } catch (error) {
             next({

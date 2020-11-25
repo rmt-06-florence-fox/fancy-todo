@@ -4,8 +4,10 @@ const app = express()
 const port = 3000
 const route = require('./routes/index')
 const errorhandler = require('./middlewares/errorhandler')
+const cors = require('cors')
 
 
+app.use(cors())
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 

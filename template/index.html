@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <title>Todo App</title>
+</head>
+<body>
+    <h1>Todo App</h1>
+    <br>
+    <div id="btn-logout">
+        <button>Log Out</button>
+        <br><br>
+    </div>
+    <div id="login-form">
+        <form action="">
+            <label for="username">Username :</label>
+            <br>
+            <input type="text" id="username" name="username">
+            <br><br>
+            <label for="password">Password :</label>
+            <br>
+            <input type="password" id="password" name="password">
+            <br><br>
+            <input type="submit" value="Log In">
+        </form>
+        <br>
+    </div>
+    <div id="main-page">
+        <form id="add-form">
+            <label for="title">Title: </label><br>
+            <input type="text" value="" id="title" name="title">
+            <br><br>
+            <label for="description">Description: </label><br>
+            <input type="text" value="" id="description" name="description">
+            <br><br>
+            <label for="status">Status: </label><br>
+            <input type="text" value="" id="status" name="status">
+            <br><br>
+            <label for="due_date">Due Date: </label><br>
+            <input type="date" value="" id="due_date" name="due_date">
+            <br><br>
+            <input type="submit" value="Add Todo">
+        </form>
+        <br><br>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Due Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="todo-body">
+                
+            </tbody>
+        </table>
+    </div>
+    <br><br><br>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+    <script>
+        function showLoginPage() {
+            $("#btn-logout").hide()
+            $("#login-form").show()
+            $("#main-page").hide()
+        }
+
+        function showMainPage() {
+            getTodos()
+            $("#btn-logout").show()
+            $("#login-form").hide()
+            $("#main-page").show()
+        }
+
+        function getTodos() {
+            let ajax = $.ajax({
+                url: 'http://localhost:3000/todos',
+                method: 'GET',
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                }
+            })
+            ajax.done(response => {
+                $("#todo-body").empty()
+                for (let i = 0; i < response.length; i++) {
+                    $("#todo-body").append(`<tr>
+                    <td>${response[i].title}</td>
+                    <td>${response[i].description}</td>
+                    <td>${response[i].status}</td>
+                    <td>${response[i].due_date}</td>
+                    <td><button onclick="editTodo(${response[i].id})">Edit</button> | <button onclick="deleteTodo(${response[i].id})">Delete</button></td>
+                </tr>`)
+                }
+            })
+            ajax.fail((xhr, textStatus) => {
+                console.log(xhr, textStatus)
+            })
+        }
+
+        function logout() {
+            localStorage.clear()
+            showLoginPage()
+        }
+
+        function deleteTodo(id) {
+            $.ajax({
+                url: 'http://localhost:3000/todos/delete/' + id,
+                method: 'DELETE',
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                }
+            })
+            .done(response => {
+                showMainPage()
+            })
+            .fail((xhr, textStatus) => {
+                console.log(xhr, textStatus)
+            })
+        }
+
+        function editTodo(id) {
+            $.ajax({
+                url: 'http://localhost:3000/todos/edit/' + id,
+                method: 'PUT'
+            })
+        }
+
+        $(document).ready(function(){
+            if(localStorage.access_token) {
+                showMainPage()
+            } else {
+                showLoginPage()
+            }
+            
+            $("#login-form").on("submit", function(e) {
+                e.preventDefault()
+                let username = $("#username").val()
+                let password = $("#password").val()
+                let ajax = $.ajax({
+                    url: 'http://localhost:3000/user/login',
+                    method: 'POST',
+                    data: {
+                        username,
+                        password
+                    }
+                })
+                ajax.done(response => {
+                    localStorage.setItem('access_token', response.access_token)
+                    showMainPage()
+                })
+                ajax.fail((xhr, textStatus) => {
+                    console.log(xhr, textStatus)
+                })
+                ajax.always(() => {
+                    $("#username").val("")
+                    $("#password").val("")
+                })
+            })
+
+            $("#add-form").on("submit", function(e) {
+                e.preventDefault()
+                const title = $("#title").val()
+                const description = $("#description").val()
+                const status = $("#status").val()
+                const due_date = $("#due_date").val()
+
+                let ajax = $.ajax({
+                    url: 'http://localhost:3000/todos/add',
+                    method: 'POST',
+                    headers: {
+                        access_token: localStorage.getItem('access_token')
+                    },
+                    data: {
+                        title,
+                        description,
+                        status,
+                        due_date
+                    }
+                })
+                ajax.done(response => {
+                    showMainPage()
+                })
+                ajax.fail((xhr, textStatus) => {
+                    console.log(xhr, textStatus)
+                })
+                ajax.always(() => {
+                    $("#title").val("")
+                    $("#description").val("")
+                    $("#status").val("")
+                    $("#due_date").val("")
+                })
+            })
+
+            $("#btn-logout").on("click", function(e) {
+                logout()
+            })
+        })
+    </script>
+</body>
+</html>
