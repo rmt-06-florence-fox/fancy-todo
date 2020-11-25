@@ -90,12 +90,22 @@
   </div>
 
   <div id ="main-page">
-    <button id="btn-logout">logout</button>
-      <button id="btn-add-todo" class="btn btn-success" data-toggle="modal" data-target="#add-form">Add Todo</button>
-      <div id="todos-list">
-      
-      </div>
+    <nav class="navbar bg-dark">
+      <button id="btn-logout" class="btn btn-success">logout</button>
+    </nav>
+    <br>
+    <div style="padding-left: 10px;">
+      <button id="btn-add-todo" class="btn btn-primary" data-toggle="modal" data-target="#add-form">Add Todo</button>
     </div>
+    <br>
+      <div class="row">
+        <div id="todos-list" class="col-sm-4">
+          
+        </div>
+        <div class="col-sm-8">
+
+        </div>
+      </div>
   </div>
 
   <div class="container edit-modal">
@@ -106,17 +116,32 @@
           
           <!-- Modal body -->
           <div class="modal-body">
+            <h1>Edit Form</h1>
+            <div id="edit-form-notif">
+
+            </div>
             <form id="edit-todo-form">
-              <h1>Edit Form</h1>
-              Title:<br>
-              <input type="text" id="title-edit" name="title"><br>
-              Description:<br>
-              <input type="text" id="description-edit" name="description"><br>
-              Status:<br>
-              <input type="text" id="status-edit" name="status"><br>
-              Due Date:<br>
-              <input type="date" id="due_date-edit" name="due_date"><br>
-              <button type="submit">Submit</button> <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <div class="form-group">
+                Title:<br>
+                <input type="text" id="title-edit" name="title"><br>
+              </div>
+              <div class="form-group">
+                Description:<br>
+                <input type="text" id="description-edit" name="description"><br>
+              </div>
+              <div class="form-group">
+                Status:<br>
+                <select name="status" id="status-edit">
+                  <option selected disabled>--Please select status--</option>
+                  <option value="Completed">Completed</option>
+                  <option value="On Going">On Going</option>
+                </select><br>
+              </div>
+              <div class="form-group">
+                Due Date:<br>
+                <input type="date" id="due_date-edit" name="due_date"><br>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button> <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </form>
           </div>
         </div>
@@ -149,7 +174,12 @@
               </div>
               <div class="form-group">
                 Status:<br>
-                <input type="text" id="status-add" name="status"><br>
+                <select name="status" id="status-add">
+                  <option selected disabled>--Please select status--</option>
+                  <option value="Completed">Completed</option>
+                  <option value="On Going">On Going</option>
+                </select><br>
+                <!-- <input type="text" id="status-add" name="status"><br> -->
               </div>
               <div class="form-group">
                 Due Date:<br>
@@ -161,6 +191,7 @@
         </div>
       </div>
     </div>
+  </div>
     
 
 
@@ -265,11 +296,22 @@
         $("#todos-list").empty()
         for (let i = 0; i < response.length; i++){
           $("#todos-list").prepend(`
-          <div style="background-color: aqua;">
-            <p><strong>${response[i].title}<strong></p>
-            <p>${response[i].description}</p>
-            <p>${response[i].due_date}</p><br>
-            <button id="btn-delete-todo" onclick="deleteTodo(${response[i].id})">Delete</button> <button id="btn-edit-todo" class="btn btn-success" data-toggle="modal" data-target="#edit-form" onclick="toggleEditForm(${response[i].id})">Edit</button>
+          <div id="accordion" style="padding-left: 10px;">
+            <div class="card">
+            <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapseOne">
+              <strong>${response[i].title}<strong> <br>
+                <button id="btn-update-status-todo" class="btn btn-primary" onclick="updateStatus(${response[i].id})">Mark As Done</button> <button id="btn-delete-todo" class="btn btn-danger" onclick="deleteTodo(${response[i].id})">Delete</button> <button id="btn-edit-todo" class="btn btn-success" data-toggle="modal" data-target="#edit-form" onclick="toggleEditForm(${response[i].id})">Edit</button>
+            </a>
+            </div>
+            <div id="collapseOne" class="collapse show" data-parent="#accordion">
+              <div class="card-body">
+                <p>${response[i].description}</p>
+                <p>${response[i].due_date}</p>
+                <p>${response[i].status}</p>
+              </div>
+            </div>
+          </div>
           </div>
           `)
         }
@@ -361,10 +403,25 @@
       })
       .done(function( response ) {
         //localStorage.setItem("access_token", response.access_token)
+        $("#edit-form-notif").empty()
+        $("#edit-form-notif").prepend(`
+        <div class="alert alert-success alert-dismisible">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          Successfully edit todo list!
+          </div>
+        `)
         console.log("Berhasil edit data")
         showMainPage()
       })
       .fail(xhr => {
+        for(let i = 0; i < xhr.responseJSON.message.length; i++){
+          $("#edit-form-notif").prepend(`
+          <div class="alert alert-danger alert-dismisible">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          ${xhr.responseJSON.message[i]}
+          </div>
+        `)
+        }
         console.log(xhr)
       })
       .always(() => {
@@ -387,6 +444,25 @@
       })
       .fail(err => {
         console.log(err)
+      })
+    }
+
+    function updateStatus(id){
+      $.ajax({
+        url: "http://localhost:3000/todos/"+id,
+        method: "PATCH",
+        headers: {
+          access_token: localStorage.getItem("access_token")
+        },
+        data: {
+          status: "Completed"
+        }
+      })
+      .done(response => {
+        showMainPage()
+      })
+      .fail(xhr => {
+        console.log(xhr)
       })
     }
     function logoutUser(){
@@ -412,7 +488,6 @@
           email,
           password
         })
-      })
       })
 
       $("#submit-register-form").on("submit", function(event){
@@ -469,6 +544,8 @@
       $("#btn-logout").on("click", () => {
         logoutUser()
       })
+
+    })
   </script>
 </body>
 </html>
