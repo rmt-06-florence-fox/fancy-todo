@@ -373,13 +373,55 @@ _Response (200 - Success)_
 ```
 
 _Response (401 - Unauthorized)_
+```
 {
     "message": "You are not authorized"
 }
 ```
 OR
+
 _Response (500 - Internal server error)_
 ```
+{
+    "message": "Internal server error"
+}
+```
+
+---
+### GET /todos/news
+
+> Get new from 3rd party api- the guardian
+
+_Request Header_
+```
+{
+  "access_token": "<your access token>"
+}
+```
+
+_Request Body_
+```
+not needed
+```
+
+_Response (200 - Success)_
+```
+[
+    {
+        "title": "Australian Open delay 'likely' outcome of government talks with Tennis Australia",
+        "url": "https://www.theguardian.com/sport/2020/nov/25/australian-open-likely-to-be-delayed"
+    },
+    {
+        "title": "South Australia records no new Covid cases; Queensland opens border to Victoria – live news",
+        "url": "https://www.theguardian.com/australia-news/live/2020/nov/25/nsw-coronavirus-restrictions-queensland-border-opening-south-australia-victoria-cluster-cases-live-news"
+    },
+    .
+    .
+    .
+]
+```
+
+_Response (500 - Internal server error)_
 {
     "message": "Internal server error"
 }

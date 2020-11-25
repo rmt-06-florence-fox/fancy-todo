@@ -30,7 +30,7 @@ class UserController{
                     }
                     // res.status(401).json({msg : 'Invalid account'})
                 } else if (comparePw(req.body.password, data.password)){
-                    console.log(comparePw(req.body.password, data.password),'<<<');
+                    // console.log(comparePw(req.body.password, data.password),'<<<');
                     const access_token = createToken({id: data.id, email: data.email})
                     res.status(200).json({access_token})
                 } else {

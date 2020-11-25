@@ -1,5 +1,3 @@
-const e = require("express");
-
 module.exports = (err, req, res, next)=>{
     console.log('Di error handler');
     // console.log(err);

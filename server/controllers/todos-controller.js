@@ -153,7 +153,7 @@ class TodosController {
                 dataResponse.forEach(el => {
                     dataNews.push({title: el.webTitle, url: el.webUrl})
                 })
-                // console.log(dataNews);
+                console.log(dataNews);
                 res.json(dataNews)
             })
             .catch(err => {
