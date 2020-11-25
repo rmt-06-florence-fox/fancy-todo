@@ -1,10 +1,15 @@
+const {Todo} = require('../models')
+
 class TodoController {
   static async create (req, res, next) {
-   try {
-    res.send('enter in controller') 
-   } catch (error) {
-    res.send(error) 
-   } 
+    const {title, description, status, due_date} = req.body
+    try {
+     const todo = await Todo.create({title, description, status, due_date}) 
+     res.status(201).json({todo})
+    } catch (error) {
+     console.log(error); 
+     res.status(500).json(error)
+    } 
   }
 
   static async get (req, res, next) {

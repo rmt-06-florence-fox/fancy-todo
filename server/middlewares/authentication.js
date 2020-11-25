@@ -1,11 +1,11 @@
-const bcrypt = require('bcryptjs')
+const {verifyToken} = require('../helpers/jwt')
+const {User} = require('../models')
 
-const hashPassword =  password => {
-  return bcrypt.hashSync(password, +process.env.SALT)
+const authentication = async (req, res, next) => {
+  const {access_token} = req.headers
+  try {
+    
+  } catch (error) {
+    
+  }
 }
-
-const comparePassword = (password, hash) => {
-  return bcrypt.compareSync(password, hash) 
-}
-
-module.exports = { hashPassword, comparePassword}

@@ -37,7 +37,8 @@ module.exports = (sequelize, DataTypes) => {
       dateValidate(currentDate) {
         if (currentDate < new Date()) throw new Error ('Date must be greater than today')
       }
-    }
+    },
+    UserId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Todo',
