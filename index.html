@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="413611539602-74ffc7fipnau0ts1afu3bi3mfu04mh72.apps.googleusercontent.com">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Example</title>
 </head>
@@ -43,10 +44,35 @@
             <input type="password" name="password" placeholder="password" id="login-password"><br>
             <button type="submit" id="btn-submit-login">Login</button>
         </form>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
         <button id="btn-register">Register</button>
     </div>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script>
+        // function onSignIn(googleUser) {
+        //     var profile = googleUser.getBasicProfile();
+        //     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        //     console.log('Name: ' + profile.getName());
+        //     console.log('Image URL: ' + profile.getImageUrl());
+        //     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        // }
+        function onSignIn(googleUser) {
+            var id_token = googleUser.getAuthResponse().id_token;
+            $.ajax({
+                url: 'http://localhost:3000/user/googleLogin',
+                method: 'POST',
+                data: {
+                    googleToken: id_token
+                }
+            })
+            .done(response => {
+                localStorage.setItem('access_token', response.acces_token)
+            })
+            .fail(error => {
+                console.log(error);
+            })
+        }
         function todo(params) {
             $('#table-todo').empty()
             $.ajax({
@@ -148,7 +174,8 @@
                    }
                })
                .done(value => {
-                localStorage.setItem('access_token', value)
+                   console.log(value);
+                localStorage.setItem('access_token', value.token)
                    console.log(value);
                    mainDisplay()
                })
@@ -166,6 +193,10 @@
                 event.preventDefault()
                 localStorage.removeItem("access_token");
                 loginDisplay()
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                console.log('User signed out.');
+    });
             })
         }
         function loginDisplay(params) {
