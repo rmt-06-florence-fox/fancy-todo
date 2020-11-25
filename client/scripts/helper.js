@@ -1,6 +1,15 @@
 function landing () {
+        //show login form
+        $('#formlogin').show(0,_=> {
+            $('#slog')
+            .on('click', _=> {
+                $('#formregister').show();
+                $('#formlogin').hide()
+          })
+        })
+
     //show register form
-     $('#formregister').show('fast',_=> {
+     $('#formregister').hide(0,_=> {
           $('#sreg')
           .on('click', _=> {
                 $('#formregister').hide();
@@ -8,19 +17,10 @@ function landing () {
           })
       });
 
-    //show login form
-     $('#formlogin').hide('fast',_=> {
-        $('#slog')
-        .on('click', _=> {
-            $('#formregister').show();
-            $('#formlogin').hide()
-      })
-    })
-
     //register user
     $('#formregister').on('submit', e => {
+        $('#errorlog').empty()
         e.preventDefault()
-        console.log('tes')
         const data = {
                         name: $('#namereg').val(),
                         email: $('#emailreg').val(),
@@ -33,7 +33,7 @@ function landing () {
             data: data
             })
             .done (msg => {
-                console.log(msg)
+                localStorage.setItem('access_token', msg.access_token)
                 homepage()
             })
             .fail((xhr, textStatus) => {
@@ -53,7 +53,11 @@ function landing () {
                     .errors[0]
                     .message)
             })
-            .always()
+            .always(_=> {
+                $('#namereg').val('')
+                $('#emailreg').val('')
+                $('#passwordreg').val('')
+            })
     });
 
     //login user
@@ -70,11 +74,15 @@ function landing () {
             data: data
             })
             .done (msg => {
-                console.log(msg)
+                localStorage.setItem('access_token', msg.access_token)
                 homepage()
             })
             .fail((xhr, textStatus) => {
                 console.log(xhr)
+            })
+            .always(_=> {
+                $('#emaillog').val('')
+                $('#passwordlog').val('')
             })
     });
 
@@ -83,9 +91,37 @@ function landing () {
 }
 
 function homepage () {
-    $('#homepage').show()
+    $('#homepage').show(0)
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:3000/todos",
+        headers: {
+            access_token: localStorage.getItem('access_token')
+        }
+        })
+        .done (msg => {
+            const list = msg.list
 
+            list.forEach(el => {
+                $('#list').prepend(`
+                        <tr class='row'>
+                            <td class="col"><b>${el.title}</b><br>
+                                ${el.desrcription} 
+                            </td>
+                            <td class="col-md-auto d-flex align-items-center">
+                            <button type="button" class="btn btn-warning btn-sm mr-1">Edit</button>
+                            <button type="button" class="btn btn-success btn-sm mr-1">Mark As Done</button>
+                            <button type="button" class="btn btn-dark btn-sm">Delete</button>
+                            </td>
+                        </tr>
+                                    `)
+            })
+            console.log(list)
+        })
+        .fail((xhr, textStatus) => {
+            console.log(xhr)
+        })
 
     //hide another page
-    $('#landing').hide()
+    $('#landing').hide(0)
 }

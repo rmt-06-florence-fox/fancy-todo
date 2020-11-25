@@ -1,6 +1,9 @@
 $(document).ready (function(){
 
-    // jQuery methods go here...
-    landing()
-    
+    if (localStorage.getItem('access_token')) {
+      homepage()
+    } else {
+      landing()
+    }
+
   });
