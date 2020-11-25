@@ -11,18 +11,17 @@
 <body>
     <header class="container-fluid navbar-nav">
         <button class="nav-bar"><a href="/" class="nav-link">FANCY TO DO</a></button>
-        <button class="nav-bar"><a href="/login" id="loginBtn">Log In</a></button>
-        <button class="nav-bar" id="logoutBtn"><a href="/logout">Log Out</a></button>
+        <button class="nav-bar" id="logoutBtn">Log Out</button>
     </header>
 
     <br>
     <div id="login-form" class="">
         <form action="" method="POST" class="">
             <label for="email">Email : </label> <br>
-            <input type="email" name="email"> <br>
+            <input type="email" name="email" id="login-email"> <br>
             
             <label for="password">Password : </label> <br>
-            <input type="password" name="password"> <br>
+            <input type="password" name="password" id="login-password"> <br>
 
             <input type="submit" value="login">
         </form>
@@ -33,24 +32,23 @@
         <form action="" method="POST" class="">
 
             <label for="fullName">Name : </label> <br>
-            <input type="text" name="fullName"> <br>
+            <input type="text" name="fullName" id="fullName"> <br>
 
             <label for="userName">User Name : </label> <br>
-            <input type="text" name="userName"> <br>
+            <input type="text" name="userName" id="userName"> <br>
 
             <label for="email">Email : </label> <br>
-            <input type="email" name="email"> <br>
+            <input type="email" name="email" id="email"> <br>
         
             <label for="password">Password : </label> <br>
-            <input type="password" name="password"> <br>
+            <input type="password" name="password" id="password"> <br>
         
-            <input type="submit" name="">
+            <input type="submit" value="register">
         </form>
     </div>
 
-    <div id="content">
-
-
+    <div id="content" class="row">
+        
     </div>
     
     <script src="scripts/helpers.js"></script>

@@ -26,6 +26,10 @@ class Helper {
     static verifyToken(token){
         return jwt.verify(token, process.env.SECRET_WORDS)
     }
+
+    static customErr(status, message){
+        throw {status, message}
+    }
 }
 
 module.exports = Helper
