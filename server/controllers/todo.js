@@ -9,7 +9,7 @@ class TodoController{
       due_date: req.body.due_date,
       UserId: req.currentUser.id
     }
-    
+    console.log(newTodo);
     try{
       const data = await Todo.create(newTodo)   
       res.status(201).json(data)
