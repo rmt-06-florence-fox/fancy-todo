@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
 			},
 		});
 		console.log(todo);
-		if (!todo.UserId) {
+		if (!todo) {
 			const errorName = 'TodoNotFound';
 			next({
 				name: errorName,

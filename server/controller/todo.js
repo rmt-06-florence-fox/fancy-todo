@@ -30,6 +30,7 @@ class TodoController {
 	static getTodos(req, res, next) {
 		const id = req.loggedInUser.id;
 		Todo.findAll({
+			order: [['due_date', 'DESC']],
 			where: {
 				UserId: id,
 			},

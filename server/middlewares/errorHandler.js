@@ -28,9 +28,6 @@ module.exports = (err, req, res, next) => {
 	} else if (err.name === 'NotLoginYet') {
 		status = 401;
 		message = 'Please Login First';
-	} else if (err.name === 'TypeError') {
-		status = 404;
-		message = 'Todo Not Found';
 	} else if (err.name === 'JsonWebTokenError') {
 		status = 404;
 		message = "Invalid Account Or Password'";

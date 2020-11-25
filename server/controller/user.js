@@ -3,6 +3,9 @@ const jwt = require('jsonwebtoken');
 const { comparePassword } = require('../helpers/bcrypt');
 const { generateToken } = require('../helpers/jwt');
 
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 class UserController {
 	static register(req, res, next) {
 		const newUser = {
@@ -51,6 +54,45 @@ class UserController {
 			})
 			.catch((err) => {
 				next(err);
+			});
+	}
+
+	static googleLogin(req, res, next) {
+		let payload;
+		client
+			.verifyIdToken({
+				idToken: req.body.googleToken,
+				audience: process.env.GOOGLE_CLIENT_ID,
+			})
+			.then((ticket) => {
+				payload = ticket.getPayload();
+				return User.findOne({
+					where: {
+						email: payload.email,
+					},
+				});
+			})
+			.then((user) => {
+				if (user) {
+					return user;
+				} else {
+					return User.create({
+						email: payload.email,
+						username: payload.name,
+						password: process.env.GOOGLE_PASSWORD,
+					});
+				}
+			})
+			.then((user) => {
+				const access_token = generateToken({
+					id: user.id,
+					username: user.username,
+					email: user.email,
+				});
+				res.status(200).json({ access_token });
+			})
+			.catch((err) => {
+				res.status(500).json(500);
 			});
 	}
 }
