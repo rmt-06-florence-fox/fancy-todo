@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     status: {
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
       validate: {
         args: true,
         msg: 'field status is required'
@@ -38,10 +38,14 @@ module.exports = (sequelize, DataTypes) => {
         if (currentDate < new Date()) throw new Error ('Date must be greater than today')
       }
     },
-    UserId: DataTypes.INTEGER
-  }, {
-    sequelize,
+    UserId: DataTypes.INTEGER }, {
+     sequelize,
     modelName: 'Todo',
   });
+
+  Todo.addHook('beforeCreate', instance => {
+    instance.status = false
+  })
+
   return Todo;
 };
