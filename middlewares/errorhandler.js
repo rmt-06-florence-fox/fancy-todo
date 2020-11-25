@@ -5,7 +5,9 @@ module.exports = (err, req, res, next) => {
             arrErrors.push({message: err.errors[i].message})
         }
         res.status(400).json(arrErrors)
-    } else {
+    } else if (err.status) {
         res.status(err.status).json({message: err.message})
+    } else {
+        res.status(500).json({message: 'Intenal Server Error'})
     }
 }

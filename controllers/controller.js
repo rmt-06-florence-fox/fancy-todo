@@ -28,6 +28,7 @@ class Controller {
             const data = await Todo.create(obj)
             res.status(201).json(data)
         } catch (error) {
+            console.log(error)
             next(error)
         }
     }
@@ -84,6 +85,7 @@ class Controller {
                 }
             } else if (compare(req.body.password, data.password)) {
                 const access_token = getToken(data)
+                // res.status(200).json({message: 'Login Success!!'})
                 res.status(200).json({access_token})
             } else {
                 throw {

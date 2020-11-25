@@ -15,18 +15,51 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Todo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.TEXT,
-    status: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        validatename(value) {
+          if (value === null || value === '') {
+            throw new Error ('Please enter your title!!')
+          }
+        }
+      }
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        validatename(value) {
+          if (value === null || value === '') {
+            throw new Error ('Please enter your description!!')
+          }
+        }
+      }
+    },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        validatename(value) {
+          if (value === null || value === '') {
+            throw new Error ('Please enter your status!!')
+          }
+        }
+      }
+    },
     due_date: {
       type: DataTypes.DATEONLY,
       validate: {
         validateDate(value) {
-          if (new Date(value) <= new Date()) {
+          if (value === null || value === '') {
+            throw new Error ('Please enter your due date!!')
+          } else if (new Date(value) <= new Date()) {
             throw new Error ('Due Date must greater than today!!')
           }
         }
-      }},
+      }
+    },
     UserId: DataTypes.INTEGER
   }, {
     sequelize,
