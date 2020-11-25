@@ -140,7 +140,22 @@ function getRegisterData(){
     })
 
 }
-
+function changeStatus(id){
+    $.ajax({
+        method : 'PATCH',
+        url : `http://localhost:3000/todos/${id}`,
+        data : {
+            status : 'success'
+        },
+        headers : {
+            access_token : localStorage.getItem('access_token')
+        }
+    }).done(resp =>{
+        mainPage()
+    }).fail(err =>{
+        console.log(err)
+    })
+}
 function fetchTodoList(){
     $('#todo-table').empty()
     $.ajax({
@@ -166,7 +181,7 @@ function fetchTodoList(){
                 <tr >
                     <td>
                         <form action="">
-                            <input type="checkbox" name="" class="checkbox-todo">
+                            <input type="checkbox" name="" class="checkbox-todo" onclick = changeStatus(${todo.id})>
                         </form>
                     </td>
                         <td>description : ${todo.description}<br>
