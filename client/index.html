@@ -12,6 +12,7 @@
 
 
 <body>
+  <!-- navbar -->
   <div id=navbar-container>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Fancy Todo</a>
@@ -29,9 +30,9 @@
       </div>
     </nav>
   </div>
-
-  <div class="container p-5">
-    <div id="login-page">
+  <!-- login -->
+  <div id="login-page">
+    <div class="container p-5">
       <form id="login-form">
         <div class="form-group">
           <label for="inputEmail">Email</label>
@@ -43,10 +44,25 @@
         </div>
         <input type="submit" id="submit-login" value="login">
       </form>
-      <a href="">register</a>
+      <a href="" id="link-register">register</a>
     </div>
   </div>
-
+  <!-- register -->
+  <div id="register-page">
+    <div class="container p-5">
+      <form id="register-form">
+        <div class="form-group">
+          <label for="inputEmail">Email</label>
+          <input type="email" id="inputEmailRegister" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="inputPassword">password</label>
+          <input type="password" id="inputPasswordRegister" class="form-control">
+        </div>
+        <input class="btn btn-primary" type="submit" id="submit-register" value="register">
+      </form>
+    </div>
+  </div>
   <div id="main-page">
     <h1>ini main page</h1>
   </div>
@@ -65,15 +81,21 @@
       $('#main-page').hide();
       $('#create-todo').hide();
       $('#sign-out-button').hide();
+      $('#register-page').hide();
     }
     function showMainPage() {
       $('#login-page').hide();
       $('#main-page').show();
       $('#create-todo').show();
       $('#sign-out-button').show();
+      $('#register-page').hide();
     }
     function showRegister(){
-      
+      $('#login-page').hide();
+      $('#main-page').hide();
+      $('#create-todo').hide();
+      $('#sign-out-button').hide();
+      $('#register-page').show();
     }
 
     function login() {
@@ -109,8 +131,36 @@
       showLogin();
     }
 
+    function register(){
+      const email = $('#inputEmailRegister').val()
+      const password = $('#inputPasswordRegister').val()
+      console.log(email,password);
+      $.ajax({
+        method:"POST",
+        url:"http://localhost:3000/register",
+        data:{
+          email,
+          password
+        }
+      })
+      .done(_=>{
+        showLogin()
+      })
+      .fail((xhr, textStatus)=>{
+        console.log(xhr);
+      })
+      .always(_=>{
+        $('#inputEmailRegister').val("")
+        $('#inputPasswordRegister').val("")
+      })
+    }
+
+    function checkToken(){
+      (localStorage.getItem('access_token'))? true:false
+    }
+
     $(document).ready(() => {
-      if (localStorage.getItem('access_token')) {
+      if (checkToken()) {
         showMainPage();
       } else {
         showLogin();
@@ -120,6 +170,17 @@
         e.preventDefault()
         login()
       })
+
+      $('#link-register').on('click',(e)=>{
+        e.preventDefault();
+        showRegister();
+      })
+
+      $('#register-form').on('submit', (e)=>{
+        e.preventDefault();
+        register();
+      })
+      
     })
   </script>
 </body>
