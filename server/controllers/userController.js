@@ -7,8 +7,6 @@ class UserController{
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            createdAt: new Date(),
-            updatedAt: new Date()
         }
         User.create(obj)
         .then(value => {
@@ -21,6 +19,7 @@ class UserController{
     static login(req, res, next){
         const email = req.body.email
         const password = req.body.password
+        console.log(email);
         User.findOne({where:{
             email: email
         }})
@@ -34,7 +33,7 @@ class UserController{
             }else if(Bcrypt.compare(password, value.password)){
                 const token = jwt.sign({id: value.id, email:value.email}, process.env.secret)
                 req.headers.token = token
-                req.loginUser = value.id
+                req.loginUser.id = +value.dataValues.id
                 res.status(200).json(token)
             }else{
                 // res.status(401).json(`email or password invalid`)
