@@ -7,7 +7,6 @@ module.exports = async (req, res, next) => {
         id: +req.params.id
       }
     })
-
     if (find.UserId === req.loggedin.id) {
       next()
     } else {

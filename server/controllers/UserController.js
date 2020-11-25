@@ -2,7 +2,9 @@ const { User } = require("../models");
 const { compare } = require("../helpers/passwordHandler");
 const { generateToken } = require("../helpers/tokenHandler");
 class UserController {
-  static async register(req, res) {
+
+  //create
+  static async register(req, res, next) {
     try {
       const payload = {
         username: req.body.username,
@@ -12,23 +14,23 @@ class UserController {
       const data = await User.create(payload);
       res.status(201).json(data);
     } catch (error) {
-      if (error.name === "SequelizeValidationError") {
-        res.status(400).json(error.message);
-      } else {
-        res.status(500).json({ msg: "Internal Server Error" });
-      }
+      next(error)
     }
   }
 
-  static async login(req, res) {
+  //login
+  static login(req, res, next) {
     User.findOne({
       where: {
-        email: req.body.email,
+        email: req.body.email
       },
     })
       .then((data) => {
         if (!data) {
-          res.status(401).json({ msg: "Invalid account" });
+          throw {
+            status: 401,
+            message: "Account not found!"
+          }
         } else if (compare(req.body.password, data.password)) {
           const access_token = generateToken({
             id: data.id,
@@ -36,11 +38,14 @@ class UserController {
           });
           res.status(200).json({ access_token });
         } else {
-          res.status(401).json({ msg: "Invalid email/password" });
+          throw {
+            status: 401,
+            message: "Invalid email/password"
+          }
         }
       })
       .catch((err) => {
-        res.status(500).json({ msg: "internal server error" });
+        next(err)
       });
   }
 }

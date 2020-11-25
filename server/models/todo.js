@@ -47,10 +47,11 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   // Todo.addHook("beforeCreate", (ini) => {
-  //   //kalau misal status kosong, maka diisi pending
+  //   //kalau misal status kosong, maka diisi ongoing
   //   if (!ini.status) {
-  //     ini.status = "Pending";
+  //     ini.status = "ongoing";
   //   }
+  //
   //   //kalau misal due_date kosong, diisi besok
   //   // if (!due_date) {
   //   //   const today = new Date()
@@ -58,5 +59,6 @@ module.exports = (sequelize, DataTypes) => {
   //   //   ini.due_date = tomorrow.setDate(tomorrow.getDate() + 1)
   //   // }
   // });
+  
   return Todo;
 };
