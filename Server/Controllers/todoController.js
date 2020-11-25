@@ -25,7 +25,11 @@ class TodoController{
   static async readAllData(req, res, next){
     try{
       console.log(req.loginUser, '<<<< user login dari controller');
-      const result = await Todo.findAll()
+      const result = await Todo.findAll({
+        where:{
+          UserId: req.loginUser.id
+        }
+      })
       res.status(200).json({data: result})
     }catch(err){
       next(err)

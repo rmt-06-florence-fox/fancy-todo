@@ -19,13 +19,13 @@
             <a class="nav-link" href="#" onclick="showHome()">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn btn-login" href="#" id="btn-nav-login" onclick="showLoginPage()">Login</a>
+            <a class="nav-link btn btn-login" id="btn-nav-login" onclick="showLoginPage()">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn btn-register" href="#" id="btn-nav-regist" onclick="showRegistPage()">Register</a>
+            <a class="nav-link btn btn-register" id="btn-nav-regist" onclick="showRegistPage()">Register</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn btn-logout" href="#" tabindex="-1" aria-disabled="true" id="btn-logout" >Logout</a>
+            <a class="nav-link btn btn-logout"  tabindex="-1" aria-disabled="true" id="btn-logout" >Logout</a>
           </li>
         </ul>
       </div>
@@ -88,17 +88,49 @@
     </div>
 
     <div id="main-page">
-      <!-- Show List Todo -->
-      <div id="create-todo">
-
-      </div>
       <!-- Form Create Todo -->
-      <div id="todo-list">
-        
+      <div id="create-todo">
+        <h1> Add Todo List </h1>
+        <form id="form-create-todo">
+          <div class="form-group row">
+            <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputTitle">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputDescription" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputDescription">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputStatus" class="col-sm-2 col-form-label">Status</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="inputStatus">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="inputDueDate" class="col-sm-2 col-form-label">Due Date</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" id="inputDueDate">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+          </div>
+        </form>
       </div>
-    </div>
+
+      <!-- Show List Todo -->
+      <div id="todo-list" class="row row-cols-1 row-cols-md-3">
+      </div>
 
     </div>
+
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
   <script>
@@ -106,18 +138,21 @@
       $('.navbar').show()
       $('#btn-logout').hide()
       $('.container').hide()
+      $('#main-page').hide()
     }
     function showLoginPage(){
       $('.navbar').show()
       $('#login-page').show()
       $('#regist-page').hide()
       $('#btn-logout').hide()
+      $('#main-page').hide()
     }
     function showRegistPage(){
       $('.navbar').show()
       $('#regist-page').show()
       $('#login-page').hide()
       $('#btn-logout').hide()
+      $('#main-page').hide()
     }
     function regist(){
       $('#form-regist').on('submit', function(e){
@@ -136,7 +171,6 @@
           }
         })
           .done(response => {
-            console.log(response);
             showLoginPage()
           })
           .fail((xhr, textStatus) =>{
@@ -162,8 +196,10 @@
           }
         })
           .done(response => {
-            localStorage.setItem('access_token', response.access_token)
+            console.log(response);
+            localStorage.setItem('access_token', response.accessToken)
             console.log(localStorage, '<<< local storage');
+            showMainPage()
           })
           .fail((xhr, textStatus) =>{
             // console.log('--- gagal ---');
@@ -178,8 +214,76 @@
       $('.navbar').show()
       $('#btn-logout').hide()
       $('.container').hide()
+      localStorage.removeItem("access_token");
+      // showRegistPage()
+      showLoginPage()
     }
-    
+    function showMainPage(){
+      $('.navbar').show()
+      $('#btn-nav-login').hide()
+      $('#btn-nav-regist').hide()
+      $('#login-page').hide()
+      $('#regist-page').hide()
+      $('#btn-logout').show()
+      $('#main-page').show()
+    }
+    function createTodo(){
+      const title = $('#inputTitle').val()
+      const description = $('#inputDescription').val()
+      const status = $('#inputStatus').val()
+      const due_date = $('#inputDueDate').val()
+      
+      $.ajax({
+        method: 'POST',
+        url: 'http://localhost:3000/todos',
+        headers:{
+          access_token: localStorage.getItem('access_token')
+        },
+        data:{
+          title,
+          description,
+          status,
+          due_date
+        }
+      })
+        .done(response => fetchDataTodoList())
+        .fail(xhr => console.log(xhr))
+        .always(_ => $('create-todo').trigger('reset'))
+    }
+    function fetchDataTodoList(){
+      $.ajax({
+        method: 'GET',
+        url: 'http://localhost:3000/todos',
+        headers:{
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .done(response =>{
+          $('#todo-list').empty()
+          console.log(response);
+          response.data.forEach((e)=>{
+            $('#todo-list').append(`
+            <div class = "col mb-4">
+              <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">${e.title}</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">${e.description}</li>
+                  <li class="list-group-item">${e.status}</li>
+                  <li class="list-group-item">${e.due_date}</li>
+                </ul>
+                <div class="card-body">
+                  <a class="btn btn-primary" href="#" id="btn-edit" onclick = "editData(${e.id})">Edit</a>
+                  <a class="btn btn-danger" href="#" id="btn-delete" onclick = "deleteData(${e.id})">Delete</a>
+                </div>
+              </div>
+            </div>
+            `)
+          })
+        })
+        .fail(xhr => console.log(xhr))
+    }
     $(document).ready(function(){
       // showHome()
       // $('#btn-nav-login').on('click', function(e){
@@ -189,19 +293,26 @@
       //   showRegistPage()
       // })
       showRegistPage()
-      $('#form-login').on('submit', (e)=>{
-        e.preventDefault()
-        login()
-      })
       $('#form-regist').on('submit', function(e){
         e.preventDefault()
         regist()
       })
-      if(localStorage.getItem(access_token)){
-
+      $('#form-login').on('submit', (e)=>{
+        e.preventDefault()
+        login()
+      })
+      if(localStorage.getItem('access_token')){
+        showMainPage()
       }else{
-
+        showLoginPage()
       }
+      $('#form-create-todo').on('submit', (e)=>{
+        e.preventDefault()
+        createTodo()
+      })
+      $('#btn-logout').on('click', (e)=>{
+        logout()
+      })
     })
   </script>
 </body>
