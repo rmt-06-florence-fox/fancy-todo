@@ -2,11 +2,13 @@ const { Todo } = require('../models/index.js');
 
 class TodoController {
     static createTodo(req, res) {
+        //console.log(req.loggedInUser)       
         Todo.create({
           title: req.body.title,
           description: req.body.description,
           status: req.body.status,
-          due_date: req.body.due_date
+          due_date: req.body.due_date,
+          UserId: req.loggedInUser.id
         })
         .then(data => {
             if (data) {
@@ -16,17 +18,21 @@ class TodoController {
                 res.status(400).json({ message: 'validation errors' });              
             }
         })
-        .catch((err) => {
+        .catch(err => {
             res.status(500).json(err);
         });
     }
 
     static showTodo(req, res) {
-        Todo.findAll()
+        Todo.findAll({
+            where: {
+                UserId: req.loggedInUser.id
+            }
+        })
         .then(data => {
             res.status(200).json(data);
         })
-        .catch((err) => {
+        .catch(err => {
             res.status(500).json(err);
         });
     }
@@ -41,7 +47,7 @@ class TodoController {
                 res.status(404).json({ message: 'error not found' });             
             }
         })
-        .catch((err) => {
+        .catch(err => {
             res.status(500).json(err);
         });
     }
@@ -66,7 +72,7 @@ class TodoController {
                 res.status(404).json({ message: 'error not found' });
             }
         })
-        .catch((err) => {
+        .catch(err => {
             res.status(500).json(err);
         });        
     }
@@ -87,7 +93,7 @@ class TodoController {
                 res.status(404).json({ message: 'error not found' });
             }
         })
-        .catch((err) => {
+        .catch(err => {
             res.status(500).json(err);
         });
     }
@@ -102,7 +108,7 @@ class TodoController {
                 res.status(404).json({ message: 'error not found' });
             }
         })
-        .catch((err) => {
+        .catch(err => {
             res.status(500).json(err);
         });
     }

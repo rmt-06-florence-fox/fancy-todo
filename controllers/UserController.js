@@ -1,6 +1,7 @@
 const { User } = require('../models/index.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { generateToken } = require('../helpers/jwt.js');
 
 class UserController {
     static register(req,res) {
@@ -26,7 +27,7 @@ class UserController {
             }
             else {
                 if (bcrypt.compareSync(req.body.password, data.password)) {
-                    const access_token = jwt.sign({id: data.id, email: data.email}, process.env.SECRET);
+                    const access_token = generateToken({id: data.id, email: data.email});
                     res.status(200).json({access_token});
                 }
                 else {
