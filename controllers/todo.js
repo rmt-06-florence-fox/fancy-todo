@@ -28,15 +28,7 @@ class Controller {
        res.status(201).json(data)
      }
      catch (error){
-      //  if(error.name === "SequelizeValidationError"){
-      //    let errors = []
-      //    throw {
-      //      status: 400,
-      //      message: error.errors[0].message
-      //    }
-      //   //  res.status(400).json(error.errors[0].message)
-      //  }
-       
+  
         next(error)
        
      }
