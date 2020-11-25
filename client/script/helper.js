@@ -236,3 +236,29 @@ let updateTodo = (id) => {
         $(`#warning-${id}`).html(`<b>${jqXHR.responseJSON.errors}</b>`);
     });
 }
+
+// ! google signin
+function onSignIn(googleUser) {
+    const google_token = googleUser.getAuthResponse().id_token;
+    const request = $.ajax({
+        url: "http://localhost:3000/googleLogin",
+        method: "POST",
+        data: {google_token}
+    });
+
+    request.done((message) => {
+        localStorage.setItem('access_token', message.access_token);
+        showMainPage()
+        $("#warning").empty()
+    })
+
+    request.fail((jqxhr, status) => {
+        // console.log(jqxhr.responseJSON);
+        $("#warning").html(`<b>${jqxhr.responseJSON.errors}</b>`);
+    })
+
+    request.always(() => {
+        $("#login-email").val("")
+        $("#login-password").val("")
+    })
+}

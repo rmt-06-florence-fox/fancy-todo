@@ -1,6 +1,8 @@
 const { User } = require('../models')
 const Token = require('../helpers/jsonwebtoken')
 const Password = require('../helpers/hash-password')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 class UserController {
 
@@ -51,6 +53,38 @@ class UserController {
             next(error)
         }
 
+    }
+
+    static async googleLogin(req, res, next) {
+        try {
+            const ticket = await client.verifyIdToken({
+                idToken: req.body.google_token,
+                audience: process.env.GOOGLE_CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+                // Or, if multiple clients access the backend:
+                //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+            });
+
+            const payload = ticket.getPayload()
+            const userlogin = await User.findOne({
+                where: {
+                    email: payload.email
+                }
+            })
+
+            if (userlogin) {
+                const access_token = Token.getToken({id:userlogin.id, email:userlogin.email})
+                res.status(200).json({access_token})
+            } else {
+                const createuser = await User.create({
+                    email: payload.email,
+                    password: process.env.GOOGLE_PASSWORD
+                })
+                const access_token = Token.getToken({id:createuser.id, email:createuser.email})
+                res.status(200).json({access_token})
+            }
+        } catch (error) {
+            next(error)
+        }
     }
 }
 

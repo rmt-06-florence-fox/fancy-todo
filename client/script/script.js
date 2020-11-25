@@ -31,6 +31,10 @@ $(document).ready(function(){
         e.preventDefault()
         localStorage.clear()
         showLandingPage()
+        const auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+        });
     })
 
     $("#add-form").on("submit", (e) => {
