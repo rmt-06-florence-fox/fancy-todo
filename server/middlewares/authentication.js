@@ -13,9 +13,14 @@ module.exports = function (req, res, next){
 
         User.findByPk(userId)
             .then(datum => {
-                if (datum) next ()
+
+                if (datum) {
+                    req.headers.LoggedInUser = decoded
+                    next ()
+                }
+
                 else throw {
-                    message: 'you need to login',
+                    message: 'you need to log in',
                     status: 401
                 } //will produce an error
             })
@@ -23,7 +28,7 @@ module.exports = function (req, res, next){
 
     } else {
         next ({
-            message : 'you need to login',
+            message : 'you need to log in',
             status : 401
         })
     }

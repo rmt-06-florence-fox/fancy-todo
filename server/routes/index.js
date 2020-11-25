@@ -13,7 +13,6 @@ router.get('/login', UserController.getLoginForm)
 router.post('/login', UserController.login)
 
 router.use(authenticate)
-
 router.use('/todos', todoRouter)
 //router.use('/users', userRouter)
 

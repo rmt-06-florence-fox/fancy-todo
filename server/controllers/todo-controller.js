@@ -50,8 +50,8 @@ class ToDoController {
     }
 
     static async updateById(req, res, next){
-        let id = +req.params.id
-        let {title, description, status, due_date} = req.body
+        const id = +req.params.id
+        const {title, description, status, due_date} = req.body
         let newRecord = { title, description, status, due_date }
 
         try {
@@ -68,7 +68,7 @@ class ToDoController {
             } else {
                 throw {
                     status : 404,
-                    message: 'target data not are found'
+                    message: 'target data are not found'
                 }
             }
 
