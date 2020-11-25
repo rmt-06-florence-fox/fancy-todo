@@ -8,7 +8,8 @@ module.exports = {
         status: 'pending',
         due_date: '2020-11-25',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        UserId: 1
       },
       {
         title: 'Buy flowers',
@@ -16,7 +17,8 @@ module.exports = {
         status: 'pending',
         due_date: '2020-11-25',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        UserId: 2
       }
     ], {});
   },

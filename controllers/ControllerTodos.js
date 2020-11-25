@@ -3,7 +3,11 @@ const { ToDo } = require('../models/index')
 class ControllerTodos {
 
     static showToDos(req, res, next) {
-        ToDo.findAll()
+        ToDo.findAll({
+            where: {
+                id: req.loggedInUser.id
+            }
+        })
             .then(data => {
                 res.status(200).json(data)
             })

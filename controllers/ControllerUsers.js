@@ -27,13 +27,13 @@ class ControllerUsers {
 
     static loginUser(req, res, next) {
         const payload = {
-            username: req.body.username,
+            email: req.body.email,
             password: req.body.password
         }
 
         User.findOne({
             where: {
-                username: payload.username
+                email: payload.email
             }
         })
         .then(data => {
