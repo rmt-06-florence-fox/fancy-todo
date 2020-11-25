@@ -2,6 +2,7 @@ const {verify} = require('../helpers/jwt')
 
 module.exports = (req,res,next) => {
    try{
+      console.log(req.body);
       const {access_token} = req.headers
       if(!access_token){
          throw({
@@ -11,6 +12,7 @@ module.exports = (req,res,next) => {
       }else{
          const decoded = verify(access_token)
          req.loggedIn = decoded
+         console.log(req.loggedIn);
          next()
       }
 

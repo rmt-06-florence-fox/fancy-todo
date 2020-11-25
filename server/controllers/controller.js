@@ -21,6 +21,7 @@ class Controller {
 
    static async postTodo(req,res,next){
       const {title,description,status,due_date} = req.body
+      console.log("buat todo")
       try{
          let data = await Todo.create(
          {
@@ -74,6 +75,7 @@ class Controller {
 
    static async modify(req,res,next){
       const id = +req.params.id
+      req.body.status = false
       const target = {
          title:req.body.title,
          description:req.body.description,
