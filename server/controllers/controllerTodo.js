@@ -4,13 +4,15 @@ const { compare } = require('../helper/bcrypt')
 class Controller {
 
     static createTodo(req,res) {
+        console.log("masuk sini")
         const obj = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
             due_date: req.body.due_date,
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            UserId: req.loggedInUser.id
         }
         Todo.create(obj)
         .then( data => {
@@ -19,7 +21,7 @@ class Controller {
                 description: data.description,
                 status: data.status,
                 due_date: data.due_date,
-                UserId: req.loggedInUser.id
+                UserId: data.UserId
             })
         })
         .catch(error => {
@@ -33,8 +35,9 @@ class Controller {
     }
 
     static listTodo(req,res){
-        Todo.findAll()
+        Todo.findAll({where: {UserId: req.loggedInUser.id}})
         .then(data => {
+            console.log("masuk")
             res.status(200).json(data)
         })
         .catch(error => {

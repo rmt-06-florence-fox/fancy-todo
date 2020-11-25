@@ -7,9 +7,7 @@ h1 {
     border-style: solid;
     text-align: center;
     margin-top: 10px;
+    object-fit: cover;
 }
 
 
-.main-page{
-    position: relative;
-}

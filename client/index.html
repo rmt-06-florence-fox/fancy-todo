@@ -29,8 +29,10 @@
     </div>
 
     <!-- //main-page -->
+    <button id="logout-btn">logout</button>
     <div id="main-page" class="main-page">
         <h1>list todos</h1>
+        <form action="" class="form-add-todo" id="form-add-todo">
             <div>
                 <label for="title">title</label><br>
                 <input type="text" class="input-title" id="input-title">
@@ -45,19 +47,17 @@
             </div>
             <div>
                 <label for="due_date">due_date</label><br>
-                <input type="text" class="input-due_date" id="due_date">
+                <input type="text" class="input-due_date" id="input-due_date">
             </div>
-            <button type="submit">save</button>
+            <button type="submit" class="save-todo">save</button>
+            
+        </form>
             <div class="list-todos" id="list-todos">
+
                 
             </div>
     </div>
     
-    
-
-
-    <button id="logout-btn">logout</button>
-
 
     <script>
         function loginPage(){
@@ -99,6 +99,7 @@
             loginPage()
         }
         function fetchTodos(){
+            $("#list-todos").empty()
             $.ajax({
                 url: "http://localhost:3000/todos",
                 method: "GET",
@@ -114,6 +115,9 @@
                     <p>${response[i].description}</p>
                     <p>${response[i].status}</p>
                     <p>${response[i].due_date}</p>
+                    <button onclick="deleteTodo(${response[i].id})" class="delete-btn">delete</button>
+                    <button onclick="editTodo(${response[i].id})" class="update-btn">update</button>
+                    <button onclick="editStatus(${response[i].id})" class="updateStatus-btn">done</button>
                     </div>`)
                 }
             })
@@ -121,6 +125,90 @@
                 console.log(error)
             })
         }
+
+        function addTodo(){
+            const title = $("#input-title").val()
+            const description = $("#input-description").val()
+            const status = $("#input-status").val()
+            const due_date = $("#input-due_date").val()
+            
+            $.ajax({
+                method: 'POST',
+                url: 'http://localhost:3000/todos',
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                },
+                data: {
+                    title: title,
+                    description: description,
+                    status: status,
+                    due_date: due_date
+                }
+            })
+            .done(response => {
+                fetchTodos()
+                console.log(response)
+            })
+            .fail(error => {
+                console.log(description)
+                console.log(error)
+            })
+            .always(_ => {
+                $("#list-todos").trigger("reset")
+            })
+        }
+
+        function editTodo(id){
+            // $.ajax({
+            //     method: "PUT",
+            //     url: 'http://localhost:3000/todos/' + id,
+            // })
+            // .done(response => {
+            //     fetchTodos()
+            // })
+            // .fail(error => {
+            //     console.log(error)
+            // })
+            console.log(id)
+        }
+
+        function editStatus(id){
+            $.ajax({
+                method: "PATCH",
+                url: 'http://localhost:3000/todos/' +id,
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                },
+                data: {
+                    status: "selesai"
+                }
+                
+            })
+            .done(response => {
+                fetchTodos()
+            })
+            .fail(error => {
+                console.log(error)
+            })
+        }
+
+        function deleteTodo(id){
+            $.ajax({
+                method: "DELETE",
+                url: 'http://localhost:3000/todos/' +id,
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                }
+            })
+            .done(response => {
+                fetchTodos()
+            })
+            .fail(error => {
+                console.log(error)
+            })
+            
+        }
+
 
         $(document).ready(function(){
             if(localStorage.getItem('access_token')){
@@ -138,7 +226,10 @@
                 logout()
             });
 
-
+            $("#form-add-todo").on("submit", function(e){
+                e.preventDefault();
+                addTodo()
+            });
 
         });
     </script>   
