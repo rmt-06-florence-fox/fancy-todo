@@ -1,6 +1,8 @@
 const { User } = require('../models')
 const { comparePwd } = require('../helpers/password')
 const { generateToken } = require('../helpers/jwt')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 
 class UserController {
@@ -25,8 +27,8 @@ class UserController {
                     message: `Invalid account`
                 }
             } else if (comparePwd(req.body.password, data.password)) {
-                const acces_token = generateToken({id: data.id, email: data.email})
-                res.status(200).json({acces_token})
+                const access_token = generateToken({id: data.id, email: data.email})
+                res.status(200).json({access_token})
             } else {
                 throw {
                     status: 401,
@@ -38,6 +40,21 @@ class UserController {
             next(error)
         })
     }
+
+    static googleLogin (req, res, next) {
+        client.verifyIdToken({
+            idToken: req.body.googleToken,
+            audience: process.env.GOOGLE_CLIENT_ID
+        })
+        .then(ticket => {
+            console.log(ticket.getPayload)
+            res.status(200).json('ok')
+        })
+        .catch(error => {
+            next(error)
+        })
+    }
+
 }
 
 module.exports = UserController
