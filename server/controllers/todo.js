@@ -7,7 +7,8 @@ class TodoController{
       description: req.body.description,
       due: req.body.due,
       status: req.body.status,
-      category: req.body.category
+      category: req.body.category,
+      UserId: req.loggedIn.id
     }
     try {
       let todo= await Todo.create(newTodo)
@@ -24,7 +25,12 @@ class TodoController{
 
   static async getAll(req,res){
     try{
-      let todos= await Todo.findAll({ order: [['due', 'ASC']]});
+      let todos= await Todo.findAll({
+        where:{
+          UserId: req.loggedIn.id
+        },
+        order: [['due', 'ASC']]
+      });
       res.status(200).json(todos)
 
     }catch(err){
@@ -36,10 +42,10 @@ class TodoController{
     let id= req.params.id
     try{
       let todo= await Todo.findByPk(id);
-      if(todo !== null){
+      if(todo){
         res.status(200).json(todo)
       }else{
-        throw err
+        throw{ status:404, message: "Not Found"}
       }
 
     }catch(err){
@@ -59,12 +65,12 @@ class TodoController{
     }
     try {
       let todo= await Todo.findByPk(id);
-      if(todo !== null){
+      if(todo){
         let change= await Todo.update(dataChange,{
           where: {id},
           returning:true
         });
-        if(change !== null){
+        if(change){
           let todo=change[1][0]
           res.status(200).json(todo)
         }

@@ -1,5 +1,5 @@
 const {User} = require('../models')
-const {checkPassword, jwt} =require('../helpers')
+const {checkPassword, generateToken} =require('../helpers')
 
 class UserController{
   static async register(req,res){
@@ -12,8 +12,8 @@ class UserController{
       let user= await User.create(newUser)
       res.status(201).json({email: user.email, id: user.id})
     } catch (err) {
-      let message=err.errors[0].message
-      res.status(400).json({status: '400 Bad Request', message})
+      // let message=err.errors[0].message
+      res.status(400).json({status: '400 Bad Request'})
     }
     
   }
@@ -27,7 +27,7 @@ class UserController{
       if(user == null){
         throw err
       }else if(checkPassword(input.password,user.password)){
-        const access_token= jwt.sign({id:user.id, email:user.email, name:user.name},'CocaColaZero')
+        const access_token= generateToken({id:user.id, email:user.email, name:user.name})
         res.status(200).json({access_token})
       }else{
         throw err

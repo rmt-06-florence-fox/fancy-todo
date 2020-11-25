@@ -1,9 +1,11 @@
 const {hashPassword, checkPassword} = require('./bcrypt')
-const jwt = require('./jwt')
+const {generateToken, verifyToken} = require('./jwt')
+
 
 
 module.exports={
   hashPassword,
   checkPassword,
-  jwt
+  generateToken,
+  verifyToken
 }
