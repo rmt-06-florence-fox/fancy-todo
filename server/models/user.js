@@ -12,15 +12,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.Todo)
     }
   };
   User.init({
-    email: DataTypes.STRING,
+    email: {
+      type :DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isEmail: {
+          args: true,
+          msg: 'input must be email format'
+        }
+      }
+    },
     password: DataTypes.STRING
   }, {  
     hooks: {
       beforeCreate: (user, err) => {
-        if(user.password.length > 0) user.password = bcrypt.hashPassword(user.password);
+        user.password = bcrypt.hashPassword(user.password);
       } 
     },
     sequelize,

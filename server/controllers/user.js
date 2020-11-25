@@ -1,23 +1,45 @@
 const { User } = require('../models')
+const { comparePassword, generateToken } = require('../helpers')
 
 class UserController {
-    static async login (req, res){
+    static async register (req, res, next){
+        const payload = {
+            email: req.body.email,
+            password: req.body.password
+        }
         try {
-            res.status(200).json('ok')
+            const dataUser = await User.create(payload)
+            res.status(201).json({email: dataUser.email, id: dataUser.id})
             
-        } catch (error) {
-            res.status(500).json(error)
+        } catch (error) {   
+            next(error)
             
         }
 
     } 
-    static async register(req, res){
+    static async login(req, res, next){
 
         try {
-            res.status(200).json('ok')
+            const dataUser = await User.findOne({where: {email: req.body.email}})
+            if(!dataUser){
+                throw {
+                    status: 400,
+                    message: 'not found'
+                }
+            }
+            else if (comparePassword(req.body.password, dataUser.password)){
+                const access_token = generateToken({id: dataUser.id, email: dataUser.email})
+                res.status(200).json({access_token})
+            }
+            else{
+                throw {
+                    status: 401,
+                    message: 'invalid email/password'
+                }
+            }
             
-        } catch (error) {
-            res.status(500).json(error)
+        } catch(error){
+            next(error)
         }
     }
 }

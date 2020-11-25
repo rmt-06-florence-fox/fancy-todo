@@ -1,12 +1,17 @@
-const express = require('express');
+require('dotenv').config()
+const express = require('express')
 const router = require('./routers')
+const { errorHandler } = require('./middlewares')
+const cors = require('cors')    
 const app = express();
 const PORT = 3000;
-const { Op } = require('./models')
 
+app.use(cors())
 app.use(express.urlencoded({extended: false}))
 app.use(express.json()) 
 app.use(router)
-console.log("11/22/2020" > new Date().toLocaleDateString())
+app.use(errorHandler)
+const date = "2020-11-20"
+console.log(new Date(date).toISOString().substr(0,10))
 
 app.listen(PORT, () => console.log(`listening at http://localhost:${PORT}`))

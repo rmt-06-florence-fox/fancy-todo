@@ -12,26 +12,57 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.User)
     }
   };
   Todo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    status: DataTypes.STRING,
-    due_date: {
-      type: DataTypes.DATE,
-      // get: function(){
-      //   return moment(this.getDataValue('DateTime')).format('DD.MM.YYYY')
-      // },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-      validateDateNow(date){
-        if(date.toLocaleDateString() < new Date().toLocaleDateString()){
-          throw(new Error('invalid date'))  
+        notEmpty: {
+          args: true,
+          msg: 'title cannot be empty'
         }
       }
+    },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'description cannot be empty'
+          }
+        }
+      },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'status cannot be empty'
+        },
+      }
+    },
+    due_date: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+      validate: { 
+        notEmpty: {
+          args: true,
+          msg: "due_date cannot be empty"
+        },
+        validateDateNow(date){
+          if(date && date < new Date().toISOString().substr(0, 10)){
+            throw {message: 'date at least today'}  
+          }
+          // console.log(date.toLocaleDateString(), new Date().toLocaleDateString())
+      }
     }
-  }
-    
+  },
+    UserId: DataTypes.INTEGER   
   }, {
     sequelize,
     modelName: 'Todo',
