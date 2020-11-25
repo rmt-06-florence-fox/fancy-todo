@@ -11,5 +11,6 @@ router.get('/', Controller.home);
 router.use('/todos', todoRouter);
 router.use('/register', userRouter);
 router.post('/login', UserController.login);
+router.post('/googleLogin', UserController.googleLogin);
 
 module.exports = router;
