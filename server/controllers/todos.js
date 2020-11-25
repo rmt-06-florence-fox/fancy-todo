@@ -6,7 +6,10 @@ class TodosController {
         
         try {
             const data = await Todo.findAll({
-                order: [['id','ASC']]
+                order: [['id','ASC']],
+                where: {
+                    UserId: req.loggedInUser.id
+                }
             })
             res.status(200).json(data)
         } catch (error) {
@@ -20,15 +23,15 @@ class TodosController {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId: req.loggedInUser.id
         }
 
         try {
-            const data = await Todo.create(newTodo)
-    
-            if(new Date().getTime() > new Date(data.due_date).getTime()){
+            if(new Date().getTime() > new Date(newTodo.due_date).getTime()){
                 res.status(400).json({message: 'validation errors'})
             }else{  
+                const data = await Todo.create(newTodo)
                 res.status(201).json(data)
             }
         } catch (error) {
@@ -41,7 +44,12 @@ class TodosController {
 
         try {
             const data = await Todo.findByPk(id)
-            res.status(200).json(data)
+            if(data){
+                res.status(200).json(data)
+            }
+            else{
+                res.status(404).json({message: `Data not found`})
+            }
         } catch (error) {
             res.status(500).json(error)
         }
