@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     due_date: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       validate: {
         notEmpty: {
@@ -66,25 +66,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         isAfterDate(value){
           if (value){
-            let dateNow = new Date()
-            let year = dateNow.getFullYear()
-            let month = dateNow.getMonth()
-            let date = dateNow.getDate()
-
-            if(value.getFullYear() < year){
-              throw new Error("Date should be greater than recent date!")
-            }
-            else {
-              if (value.getMonth() < month){
-                throw new Error("Date should be greater than recent date!")
-              }
-              else {
-                if (value.getMonth() === month){
-                  if (value.getDate() < date){
-                    throw new Error("Date should be greater than recent date!")
-                  }
-                }
-              }
+            let dateNow = new Date().toISOString()
+            if (dateNow.split("T")[0] > value){
+              throw new Error("Date should be greater than today")
             }
           }
         }

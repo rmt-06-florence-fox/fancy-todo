@@ -60,7 +60,8 @@ class TodosController {
         where: {
           id: +req.params.id
         },
-        returning: true
+        validate: false,
+        returning: true,
       })
       if (!data[1].length){
         throw({
