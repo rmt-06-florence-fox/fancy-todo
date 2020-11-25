@@ -7,6 +7,10 @@
   <title>Document</title>
 </head>
 <body>
+  <nav>
+    <span>My To-Dos</span>
+    <button type="submit" id="signout">Sign Out</button>
+  </nav>
   <div id="signin-container">
     <h1>Sign In</h1>
     <form action="">
@@ -24,23 +28,26 @@
     </form>
   </div>
 
-  <!-- <div id="main-page">
+  <div id="main-page-container">
     <h1>Add To Do</h1>
-    <form action="">
+    <form id="add-todo">
       <div>
         <label for="inputTitle">Title: </label>
         <input type="text" id="input-title">
       </div>
       <div>
         <label for="inputDescription">Description: </label>
-        <input type="text" id="input-title">
+        <input type="text" id="input-description">
       </div>
       <div>
         <label for="inputDate">Due Date: </label>
-        <select id="input-date"></select>
+        <input type="date" id="input-date">
       </div>
-    </form>
-  </div> -->
+      <button type="submit">Add To-Do</button>
+    </form><br><br>
+    <div id="todo-list">
+    </div>
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
