@@ -16,7 +16,7 @@ class WeatherController {
       weather = {
         main: weather.data.weather[0].main,
         description: weather.data.weather[0].description,
-        temp: weather.data.main.temp,
+        temp: Math.round(weather.data.main.temp) / 10,
         country: weather.data.sys.country,
         name: weather.data.name,
       }

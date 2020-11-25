@@ -21,8 +21,8 @@ class TodoController {
 
     static async addTodo (req, res, next) {
         try {
-            const {title, description, due_date, status} = req.body
-            const newTodo = await Todo.create({title, description, due_date, status, UserId:req.loggedIn.id})
+            const {title, description, due_date, } = req.body
+            const newTodo = await Todo.create({title, description, due_date, status : 'unfinish', UserId:req.loggedIn.id})
             console.log(newTodo)
             res.status(201).json(newTodo)
         }

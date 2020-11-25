@@ -1,7 +1,7 @@
 function errorHandler (err, req, res, next) {
   let status = 500
   let message = err.name || `Internal server error!`
-
+console.log(err)
   if(err.name === 'SequelizeValidationError') {
     status = 401
     let errors = []
@@ -10,11 +10,15 @@ function errorHandler (err, req, res, next) {
     }
     message = errors.join(', ')
   } 
+  else if(err.error === 'wrong password/email') {
+      status = 401
+      message = 'wrong password/email'
+  }
   else if (err.name === 'SequelizeUniqueConstraintError') {
     status = 400
     message = 'Email is already taken!'
   } 
-  else if (err.message === 'Request failed with status cpde 404') {
+  else if (err.message === 'Request failed with status code 404') {
     status = 404
     message = 'Todo not found!'
   }

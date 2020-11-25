@@ -33,13 +33,15 @@ class UserController {
                 }
             })
             if(!user) {
-                res.status(401).json({
-                    msg: 'wrong password/email'
-                })
+                throw {
+                    status: 401,
+                    error: 'wrong password/email'
+                }
             } else if (!comparePassword(payload.password, user.password)) {
-                res.status(401).json({
-                    message: "wrong password/email"
-                })
+                throw {
+                    status: 401,
+                    error: 'wrong password/email'
+                }
             }else {
                 console.log('sampe')
                 const access_token = signToken({

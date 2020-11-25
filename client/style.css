@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css?family=Arimo:400,700");
+
+body {
+    padding: 20px;
+    height: 100%;
+}
+
+#add-todo-button {
+    display: flex;
+    justify-content: center;
+}
+
+.tes {
+    text-align: center;
+    width:500px;
+    display:center
+}
+
+.container {
+    text-align: center;
+}
+
+.testing {
+    font-size: 20;
+}
+
+.weather
+{
+display: flex;
+flex-flow: column wrap;
+box-shadow: 0px 20px 10px 0px #cfcfcf;
+overflow: hidden;box-sizing: 20px;
+}
+
+.weather .current
+{
+display: flex;
+justify-content: center;
+flex-flow: row wrap;
+background-image: url("/image/jakarta.jpg");
+background-size: 800px;
+color: white;
+padding: 30px;
+text-shadow: 1px 1px #F68D2E;
+}
+
+.weather .current .info
+{
+display: flex;
+flex-flow: column;
+justify-content: space-evenly;
+flex-grow: 2;
+}
+
+.weather .current .info .city
+{
+    font-size: 26px;
+}
+
+.weather .current .info .temp
+{
+    font-size: 56px;
+}
+
+.weather .current .info .wind
+{
+    font-size: 24px;
+}
+
+.weather .current .icon
+{
+text-align: center;
+font-size: 90px;
+flex-grow: 1;
+}
