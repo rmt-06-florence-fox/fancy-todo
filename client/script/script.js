@@ -30,9 +30,11 @@ $(document).ready(function(){
     $("#main-logout").on("click", (e) => {
         e.preventDefault()
         localStorage.clear()
-        $("#list-todo").empty()
         showLandingPage()
     })
 
-
+    $("#add-form").on("submit", (e) => {
+        e.preventDefault()
+        addTodo()
+    })
 });

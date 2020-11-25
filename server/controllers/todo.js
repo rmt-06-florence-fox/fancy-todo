@@ -24,7 +24,8 @@ class TodoController {
             const todo = await Todo.findAll({
                 where: {
                     UserId: req.loggedIn.id
-                }
+                },
+                order: [['status', 'asc'], ['due_date', 'asc']]
             })
             res.status(200).json(todo)
         } catch (error) {
