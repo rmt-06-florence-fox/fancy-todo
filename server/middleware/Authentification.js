@@ -1,15 +1,15 @@
-const { verifyToken } = require("jsonwebtoken");
+const { verifyToken } = require('../helpers/jwt');
 const UserController = require("../controller/usersController");
 const { User } = require('../models')
 
 
 module.exports = async (req, res, next) => {
 try {
-    console.log("bypass midlleware");
+    // console.log("bypass midlleware");
     const { access_token } = req.headers
-    console.log(req.headers);
-    console.log(access_token);
-    
+    // console.log(req.headers);
+    // console.log(access_token);
+
     if (!access_token) {
         res.status(401).json({message : "Please login first"}) 
     } else {
