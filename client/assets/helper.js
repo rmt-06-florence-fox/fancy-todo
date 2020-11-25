@@ -1,7 +1,7 @@
 
 
 function loginForm(){
-    $('#logout-button').show()
+    $('#logout-button').hide()
     $('#login-page').show()
     $('#edit-page').hide()
     $('#main-page').hide()
@@ -154,7 +154,8 @@ function fetchTodoList(){
         resp.forEach( todo =>{
             console.log(todo.description)
             let desc = todo.description
-            $('#todo-table').append(`<thead>
+            $('#todo-table').append(`
+            <thead class="center-text">
                 <tr>
                     <th></th>
                     <th>${todo.title}</th>
@@ -162,18 +163,18 @@ function fetchTodoList(){
             </thead>
 
             <tbody>
-                <tr>
+                <tr >
                     <td>
                         <form action="">
                             <input type="checkbox" name="" class="checkbox-todo">
                         </form>
                     </td>
-                    <td>description : ${todo.description}<br>
-                        due date : ${todo.due_date} <br>
-                        status : ${todo.status} <br>
-                        <button onclick = deleteData(${todo.id})>delete</button> 
-                        <button onclick = "editData(${todo.id})" >edit</button> 
-                    </td>
+                        <td>description : ${todo.description}<br>
+                            due date : ${todo.due_date} <br>
+                            status : ${todo.status} <br>
+                            <button onclick = deleteData(${todo.id})>delete</button> 
+                            <button onclick = "editData(${todo.id})" >edit</button> 
+                        </td>
 
                 </tr>
             </tbody>`)
