@@ -4,7 +4,9 @@ const authentication = require('../midleware/authentication.js')
 const authorization = require('../midleware/authorization.js')
 
 
-route.get('/exchange', TodoController.exchangeAPI)
+
+
+
 route.use(authentication)
 
 route.get('/', TodoController.getData)

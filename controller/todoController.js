@@ -1,6 +1,5 @@
 const {Todo} = require('../models/index.js')
 const { Op } = require('sequelize')
-const axios = require('axios')
 
 
 class TodoController {
@@ -163,18 +162,6 @@ class TodoController {
         }
     }
 
-    static async exchangeAPI(req,res,next){
-        try {
-            const exchangeData = await axios({
-                method : 'get',
-                url : `https://v6.exchangerate-api.com/v6/${process.env.exchange_rate_key}/latest/USD`
-            })
-            console.log(exchangeData)
-            res.status(200).json(exchangeData.data)
-        } catch (error) {
-            next(error)
-        }
-    }
 }
 
 
