@@ -3,7 +3,13 @@ const {Todo} = require('../models')
 class TodoController{
   static async getAllTodos (req, res){
     try {
-      const todos = await Todo.findAll()
+      const UserId = req.currentUser.id
+      console.log(UserId + 'ini current user');
+      const todos = await Todo.findAll({
+        where: {
+          UserId
+        }
+      })
 
       console.log(todos);
       res.status(200).json(todos)
@@ -16,9 +22,10 @@ class TodoController{
   static async createTodo(req, res) {
     try {
       const {title, description, status, due_date} = req.body
+      const UserId = req.currentUser.id
 
       const todo = await Todo.create({
-        title, description, status, due_date
+        title, description, status, due_date, UserId
       })
 
       res.status(201).json(todo)
@@ -60,20 +67,22 @@ class TodoController{
   }
 
   static async editTodoStatusById(req, res) {
+    console.log('di cont');
+   
     try {
       const {id} = req.params
 
       const {status} = req.body
 
-      const todo = Todo.update({
-        status
-      }, {
+      const todo = await Todo.update({status}, {
         where: {
           id
-        }
+        },
+        returning: true
       })
 
-      res.status(201).json(todo)
+      console.log(todo);
+      res.status(201).json(todo[1][0])
     } catch (err) {
       res.status(500).json(err)
     }

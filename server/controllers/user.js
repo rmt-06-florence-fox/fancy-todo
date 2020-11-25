@@ -39,10 +39,8 @@ class UserController{
       })
 
       if(!login){
-        throw {
-          status: 400,
-          message: 'Wrong email/password'
-        }
+        res.status(400).json({error: 'Wrong email/password'})
+        
       } else if(verifyHash(password,login.password)){
         const access_token = signToken({
           id: login.id,
@@ -52,10 +50,7 @@ class UserController{
           access_token: access_token
         })
       } else {
-        throw {
-          status: 400,
-          message: 'Wrong email/password'
-        }
+        res.status(400).json({error: 'Wrong email/password'})
       }
       
     } catch (err) {
