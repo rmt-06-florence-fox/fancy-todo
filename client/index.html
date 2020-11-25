@@ -28,6 +28,13 @@
         </form>      
     </div>
 
+    <!-- //update-page -->
+    <div id="update-page" class="update-page">
+        
+            
+        
+    </div>
+
     <!-- //main-page -->
     <button id="logout-btn">logout</button>
     <div id="main-page" class="main-page">
@@ -60,8 +67,15 @@
     
 
     <script>
+        function updatePage(){
+            $("#login-page").hide();
+            $("#update-page").show();
+            $("#main-page").hide();
+            $("#logout-btn").hide();
+        }
         function loginPage(){
             $("#login-page").show();
+            $("#update-page").hide();
             $("#main-page").hide();
             $("#logout-btn").hide();
         }
@@ -69,6 +83,7 @@
             $("#login-page").hide();
             $("#main-page").show();
             $("#logout-btn").show();
+            $("#update-page").hide();
             fetchTodos();
         }
         function login(){
@@ -116,7 +131,7 @@
                     <p>${response[i].status}</p>
                     <p>${response[i].due_date}</p>
                     <button onclick="deleteTodo(${response[i].id})" class="delete-btn">delete</button>
-                    <button onclick="editTodo(${response[i].id})" class="update-btn">update</button>
+                    <button onclick="formEditTodo(${response[i].id})" class="update-btn">update</button>
                     <button onclick="editStatus(${response[i].id})" class="updateStatus-btn">done</button>
                     </div>`)
                 }
@@ -158,18 +173,70 @@
             })
         }
 
-        function editTodo(id){
-            // $.ajax({
-            //     method: "PUT",
-            //     url: 'http://localhost:3000/todos/' + id,
-            // })
-            // .done(response => {
-            //     fetchTodos()
-            // })
-            // .fail(error => {
-            //     console.log(error)
-            // })
+        function formEditTodo(id){
+            $.ajax({
+                method: "GET",
+                url: 'http://localhost:3000/todos/' + id,
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                }
+            })
+            .done(response => {
+                updatePage()
+                $("#update-page").append(` 
+                <form action="" class="form-update-todo" id="form-update-todo">
+                    <div>
+                        <label for="title">title</label><br>
+                        <input type="text" class="update-title" name="title" id="update-title" value="${response.title}">
+                    </div>
+                    <div>
+                        <label for="description">description</label><br>
+                        <input type="text" class="update-description" name="description" id="update-description"value="${response.description}">
+                    </div>
+                    <div>
+                        <label for="status">status</label><br>
+                        <input type="text" class="update-status" id="update-status" name="status" value="${response.status}">
+                    </div>
+                    <div>
+                        <label for="due_date">due_date</label><br>
+                        <input type="text" class="update-due_date" id="update-due_date" name="due_date" value="${response.due_date.slice(0,10)}">
+                    </div>
+                    <button onclick="updateTodo(${$("#update-title").val()},${$("#update-description").val()},${$("#update-status").val()}, ${$("#update-due_date").val()},${id})" class="save-todo">save</button>
+                    <button onclick="fetchTodos()" class="cancel-todo">cancel</button>
+                </form>`
+                )   
+                // ${$("#update-title").val()},${$("#update-description").val()},${$("#update-status").val()}, ${$("#update-due_date").val()},${id}
+                // console.log($("#update-title"),$("#update-description"),$("#update-status"), $("#update-due_date"),id)
+                console.log(id)
+            })
+            .fail(error => {
+                console.log(error)
+            })
             console.log(id)
+            
+        }
+
+        function updateTodo(title,description,status,due_date,id){
+            console.log(title)
+            $.ajax({
+                method: 'PUT',
+                url: 'http://localhost:3000/todos/' + id, 
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                } ,
+                data: {
+                    title,
+                    description,
+                    status,
+                    due_date
+                }
+            })
+            .done(response =>{
+                console.log(response)
+            })
+            .fail(error => {
+                console.log(error)
+            })
         }
 
         function editStatus(id){

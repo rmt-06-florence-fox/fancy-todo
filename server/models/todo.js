@@ -55,15 +55,30 @@ module.exports = (sequelize, DataTypes) => {
             let day = dateObj.getDate();
             let year = dateObj.getFullYear()
             // console.log(value.getMonth()+1)
-            if(value.getMonth()+1 < month){
-              throw new Error('date must be greater than now')
-            }
-            if(value.getDate() < day){
-              throw new Error('date must be greater than now')
-            }
+            
             if(value.getFullYear() < year){
               throw new Error('date must be greater than now')
+            } else if (value.getFullYear() >= year){
+                if(value.getMonth()+1 < month){
+                  throw new Error('date must be greater than now')
+                } else if (value.getMonth()+1 >= month){
+                  if(value.getDate() < day){
+                    throw new Error('date must be greater than now')
+                  }
+                }
+              
+              //   if(value.getDate() < day){
+              //     throw new Error('date must be greater than now')
+              //   }
+              // }
             }
+
+            
+
+            
+            
+            
+            
           }
         }
       }
