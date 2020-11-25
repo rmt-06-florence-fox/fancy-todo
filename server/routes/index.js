@@ -10,6 +10,7 @@ router.get('/', (req, res)=>{
 
 router.post('/register', UserController.registerForm)
 router.post('/login', UserController.loginForm)
+router.post('/googleLogin', UserController.googleLogin)
 
 
 
