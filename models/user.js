@@ -12,14 +12,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Todo, {
+        foreignKey: 'UserId',
+        sourceKey : 'id'
+      })
     }
   };
   User.init({
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique : { 
+        args: true, 
+        msg: "Email already exists" },
       validate : {
-        isEmail: {
+        notEmpty: {
+          args:true,
+          msg: 'Email is Required'
+        }, isEmail: {
+          args:true,
           msg: 'Email is not Valid'
         }
       }
@@ -27,9 +38,12 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique : true,
+      unique : { 
+        args: true, 
+        msg: "Email already exists" },
       validate : {
-        notNull: {
+        notEmpty: {
+          args:true,
           msg: 'Username is required'
         }
       }
@@ -38,7 +52,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate : {
-        notNull: {
+        notEmpty: {
+          args:true,
           msg: 'Password is required'
         }
       }
@@ -49,8 +64,7 @@ module.exports = (sequelize, DataTypes) => {
         let salt = bcrypt.genSaltSync(4)
         dataUser.password = bcrypt.hashSync(dataUser.password, salt)
       }
-    }
-  }, {
+    },
     sequelize,
     modelName: 'User',
   });

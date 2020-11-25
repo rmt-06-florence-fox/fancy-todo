@@ -2,50 +2,54 @@ const { Todo } = require ("../models/index.js")
 
 class TodoController {
     
-    static async findTodos (req, res) {
+    static async findTodos (req, res, next) {
         try {
-            const todos = await Todo.findAll()
+            const todos = await Todo.findAll({
+                where : {
+                    UserId : req.dataUser.id
+                }
+            })
             res.status(200).json(todos)
-        } catch (error) {
-            res.status(500).json(error)
+        } catch (err) {
+            next (err)
         }
     }
 
-    static async findTodoById (req, res) {
+    static async findTodoById (req, res, next) {
         try {
             let id = req.params.id
             const todos = await Todo.findOne ({where : {id}})
-            if (todos === null) {
-                throw error
+            if (!todos) {
+                throw {
+                    status : 404,
+                    msg : "To Do Not Found"
+                }
             } else {
                 res.status(200).json(todos)
             }
-        } catch (error) {
-            res.status(404).json({msg : error.name})
+        } catch(err) {
+            next(err)
         }
     }
 
-    static async addTodos (req, res) {
+    static async addTodos (req, res, next) {
         try {
             let data = {
                 title : req.body.title,
                 description : req.body.description,
                 status : req.body.status,
-                due_date : req.body.due_date
+                due_date : req.body.due_date,
+                UserId : req.dataUser.id
             }
             const newTodo = await Todo.create(data)
             res.status(201).json(newTodo)
-        } catch (error) {
-            console.log (error)
-            if (error.name === "SequelizeValidationError") {
-                res.status(400).json({msg : error.name})
-            } else {
-                res.status(500).json({msg : error.name})
-            }
+        } catch(err) {
+            console.log (err)
+            next(err)
         }
     }
 
-    static async updateTodo (req, res) {
+    static async updateTodo (req, res, next) {
         try {
             let id = +req.params.id
             let data = {
@@ -55,23 +59,20 @@ class TodoController {
                 where : {id},
                 returning: true
             })
-            if (todos === null) {
-                throw error
+            if (!updateTodo) {
+                throw {
+                    status : 404,
+                    msg : "To Do Not Found on your list"
+                }
             } else {
                 res.status(200).json(updateTodo[1][0])
             }
-        } catch (error) {
-            if (error.name === "SequelizeValidationError") {
-                res.status(400).json({msg : error.name})
-            } else if (error.name === "referenceError") {
-                res.status(500).json({msg : error.name})
-            } else {
-                res.status(404).json({msg : error.name})
-            }
+        } catch(err) {
+            next(err)
         }
     }
 
-    static async updateTodoo (req, res) {
+    static async updateTodoo (req, res, next) {
         try {
             let id = +req.params.id
             let data = {
@@ -84,39 +85,35 @@ class TodoController {
                 where : {id},
                 returning: true
             })
-            if (todos.id == null) {
-                throw error
+            if (!updateTodo) {
+                throw {
+                    status : 404,
+                    msg : "To Do Not Found on your list"
+                }
             } else {
                 res.status(200).json(updateTodo[1][0])
             }
-        } catch (error) {
-            if (error.name === "SequelizeValidationError") {
-                res.status(400).json({msg : error.name})
-            } else if (error.name === "referenceError") {
-                res.status(500).json({msg : error.name})
-            } else {
-                res.status(404).json({msg : error.name})
-            }
+        } catch(err) {
+            next(err)
         }
     }
 
-    static async removeTodo (req, res) {
+    static async removeTodo (req, res, next) {
         try {
             let id = req.params.id
             const todos = await Todo.destroy({
                 where: {id}
             })
-            if (todos[+id].id === undefined) {
-                throw error
+            if (!todos) {
+                throw {
+                    status : 404,
+                    msg : "To Do Not Found on your list"
+                }
             } else {
                 res.status(200).json({msg : `To do with id ${id} Success to delete`})
             }
-        } catch (error) {
-            if (error.name === "referenceError") {
-                res.status(500).json({msg : error.name})
-            } else {
-                res.status(404).json({msg : error.name})
-            }
+        } catch(err) {
+            next(err)
         }
     }
 }

@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Todo.belongsTo(models.User, {
+        foreignKey: 'UserId',
+        targetKey:'id'
+      })
     }
   };
   Todo.init({
@@ -18,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate : {
-        notNull: {
+        notEmpty: {
+          args:true,
           msg: 'Title is required'
         }
       }
@@ -27,7 +32,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate : {
-        notNull: {
+        notEmpty: {
+          args:true,
           msg: 'Description is required'
         }
       }
@@ -36,7 +42,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate : {
-        notNull: {
+        notEmpty: {
+          args:true,
           msg: 'Status is required'
         }
       }
@@ -45,9 +52,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
       validate : {
-        isAfter: new Date (),
-        msg: 'Please input valid date'
+        isAfter: {
+        args: new Date().toString(),
+        msg: 'Date must be greater than today'
+        }
       }
+    },
+    UserId : {
+      type : DataTypes.INTEGER
     }
   }, {
     sequelize,

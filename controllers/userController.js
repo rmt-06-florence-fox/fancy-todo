@@ -1,10 +1,10 @@
 const { User } = require ("../models/index")
 const bcrypt = require ('bcryptjs')
-const jwt = require ('jsonwebtoken')
+const { generateToken } = require ('../helpers/jwt.js')
 
 class UserController {
 
-    static async register (req, res) {
+    static async register (req, res, next) {
         try {
             let data = {
                 email : req.body.email,
@@ -12,35 +12,48 @@ class UserController {
                 password : req.body.password
             }
             const newUser = await User.create(data)
-            res.status(201).json(newUser)
-        } catch (error) {
-            console.log (error)
-            if (error.name === "SequelizeValidationError") {
-                res.status(400).json({msg : error.name})
-            } else {
-                res.status(500).json({msg : error.name})
-            }
+            res.status(201).json({
+                email : newUser.email,
+                username : newUser.username
+            })
+        } catch (err) {
+            next(err)
         }
     }
 
-    static async login (req, res) {
+    static async login (req, res, next) {
         try {
-            let username = req.body.username
-            const user = await Todo.findOne ({where : {username}})
+            let email = req.body.email
+            const user = await User.findOne ({where : {email}})
             if (!user) {
-                res.status(401).json({msg : "Invalid Account"})
+                throw {
+                    status : 401,
+                    msg : "Invalid Account"
+                }
             } else  {
                 if (bcrypt.compareSync(req.body.password, user.password)) {
-                    const token = jwt.sign({id: user.id, username: user.username}, process.env.SECRET)
+                    const token = generateToken({id: user.id, username: user.username})
                     res.status(200).json({token})
                 } else {
-                    res.status(401).json({msg : "Invalid Username/Password"})
+                    throw {
+                        status : 401,
+                        msg : "Invalid Username/Password"
+                    }
                 }
             }
-        } catch (error) {
-            res.status(500).json({msg : error.name})
+        } catch (err) {
+            next(err)
         }
     }
+
+    static async logout (req, res) {
+        try {
+
+        } catch (err) {
+
+        }
+    }
+    
 }
 
 module.exports = UserController
