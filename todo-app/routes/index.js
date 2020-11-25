@@ -7,6 +7,8 @@ const authorization = require('../middlewares/authorization')
 router.post('/register', Controller.register)
 router.post('/login', Controller.login)
 
+router.get('/weather', Controller.weather)
+
 // Todo
 router.use(authentication)
 router.get('/todos', Controller.todoList)

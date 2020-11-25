@@ -8,7 +8,13 @@ module.exports = async (req, res, next) => {
                 id : req.params.id
             }
         })
-        if (todo.UserId === req.loggedInUser.id) {
+        // console.log(todo);
+        if(!todo) {
+            // console.log('HUJAHUA');
+            res.status(404).json({
+                message: 'Data not found'
+            })
+        } else if (todo.UserId === req.loggedInUser.id) {
             next()
         } else {
             res.status(401).json({
