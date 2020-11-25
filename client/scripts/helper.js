@@ -88,9 +88,11 @@ function landing () {
 
     //hide another page
     $('#homepage').hide()
+    $('#newtask').hide(0)
 }
 
 function homepage () {
+    $('#list').empty()
     $('#homepage').show(0)
     $.ajax({
         method: "GET",
@@ -130,14 +132,42 @@ function homepage () {
                     </tr>
                                 `)
                 }
-
             })
             console.log(list)
+
+            //atur link navigasi bawah
+            
         })
         .fail((xhr, textStatus) => {
             console.log(xhr)
         })
+        .always(_=> {
+            
+        })
 
     //hide another page
     $('#landing').hide(0)
+    $('#newtask').hide(0)
+}
+
+function newTask () {
+    $('#newtask').show(0)
+    $('#homepage').hide()
+}
+
+
+function footerLink () {
+    $('#homelink').on({
+            click: _=> {
+                homepage()
+            }
+        }
+    )
+
+    $('#newtasklink').on({
+        click: _=> {
+            newTask()
+        }
+    }
+)
 }
