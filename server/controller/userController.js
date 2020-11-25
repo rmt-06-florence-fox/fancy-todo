@@ -58,11 +58,11 @@ class UserController {
     }
     static googleSignIn (req, res, next){
         let {google_access_token} = req.body
-        const client = new OAuth2Client("1095760211786-qokfg5qdtd90at78uq37gtaj3u5385uu.apps.googleusercontent.com")
+        const client = new OAuth2Client("1095760211786-p2r9gmtl5r2ejagp560ltrj0ajcoundj.apps.googleusercontent.com")
         let email;
         client.verifyIdToken({
             idToken: google_access_token,
-            audience: "1095760211786-qokfg5qdtd90at78uq37gtaj3u5385uu.apps.googleusercontent.com"
+            audience: "1095760211786-p2r9gmtl5r2ejagp560ltrj0ajcoundj.apps.googleusercontent.com"
         })
         .then(ticket => {
             let payload = ticket.getPayload()

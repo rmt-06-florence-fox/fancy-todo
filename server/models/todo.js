@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
           let today = new Date()
           let dateInput = new Date(value)
           if (dateInput < today){
-            throw {msg: "Date must be greater than "}
+            throw "Date must be greater than today"
           }
         }
       }
