@@ -1,7 +1,7 @@
 const {Todo} = require("../models/index")
 
 module.exports = async(req, res, next)=>{
-    console.log(req.params)
+    // console.log(req.params)
     try{
         const data = await Todo.findOne({
             where:{

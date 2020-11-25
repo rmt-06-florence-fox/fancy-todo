@@ -12,7 +12,7 @@ class UserController{
             email: req.body.email,
             password: req.body.password
         }
-        console.log(obj)
+        // console.log(obj)
         User.create(obj)
         .then(data=>{
             console.log(data)
@@ -30,11 +30,13 @@ class UserController{
             }
         })
         .then(data=>{
-            console.log(data, req.body.password, data.password)
+            // console.log(data, req.body.password, data.password)
+            // console.log("access this first")
             if(!data){
+                // console.log("this error")
                 res.status(401).json({message: `invalid account`})
             } else if (bcrypt.compareSync(req.body.password, data.password)){
-                // const access_token = jwt.sign({id: data.id, email:data.email}, process.env.SECRET)
+                // console.log("access this second")
                 const access_token = Helper.generateToken({id: data.id, email:data.email})
                 res.status(200).json({access_token})
             } else {
