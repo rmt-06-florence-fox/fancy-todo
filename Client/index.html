@@ -202,7 +202,6 @@
             showMainPage()
           })
           .fail((xhr, textStatus) =>{
-            // console.log('--- gagal ---');
             console.log(xhr, textStatus)
           })
           .always(_ =>{
@@ -215,7 +214,6 @@
       $('#btn-logout').hide()
       $('.container').hide()
       localStorage.removeItem("access_token");
-      // showRegistPage()
       showLoginPage()
     }
     function showMainPage(){
@@ -232,7 +230,6 @@
       const description = $('#inputDescription').val()
       const status = $('#inputStatus').val()
       const due_date = $('#inputDueDate').val()
-      
       $.ajax({
         method: 'POST',
         url: 'http://localhost:3000/todos',
@@ -249,6 +246,17 @@
         .done(response => fetchDataTodoList())
         .fail(xhr => console.log(xhr))
         .always(_ => $('create-todo').trigger('reset'))
+    }
+    function deleteData(id){
+      $.ajax({
+        method: 'DELETE',
+        url: `http://localhost:3000/todos/${id}`,
+        headers:{
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .done(response => fetchDataTodoList())
+        .fail(xhr => console.log(xhr))
     }
     function fetchDataTodoList(){
       $.ajax({
