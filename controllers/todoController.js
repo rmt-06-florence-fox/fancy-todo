@@ -1,6 +1,7 @@
 const {Todo, User} = require('../models/index')
 const Bcrypt = require('../helper/bcrypt')
 const jwt = require('jsonwebtoken');
+const axios = require('axios')
 class TodoController{
     // static async todo(req, res){
     //     try {
