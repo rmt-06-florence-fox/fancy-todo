@@ -10,7 +10,7 @@ module.exports = function (err, request, response, next) {
 			}).join(", ");
             break;
             
-		case "InvalidEmailPassword":
+		case "InvalidEmailorPassword":
 			status = 400;
 			message = "Email or Password is Invalid!";
             break;

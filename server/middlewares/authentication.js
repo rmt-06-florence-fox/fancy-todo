@@ -7,9 +7,7 @@ async function authentication(request, response, next) {
 
     try {
         if(!token) {
-            console.log("Token not Found");
-            response.status(404).json({ message:"Token not Found" })
-            //throw { name: 'AuthenticationFailed' }
+            throw { name: 'AuthenticationFailed' }
         } else {
             const decoded = verifyToken(token);
             const user = await User.findOne({
@@ -18,9 +16,7 @@ async function authentication(request, response, next) {
                 }
             });
             if(!user) {
-                console.log("User not Found");
-                response.status(404).json({ message:"User not Found" })
-                //throw { name: 'AuthenticationFailed' }
+                throw { name: 'AuthenticationFailed' }
             } else {
                 request.loggedInUser = decoded;
                 next();
