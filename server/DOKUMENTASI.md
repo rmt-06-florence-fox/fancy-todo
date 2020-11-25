@@ -33,17 +33,6 @@ OR
 Code: 500 INTERNAL SERVER ERROR
 Content: { error : "INTERNAL SERVER ERROR." }
 
-Sample Call:
-
-  $.ajax({
-    url: "/todos",
-    dataType: "json",
-    type : "POST",
-    success : function(r) {
-      console.log(r);
-    }
-  });
-
 *Delete Todo
 Delete json data about a single activity.
 
@@ -66,17 +55,6 @@ Content: {"Data success to delete"}
 Error Response:
 Code: 500 INTERNAL SERVER ERROR
 Content: { error : "INTERNAL SERVER ERROR." }
-
-Sample Call:
-
-  $.ajax({
-    url: "/todos/1",
-    dataType: "json",
-    type : "DELETE",
-    success : function(r) {
-      console.log(r);
-    }
-  });
 
 *Show Todo
 Returns json data about a single activity.
@@ -109,17 +87,6 @@ Error Response:
 Code: 500 INTERNAL SERVER ERROR
 Content: { error : "500 INTERNAL SERVER ERROR." }
 
-Sample Call:
-
-  $.ajax({
-    url: "/todos/1",
-    dataType: "json",
-    type : "GET",
-    success : function(r) {
-      console.log(r);
-    }
-  });
-
 *Update Todo
 Changing the status of one activity.
 
@@ -151,16 +118,3 @@ Error Response:
 
 Code: 500 INTERNAL SERVER ERROR
 Content: { error : "INTERNAL SERVER ERROR." }
-
-Sample Call:
-
-  $.ajax({
-    url: "/todos/2",
-    dataType: "json",
-    type : "PATCH",
-    success : function(r) {
-      console.log(r);
-    }
-  });
-
-*
