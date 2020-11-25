@@ -101,7 +101,7 @@ class TodoController{
   static async patch(req,res,next){
     let id = req.params.id
     let obj = {
-      status : req.body.status
+      status : true
     }
     try {
       const data = await Todo.update({status : obj.status},{where : {id}, returning: true})
