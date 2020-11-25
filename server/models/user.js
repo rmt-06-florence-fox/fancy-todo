@@ -16,7 +16,16 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.TodoList)
     }
   };
-  User.init({
+  User.init({    
+    name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: {
+        msg: `Email can't be empty`
+      }
+    }
+   },
     email: {
       type: DataTypes.STRING,
       allowNull: false,

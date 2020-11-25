@@ -22,7 +22,7 @@ class ControllerMain {
 					id: getUser.id,
 					email: getUser.email,
 				});
-				res.status(201).json({ user: getUser, access_token });
+				res.status(201).json({ access_token });
 			} else {
 				throw {status: 401, message:`password/email don't match`}
 			}
@@ -33,8 +33,12 @@ class ControllerMain {
 
 	static async register(req, res, next) {
 		try {
-			const newUSer = await User.create(req.body);
-			res.status(201).json({ message: 'acount created' });
+			const newUser = await User.create(req.body);
+			const access_token = genToken({
+				id: newUser.id,
+				email: newUser.email,
+			});
+			res.status(201).json({ access_token });
 		} catch (err) {
 			next(err)
 		}
