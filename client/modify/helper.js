@@ -10,7 +10,7 @@ function showLogIn() {
     $('#login-form').show()
     $('#register-form').hide()
     $('#main-page').hide()
-    $('#btn-logout').hide()
+    $('#btn-logout').show()
 }
 
 function login() {
@@ -44,6 +44,10 @@ function login() {
 function logout(){
     localStorage.clear()
     showMainPage()
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
 }
 
 function fetchTodos() {
@@ -114,6 +118,25 @@ function deleteTodo(id){
     })
         .done(response => {
             fetchTodos()
+        })
+        .fail(err => {
+            console.log(err);
+        })
+}
+
+function onSignIn(googleUser) {
+    const googleToken = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        url: 'http://localhost:3000/login/google',
+        method: 'POST',
+        data: {
+            googleToken
+        }
+    })
+        .done(response => {
+            // console.log(response);
+            localStorage.setItem('access_token', response.access_token)
+            showMainPage()
         })
         .fail(err => {
             console.log(err);
