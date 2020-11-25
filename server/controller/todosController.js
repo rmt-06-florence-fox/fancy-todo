@@ -7,7 +7,12 @@ class TodoController {
     // res.status(200).json(todos)
 
     try {
-        const data = await Todo.findAll()
+        const data = await Todo.findAll({
+            //buat authen disini tambah satu param buat nandain user ini udah login coy
+            where : {
+                UserId : req.loggedInUser.id
+            }
+        })
         // throw("error")
         res.status(200).json({data})
     } catch (error) {
@@ -17,20 +22,27 @@ class TodoController {
     }
 
     static createTodo (req, res) {
-        const { title, description, due_date, status } = req.body
-        console.log(req.body);
+        // const { title, description, due_date, status } = req.body
+        // console.log(req.body);
+
+        // const payload = {
+        //     title, //: req.body.title,
+        //     description, //: req.body.description,
+        //     due_date, //: req.body.due_date,
+        //     status //: req.body.status
+        // }
 
         const payload = {
-            title, //: req.body.title,
-            description, //: req.body.description,
-            due_date, //: req.body.due_date,
-            status //: req.body.status
+            title : req.body.title,
+            description : req.body.description,
+            due_date : req.body.due_date,
+            status : req.body.status,
+            loggedInUser : req.body.id
+            
         }
 
-        
-        Todo
         // .create(req.body)
-        .create(payload)
+        Todo.create(payload)
         .then(data =>{
             console.log(data);
             res.status(201).json(data)

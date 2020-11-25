@@ -1,6 +1,7 @@
 const { User } = require('../models')
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { generateToken } = require('../helpers/jwt');
 
 class UserController {
     static register(req, res) {
@@ -19,20 +20,33 @@ class UserController {
         });
     }
 
-    static login(req, res) {
+    static login(req, res, next) {
+        console.log(req);
         User.findOne({where : {email : req.body.email}})
+        
         .then(data => {
+            console.log(data);
             if (!data) {
                 res.status(404).json({message : 'Account not found'})  
-            } else {
-                if (bcrypt.compareSync(req.body.password, data.password)) {
-                    const access_token = jwt.sign({id : data.id, email : data.email}, process.env.SECRET, {expiresIn : 300 * 60})
-                    res.status(200).json({ access_token }) 
-                } else {
-                    res.status(401).json({message : 'Invalid password or email'})
-                }
+            } else if (comparePassword(req.body.password, data.password)) {
+                const access_token = generateToken({id : data.id, email : data.email})
+                res.status(200).json({ access_token })
                 
-            }
+
+            } else {
+                res.status(401).json({message : 'Invalid password or email'})
+                    }
+            // else {
+            //     if (bcrypt.compareSync(req.body.password, data.password)) {
+            //         res.status(200).json({ access_token })
+            //     } else {
+            //         res.status(401).json({message : 'Invalid password or email'})
+            //     }
+                
+            // }
+        })
+        .catch(err => {
+            res.status(500).json({message : 'Internal Server Error'})
         })
     }
 }
