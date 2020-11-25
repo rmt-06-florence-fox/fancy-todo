@@ -5,6 +5,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     static associate(models) {
+      this.belongsTo(models.User);
     }
   };
   Todo.init({
@@ -42,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    UserId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Todo',

@@ -6,6 +6,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
+      this.hasMany(models.Todo);
     }
     getFullName() {
       return `${this.first_name} ${this.last_name}`;
@@ -30,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
         notNull: {
           args: true,
@@ -63,6 +63,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+    validate: {
+      isPasswordMinLength (){
+        if(this.password.length < 6) {
+          throw new Error ("Password must be at least 6 characters.");
+        }
+      }
+    }
   });
 
   User.beforeCreate((instance, options) => {
