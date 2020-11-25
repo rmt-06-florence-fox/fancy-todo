@@ -7,6 +7,7 @@ $(document).ready( () => {
     $('#login-form').hide()
     $('#register-form').hide()
     $('#main-page').hide()
+    $('#logout-button').hide()
   }
 
   function displayLogin() {
@@ -14,11 +15,13 @@ $(document).ready( () => {
   }
 
   function displayLogout() {
-
+    $('#logout-button').show()
   }
 
   function displayMainPage() {
     $('#main-page').show()
+    $('#login-form').hide()
+    $('#register-form').hide()
   }
   
   $('#login-form').submit( e => {
@@ -37,10 +40,25 @@ $(document).ready( () => {
       localStorage.setItem('access_token', data.access_token)
       $('#login-form').hide()
       displayMainPage()
+      displayLogout()
     })
     .fail(xhr => {
       console.log(xhr)
     })
+    .always(() => {
+      $('#login-email').val('')
+      $('#login-password').val('')
+    })
+  })
+
+  function logOut() {
+    localStorage.removeItem('access_token')
+    launch()
+    displayLogin()
+  }
+
+  $('#logout-button').on('click', () => {
+    logOut()
   })
 
   function getTodos() {
@@ -53,6 +71,9 @@ $(document).ready( () => {
     })
     .done(data => {
       let todos = ``
+      data.forEach(el => {
+
+      })
     })
   }
 
