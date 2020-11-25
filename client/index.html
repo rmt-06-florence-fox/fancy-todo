@@ -63,13 +63,18 @@
       </form>
     </div>
   </div>
-  <div id="main-page">
-    <h1>ini main page</h1>
-  </div>
 
-  <div id="create-todo">
-    <h1>ini create-todo</h1>
+  <div id="main-page">
+    <div id="create-todo">
+      <h1>ini create-todo</h1>
+    </div>
+    <div id="list-todo" class="row row-cols-1 row-cols-md-4">
+      
+    </div>
   </div>
+  
+
+
 
 
 
@@ -89,8 +94,9 @@
       $('#create-todo').show();
       $('#sign-out-button').show();
       $('#register-page').hide();
+      fetchAll();
     }
-    function showRegister(){
+    function showRegister() {
       $('#login-page').hide();
       $('#main-page').hide();
       $('#create-todo').hide();
@@ -131,32 +137,64 @@
       showLogin();
     }
 
-    function register(){
+    function register() {
       const email = $('#inputEmailRegister').val()
       const password = $('#inputPasswordRegister').val()
-      console.log(email,password);
+      console.log(email, password);
       $.ajax({
-        method:"POST",
-        url:"http://localhost:3000/register",
-        data:{
+        method: "POST",
+        url: "http://localhost:3000/register",
+        data: {
           email,
           password
         }
       })
-      .done(_=>{
-        showLogin()
-      })
-      .fail((xhr, textStatus)=>{
-        console.log(xhr);
-      })
-      .always(_=>{
-        $('#inputEmailRegister').val("")
-        $('#inputPasswordRegister').val("")
-      })
+        .done(_ => {
+          showLogin()
+        })
+        .fail((xhr, textStatus) => {
+          console.log(xhr);
+        })
+        .always(_ => {
+          $('#inputEmailRegister').val("")
+          $('#inputPasswordRegister').val("")
+        })
     }
 
-    function checkToken(){
-      (localStorage.getItem('access_token'))? true:false
+    function fetchAll() {
+      $.ajax({
+        method: "GET",
+        url: "http://localhost:3000/todos",
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .done(todos => {
+          console.log(todos);
+          todos.forEach(e => {
+            $('#list-todo').append(`
+            <div class="col mb-4">
+              <div class="card">
+                <h5 class="card-header">${e.tittle}</h5>
+                <div class="card-body">
+                  <h3 class="card-title">${e.status}</h3>
+                  <p class="card-text">${e.description}</p>
+                  <a href="#" class="btn btn-primary">edit</a>
+                  <a href="#" class="btn btn-primary">delete</a>
+                </div>
+              </div>
+            </div>
+            `)
+          });
+        })
+        .fail((xhr, textStatus) => {
+          console.log(xhr, textStatus);
+        })
+        .always()
+    }
+
+    function checkToken() {
+      (localStorage.getItem('access_token')) ? true : false
     }
 
     $(document).ready(() => {
@@ -171,16 +209,16 @@
         login()
       })
 
-      $('#link-register').on('click',(e)=>{
+      $('#link-register').on('click', (e) => {
         e.preventDefault();
         showRegister();
       })
 
-      $('#register-form').on('submit', (e)=>{
+      $('#register-form').on('submit', (e) => {
         e.preventDefault();
         register();
       })
-      
+
     })
   </script>
 </body>
