@@ -11,12 +11,18 @@ module.exports = async (req,res,next) => {
       if (findUser) {
         next()
       } else {
-        res.status(401).json({message : `you can't get in, you must login first`})
+        throw {
+          status : 401,
+          message: `you can't get in, you must login first`
+        }
       }
     } else {
-      res.status(401).json({message : `you can't get in, you must login first`})
+      throw {
+        status : 401,
+        message: `you can't get in, you must login first`
+      }
     }
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }

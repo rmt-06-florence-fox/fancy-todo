@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasMany(models.Todo, {foreignKey: "UserId", sourceKey:"id"})
     }
+
+    get fullname(){
+      return `${this.first_name} ${this.last_name}`
+    }
   };
   User.init({
     first_name: {
@@ -77,7 +81,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks : {
       beforeCreate : (inst,opt) => {
-        if (inst.last_name === '') {
+        if (inst.last_name === '' || inst.last_name === undefined || inst.last_name === null) {
           inst.last_name = inst.first_name
         }
         inst.password = goHash(inst.password)
