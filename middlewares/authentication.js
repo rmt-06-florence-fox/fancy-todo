@@ -4,11 +4,14 @@ const { verifyToken } = require("../helper/jwt")
 module.exports = async (req, res, next) => {
     try {
         console.log("test udah masuk auth");
-        const { token } = req.headers
-        if (!token) {
-            res.status(401).json({ message: "Please Login or Register First1"})
+        const { access_token } = req.headers
+        if (!access_token) {
+            throw {
+                status: 401,
+                message: "Please Login or Register First"
+            }
         } else {
-            const decode = verifyToken(token)
+            const decode = verifyToken(access_token)
             req.loggedInUser = decode
             const user = await User.findOne({ where: { 
                 id: decode.id
@@ -16,10 +19,13 @@ module.exports = async (req, res, next) => {
             if (user) {
                 next()
             } else {
-                res.status(401).json({ message: "Please Login or Register First"})
+                throw {
+                    status: 401,
+                    message: "Please Login or Register First"
+                }
             }
         }
-    } catch (error) {
-        res.status(401).json({ message: "Please Login or Register First2"})
+    } catch (err) {
+        next(err)
     }
 }

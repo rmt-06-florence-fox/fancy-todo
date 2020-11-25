@@ -3,18 +3,17 @@ const { comparePassword } = require("../helper/hashing_compare")
 const { generateToken } = require("../helper/jwt")
 
 class userController {
-    static async registerPost (req, res) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< static
+    static async registerPost (req, res, next) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< static
         const { full_name, email, password } = req.body
         const input = { full_name, email, password }
         try {
             const user = await User.create(input)
             res.status(201).json( { id: user.id, email: user.email } )
-        } catch (error) {
-            console.log(error);
-            res.status(500).json( { error: error.errors[0].message } )
+        } catch (err) {
+            next(err)
         }
     }
-    static async loginPost (req, res) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< static
+    static async loginPost (req, res, next) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< static
         try {
             const user = await User.findOne({
                 where: {
@@ -22,20 +21,26 @@ class userController {
                 }
             })
             if (!user) {
-                res.status(500).json( { message: "invalid account" } )
+                throw {
+                    status: 400,
+                    message: "invalid account or password"
+                }
             } else if (user && comparePassword(req.body.password, user.password)) {
                 const payload = {
                     id: user.id,
                     email: user.email,
                     full_name: user.full_name
                 }
-                const token = generateToken(payload)
-                res.status(200).json({ token })
+                const access_token = generateToken(payload)
+                res.status(200).json({ access_token })
             } else {
-                res.status(500).json( { message: "invalid account or password" } )
+                throw {
+                    status: 400,
+                    message: "invalid account or password"
+                }
             }
-        } catch (error) {
-            res.status(500).json( { error: error.message } )
+        } catch (err) {
+            next(err)
         }
     }
 }

@@ -4,8 +4,8 @@ function generateToken(payload) {
     return jwt.sign(payload, process.env.SECRET, { expiresIn: 60 * 30 })
 }
 
-function verifyToken(token) {
-    return jwt.verify(token, process.env.SECRET);
+function verifyToken(access_token) {
+    return jwt.verify(access_token, process.env.SECRET);
 }
 
 module.exports = {
