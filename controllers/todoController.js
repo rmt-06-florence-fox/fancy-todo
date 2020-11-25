@@ -173,7 +173,7 @@ class TodoController{
             
           })
         .then(value => {
-            res.status(200).json(value)
+            res.status(200).json(value.data)
         })
         .catch(error => {
             console.log(error);
