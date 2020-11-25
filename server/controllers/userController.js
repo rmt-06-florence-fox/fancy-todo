@@ -1,7 +1,6 @@
 const { User } = require("../models/index")
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken'); // dont forget require if will use jwt
-require('dotenv').config(); // dont forget require dotenv
+const { generateToken } = require("../helpers/generateAndVerifyToken")
 
 class ControllerUser {
     static addDataUser(req, res) {
@@ -29,15 +28,12 @@ class ControllerUser {
             }
         })
             .then(data => {
-                // console.log(data)
                 if(!data) {
                     res.status(401).json({ message: "Invalid email/password" })
                 }else {
                     let passwordInDataBase = data.password
                     if(bcrypt.compareSync(password, passwordInDataBase)) {
-                        // console.log("=====================================")
-                        const accesToken = jwt.sign({ fullName: data.fullName(), id: data.id, email: data.email }, process.env.SECRET)
-                        // console.log(accesToken, "<----------------")
+                        const accesToken = generateToken({ fullName: data.fullName(), id: data.id, email: data.email }) // change generate token using helper
                         res.status(200).json({accesToken})
                     }else {
                         res.status(401).json({ message: "Invalid email/password" })
@@ -45,7 +41,8 @@ class ControllerUser {
                 }
             })
             .catch(err => {
-                res.status(401).json({ message : "Internal Service Error"})
+                res.status(500).json({ message : "Internal Server Error"})
+                // console.log(err)
             })
     }
 }

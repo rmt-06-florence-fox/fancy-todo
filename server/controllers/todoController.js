@@ -2,7 +2,13 @@ const { Todo } = require("../models/index")
 
 class ControllerTodo {
     static showAllDataTodos(req, res) {
-        Todo.findAll()
+        // console.log(req.dataLoginUser, "------") // ini cara mendapatkan data yang dilempar dari authentication (mention req yang dibuat di authentication)
+        let UserId = req.dataLoginUser.id       
+        Todo.findAll({
+            where: {
+                UserId // sekarang hanya show data yang dimiliki UserId
+            }
+        })
             .then(data => {
                 res.status(200).json({ data })
             })
@@ -12,15 +18,18 @@ class ControllerTodo {
     }
 
     static addDataTodos(req, res) {
+        // console.log(req.dataLoginUser, "------") // ini cara mendapatkan data yang dilempar dari authentication (mention req yang dibuat di authentication)
         let objTodo = {
             title: req.body.title,
             description: req.body.description,
             status: req.body.status,
-            due_date: req.body.due_date
+            due_date: req.body.due_date,
+            UserId: req.dataLoginUser.id
         }
 
         Todo.create(objTodo)
             .then(data => {
+                console.log(data)
                 res.status(201).json({ data })
             })
             .catch(err => {
@@ -33,8 +42,13 @@ class ControllerTodo {
     }
 
     static showDataTodosById(req, res) {
-        let id = req.params.id
-        Todo.findByPk(id)
+        // let id = req.params.id
+        let UserId = req.dataLoginUser.id
+        Todo.findByOne({
+            where: {
+                UserId
+            }
+        })
             .then(data => {
                 if(data) {
                     res.status(200).json({ data })
@@ -49,6 +63,7 @@ class ControllerTodo {
 
     static replaceDataTodosById(req, res) {
         let id = req.params.id
+        let UserId = req.dataLoginUser.id
         let objTodo = {
             title: req.body.title,
             description: req.body.description,
@@ -116,6 +131,7 @@ class ControllerTodo {
                 res.status(500).json(err)
             })
     }
+
 }
 
 module.exports = ControllerTodo
