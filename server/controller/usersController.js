@@ -1,5 +1,5 @@
 const { User } = require('../models')
-const bcrypt = require('bcryptjs')
+const {comparePassword} = require('../helpers/bcrypt')
 const jwt = require('jsonwebtoken');
 const { generateToken } = require('../helpers/jwt');
 
@@ -31,7 +31,7 @@ class UserController {
             } else if (comparePassword(req.body.password, data.password)) {
                 const access_token = generateToken({id : data.id, email : data.email})
                 res.status(200).json({ access_token })
-                
+
 
             } else {
                 res.status(401).json({message : 'Invalid password or email'})
