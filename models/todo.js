@@ -17,42 +17,42 @@ module.exports = (sequelize, DataTypes) => {
   Todo.init({
     title: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        emptyTitle(value) {
-          if (value === '') {
-            throw new Error('title empty');
-          }
-        },
+        notEmpty: {
+          args: true,
+          msg: 'title empty'
+        }
       },
     },
     description: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        emptyDescription(value) {
-          if (value === '') {
-            throw new Error('description empty');
-          }
-        },
+        notEmpty: {
+          args: true,
+          msg: 'description empty'
+        }
       },
     },
     status: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        emptyStatus(value) {
-          if (value === '') {
-            throw new Error('status empty');
-          }
-        },
+        notEmpty: {
+          args: true,
+          msg: 'status empty'
+        }
       },
     },
     due_date: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
+      allowNull: false,
       validate: {
-        emptyDate(value) {
-          if (value === '') {
-            throw new Error('date empty');
-          }
-        },
+        notEmpty: {
+          args: true,
+          msg: 'date empty'
+        }
       },
     },
     UserId: DataTypes.INTEGER

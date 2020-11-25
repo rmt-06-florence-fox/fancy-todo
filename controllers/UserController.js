@@ -1,15 +1,17 @@
 const { User } = require('../models/index.js');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const { generateToken } = require('../helpers/jwt.js');
+const email = require('../nodemailer/nodemailer.js');
+//const axios = require('axios');
 
 class UserController {
-    static register(req,res) {
+    static register(req, res) {
+        email(req.body.email)
         let userObj = {
             email: req.body.email,
             password: req.body.password
         }
-        User.create(userObj)
+        return User.create(userObj)
         .then(data => {
             res.status(201).json({email: data.email, id: data.id});
         })
@@ -19,11 +21,14 @@ class UserController {
         })
     }
 
-    static login(req,res) {
+    static login(req, res, next) {
         User.findOne({where: {email: req.body.email}})
         .then(data => {
             if(!data) {
-                res.status(401).json({message: 'invalid account'})
+                throw {
+                    status: 401,
+                    message: 'invalid account'
+                }  
             }
             else {
                 if (bcrypt.compareSync(req.body.password, data.password)) {
@@ -31,13 +36,15 @@ class UserController {
                     res.status(200).json({access_token});
                 }
                 else {
-                    res.status(401).json({message: 'invalid email/password'})
+                    throw {
+                        status: 401,
+                        message: 'invalid email / password'
+                    }  
                 }
             }
         })
         .catch(err => {
-            console.log(err)
-            res.status(500).json({message: 'internal server errorrrr'});
+            next(err)
         })
     }
 }

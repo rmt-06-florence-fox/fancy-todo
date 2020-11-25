@@ -5,9 +5,13 @@ module.exports = async (req,res,next) => {
     try {
         const {access_token} = req.headers
         if (!access_token) {
-            res.status(401).json({
+            // res.status(401).json({
+            //     message: 'please login'
+            // })
+            throw {
+                status: 401,
                 message: 'please login'
-            })
+            }
         } else {
             const decoded = verifyToken(access_token);
             //console.log(decoded);
@@ -20,15 +24,14 @@ module.exports = async (req,res,next) => {
             if (user) {
                 next();
             } else {
-                res.status(401).json({
-                    message: 'user exist'
-                }) 
+                throw {
+                    status: 401,
+                    message: 'user not exist'
+                }
             }
         }
     } catch (err) {
-        console.log(err);
-        res.status(401).json({
-            message: "didn't match any token"
-        })
+        //console.log(err);
+        next(err)
     }
 }

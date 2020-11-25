@@ -11,12 +11,12 @@ module.exports = async (req,res,next) => {
         if(todo.UserId === req.loggedInUser.id) {
             next()
         } else {
-            res.status(401).json({message: 'not authorized'});
+            throw {
+                status: 401,
+                message: 'not authorized'
+            }
         }
     } catch (err) {
-        console.log(err);
-        res.status(401).json({
-            message: "authorization: didn't match any token"
-        })
+        next(err)
     }
 }
