@@ -1,6 +1,8 @@
 const {User} = require('../models/index.js')
 const {comparePassword} = require('../helper/encryption.js')
 const {getToken} = require('../helper/jwt.js')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.google_oauth)
 
 
 class UserController {
@@ -29,7 +31,8 @@ class UserController {
         const email = req.body.email
         const password = req.body.password
         console.log('=========== Get User Sign In Data=================')
-        console.log(email,password)
+        console.log(req.body)
+        console.log(email,password,email)
 
         try {
             console.log('=======Try to find One===========')
@@ -63,6 +66,45 @@ class UserController {
             next(error)
             // res.status(400).json({error})
         }
+    }
+
+    static async googleLogin(req,res,next){
+        try {
+            const ticket = await client.verifyIdToken({
+                idToken: req.body.google_token,
+                audience: process.env.google_oauth
+            });
+            const payload = ticket.getPayload();
+            const user = await User.findOne( {
+                where : {
+                    email : payload.email
+                }
+            })
+
+            if(user){
+                const access_token = getToken({ id : user.id , email:user.email })
+                console.log(user)
+                console.log('============Get Token Google User ===========')
+                console.log(access_token)
+                res.status(200).json(access_token)
+            }else {
+                const newUser = {
+                    name : payload.name,
+                    email : payload.email,
+                    password : process.env.google_password
+                }
+                const createUSer = await User.create(newUser)
+                console.log(createUSer)
+                const access_token = getToken({ id : createUSer.id , email:createUSer.email })
+                console.log('============Create Token Google User ===========')
+                console.log(access_token)
+                res.status(200).json(access_token)
+            }
+        } catch (error) {
+            next(error)
+        } 
+
+        
     }
 }
 

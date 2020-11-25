@@ -3,7 +3,7 @@ const {UserController} = require('../controller/index.js')
 
 
 
-
+route.post('/googleLogin',UserController.googleLogin)
 
 route.post('/signUp', UserController.registerUser)
 

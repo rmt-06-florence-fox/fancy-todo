@@ -20,6 +20,7 @@ class TodoController {
         }
     }
 
+
     static async getDataById(req,res,next){
 
         // Find todo by Id
@@ -78,7 +79,7 @@ class TodoController {
         const editedData = {
             title : req.body.title,
             description : req.body.description,
-            status : req.body.status,
+            // status : req.body.status,
             due_date : req.body.due_date
         }
         console.log('================Edit Data =====================')

@@ -2,10 +2,13 @@ const express = require('express')
 const app = express()
 const port = 3000
 const route = require('./routes/index.js')
-require('dotenv').config()
 const errorHandler = require('./midleware/errorHandler.js')
-//setting
+const cors = require('cors')
+require('dotenv').config()
 
+
+//setting
+app.use(cors())
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 

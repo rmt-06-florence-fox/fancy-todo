@@ -23,7 +23,8 @@ $(document).ready( () =>{
 
     // button
     $('#logout-button').on('click', ()=>{
-        localStorage.removeItem('access_token')
+        logout()
+
     })  
     $("#submit-loginForm-btn").on("click", ()=>{
         getLoginData()

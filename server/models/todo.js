@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
   Todo.beforeCreate( (instance, option ) =>{
     console.log('============== Masuk Hook TOdo========')
     console.log(instance)
-    if(instance.status.trim() == '' || instance.status == undefined ){
+    if(instance.status == undefined || instance.status == '' ){
       instance.status = 'Ongoing'
     }
   } )

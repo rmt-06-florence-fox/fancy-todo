@@ -1,7 +1,7 @@
 
 
 function loginForm(){
-    $('#logout-button').hide()
+    $('#logout-button').show()
     $('#login-page').show()
     $('#edit-page').hide()
     $('#main-page').hide()
@@ -207,6 +207,31 @@ function addTodoList(){
         $('#add-title').val("")
         $('#add-desc').val("")
         $('#add-due_date').val("")
-
     })
+    
 }
+function logout(){
+    localStorage.removeItem('access_token')
+    const auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+    });
+    loginForm()
+}
+function onSignIn(googleUser) {
+   const google_token = googleUser.getAuthResponse().id_token;
+//    console.log(google_token)
+   $.ajax({
+       method : 'POST',
+       url : 'http://localhost:3000/googleLogin',
+       data : {
+           google_token
+       }
+   }).done(resp =>{
+    console.log(resp)
+    localStorage.setItem('access_token',resp)
+    mainPage()
+   }).fail(err=>{
+    console.log(err)
+   })
+  }
