@@ -3,7 +3,6 @@ const URL = "http://localhost:3000/"
 $(document).ready(() => {
   // membedakan user dengan access token
   if (localStorage.getItem('accessToken')) showMainPage()
-  // else if (localStorage.getItem('accessToken') && editTodo()) showEditPage()
   else showSignInPage()
 
   $('#signin').click((e) => {
@@ -14,6 +13,13 @@ $(document).ready(() => {
     e.preventDefault()
     createTodo()
   })
+  $('#signup').click((e) => {
+    showSignUpPage()
+  })
+  $('#signup-user').on('submit', ((e) => {
+    e.preventDefault()
+    doSignUp()
+  }))
   $('#signout').click(() => {
     doSignOut()
   })
@@ -22,6 +28,8 @@ $(document).ready(() => {
 function showSignInPage() {
   $('#signin-container').show()
   $('#main-page-container').hide()
+  $('#signup').show()
+  $('#signup-container').hide()
   $('#signout').hide()
   $('#edit-page-container').hide()
 }
@@ -29,18 +37,31 @@ function showSignInPage() {
 function showMainPage() {
   $('#signin-container').hide()
   $('#main-page-container').show()
+  $('#signup').hide()
   $('#signout').show()
+  $('#signup-container').hide()
   $('#edit-page-container').hide()
   fetchTodos()
 }
 
-  function showEditPage(id) {
-    $('#signin-container').hide()
-    $('#main-page-container').hide()
-    $('#signout').hide()
-    $('#edit-page-container').show()
-    editTodo(id)
-  }
+function showEditPage(id) {
+  $('#signin-container').hide()
+  $('#main-page-container').hide()
+  $('#signup').hide()
+  $('#signup-container').hide()
+  $('#signout').hide()
+  $('#edit-page-container').show()
+  editTodo(id)
+}
+
+function showSignUpPage() {
+  $('#signin-container').hide()
+  $('#main-page-container').hide()
+  $('#signup').hide()
+  $('#signup-container').show()
+  $('#signout').hide()
+  $('#edit-page-container').hide()
+}
 
 function doSignIn() {
   const email = $('#input-email').val()
@@ -48,10 +69,7 @@ function doSignIn() {
   $.ajax({
     url: `${URL}signIn`,
     method: "POST",
-    data: {
-      email,
-      password
-    }
+    data: { email, password }
   })
     .done(result => {
       //set token di client, tergantung nama variabel di controller
@@ -66,6 +84,25 @@ function doSignIn() {
       $('#input-email').val('')
       $('#input-password').val('')
     })
+}
+
+function doSignOut() {
+  localStorage.clear()
+  showSignInPage()
+}
+
+function doSignUp() {
+  const username = $('#signup-username').val()
+  const email = $('#signup-email').val()
+  const password = $('#signup-password').val()
+  $.ajax({
+    url: `${URL}signUp`,
+    method: 'POST',
+    data: { username, email, password }
+  })
+    .done(() => showSignInPage())
+    .fail(err => console.log(err))
+    .always(_ => $('#signup-container').trigger('reset'))
 }
 
 function fetchTodos() {
@@ -133,7 +170,7 @@ function updateTodo(id) {
     headers: { accessToken: localStorage.getItem('accessToken') },
     data: { title, description, status, dueDate: formatDate(date) }
   })
-    .done(data => showMainPage())
+    .done(() => showMainPage())
     .fail(err => console.log(err))
 }
 
@@ -156,11 +193,6 @@ function editTodo(id) {
       })
     })
     .fail(err => console.log(err))
-}
-
-function doSignOut() {
-  localStorage.clear()
-  showSignInPage()
 }
 
 function formatDate(valueDate) {

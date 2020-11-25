@@ -10,6 +10,7 @@
   <nav>
     <span>My To-Dos</span>
     <button type="submit" id="signout">Sign Out</button>
+    <button type="submit" id="signup">Sign Up</button>
   </nav>
   <div id="signin-container">
     <h1>Sign In</h1>
@@ -61,7 +62,7 @@
         <input type="text" id="edit-description">
       </div>
       <div>
-        <label for="editStatus">Due Date: </label>
+        <label for="editStatus">Status: </label>
         <input type="text" id="edit-status">
       </div>
       <div>
@@ -71,8 +72,31 @@
       <button type="submit">Edit To-Do</button>
     </form>
   </div>
+
+  <div id="signup-container">
+    <h1>Sign Up</h1>
+    <form id="signup-user">
+      <div>
+        <label for="inputEmail">Username: </label>
+        <input type="text" id="signup-username">
+      </div><br>
+      <div>
+      <div>
+        <label for="inputEmail">Email: </label>
+        <input type="email" id="signup-email">
+      </div><br>
+      <div>
+        <label for="inputPassword">Password: </label>
+        <input type="password" id="signup-password">
+      </div><br>
+      <div>
+        <button type="submit">Sign Up</button>
+      </div>
+    </form>
+  </div>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript" src="assets/helper.js"></script>
+  <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
 </body>
 </html>
