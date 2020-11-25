@@ -33,7 +33,7 @@ class TodosController {
             UserId: req.userLogIn.id
         }})
             .then(data => {
-                throw(err)
+                // throw(err)
                 res.status(200).json(data)
             })
             .catch(err => {

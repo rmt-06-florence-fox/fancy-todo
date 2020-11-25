@@ -8,7 +8,7 @@ function authorization(req, res, next){
         id: req.params.id
     }})
         .then(todo => {
-            if(todo.UserId == req.userLogIn.id){
+            if(todo.UserId == req.userLogIn.id && todo){
                 next()
             } else {
                 throw{

@@ -1,13 +1,13 @@
 const { User } = require('../models')
 const {createToken, verifyToken} = require('../helper/jwt')
-const  comparePw  = require('../helper/password')
+const  {comparePw, generatePw}  = require('../helper/password')
 
 class UserController{
     static addUser(req, res, next){
         const payload = {
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password
+            password: generatePw(req.body.password)
         }
         User.create(payload)
             .then(data => {

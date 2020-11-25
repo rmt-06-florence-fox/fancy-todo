@@ -422,6 +422,7 @@ _Response (200 - Success)_
 ```
 
 _Response (500 - Internal server error)_
+```
 {
     "message": "Internal server error"
 }
