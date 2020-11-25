@@ -1,7 +1,7 @@
 {
   "name": "fancy-todo",
   "version": "1.0.0",
-  "description": "",
+  "description": "https://documenter.getpostman.com/view/13597012/TVewXiUa",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,8 +11,8 @@
     "url": "git+https://github.com/razaqisama/fancy-todo.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "razaqisama",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/razaqisama/fancy-todo/issues"
   },
@@ -20,6 +20,7 @@
   "dependencies": {
     "axios": "^0.21.0",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",

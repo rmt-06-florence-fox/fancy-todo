@@ -21,7 +21,6 @@ class Controller {
             email: req.body.email,
             password: req.body.password
         }
-        console.log(loginAcc);
         try{
             const loginAccount = await User.findOne({where: {email: loginAcc.email}})
             if(loginAccount && checkPassword(loginAcc.password, loginAccount.password)){

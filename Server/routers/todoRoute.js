@@ -10,9 +10,9 @@ route.use(authentication);
 route.get('/', TodoController.getTodos);
 route.post('/', TodoController.postTodos);
 
+route.get("/:id", TodoController.findOneTodo);
 
 route.use('/:id', authorization);
-route.get("/:id", TodoController.findOneTodo);
 route.put("/:id", TodoController.updateTodo);
 route.patch("/:id", TodoController.updateStatusTodo);
 route.delete("/:id", TodoController.removeTodo);

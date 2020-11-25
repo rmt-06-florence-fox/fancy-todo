@@ -37,7 +37,7 @@ class Controller {
     static async findOneTodo(req, res, next){
         const idToFind = Number(req.params.id)
         try {
-            const foundTodo = await Todo.findOne({where: {id: idToFind}})
+            const foundTodo = await Todo.findOne({where: {id: idToFind, UserId: req.loggedIn.id}})
             if(!foundTodo){
                 throw {
                     status: 404,
