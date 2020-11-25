@@ -4,10 +4,12 @@ const app = express()
 const port = +process.env.PORT || 3000
 const routes = require('./routes')
 const errorhandler = require('./middlewares/error-handler')
+const cors = require('cors')
 
 // ? middleware / body parser
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
+app.use(cors())
 // ? routes
 app.use(routes)
 // ? error handler
