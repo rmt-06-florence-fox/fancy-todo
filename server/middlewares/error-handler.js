@@ -1,5 +1,5 @@
 function errorHandler(err, req, res, next){
-    console.log(err, '<<<<< ERRROROROOORORO')
+    //console.log(err, '<<<<< OOOPPS')
     if (err.name === "SequelizeValidationError" || err.name === "SequelizeUniqueConstraintError") {
         //console.log(';masuk validasi')
         let message = err.errors.map(e => {

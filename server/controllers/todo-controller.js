@@ -4,8 +4,11 @@ const {ToDo} = require('../models/')
 class ToDoController {
 
     static async findAll(req, res, next){
+        //console.log(req.headers, 'PASSED HEADER FROM AUTHETICATE')
+        const UserId = req.headers.loggedInUser.id
+        //console.log(UserId)
        try {
-           let data = await ToDo.findAll()
+           let data = await ToDo.findAll({where : {UserId}})
            res.status(200).json(data)
 
        } catch (err) {
@@ -14,12 +17,14 @@ class ToDoController {
     }
 
     static async addTodo(req, res, next){
-        let {title, description, due_date} = req.body
-        //console.log( req.get('Content-Type'))
-        //console.log(req.body) 
         
         try {
-            let data = await ToDo.create({ title, description, due_date }, {returning : true})
+            const UserId = req.headers.loggedInUser.id
+            //console.log(UserId)
+            let {title, description, due_date} = req.body
+            //console.log( req.get('Content-Type'))
+            //console.log(req.body) 
+            let data = await ToDo.create({ title, description, due_date, UserId }, {returning : true})
             //console.log(data, '>>>>> created data')
             res.status(201).json(data)
 
@@ -30,7 +35,7 @@ class ToDoController {
 
     static async findById(req, res, next){
         let id = +req.params.id
-
+        console.log(id)
         try {
             let datum = await ToDo.findByPk(id)
 

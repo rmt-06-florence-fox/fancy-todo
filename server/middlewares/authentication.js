@@ -2,9 +2,9 @@ const {User} = require('../models')
 const Helper  = require('../helper')
 
 module.exports = function (req, res, next){
-    console.log('doing authentication')
+    //console.log('doing authentication')
     const {token} = req.headers
-    console.log(req.headers)
+    //console.log(token)
     
      if (token){
         const decoded = Helper.verifyToken(token)
@@ -15,7 +15,7 @@ module.exports = function (req, res, next){
             .then(datum => {
 
                 if (datum) {
-                    req.headers.LoggedInUser = decoded
+                    req.headers.loggedInUser = decoded
                     next ()
                 }
 

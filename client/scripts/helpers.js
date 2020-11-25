@@ -9,4 +9,9 @@ function showRegister(){
     $('#register-form').show()
 }
 
+function loginHandler(event){
+    event.preventDefault()
+    
+}
+
 
