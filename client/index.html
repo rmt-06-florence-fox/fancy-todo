@@ -49,8 +49,30 @@
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+  <div id="edit-page-container">
+    <h1>Edit To Do</h1>
+    <form id="edit-todo">
+      <div>
+        <label for="editTitle">Title: </label>
+        <input type="text" id="edit-title">
+      </div>
+      <div>
+        <label for="editDescription">Description: </label>
+        <input type="text" id="edit-description">
+      </div>
+      <div>
+        <label for="editStatus">Due Date: </label>
+        <input type="text" id="edit-status">
+      </div>
+      <div>
+        <label for="editDate">Due Date: </label>
+        <input type="date" id="edit-date">
+      </div>
+      <button type="submit">Edit To-Do</button>
+    </form>
+  </div>
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script type="text/javascript" src="helper.js"></script>
+  <script type="text/javascript" src="assets/helper.js"></script>
 </body>
 </html>
