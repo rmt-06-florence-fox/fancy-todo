@@ -6,7 +6,6 @@ class TodoController{
         let obj = {
             title: req.body.title,
             description: req.body.description,
-            status: req.body.status,
             due_date: req.body.due_date,
             UserId: req.loggedIn.id
         }
@@ -14,11 +13,7 @@ class TodoController{
             let newTodo = await Todo.create(obj)
             res.status(201).json(newTodo)
         } catch (err) {
-            if(err.name == 'SequelizeValidationError'){
-                next(err)
-            }else{
-                next(err)
-            }
+            next(err)
         }
     }
     static async getTodo(req,res,next){

@@ -7,9 +7,10 @@ function errorHandler(err,req,res,next){
         })
     }else if(err.name == 'SequelizeUniqueConstraintError'){
         res.status(400).json({
-            msg:err.message
+            msg:'email must be unique'
         })
     }else{
+        console.log(err);
         res.status(500).json({
             msg:'Internal server error'
         })
