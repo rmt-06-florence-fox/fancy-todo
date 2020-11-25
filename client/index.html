@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Fancy To Do</title>
+</head>
+
+<body>
+    <header class="container-fluid navbar-nav">
+        <button class="nav-bar"><a href="/" class="nav-link">FANCY TO DO</a></button>
+        <button class="nav-bar"><a href="/login" id="loginBtn">Log In</a></button>
+        <button class="nav-bar" id="logoutBtn"><a href="/logout">Log Out</a></button>
+    </header>
+
+    <br>
+    <div id="login-form" class="">
+        <form action="" method="POST" class="">
+            <label for="email">Email : </label> <br>
+            <input type="email" name="email"> <br>
+            
+            <label for="password">Password : </label> <br>
+            <input type="password" name="password"> <br>
+
+            <input type="submit" value="login">
+        </form>
+        <p>or register <button id="register-anchor">here</button></p>
+    </div>
+    <br>
+    <div id="register-form">
+        <form action="" method="POST" class="">
+
+            <label for="fullName">Name : </label> <br>
+            <input type="text" name="fullName"> <br>
+
+            <label for="userName">User Name : </label> <br>
+            <input type="text" name="userName"> <br>
+
+            <label for="email">Email : </label> <br>
+            <input type="email" name="email"> <br>
+        
+            <label for="password">Password : </label> <br>
+            <input type="password" name="password"> <br>
+        
+            <input type="submit" name="">
+        </form>
+    </div>
+
+    <div id="content">
+
+
+    </div>
+    
+    <script src="scripts/helpers.js"></script>
+    <script src="scripts/manipulator.js"></script>
+</body>
+</html>
