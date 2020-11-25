@@ -14,7 +14,7 @@ class UserController{
       const data =  await User.create(payload)
       res.status(201).json({email: data.email, id:data.id})
     } catch (error) {
-      next({status:400,message:error})
+      next({status:400,message:'email must be unique'})
     }
   }
 

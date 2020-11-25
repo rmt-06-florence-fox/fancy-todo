@@ -42,7 +42,7 @@ class TodoController{
       }
     }catch(error){
       //aslinya ga perlu sih, make sure aja
-      next({status: 404, message:'data not found'})
+      next(error)
     }
   }
 
