@@ -19,6 +19,7 @@ const authentication = async (req, res, next) => {
       }
     }
   } catch (error) {
+    console.log("🚀 ~ file: authentication.js ~ line 22 ~ authentication ~ error", error)
     next(error) 
   }
 }

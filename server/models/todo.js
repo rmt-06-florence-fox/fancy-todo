@@ -27,15 +27,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     status: {
       type: DataTypes.BOOLEAN,
-      validate: {
-        args: true,
-        msg: 'field status is required'
-      }
     },
     due_date: {
       type: DataTypes.DATE,
       dateValidate(currentDate) {
-        if (currentDate < new Date()) throw new Error ('Date must be greater than today')
+        if (currentDate > new Date()) {
+          throw new Error ('Date must be greater than today')
+        }
+        console.log("🚀 ~ file: todo.js ~ line 47 ~ dateValidate ~ currentDate", currentDate)
       }
     },
     UserId: DataTypes.INTEGER }, {

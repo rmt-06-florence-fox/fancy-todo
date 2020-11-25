@@ -9,24 +9,43 @@ class TodoController {
      res.status(201).json({todo})
     } catch (error) {
      console.log(error); 
-     res.status(500).json(error)
+     res.status(400).json(error)
     } 
   }
 
   static async get (req, res, next) {
     try {
-    res.send('enter in controller') 
-   } catch (error) {
+      const UserId = req.loggedInUser.id
+      const todo = await Todo.findAll({where: {UserId}})
+      res.status(200).json(todo)
+    } catch (error) {
     res.send(error) 
    } 
   }
 
   static async getById (req, res, next) {
-
+    try {
+      const id = +req.params.id
+      const todo = await Todo.findByPk(id)
+      if (todo) {
+        res.status(200).json(todo)
+      } else {
+        throw {msg: `todo with id ${id} is not found`, status: 404}
+      }
+    } catch (error) {
+      next(error)
+    }
   }
 
   static async put (req, res, next) {
-
+    try {
+      const {title, description, due_date, status} = req.body
+      const id = +req.params.id
+      const update = await Todo.update({title, description, due_date, status}, {where: {id}, returning: true})
+      res.status(200).json(update)
+    } catch (error) {
+      next(error)
+    }
   }
 
   static async patch (req, res, next) {
