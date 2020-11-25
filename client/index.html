@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-signin-client_id" content="529209285357-51pm70ne0e2cf2v66a09i0rjtav530s6.apps.googleusercontent.com">
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <title>Fancy Todo</title>
+</head>
+<body>
+  <!--NAVBAR-->
+  <div class="container mx-auto bg-gray-600 p-5">
+    <nav>
+      <ul>
+        <li>Todo</li>
+        <li>Logout</li>
+        <li></li>
+      </ul>
+    </nav>
+  </div>
+  <!--LOGIN-->
+  <div class="container mx-auto" id="login-form">
+    <form>
+      <div>
+        <label for="login-email">Email address:</label>
+        <input type="email" class="" id="login-email" placeholder="Enter email">
+      </div>
+      <div>
+        <label for="login-password">Password:</label>
+        <input type="password" class="" id="login-password" placeholder="Password">
+      </div>
+      <button type="submit">Log in</button>
+      <p>Don't have an account yet?<span><a href="" class="">Register an account</a></span></p>
+      <hr><small>or sign in with</small><hr>
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    </form>
+  </div >
+  <!--REGISTER-->
+  <div class="container mx-auto" id="register-form">
+    <form>
+      <div>
+        <label for="register-name">Name:</label>
+        <input type="text" class="" id="register-name" placeholder="Enter your name">
+      </div>
+      <div>
+        <label for="register-email">Email address:</label>
+        <input type="email" class="" id="register-email" placeholder="Enter email">
+      </div>
+      <div>
+        <label for="register-password">Password</label>
+        <input type="password" class="" id="register-password" placeholder="Password">
+      </div>
+      <p>Already have an account?<span><a href="" class="">Login</a></span></p>
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+  <!--DASHBOARD-->
+  <div id="main-page">
+    <h2>Todo List:</h2>
+    <a href=# onclick="addTodoForm()">Add Todo</a>
+    <div id="add-todo">
+      <form>
+        <div>
+          <label for="todo-title"></label>
+          <input id="todo-title">
+        </div>
+        <div>
+          <label></label>
+          <input>
+        </div>
+        <div>
+          <label></label>
+          <input>
+        </div>
+        <div>
+          <button type="submit">Add</button>
+          <button>Cancel</button>
+        </div>
+      </form>
+    </div>
+    <div id="todo-list">
+
+    </div>
+  </div>
+ 
+  
+  <script
+  src="https://code.jquery.com/jquery-3.5.0.min.js"
+  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+  crossorigin="anonymous"></script>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="./script.js"></script>
+</body>
+</html>
