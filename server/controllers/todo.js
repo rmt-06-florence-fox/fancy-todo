@@ -46,7 +46,6 @@ class TodoController {
                 status: req.body.status,
                 due_date: req.body.due_date
             }
-            const found = await Todo.findByPk(id)
             const data = await Todo.update(payload, {where: {id}, returning:true})
             res.status(200).json(data[1][0])
             
@@ -61,7 +60,6 @@ class TodoController {
             let payload = {
                 status: req.body.status
             }
-            const found = await Todo.findByPk(id)
             const data = await Todo.update(payload, {where: {id}, returning:true})
             res.status(200).json(data[1][0])
         } catch (error){
@@ -72,7 +70,6 @@ class TodoController {
     static async del(req, res, next){
         try {
             let id = +req.params.id
-            const found = await Todo.findByPk(id)
             const data = await Todo.destroy({where:{id}})
             res.status(200).json({message: 'todo success to delete'})
         } catch (error){
