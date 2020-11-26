@@ -210,8 +210,6 @@ function logout() {
     auth2.signOut().then(function () {
       console.log('User signed out.');
     });
-
-    
 }
 
 function weather() {
