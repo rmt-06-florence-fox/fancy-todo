@@ -6,12 +6,15 @@ const Authorization= async (req,res, next)=>{
       where:{id: +req.params.id }
     })
     if(todo.UserId != req.loggedIn.id){
-      res.status(401).json({status: 401,message:'You not allowed to access this todo'})
+      throw{
+        status: 401,
+        message: 'You are not allowed to access this todo'
+      }
     }else{
       next()
     }
-  } catch (error) {
-    res.status(500).json(error)
+  } catch (err) {
+    next(err)
   }
 }
 

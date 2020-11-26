@@ -6,7 +6,10 @@ const Authentication= async (req,res, next)=>{
     const {access_token} = req.headers
    
     if(!access_token){
-      res.status(401).json({msg: 'Please Login'})
+      throw{
+        status: 401,
+        message: 'Please Login'
+      }
     }else{
       const decoded = verifyToken(access_token)
       const user = await User.findOne({
@@ -17,13 +20,16 @@ const Authentication= async (req,res, next)=>{
       req.loggedIn=decoded
       
       if(!user){
-        res.status(404).json({msg: 'User Not Found'})
+        throw{
+          status: 401,
+          message: 'Please Login'
+        }
       }else{
         next()
       }
     }
   } catch (err) {
-    res.status(401).json({status: 401, message: err.message})
+    next(err)
   }
 
 }

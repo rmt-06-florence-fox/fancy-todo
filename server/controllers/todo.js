@@ -14,12 +14,8 @@ class TodoController{
       let todo= await Todo.create(newTodo)
       res.status(201).json(todo)
     }catch (err) {
-      if(err.name == "SequelizeUniqueConstraintError"){
-        let message=err.errors[0].message
-        res.status(400).json({status: '400 Bad Request',message})
-      }else{
-        res.status(500).json(err)
-      }
+      res.status(400).json(err)
+  
     }
   }
 

@@ -2,7 +2,7 @@ const {User} = require('../models')
 const {checkPassword, generateToken} =require('../helpers')
 
 class UserController{
-  static async register(req,res){
+  static async register(req,res,next){
     let newUser= {
       name: req.body.name,
       email: req.body.email,
@@ -12,12 +12,10 @@ class UserController{
       let user= await User.create(newUser)
       res.status(201).json({email: user.email, id: user.id})
     } catch (err) {
-      // let message=err.errors[0].message
-      res.status(400).json({status: '400 Bad Request'})
+      next(err)
     }
-    
   }
-  static async login(req,res){
+  static async login(req,res,next){
     let input= {
       email: req.body.email,
       password: req.body.password
@@ -25,22 +23,22 @@ class UserController{
     try {
       let user= await User.findOne({where:{email: input.email}})
       if(user == null){
-        throw err
+        throw{
+          status:404,
+          message: "User Not Found"
+        }
       }else if(checkPassword(input.password,user.password)){
         const access_token= generateToken({id:user.id, email:user.email, name:user.name})
         res.status(200).json({access_token})
       }else{
-        throw err
+        throw{
+          status:400,
+          message: "Invalid Account"
+        }
       }
-     
     } catch (err) {
-      if(err){
-        res.status(400).json({status: 400 , message: 'Invalid Account'})
-      }else{
-        res.status(500).json({status:500, message: 'Internal Server Error'})
-      }
+      next(err)
     }
-    
   }
 }
 
