@@ -27,10 +27,23 @@ function mainPage(){
     $('#login-page').hide()
     $('#edit-page').hide()
     $('#main-page').show()
-    $('#add-page').show()
+    $('#add-page').hide()
     $('#register-page').hide()
     $('#exchange-api').show()
     fetchTodoList()
+    cuacaApi()
+}
+function addNewTodo(){
+        $('#register-button').hide()
+        $('#logout-button').show()
+        $('#login-page').hide()
+        $('#edit-page').hide()
+        $('#main-page').show()
+        $('#add-page').show()
+        $('#register-page').hide()
+        $('#exchange-api').show()
+        fetchTodoList()
+    
 }
 
 function editPage(){
@@ -174,7 +187,7 @@ function fetchTodoList(){
         resp.forEach( todo =>{
             console.log(todo.description)
             let style ; 
-            todo.status == 'success' ? style = 'style="background-color: rgb(255, 153, 153);"': ""
+            todo.status == 'success' ? style = 'style="background-color: #99d6ff;"': ""
             $('#todo-table').append(`
             <thead class="center-text head-todo" ${style}>
                 <tr>
@@ -185,16 +198,22 @@ function fetchTodoList(){
 
             <tbody ${style} >
                 <tr >
-                    <td>
+                    <td class="center-text checkbox">
                         <form action="">
                             <input type="checkbox" name="" class="checkbox-todo" onclick = changeStatus(${todo.id})>
                         </form>
                     </td>
-                        <td>description : ${todo.description}<br>
+                        <td class="left-text desc">description : ${todo.description}<br>
                             due date : ${todo.due_date} <br>
                             status : ${todo.status} <br>
-                            <button onclick = deleteData(${todo.id})>delete</button> 
-                            <button onclick = "editData(${todo.id})" >edit</button> 
+                            <div class = "row">
+                                <div class="login-manual">
+                            <button class = "btn btn-danger " onclick = deleteData(${todo.id})>delete</button> 
+                                </div>
+                                <div class="login-manual">
+                            <button class ="btn btn-primary" onclick = "editData(${todo.id})" >edit</button> 
+                                </div>
+                            </div>
                         </td>
 
                 </tr>
@@ -271,5 +290,25 @@ function getExchangeAPI(){
         $('#usd-aud').text(resp.conversion_rates.AUD)
     }).fail(err =>{
         console.log(fail)
+    })
+}
+
+function cuacaApi(){
+    console.log('weather')
+    $.ajax({
+        method : 'GET',
+        url : 'http://localhost:3000/weather'
+
+    }).done(resp =>{
+        console.log(resp)
+        console.log(resp.weather[0].description)
+        console.log(resp.main.temp)
+        console.log(resp.name)
+        const cuaca =resp.weather[0].description
+        $('#cuaca').text(cuaca)
+        $('#temperatur').text(resp.main.temp)
+        $('#location').text(resp.name)
+    }).fail(err =>{
+        console.log(err)
     })
 }

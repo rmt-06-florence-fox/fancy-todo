@@ -45,4 +45,10 @@ $(document).ready( () =>{
     $('#edit-todo-btn').on('click' , () =>{
         saveEditData()
     })
+    $('#add-new-button').on('click', ()=>{
+        addNewTodo()
+    })  
+    $('.cancel-button').on('click', ()=>{
+        mainPage()
+    }) 
 })
