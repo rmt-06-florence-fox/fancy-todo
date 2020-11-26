@@ -1,11 +1,13 @@
 
 
+
 function loginForm(){
     $('#logout-button').hide()
     $('#login-page').show()
     $('#edit-page').hide()
     $('#main-page').hide()
     $('#add-page').hide()
+    $('#exchange-api').hide()
     $('#register-page').hide()
 
 }
@@ -15,16 +17,19 @@ function registerForm(){
     $('#edit-page').hide()
     $('#main-page').hide()
     $('#add-page').hide()
+    $('#exchange-api').hide()
     $('#register-page').show()
 }
 
 function mainPage(){
+    $('#register-button').hide()
     $('#logout-button').show()
     $('#login-page').hide()
     $('#edit-page').hide()
     $('#main-page').show()
     $('#add-page').show()
     $('#register-page').hide()
+    $('#exchange-api').show()
     fetchTodoList()
 }
 
@@ -171,14 +176,14 @@ function fetchTodoList(){
             let style ; 
             todo.status == 'success' ? style = 'style="background-color: rgb(255, 153, 153);"': ""
             $('#todo-table').append(`
-            <thead class="center-text" ${style}>
+            <thead class="center-text head-todo" ${style}>
                 <tr>
                     <th></th>
                     <th>${todo.title}</th>
                 </tr>
             </thead>
 
-            <tbody ${style}>
+            <tbody ${style} >
                 <tr >
                     <td>
                         <form action="">
@@ -252,3 +257,19 @@ function onSignIn(googleUser) {
     console.log(err)
    })
   }
+function getExchangeAPI(){
+    console.log('===EXCHANGE===')
+    $.ajax({
+        method : 'GET',
+        url : 'http://localhost:3000/exchange'
+    }).done(resp =>{
+        console.log(resp.conversion_rates)
+        $('#last-update').text(resp.time_last_update_utc)
+        $('#usd-idr').text(resp.conversion_rates.IDR)
+        $('#usd-jpy').text(resp.conversion_rates.JPY)
+        $('#usd-hkd').text(resp.conversion_rates.HKD)
+        $('#usd-aud').text(resp.conversion_rates.AUD)
+    }).fail(err =>{
+        console.log(fail)
+    })
+}

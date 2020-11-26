@@ -1,3 +1,4 @@
+
 $(document).ready( () =>{
     if(localStorage.getItem('access_token')){
         mainPage()
@@ -5,7 +6,7 @@ $(document).ready( () =>{
         loginForm()
     }
 
-
+    getExchangeAPI()
     // form
     $('#login-form').on('click', (e)=>{
         e.preventDefault()
