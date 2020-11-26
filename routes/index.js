@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const todoRouter = require('./todo')
-const { Controller, UserController } = require('../controllers/')
+const todoRouter = require('./todoRouter.js')
+const { Controller, UserController } = require('../controllers/controller.js')
 
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)

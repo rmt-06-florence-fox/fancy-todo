@@ -6,8 +6,4 @@ class Controller {
 
 }
 
-module.exports = {
-  Controller,
-  TodoController,
-  UserController
-};
+module.exports = Controller
