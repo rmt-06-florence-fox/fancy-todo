@@ -1,0 +1,13 @@
+.center_form {
+    margin: auto auto;
+    width: 30%;
+}
+
+list-group,
+.list-group-item {
+    display: inline-block;
+}
+
+.card{
+    width: 25rem;
+}
