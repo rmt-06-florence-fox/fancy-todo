@@ -19,7 +19,7 @@ class TodoController {
       const todo = await Todo.findAll({where: {UserId}})
       res.status(200).json(todo)
     } catch (error) {
-    res.send(error) 
+      next(error) 
    } 
   }
 

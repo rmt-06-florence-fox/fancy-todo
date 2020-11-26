@@ -12,6 +12,9 @@ console.log("🚀 ~ file: errorHandler.js ~ line 2 ~ err", err)
       statusCode = 400
       msg = err.error[0].message
       break
+    case 'Authentication failed':
+      statusCode = 400
+      msg = 'Authentication failed!'
   }
   console.log(err);
   res.status(statusCode).json({msg})
