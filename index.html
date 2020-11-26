@@ -83,7 +83,6 @@
                 }
             })
             .done(response => {
-                console.log(response);
                 $('#table-todo').append(`<tr>
                 <th>Title</th>
                 <th>Description</th>
@@ -160,13 +159,13 @@
                  $('#register-password').val('')
                })
         }
-        function login(params) {
+        function login() {
             $('#btn-submit-login').click((event) => {
                 event.preventDefault()
                 const email = $('#login-email').val()
                 const password = $('#login-password').val()
                 $.ajax({
-                   method: 'post',
+                   method: 'POST',
                    url: 'http://localhost:3000/user/login',
                    data: {
                        email,
@@ -175,9 +174,9 @@
                })
                .done(value => {
                    console.log(value);
-                localStorage.setItem('access_token', value.token)
-                   console.log(value);
+                localStorage.setItem('access_token', value)
                    mainDisplay()
+                   todo()
                })
                .fail((xhr, textStatus) => {
                    console.log(xhr);
@@ -222,12 +221,12 @@
             register.show()
         }
         $(document).ready(function(){
-            register()
-            login()
-            logout()
+            // register()
+            // login()
+            // logout()
             if (localStorage.getItem('access_token')) {
                 mainDisplay()
-                todo()
+                // todo()
             }else{
                 loginDisplay()
             }

@@ -8,6 +8,8 @@ module.exports = async (req, res, next) => {
         try {
             const decoded = await jwt.verify(token, process.env.secret);
             if (decoded) {
+                console.log(decoded, '<<<<<<');
+                req.loginUser = decoded
                 next()
             }else{
                 // res.status(400).json({msg: `your session is time up`})

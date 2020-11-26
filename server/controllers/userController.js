@@ -1,3 +1,4 @@
+
 const {Todo, User} = require('../models/index')
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.googleClient);
@@ -27,18 +28,14 @@ class UserController{
         }})
         .then(value => {
             if (!value) {
-                // res.status(401).json(`invalid account`)
                 throw {
                     status: 401,
                     message: `invalid account`
                 }
             }else if(Bcrypt.compare(password, value.password)){
                 const token = jwt.sign({id: value.id, email:value.email}, process.env.secret)
-                req.headers.token = token
-                req.loginUser.id = value.id
                 res.status(200).json(token)
             }else{
-                // res.status(401).json(`email or password invalid`)
                 throw {
                     status: 401,
                     message: `email or password invalid`
@@ -56,6 +53,7 @@ class UserController{
             audience: process.env.googleClient, 
         })
         .then(ticket => {
+            console.log(ticket);
             payload = ticket.getPayload()
             return User.findOne({
                 where: {
