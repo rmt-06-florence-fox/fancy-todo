@@ -206,6 +206,12 @@ function deleteTodo(id) {
 function logout() {
     localStorage.clear()
     showLoginPage()
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+
+    
 }
 
 function weather() {
@@ -226,5 +232,16 @@ function weather() {
 
 function onSignIn(googleUser) {
     const googleToken = googleUser.getAuthResponse().id_token;
-
+    $.ajax({
+        url: 'http://localhost:3000/googlelogin',
+        method: 'POST',
+        data: {
+            googleToken
+        }
+    })
+        .done(response => {
+            localStorage.setItem('access_token', response.access_token)
+            showMainPage()
+        })
+        .fail(err => console.log(err))
 }

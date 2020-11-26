@@ -44,13 +44,27 @@ class UserController{
 
     static async googleLogin(req, res, next){
         try {
-            const ticket = await client.verifyIdToken({
+            let payload, user
+            let ticket = await client.verifyIdToken({
                 idToken: req.body.googleToken,
                 audience: process.env.GOOGLE_CLIENT_ID
             })
-            console.log(ticket.getPayload());
-            res.status(200).json('ok')
-
+            payload = await ticket.getPayload()
+            user = await User.findOne({
+                where: {
+                    email: payload.email
+                }
+            })
+            if(user){
+                await user
+            } else {
+                user = await User.create({
+                    email: payload.email,
+                    password: process.env.GOOGLE_LOGIN_PASS
+                })
+            }
+            const access_token = generateToken({id: data.id, email:data.email}, process.env.SECRET)
+            res.status(200).json({access_token})
         } catch (error) {
             res.status(500).json(error)
         }
