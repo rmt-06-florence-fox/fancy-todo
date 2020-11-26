@@ -32,9 +32,9 @@
   <!-- Custom styles for this template -->
   <link href="signin.css" rel="stylesheet">
   <title>Fancy Todo</title>
-
 </head>
 <body class="text-center">
+
   <div id='login-page' class="container-fluid">
     <form class="form-signin" action="/login" method="POST" id="login-form">
       <img class="rounded-circle" src="https://st2.depositphotos.com/1006318/5909/v/600/depositphotos_59095205-stock-illustration-businessman-profile-icon.jpg" alt="" width="100" height="100"><br>
@@ -68,10 +68,8 @@
     </form>
   </div>
   <div id='main-page' class="container-fluid">
-    <h1>Fancy Todo</h1>
-    <br><br>
     <div class="row">
-      <div id='profile-section' class="col-sm-6 col-md-4">
+      <div id='profile-section' class="col-sm-6 col-md-3 fixed-bottom"><br>
         <h2>Halo, Syihab</h2>
         <p>hab@muchsin.id<p>
         <button class="btn btn-sm btn-danger btn-inline" id="logout-button" type="button">Logout</button>
@@ -80,9 +78,9 @@
         <form class="" action="/todos" method="POST" id="add-todo-form">
           <label for="todoName" class="sr-only">Name</label>
           <input type="text" id="todo-name" class="form-control" placeholder="Name" required autofocus>
-          <textarea rows="4" cols="40" name="comment" form="add-todo-form" placeholder="Description"></textarea>
+          <textarea rows="2" cols="40" name="comment" id="description" form="add-todo-form" placeholder="Description"></textarea>
           <label for="status" class="sr-only">Status:</label>
-          <select class="form-control" id="sel1">
+          <select class="form-control" id="status">
             <option selected disabled>&mdash; Select Status &mdash;</option>
             <option>Listed</option>
             <option>Doing</option>
@@ -91,11 +89,10 @@
             <option>Expired</option>
           </select><br>
           <div style="text-align: left; font-weight: bolder">
-            <label for="category">Category:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <label class="radio-inline"><input type="radio" name="category">  Personal&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <label class="radio-inline"><input type="radio" name="category">  Work</label>
+            <label for="category" id="category">Category:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline"><input type="radio" name="category" value="Personal">  Personal&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label class="radio-inline"><input type="radio" name="category" value="Project">  Project</label>
           </div>
-          <br>
           <div style="text-align: left; font-weight: bolder">
             <label for="due" >Due:</label>
             <input type="date" id="due" class="form-control" name="due" placeholder="Due" required autofocus><br>
@@ -104,184 +101,20 @@
         </form>
       </div>
       <hr>
-      <div id='display-section' class="col-sm-6 col-md-8">
+      <div id='display-section' class="col-sm-6 col-md-9">
         <h2>Your Todo List</h2>
         <hr>
         <div class="album py-5 bg-light">
           <div class="container">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm ">
-                  <img src="https://www.targettraining.eu/wp-content/uploads/2019/02/meetings-practice.jpg" class="card-img-top" alt="...">
-                  <div class="card-body text-left">
-                    <h5 class="card-title">Name</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Category</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Status:</h6>
-                    <p class="card-text">Description</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-                      </div>
-                      <small class="text-muted">Due Date</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm ">
-                  <img src="https://www.targettraining.eu/wp-content/uploads/2019/02/meetings-practice.jpg" class="card-img-top" alt="...">
-                  <div class="card-body text-left">
-                    <h5 class="card-title">Name</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Category</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Status:</h6>
-                    <p class="card-text">Description</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-                      </div>
-                      <small class="text-muted">Due Date</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm ">
-                  <img src="https://www.targettraining.eu/wp-content/uploads/2019/02/meetings-practice.jpg" class="card-img-top" alt="...">
-                  <div class="card-body text-left">
-                    <h5 class="card-title">Name</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Category</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Status:</h6>
-                    <p class="card-text">Description</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-                      </div>
-                      <small class="text-muted">Due Date</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm ">
-                  <img src="https://www.targettraining.eu/wp-content/uploads/2019/02/meetings-practice.jpg" class="card-img-top" alt="...">
-                  <div class="card-body text-left">
-                    <h5 class="card-title">Name</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Category</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Status:</h6>
-                    <p class="card-text">Description</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-                      </div>
-                      <small class="text-muted">Due Date</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm ">
-                  <img src="https://www.targettraining.eu/wp-content/uploads/2019/02/meetings-practice.jpg" class="card-img-top" alt="...">
-                  <div class="card-body text-left">
-                    <h5 class="card-title">Name</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Category</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Status:</h6>
-                    <p class="card-text">Description</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-                      </div>
-                      <small class="text-muted">Due Date</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm ">
-                  <img src="https://www.targettraining.eu/wp-content/uploads/2019/02/meetings-practice.jpg" class="card-img-top" alt="...">
-                  <div class="card-body text-left">
-                    <h5 class="card-title">Name</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Category</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Status:</h6>
-                    <p class="card-text">Description</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-                      </div>
-                      <small class="text-muted">Due Date</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm ">
-                  <img src="https://www.targettraining.eu/wp-content/uploads/2019/02/meetings-practice.jpg" class="card-img-top" alt="...">
-                  <div class="card-body text-left">
-                    <h5 class="card-title">Name</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Category</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Status:</h6>
-                    <p class="card-text">Description</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-                      </div>
-                      <small class="text-muted">Due Date</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm ">
-                  <img src="https://www.targettraining.eu/wp-content/uploads/2019/02/meetings-practice.jpg" class="card-img-top" alt="...">
-                  <div class="card-body text-left">
-                    <h5 class="card-title">Name</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Category</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Status:</h6>
-                    <p class="card-text">Description</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-                      </div>
-                      <small class="text-muted">Due Date</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="card mb-4 shadow-sm ">
-                  <img src="https://www.targettraining.eu/wp-content/uploads/2019/02/meetings-practice.jpg" class="card-img-top" alt="...">
-                  <div class="card-body text-left">
-                    <h5 class="card-title">Name</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Category</h6>
-                    <h6 class="card-subtitle mb-2 text-muted">Status:</h6>
-                    <p class="card-text">Description</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
-                      </div>
-                      <small class="text-muted">Due Date</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="row" id="todos">
             </div>
           </div>
         </div>
+        <p class="mt-5 mb-3 text-muted">muchsin28 &copy; 2020</p>
       </div>
     </div>
-    <p class="mt-5 mb-3 text-muted">muchsin28 &copy; 2020</p>
     <br>
   </div>
-
-
   
   <!-- ***** SCRIPTS *****-->
 
@@ -289,104 +122,7 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
   </script>
-  <script>
-    const showLoginPage=()=>{
-      $('#register-page, #main-page').hide()
-      $('#login-page').show()
-    }
-    const showRegisterPage=()=>{
-      $('#register-page').show()
-      $('#login-page, #main-page').hide()
-    }
-    const showMainPage=()=>{
-      $('#register-page,#login-page').hide()
-      $('#main-page').show()
-    }
-    const login=()=>{
-      let email=$("#email").val()
-      let password=$("#password").val()
-      $.ajax({
-        url: "http://localhost:3000/login",
-        method: "POST",
-        data:{
-          email,
-          password
-        }
-      })
-      .done(response =>{
-        localStorage.setItem('access_token', response.access_token)
-        showMainPage()
-      })
-      .fail((xhr, textStatus)=>{
-        console.log(xhr, textStatus)
-      })
-      .always(()=>{
-        $("#email").val("")
-        $("#password").val("")
-      })
-    }
-    const register=()=>{
-      let name=$("#name").val()
-      let email=$("#reg-email").val()
-      let password=$("#reg-password").val()
-      $.ajax({
-        url: "http://localhost:3000/register",
-        method: "POST",
-        data:{
-          name,
-          email,
-          password
-        }
-      })
-      .done(response =>{
-        showLoginPage()
-      })
-      .fail((xhr, textStatus)=>{
-        console.log(xhr, textStatus)
-      })
-      .always(()=>{
-        $("name").val("")
-        $("#reg-email").val("")
-        $("#reg-password").val("")
-      })
-    }
-    const logout=()=>{
-      localStorage.clear()
-      showLoginPage()
-    }
-    
-    $(document).ready(function(){
-      if(localStorage.getItem('access_token')){
-        showMainPage()
-      }else{
-        showLoginPage()
-      }
-
-      $('#login-form').on('submit', (event)=>{
-        event.preventDefault()
-        login()
-      });
-
-      $('#register-redirect').on('click',()=>{
-        showRegisterPage()
-      })
-
-      $('#register-form').on('submit', (event)=>{
-        event.preventDefault()
-        register()
-      })
-
-      $('#login-redirect').on('click',()=>{
-        showLoginPage()
-      })
-
-      $('#logout-button').on('click',()=>{
-        logout()
-      })
-
-    });
-
-  </script>
+  <script src="./index.js"></script>
 
 </body>
 </html>
