@@ -1,3 +1,5 @@
+const { access } = require("fs");
+
 function showTodos(){
     $.ajax({
         method: "GET",
@@ -154,6 +156,12 @@ function showMainPage(){
 function logout(){
     localStorage.clear();
     showLoginPage();
+
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+
 }
 function deleteTodo(id){
     $.ajax({
@@ -168,5 +176,22 @@ function deleteTodo(id){
     })
     .fail((xhr)=>{
         console.log(xhr);
+    })
+}
+function onSignIn(googleUser) {
+    const googleToken = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        url: "http://localhost:3000/user/googleLogin",
+        method: "POST",
+        data: {
+            googleToken
+        }
+    })
+    .done((response)=>{
+        localStorage.setItem("access_token", response.access_token);
+        showMainPage();
+    })
+    .fail((xhr)=>{
+        console.log(xhr)
     })
 }
