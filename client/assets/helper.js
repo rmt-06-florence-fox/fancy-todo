@@ -223,3 +223,8 @@ function weather() {
             console.log(xhr);
         })
 }
+
+function onSignIn(googleUser) {
+    const googleToken = googleUser.getAuthResponse().id_token;
+
+}

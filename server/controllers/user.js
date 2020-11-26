@@ -1,10 +1,13 @@
 const {User} = require('../models')
 const {comparePassword} = require('../helpers/bcrypt')
 const {generateToken} = require('../helpers/jwt')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+
 class UserController{
     static async register(req, res, next){
         try {
-            
             let userObj = {
                 email: req.body.email,
                 password: req.body.password
@@ -36,7 +39,20 @@ class UserController{
             }
         } catch (error) {
             next(error)
+        }
+    }
 
+    static async googleLogin(req, res, next){
+        try {
+            const ticket = await client.verifyIdToken({
+                idToken: req.body.googleToken,
+                audience: process.env.GOOGLE_CLIENT_ID
+            })
+            console.log(ticket.getPayload());
+            res.status(200).json('ok')
+
+        } catch (error) {
+            res.status(500).json(error)
         }
     }
 }
