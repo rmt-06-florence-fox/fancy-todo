@@ -18,4 +18,6 @@ route.delete('/todos/delete/:id', authorization, Controller.deleteTodo)
 
 route.get('/holidays', Controller.holidays)
 
+// route.post('/googleLogin', Controller.googleLogin)
+
 module.exports = route

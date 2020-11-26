@@ -2,6 +2,8 @@ const { Todo, User } = require('../models')
 const { hash, compare } = require('../helpers/bcrypt-pass')
 const { getToken } = require('../helpers/jwt-token')
 const { default: Axios } = require('axios')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client('646065724082-konqgb2eatjlsvph04b3qkt6tg7hs3u0.apps.googleusercontent.com');
 
 class Controller {
     static async listTodos(req, res, next) {
