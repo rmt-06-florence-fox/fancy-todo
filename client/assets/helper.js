@@ -168,16 +168,17 @@ function fetchTodoList(){
         console.log('==== REsp====')
         resp.forEach( todo =>{
             console.log(todo.description)
-            let desc = todo.description
+            let style ; 
+            todo.status == 'success' ? style = 'style="background-color: rgb(255, 153, 153);"': ""
             $('#todo-table').append(`
-            <thead class="center-text">
+            <thead class="center-text" ${style}>
                 <tr>
                     <th></th>
                     <th>${todo.title}</th>
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody ${style}>
                 <tr >
                     <td>
                         <form action="">

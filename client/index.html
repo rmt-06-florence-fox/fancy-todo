@@ -65,15 +65,18 @@
 
             <label>Password  :</label><br>
             <input type="password" name="password" id="login-password"><br>
-            <div id="login-buttoon">
-                <input class="login-button btn btn-primary center-text" type="submit" value="login" id="submit-loginForm-btn">
-                <div class="g-signin2 login-button google" data-onsuccess="onSignIn"></div>
+            <div id="login-button">
+                <input class="login-button btn btn-primary center-text " type="submit" value="login" id="submit-loginForm-btn">
+                <div class="g-signin2 login-button google"  data-onsuccess="onSignIn"></div>
             </div>
 
         </form>
     </div>
 
     <!-- add page -->
+    
+
+    
     <div id="add-page">
         <h2>New Todo</h2>
         <form id="add-form">
@@ -87,7 +90,7 @@
             <input type="submit" value="add" id="add-new-todo-btn">
         </form>
     </div>
-
+    
     <!-- edit page -->
     <div id="edit-page">
         <h2>edit form</h2>
@@ -103,18 +106,19 @@
             <input type="submit" value="edit" id="edit-todo-btn">
         </form>
     </div>
+    
     <!-- Main Page -->
     <div id="main-page">
         <!-- add form -->
 
         <!-- Todo list -->
         <div id="todo-list">
-            <h3>Todo List</h3>
+            <h3 class="center-text">Todo List</h3>
                 <table id="todo-table" align="center">
                 </table>
         </div>
     </div>
-
+    
 
 
     <script src="https://apis.google.com/js/platform.js" async defer></script>

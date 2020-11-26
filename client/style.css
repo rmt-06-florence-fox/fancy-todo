@@ -12,52 +12,48 @@ input[type=text],input[type=password], select {
     box-sizing: border-box;
   }
 
-.login-button {
+div form {
     display: inline-block;
     padding-top: 5px;
     padding-left: 5px;
+    border: 10px;
 }
 
-#login-page {
+#login-page ,#edit-page{
     position: relative;
     margin: auto;
     width: 50%;
     padding: 10px;
 }
-
-
-#add-page {
+#add-page{
+    background-color: rosybrown;
+    position: relative;
+    margin: auto;
+    width: 40%;
+    padding: 10px;
+    display: inline-block;
+}
+#main-page{
     position: relative;
     margin: auto;
     width: 50%;
     padding: 10px;
+    /* left: 10%; */
+    bottom: 100%;
+    display: inline;
 }
 
-#main-page {
-
-    position: relative;
-    margin: auto;
-    width: 50%;
-    padding: 10px;
-
-}
-
-#edit-page {
-
-    position: relative;
-    margin: auto;
-    width: 50%;
-    padding: 10px;
-
-}
 .todo-list{
     margin: auto;
     /* border: 3px; */
 }
-
-#todo-table{
-    border: 1px;
+thead,tbody {
+    background-color: rgb(102, 255, 255);
 }
+/* #todo-table{
+    border: 1px;
+    background-color: rgb(102, 255, 255);
+} */
 .center-text{
     text-align: center;
 }
