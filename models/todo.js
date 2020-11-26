@@ -34,9 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         dateValidation(value){
           let currentDate = new Date()
           if(new Date(value) < currentDate){
-            throw new Error({
-              message: `tanggal tidak boleh diisi tanggal sebelumnya`,
-            })
+            throw new Error(`tanggal tidak boleh diisi tanggal sebelumnya`)
           }
         }
       }
