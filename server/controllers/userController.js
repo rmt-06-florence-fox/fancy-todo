@@ -45,14 +45,6 @@ class UserController {
             next(err)
         }
     }
-
-    static async logout (req, res) {
-        try {
-
-        } catch (err) {
-
-        }
-    }
     
 }
 

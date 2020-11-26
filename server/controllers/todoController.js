@@ -103,10 +103,10 @@ class TodoController {
     static async removeTodo (req, res, next) {
         try {
             let id = req.params.id
-            const todos = await Todo.destroy({
+            const result = await Todo.destroy({
                 where: {id}
             })
-            if (!todos) {
+            if (!result) {
                 throw {
                     status : 404,
                     msg : "To Do Not Found on your list"

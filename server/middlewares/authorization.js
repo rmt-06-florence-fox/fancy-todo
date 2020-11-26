@@ -8,6 +8,13 @@ module.exports = async (req, res, next) => {
                 }
             })
 
+            if (!todo) {
+                throw {
+                    status : 401,
+                    msg : "To Do Not Found"
+                }
+            }
+
             if (todo.UserId === req.dataUser.id) {
                 next()
             }else {

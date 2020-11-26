@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
                     msg : "Please Login First"
                 }
             } else {
-                const decoded = verifyToken (token)
+                const decoded = verifyToken(token)
                 req.dataUser = decoded
                 const user = await User.findOne ({ 
                     where : {
