@@ -7,13 +7,23 @@ module.exports = async (req, res, next) => {
                 id: req.params.id
             }
         })
+        if(!data){
+            throw({
+                status: 404,
+                message: `error not found`
+            })
+        }
         if(data.UserId == req.userLoggedIn.id){
             next()
         } else {
-            res.status(401).json({message: "you are not authorized"})
+            throw({
+                status: 401,
+                message: 'you are not authorized'
+            })
+            // res.status(401).json({message: "you are not authorized"})
         }
-    } catch (error) {
-        res.status(404).json({message: `error not found`})
+    } catch (err) {
+        next(err)
     }
    
 }

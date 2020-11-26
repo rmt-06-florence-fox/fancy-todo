@@ -17,8 +17,30 @@ module.exports = (sequelize, DataTypes) => {
   Todo.init({
     title: DataTypes.STRING,
     description: DataTypes.STRING,
-    status: DataTypes.STRING,
-    due_date: DataTypes.DATEONLY
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        notNull: true,
+      }
+    },
+    due_date: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        notNull: true,
+        dateValidation(value){
+          let currentDate = new Date()
+          if(new Date(value) < currentDate){
+            throw new Error({
+              message: `tanggal tidak boleh diisi tanggal sebelumnya`,
+            })
+          }
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Todo',

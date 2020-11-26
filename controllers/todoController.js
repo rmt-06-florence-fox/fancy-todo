@@ -2,7 +2,7 @@ const {Todo, User} = require('../models/index')
 let nodemailer = require('nodemailer');
 const { google } = require("googleapis");
 class Controller {
-    static async createTodo (req, res) {
+    static async createTodo (req, res, next) {
         try {
             let todo = {
                 title: req.body.title,
@@ -11,53 +11,46 @@ class Controller {
                 due_date: req.body.due_date,
                 UserId: req.userLoggedIn.id 
             }
-            let currentDate = new Date()
-            if(new Date(req.body.due_date) < currentDate){
-                res.status(400).json({message: `tanggal tidak boleh diisi tanggal sebelumnya`})
-            } else {
-                let data = await Todo.create(todo)
-                let targetMail = req.userLoggedIn.email
-                console.log(targetMail)
-                const OAuth2 = google.auth.OAuth2;
-                const oauth2Client = new OAuth2(
-                    process.env.CLIENTID, // ClientID
-                    process.env.CLIENTSECRET, // Client Secret
-                    "https://developers.google.com/oauthplayground" // Redirect URL
-                );
-    
-                oauth2Client.setCredentials({
-                refresh_token: process.env.REFRESHTOKEN
-                });
-                const accessToken = oauth2Client.getAccessToken()
-                const smtpTransport = nodemailer.createTransport({
-                    service: "gmail",
-                    auth: {
-                         type: "OAuth2",
-                         user: "ask.untara@gmail.com", 
-                         clientId: process.env.CLIENTID,
-                         clientSecret: process.env.CLIENTSECRET,
-                         refreshToken: process.env.REFRESHTOKEN,
-                         accessToken: accessToken
-                    }
-               });
-    
-                let mailOptions = {
-                  from: 'ask.untara@gmail.com',
-                  to: `${targetMail}`,
-                  subject: 'Confirmation New ToDo',
-                  text: `your new todo: ${JSON.stringify(data)}`
-                };
-                smtpTransport.sendMail(mailOptions, (error, response) => {
-                    error ? console.log(error) : console.log(response);
-                    smtpTransport.close();
-               });
+
+            let data = await Todo.create(todo)
+        //     let targetMail = req.userLoggedIn.email
+        //     const OAuth2 = google.auth.OAuth2;
+        //     const oauth2Client = new OAuth2(
+        //         process.env.CLIENTID, // ClientID
+        //         process.env.CLIENTSECRET, // Client Secret
+        //         "https://developers.google.com/oauthplayground" // Redirect URL
+        //     );   
+        //     oauth2Client.setCredentials({
+        //     refresh_token: process.env.REFRESHTOKEN
+        //     });
+        //     const accessToken = oauth2Client.getAccessToken()
+        //     const smtpTransport = nodemailer.createTransport({
+        //         service: "gmail",
+        //         auth: {
+        //              type: "OAuth2",
+        //              user: "ask.untara@gmail.com", 
+        //              clientId: process.env.CLIENTID,
+        //              clientSecret: process.env.CLIENTSECRET,
+        //              refreshToken: process.env.REFRESHTOKEN,
+        //              accessToken: accessToken
+        //         }
+        //    });   
+        //     let mailOptions = {
+        //       from: 'ask.untara@gmail.com',
+        //       to: `${targetMail}`,
+        //       subject: 'Confirmation New ToDo',
+        //       text: `your new todo: ${JSON.stringify(data)}`
+        //     };
+        //     smtpTransport.sendMail(mailOptions, (error, response) => {
+        //         error ? console.log(error) : console.log(response);
+        //         smtpTransport.close();
+        //    });
                 res.status(201).json(data)
-            }
-        } catch (error) {
-            res.status(500).json({message: `internal server error`})
+        } catch (err) {
+            next(err)
         }
     }
-    static async getTodo(req, res) {
+    static async getTodo(req, res, next) {
         try {
             let data = await Todo.findAll()
             res.status(200).json(data)
@@ -65,21 +58,24 @@ class Controller {
             res.status(500).json({message: `internal server error`})            
         }
     }
-    static async getTodoById(req, res){
+    static async getTodoById(req, res, next){
         try {
             let id = req.params.id
             let data = await Todo.findByPk(id)
-            console.log(data)
             if(!data){
-                res.status(404).json({message:`error not found`})
+                throw({
+                    status: 404,
+                    message: `error not found`
+                })
+                // res.status(404).json({message:`error not found`})
             } else {
                 res.status(200).json(data)
             }
-        } catch (error) {
-            res.status(500).json({message: `internal server error`})
+        } catch (err) {
+            next(err)
         }
     }
-    static async updateTodo(req, res){
+    static async updateTodo(req, res, next){
         try {
             let id = req.params.id
             let obj = {
@@ -95,20 +91,20 @@ class Controller {
                 returning: true,
             })
             if(!data[0]){
-                res.status(404).json({message: `error not found`})
+                throw({
+                    status: 404,
+                    message: `error not found`
+                })
+                // res.status(404).json({message: `error not found`})
             } else {
-                let currentDate = new Date()
-                if(new Date(req.body.due_date) < currentDate){
-                    res.status(400).json({message: `tanggal tidak boleh diisi tanggal sebelumnya`})
-                } else {
-                    res.status(200).json(data[1][0])
-                }
+                res.status(200).json(data[1][0])
+    
             }
-        } catch (error) {
-            res.status(500).json({message: `internal server error`})
+        } catch (err) {
+            next(err)
         }
     }
-    static async modifyStatusTodo(req, res){
+    static async modifyStatusTodo(req, res, next){
         try {
             let id = req.params.id
             let newStatus = req.body.status
@@ -119,19 +115,19 @@ class Controller {
                 returning: true,
             })
             if(!data[0]){
-                res.status(404).json({message: `error not found`})
+                throw ({
+                    status: 404,
+                    message: `error not found`
+                })
+                // res.status(404).json({message: `error not found`})
             } else {
-                if(!newStatus){
-                    res.status(400).json({message: `status tidak boleh kosong`})
-                } else {
-                    res.status(200).json(data[1][0])
-                }
+                res.status(200).json(data[1][0])
             }
         } catch (error) {
-            res.status(500).json(error)
+            next (err)
         }
     }
-    static async destroyTodo(req, res) {
+    static async destroyTodo(req, res, next) {
         let id = req.params.id
         try {
             let data = await Todo.destroy({
@@ -141,12 +137,16 @@ class Controller {
                 returning: true
             })
             if(!data){
-                res.status(404).json({message: `error not found`})
+                throw({
+                    status: 404,
+                    message: `error not found`
+                })
+                // res.status(404).json({message: `error not found`})
             } else {
                 res.status(200).json(data[1][0])
             }
-        } catch (error) {
-            res.status(500).json(error)
+        } catch (err) {
+            next(err)
         }
     }
 }
