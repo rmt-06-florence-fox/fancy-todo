@@ -12,16 +12,16 @@ class TodoController {
     try {
       let data = await Todo.create(obj);
       res.status(201).json(data);
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      next(error);
     }
   }
   static async show(req, res, next) {
     try {
       let data = await Todo.findAll({ where: { UserId: req.loggedInUser.id } });
       res.status(200).json(data);
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      next(error);
     }
   }
   static async find(req, res, next) {
@@ -36,8 +36,8 @@ class TodoController {
       } else {
         res.status(200).json(data);
       }
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      next(error);
     }
   }
   static async update(req, res, next) {
@@ -56,7 +56,7 @@ class TodoController {
           returning: true,
         });
         if (!dataUpdated) {
-          throw err;
+          throw error;
         } else {
           res.status(200).json(dataUpdated[1][0]);
         }
@@ -66,8 +66,8 @@ class TodoController {
           message: "Error, Data Not Found!",
         };
       }
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      next(error);
     }
   }
   static async updateStatus(req, res, next) {
@@ -111,8 +111,8 @@ class TodoController {
         });
         res.status(200).json({ message: "todo success to delete" });
       }
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      next(error);
     }
   }
 }
