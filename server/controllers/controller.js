@@ -2,6 +2,8 @@ const {Todo,User} = require('../models/index')
 const {decrypt} = require('../helpers/crypt')
 const {sign} = require('../helpers/jwt')
 const axios = require('axios')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);;
 
 class Controller {
    static getHome(req,res){
@@ -149,6 +151,7 @@ class Controller {
          email:req.body.email,
          password:req.body.password
       }
+      console.log(target);
 
       try{
          let data = await User.findOne({where:{email:target.email}})
@@ -179,6 +182,39 @@ class Controller {
       }catch(err){
          next(err)
       }
+   }
+
+   static googleLogin(req,res,next){
+      let payload
+      client.verifyIdToken({
+         idToken:req.body.googleToken,
+         audience:process.env.GOOGLE_CLIENT_ID
+      })
+      .then(ticket => {
+         payload = ticket.getPayload()
+         return User.findOne({
+            where:{
+               email:payload.email
+            }
+         })
+      })
+      .then(user => {
+         if(user){
+            return user
+         }else{
+            return User.create({
+               email:payload.email,
+               password:"sflkajflkajfklja"
+            })
+         }
+      })
+      .then(user =>{
+         const access_token = sign({id:user.id,email:user.email})
+         res.status(200).json({access_token})
+      })
+      .catch(err => {
+         next(err)
+      })
    }
 }
 
