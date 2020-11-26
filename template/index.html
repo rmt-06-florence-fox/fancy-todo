@@ -15,7 +15,7 @@
     </div>
     <div id="login-form">
         <form action="">
-            <label for="username">Username :</label>
+            <label for="username">Email :</label>
             <br>
             <input type="text" id="username" name="username">
             <br><br>
@@ -27,19 +27,37 @@
         </form>
         <br>
     </div>
+    <div id="register">
+        <p>Haven't an account?</p>
+        <button id="btn-register">Register</button>
+    </div>
+    <div id="register-page">
+        <form id="register-form">
+            <label for="name-register">Name :</label><br>
+            <input type="text" id="name-register" name="name-register">
+            <br><br>
+            <label for="username-register">Email :</label><br>
+            <input type="email" id="username-register" name="username-register">
+            <br><br>
+            <label for="password-register">Password :</label><br>
+            <input type="password" id="password-register" name="password-register">
+            <br><br>
+            <input type="submit" value="Register">
+        </form>
+    </div>
     <div id="main-page">
         <form id="add-form">
             <label for="title">Title: </label><br>
-            <input type="text" value="" id="title" name="title">
+            <input type="text" id="title" name="title">
             <br><br>
             <label for="description">Description: </label><br>
-            <input type="text" value="" id="description" name="description">
+            <input type="text" id="description" name="description">
             <br><br>
             <label for="status">Status: </label><br>
-            <input type="text" value="" id="status" name="status">
+            <input type="text" id="status" name="status">
             <br><br>
             <label for="due_date">Due Date: </label><br>
-            <input type="date" value="" id="due_date" name="due_date">
+            <input type="date" id="due_date" name="due_date">
             <br><br>
             <input type="submit" value="Add Todo">
         </form>
@@ -59,6 +77,9 @@
             </tbody>
         </table>
     </div>
+    <form id="edit-form">
+
+    </form>
     <br><br><br>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -68,6 +89,9 @@
             $("#btn-logout").hide()
             $("#login-form").show()
             $("#main-page").hide()
+            $("#edit-form").hide()
+            $("#register").show()
+            $("#register-page").hide()
         }
 
         function showMainPage() {
@@ -75,6 +99,27 @@
             $("#btn-logout").show()
             $("#login-form").hide()
             $("#main-page").show()
+            $("#edit-form").hide()
+            $("#register").hide()
+            $("#register-page").hide()
+        }
+
+        function showEditPage() {
+            $("#btn-logout").hide()
+            $("#login-form").hide()
+            $("#main-page").hide()
+            $("#edit-form").show()
+            $("#register").hide()
+            $("#register-page").hide()
+        }
+
+        function showRegisterPage() {
+            $("#btn-logout").hide()
+            $("#login-form").hide()
+            $("#main-page").hide()
+            $("#edit-form").hide()
+            $("#register").hide()
+            $("#register-page").show()
         }
 
         function getTodos() {
@@ -93,7 +138,7 @@
                     <td>${response[i].description}</td>
                     <td>${response[i].status}</td>
                     <td>${response[i].due_date}</td>
-                    <td><button onclick="editTodo(${response[i].id})">Edit</button> | <button onclick="deleteTodo(${response[i].id})">Delete</button></td>
+                    <td><button onclick="todoById(${response[i].id})">Edit</button> | <button onclick="deleteTodo(${response[i].id})">Delete</button></td>
                 </tr>`)
                 }
             })
@@ -123,10 +168,59 @@
             })
         }
 
+        function todoById(id) {
+            showEditPage()
+            $.ajax({
+                url: 'http://localhost:3000/todos/' + id,
+                method: 'GET',
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                }
+            })
+            .done(response => {
+                $("#edit-form").empty()
+                $("#edit-form").append(`<label for="title-edit">Title: </label><br>
+                <input type="text" id="title-edit" name="title-edit" value="${response.title}">
+                <br><br>
+                <label for="description-edit">Description: </label><br>
+                <input type="text" id="description-edit" name="description-edit" value="${response.description}">
+                <br><br>
+                <label for="status-edit">Status: </label><br>
+                <input type="text" id="status-edit" name="status-edit" value="${response.status}">
+                <br><br>
+                <label for="due_date-edit">Due Date: </label><br>
+                <input type="date" id="due_date-edit" name="due_date-edit" value="${response.due_date}">
+                <br><br>
+                <input type="submit" value="Edit" onclick="editTodo(${response.id})">`)
+            })
+            .fail((xhr, textStatus) => {
+                console.log(xhr)
+            })
+        }
+
         function editTodo(id) {
+            const title = $("#title-edit").val()
+            const description = $("#description-edit").val()
+            const status = $("#status-edit").val()
+            const due_date = $("#due_date-edit").val()
             $.ajax({
                 url: 'http://localhost:3000/todos/edit/' + id,
-                method: 'PUT'
+                method: 'PUT',
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                },
+                data: {
+                    title,
+                    description,
+                    status,
+                    due_date
+                }
+            })
+            .done(response => {
+                showMainPage()
+            })
+            .fail((xhr, textStatus) => {
+                console.log(xhr)
             })
         }
 
@@ -198,6 +292,37 @@
 
             $("#btn-logout").on("click", function(e) {
                 logout()
+            })
+
+            $("#btn-register").on("click", function(e) {
+                showRegisterPage()
+            })
+
+            $("#register-form").on("submit", function(e) {
+                e.preventDefault()
+                const name = $("#name-register").val()
+                const username = $("#username-register").val()
+                const password = $("#password-register").val()
+                $.ajax({
+                    url: 'http://localhost:3000/user/register',
+                    method: 'POST',
+                    data: {
+                        name,
+                        username,
+                        password
+                    }
+                })
+                .done(response => {
+                    showLoginPage()
+                })
+                .fail((xhr, textStatus) => {
+                    console.log(xhr)
+                })
+                .always(() => {
+                    $("#name-register").val("")
+                    $("#username-register").val("")
+                    $("#password-register").val("")
+                })
             })
         })
     </script>
