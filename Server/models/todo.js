@@ -21,7 +21,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: true,
-        notEmpty: true
+        notEmpty:{
+          args: true,
+          msg: `Title can't be empty !`
+        }
       }
     },
     description: {
@@ -29,7 +32,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate:{
         notNull: true,
-        notEmpty: true
+        notEmpty:{
+          args: true,
+          msg: `Description can't be empty`
+        }
       }
     },
     status:{
@@ -37,13 +43,20 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate:{
         notNull: true,
-        notEmpty: true
+        notEmpty:{
+          args: true,
+          msg: `Status can't be empty`
+        }
       }
     },
     due_date: {
       type: DataTypes.DATEONLY,
       allowNull: false,
       validate: {
+        notEmpty:{
+          args: true,
+          msg: `Due Date can't be empty`
+        },
         // isAfter:{        //ini kurang tepat karena new Date()nya itu tergantung server (?) 
         //   args: new Date().toISOString().split('T')[0],
         //   msg: 'Date must be greater than today'

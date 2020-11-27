@@ -16,10 +16,13 @@ class UserController{
       const result = await User.create(payload)
       res.status(201).json({ id: result.id, email: result.email })
     }catch(err){
-      next({
-        status: 400,
-        message: err
-      })
+      if(err.name === 'SequelizeValidationError'){
+        next({
+          name: 'Validation Error',
+          status: 400,
+          message: err.errors
+        })
+      }else next(err)
     }
   }
   static async login(req, res, next){
