@@ -20,7 +20,4 @@ $(document).ready(function(){
     e.preventDefault()
     createTodo()
   })
-  $('#btn-logout').on('click', (e)=>{
-    logout()
-  })
 })

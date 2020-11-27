@@ -15,14 +15,14 @@ function onSignIn(googleUser) {
 }
 
 function showLoginPage(){
-  $('.navbar').show()
+  $('.navbar').hide()
   $('#login-page').show()
   $('#regist-page').hide()
   $('#btn-logout').hide()
   $('#main-page').hide()
 }
 function showRegistPage(){
-  $('.navbar').show()
+  $('.navbar').hide()
   $('#regist-page').show()
   $('#login-page').hide()
   $('#btn-logout').hide()
@@ -46,13 +46,26 @@ function regist(){
     })
       .done(response => {
         showLoginPage()
+        Swal.fire(
+          'Good job!',
+          'Please log in now!',
+          'success'
+        )
       })
-      .fail((xhr, textStatus) =>{
-        console.log('--- gagal ---');
-        console.log(xhr, textStatus)
+      .fail(err =>{
+        console.log('--- gagal regist ---');
+        console.log(err)
+        let messageError = err.responseJSON.messages.map(e => e.message).join('<br>')
+        Swal.fire(
+          'Error!!!',
+          messageError,
+          'error'
+        )
       })
       .always(_ =>{
-        $('#regist-page').trigger('reset')
+        $('#registUsername').val("")
+        $('#registEmail').val("")
+        $('#registPassword').val("")
       })
   })
 }
@@ -74,9 +87,19 @@ function login(){
         localStorage.setItem('access_token', response.accessToken)
         console.log(localStorage, '<<< local storage');
         showMainPage()
+        Swal.fire(
+          'Welcome!',
+          'Welcome to the Fancy Todo App !',
+          'success'
+        )
       })
-      .fail((xhr, textStatus) =>{
-        console.log(xhr, textStatus)
+      .fail((err) =>{
+        console.log(err)
+        Swal.fire(
+          'Error!!!',
+          err.responseJSON.message,
+          'error'
+        )
       })
       .always(_ =>{
         $('#login-page').trigger('reset')
@@ -84,9 +107,6 @@ function login(){
   })
 }
 function logout(){
-  $('.navbar').show()
-  $('#btn-logout').hide()
-  $('.container').hide()
   localStorage.removeItem("access_token");
   var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
@@ -174,9 +194,30 @@ function createTodo(){
       due_date
     }
   })
-    .done(response => fetchDataTodoList())
-    .fail(xhr => console.log(xhr))
-    .always(_ => $('#create-todo').trigger('reset'))
+    .done(response =>{
+      showMainPage()
+      Swal.fire(
+        'Success !!!',
+        'Successfully create todo !!!',
+        'success'
+      )
+    })
+    .fail(err =>{
+      console.log(err)
+      let messageError = err.responseJSON.messages.map(e => e.message).join('<br>')
+      Swal.fire(
+        'Error!!!',
+        messageError,
+        'error'
+      )
+    })
+    .always(_ => {
+      $('#inputTitle').val("")
+      $('#inputDescription').val("")
+      $('#inputStatus').val("")
+      $('#inputDueDate').val("")
+      $('#form-create-todo').trigger('reset')
+    })
 }
 function deleteData(id){
   $.ajax({
@@ -223,8 +264,22 @@ function updateData(id){
   })
     .done(response =>{
       showMainPage()
+      Swal.fire(
+        'Success !!!',
+        'Todo successfully editing !!!',
+        'success'
+      )
     })
-    .fail(xhr => console.log(xhr))
+    .fail(err =>{
+      console.log(err)
+      console.log(err)
+      let messageError = err.responseJSON.messages.map(e => e.message).join('<br>')
+      Swal.fire(
+        'Error!!!',
+        messageError,
+        'error'
+      )
+    })
     .always(_ => $('#edit-todo').trigger('reset'))
 }
 function patchData(id){
