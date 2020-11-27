@@ -6,7 +6,7 @@ $(document).ready (function(){
       landing()
     }
 
-
+    //submit new task
     $('#newtask').on({
       submit: e => {
         e.preventDefault()
@@ -39,5 +39,8 @@ $(document).ready (function(){
 
       }
     })
+
+    //edit task
+    
     
   });

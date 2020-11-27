@@ -92,6 +92,7 @@ function landing () {
     $('#homepage').hide()
     $('#newtask').hide(0)
     $('#getsuggest').hide()
+    $('#edit-task').hide()
 }
 
 function homepage () {
@@ -153,7 +154,7 @@ function homepage () {
     $('#landing').hide(0)
     $('#newtask').hide(0)
     $('#getsuggest').hide()
-    
+    $('#edit-task').hide()
 }
 
 function newTask () {
@@ -161,12 +162,51 @@ function newTask () {
     $('#homepage').hide()
     $('#getsuggest').hide()
     $('#add-success-message').hide()
+    $('#edit-task').hide()
 }
 
 function getSuggest () {
     $('#getsuggest').show()
     $('#homepage').hide()
     $('#newtask').hide()
+    $('#edit-task').hide()
+    $.ajax({
+        url: 'http://localhost:3000/todos/suggest',
+        method: 'GET',
+        headers: {
+            access_token: localStorage.getItem('access_token')
+        }
+    })
+    .done(msg => {
+        console.log(msg)
+        $('#get-suggest-description').val(msg.try.activity)
+        $('#get-suggest-title').val(`try ${msg.try.type}`)
+    })
+    .fail((xhr, textStatus) => {
+
+    })
+    .always(_=> {
+
+    })
+
+}
+
+function editTask () {
+    $('#edit-task').show()
+    $('#getsuggest').show()
+    $('#homepage').hide()
+    $('#newtask').hide()
+    $('#getsuggest').hide()
+}
+
+function backHome () {
+    console.log($('input.btn-check'))
+    $('input.btn-check').removeAttr('checked')
+    $('input.btn-check').prop('checked', false);
+    $('#homelink').attr('checked', true)
+    $('#homelink').prop('checked', true);
+    homepage()
+
 }
 
 function logout () {

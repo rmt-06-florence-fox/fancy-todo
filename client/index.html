@@ -96,7 +96,8 @@
                 <div class="alert alert-success" role="alert" id="add-success-message">
                   Success adding new task!
                 </div>
-                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                <button type="submit" class="btn btn-success mb-2">Submit</button>
+                <button type="button" class="btn btn-danger mb-2" onclick="backHome()">Cancel</button>
               </form>
             </div>
 
@@ -116,6 +117,26 @@
                   <label for="get-suggest-due_date" class="form-label">Due Date</label>
                   <input type="datetime-local" class="form-control" id="get-suggest-due_date">
                 </div>
+                <button type="submit" class="btn btn-success mb-2">I'll give it a go!</button>
+                <button type="button" class="btn btn-danger mb-2" onclick="backHome()">Cancel</button>
+              </form>
+            </div>
+
+             <!-- Edit Task -->
+             <div class="mt-4" id="edit-task">
+              <form>
+                <div class="mb-3">
+                  <label for="edit-task-title" class="form-label">Title</label>
+                  <input type="text" class="form-control" id="edit-task-title">
+                </div>
+                <div class="mb-3">
+                  <label for="edit-task-description" class="form-label">Description</label>
+                  <textarea class="form-control" id="edit-task-description" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="edit-task-due_date" class="form-label">Due Date</label>
+                  <input type="datetime-local" class="form-control" id="edit-task-due_date">
+                </div>
                 <button type="submit" class="btn btn-primary mb-2">Submit</button>
               </form>
             </div>
@@ -126,7 +147,7 @@
                 <input type="radio" class="btn-check" name="btnradio" id="homelink" autocomplete="off" checked onclick="homepage()">
                 <label class="btn btn-outline-dark" for="homelink">See List</label>
               
-                <input type="radio" class="btn-check" name="btnradio" id="newlink" autocomplete="off" onclick="newTask()">
+                <input type="radio" class="btn-check" name="btnradio" id="newlink" autocomplete="off"  onclick="newTask()">
                 <label class="btn btn-outline-dark" for="newlink">Add New</label>
               
                 <input type="radio" class="btn-check" name="btnradio" id="suggestlink" autocomplete="off" onclick="getSuggest()">
