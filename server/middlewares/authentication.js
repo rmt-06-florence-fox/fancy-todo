@@ -21,6 +21,6 @@ module.exports = async (req,res,next)=>{
       next({status: 401, message: 'please login first' })
     }
   } catch (error) {
-    next({status: 401, message: 'internal server error' })
+    next(error)
   }
 }

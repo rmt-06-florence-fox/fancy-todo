@@ -32,10 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     due_date: {
       type:DataTypes.DATEONLY,
       validate:{
-        // isAfter: {
-        //   args: new Date().toISOString().split('T')[0],
-        //   msg: "the date must be greater than today"
-        // }
+        
         isGreaterThan(value){
           if(this.updatedAt.toISOString().split('T')[0] > this.due_date){ 
             throw new Error('the date must be greater than today')
