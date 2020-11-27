@@ -1,5 +1,6 @@
 'use strict';
 const {Model} = require('sequelize');
+const {dateValidate} = require('../helpers/validateDate')
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     static associate(models) {
