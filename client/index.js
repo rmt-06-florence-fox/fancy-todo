@@ -37,6 +37,48 @@ $(document).ready(()=> {
     }
 })
 
+function onSignIn(googleUser) {
+
+  var google_access_token = googleUser.getAuthResponse().id_token;
+
+  $.ajax({
+      method: 'POST',
+      url: SERVER + "/loginGoogle",
+      data: {
+        google_access_token
+      }
+    })
+    .done(response => {
+      console.log(response);
+      let access_token = response.access_token
+      localStorage.setItem('access_token', access_token)
+      $("#content-card").empty()
+      $("#weather-card").empty()
+      $("#login-page").hide()
+      $("#home-page").show()
+      $("#homepage_navbar").show()
+      $("#todo-cart").show()
+      $("#add-todo-page").hide()
+      //ngosongin isi form after login
+      $('#input-email').val('')
+      $('#input-password').val('')
+
+      Toast.fire({
+        icon: 'success',
+        title: 'Signed in successfully'
+      })
+
+      fetchTodo()
+      weather() 
+    })
+    .fail(err => {
+      Swal.fire(
+        'Error!',
+        err.responseJSON.message,
+        'ERROR'
+      )
+    })
+}
 
 function login(event) {
     event.preventDefault()
@@ -54,6 +96,7 @@ function login(event) {
         $("#content-card").empty()
         $("#weather-card").empty()
         const access_token= response.access_token
+        console.log(access_token)
         localStorage.setItem('access_token', access_token)
         fetchTodo()
         weather()
@@ -305,7 +348,7 @@ function weather() {
     })
     .done(response => {
         $("#weather-card").empty()
-        console.log(response)
+        console.log(response, 'apaan nih')
         $("#weather-card").append(`<div class="container">
         <div class="row">
             <div class="col-md-12 col-md-offset-8">
@@ -313,9 +356,9 @@ function weather() {
                     <div class="current">
                         <div class="info">
                             <div>&nbsp;</div>
-                            <div class="city"><small><small>CITY:</small></small>${response.weather.name}</div>
-                            <div class="temp">${response.weather.temp}&deg; <small>C</small></div>
-                            <div class="wind"><small><small>MAIN:</small></small>${response.weather.main}</div>
+                            <div class="city"><small><small>CITY: </small></small>${response.query}</div>
+                            <div class="temp">${response.temperature}&deg; <small>C</small></div>
+                            <div class="wind"><small><small>MAIN: </small></small>${response.description}</div>
                             <div>&nbsp;</div>
                         </div>
                         <div class="icon">
@@ -411,10 +454,16 @@ $("#logout-button").on('click', ()=> {
     $("#home-page").hide();
     $("#homepage_navbar").hide()
     localStorage.clear()
+    console.log(localStorage, 'disini')
     Toast.fire({
       icon: 'success',
       title: 'logout successfully'
     })
+    var auth2 = gapi.auth2.getAuthInstance();
+    console.log(auth2)
+    auth2.signOut().then(function () {
+    console.log('User signed out.');
+  }); 
 })
 
 $("#add-todo-button").on('click', () => {
@@ -463,10 +512,11 @@ function addTodo(event) {
         $("#homepage_navbar").show()
         $("#add-todo-page").hide()
         $("#add-todo-button").show()
-        Toast.fire({
-            icon: 'success',
-            title: 'added successfully'
-          })
+        Swal.fire(
+          'Good job, you just added todo!',
+          'You clicked the button!',
+          'success'
+        )
     })
     .fail(err => {
         Swal.fire(

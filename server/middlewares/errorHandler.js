@@ -2,8 +2,11 @@ function errorHandler (err, req, res, next) {
   let status = 500
   let message = err.name || `Internal server error!`
 console.log(err)
+console.log('kesini ya ')
   if(err.name === 'SequelizeValidationError') {
     status = 401
+    console.log(err)
+
     let errors = []
     for (let i = 0; i < err.errors.length; i++) {
       errors.push(err.errors[i].message)

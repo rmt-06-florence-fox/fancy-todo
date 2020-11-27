@@ -8,6 +8,8 @@ const MusicController = require('../controllers/musicController')
 router.use('/todos', todoRoute)
 router.use('/register', UserController.register)
 router.use('/login', UserController.login)
+router.post('/loginGoogle', UserController.loginGoogle);
+
 router.use('/weather', WeatherController.getWeatherJakarta)
 router.use('/music', MusicController.getMusic)
 
