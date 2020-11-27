@@ -59,7 +59,8 @@ class TodoController {
             description : req.body.description,
             due_date : req.body.due_date,
             status : req.body.status,
-            UserId : userId
+            UserId : userId,
+            ProjectId : req.body.ProjectId
         }
         console.log(newData)
 
@@ -79,8 +80,9 @@ class TodoController {
         const editedData = {
             title : req.body.title,
             description : req.body.description,
-            // status : req.body.status,
-            due_date : req.body.due_date
+            due_date : req.body.due_date,
+            ProjectId : req.body.ProjectId
+
         }
         console.log('================Edit Data =====================')
         console.log(editedData)

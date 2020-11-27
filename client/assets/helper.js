@@ -2,13 +2,13 @@
 
 
 function loginForm(){
-    $('#logout-button').hide()
     $('#login-page').show()
-    $('#edit-page').hide()
+    $('#edit-form').hide()
     $('#main-page').hide()
-    $('#add-page').hide()
-    $('#exchange-api').hide()
+    $('#add-form').hide()
     $('#register-page').hide()
+    $('#cuaca-container').hide()
+    $('#todo-page').hide()
 
 }
 function registerForm(){
@@ -22,44 +22,51 @@ function registerForm(){
 }
 
 function mainPage(){
-    $('#register-button').hide()
+    console.log('main page')
+    // $('#register-button').hide()
+    $('#main-page').show()
     $('#logout-button').show()
     $('#login-page').hide()
-    $('#edit-page').hide()
-    $('#main-page').show()
-    $('#add-page').hide()
+    $('#edit-form').hide()
+    $('#add-form').hide()
     $('#register-page').hide()
-    $('#exchange-api').show()
+    $('#cuaca-container').show()
+    $('#todo-page').show()
     fetchTodoList()
     cuacaApi()
 }
 function addNewTodo(){
-        $('#register-button').hide()
-        $('#logout-button').show()
-        $('#login-page').hide()
-        $('#edit-page').hide()
-        $('#main-page').show()
-        $('#add-page').show()
-        $('#register-page').hide()
-        $('#exchange-api').show()
-        fetchTodoList()
+    $('#logout-button').show()
+    $('#login-page').hide()
+    $('#edit-form').hide()
+    $('#main-page').show()
+    $('#add-form').show()
+    $('#register-page').hide()
+    $('#cuaca-container').hide()
+    $('#todo-page').hide()
+        // fetchTodoList()
     
 }
 
 function editPage(){
     $('#logout-button').show()
     $('#login-page').hide()
-    $('#edit-page').show()
+    $('#edit-form').show()
     $('#main-page').show()
-    $('#add-page').hide()
+    $('#add-form').hide()
     $('#register-page').hide()
+    $('#cuaca-container').hide()
+    $('#todo-page').hide()
+
+
 
 }
 
 function getLoginData(){
     let password = $('#login-password').val()
     let email = $('#login-email').val()
-
+    console.log(password)
+    console.log(email)
     $.ajax({
         method : 'POST',
         url : 'http://localhost:3000/signIn',
@@ -78,6 +85,7 @@ function getLoginData(){
     })
 }
 function deleteData(id){
+    console.log('delete')
     console.log(id)
     $.ajax({
         method : 'DELETE',
@@ -102,10 +110,12 @@ function editData( id ){
             access_token : localStorage.getItem('access_token')
         }
     }).done(respon =>{
+        console.log(respon)
         $('#edit-title').val(respon[0].title)
         $('#edit-desc').val(respon[0].description)
         $('#edit-due_date').val(respon[0].due_date)
         $('#edit-id').val(respon[0].id)
+
 
 
     })
@@ -184,41 +194,60 @@ function fetchTodoList(){
         }
     }).done(resp =>{
         console.log('==== REsp====')
-        resp.forEach( todo =>{
-            console.log(todo.description)
-            let style ; 
-            todo.status == 'success' ? style = 'style="background-color: #99d6ff;"': ""
-            $('#todo-table').append(`
-            <thead class="center-text head-todo" ${style}>
-                <tr>
-                    <th></th>
-                    <th>${todo.title}</th>
-                </tr>
-            </thead>
+        $('#todo-card').empty()
+        console.log(resp.length)
+        if (resp.length == 0){
+            $('#todo-card').append('<h2 id="dont-have-task"> You Dont Have Any Task</h2>')
+        } else {
+            $('#dont-have-task').hide()
 
-            <tbody ${style} >
-                <tr >
-                    <td class="center-text checkbox">
-                        <form action="">
-                            <input type="checkbox" name="" class="checkbox-todo" onclick = changeStatus(${todo.id})>
-                        </form>
-                    </td>
-                        <td class="left-text desc">description : ${todo.description}<br>
-                            due date : ${todo.due_date} <br>
-                            status : ${todo.status} <br>
-                            <div class = "row">
-                                <div class="login-manual">
-                            <button class = "btn btn-danger " onclick = deleteData(${todo.id})>delete</button> 
-                                </div>
-                                <div class="login-manual">
-                            <button class ="btn btn-primary" onclick = "editData(${todo.id})" >edit</button> 
-                                </div>
-                            </div>
-                        </td>
+            resp.forEach( todo =>{
+                let style ; 
+                todo.status == 'success' ? style = 'style="background-color: #33F9FF;"': ""
+                $('#todo-card').append(`
+                <div class="min-w-0 p-4 text-white bg-blue-500 rounded-lg shadow-xs">
+                <table >
+                  <td class="check-box">                      
+                    <div >
+                      <input type="checkbox" id="myCheck" onclick = changeStatus(${todo.id})>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="desc-card">
+                      <h4 class="mb-4 font-semibold text-3xl">
+                        ${todo.title}
+                      </h4>
+                      <ul>
+                        <li>Description : ${todo.description}
+                        </li>
+                        <li>Due Date    : ${todo.due_date}
+                        </li>
+                        <li>Status      : ${todo.status}
+                        </li>
+                      </ul> 
 
-                </tr>
-            </tbody>`)
-        })
+                      <button 
+                      type="button"
+                      class="border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline" onclick = "editData(${todo.id})"
+                    >
+                      Edit Task
+                      </button>
+
+
+                      <button id="delete-task-button"
+                      type="button"
+                      class=" border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" onclick = deleteData(${todo.id})
+                    >
+                      Delete Task
+                    </button>
+                    </div>
+                  </td>
+                </table>
+              </div>
+                `)
+            })          
+        }
+        
     }).fail(err =>{
         console.log(err)
     })
@@ -241,7 +270,8 @@ function addTodoList(){
             access_token : localStorage.getItem('access_token')
         }
     }).done(resp =>{
-        fetchTodoList()
+        mainPage()
+        // fetchTodoList()
     }).fail(err=>{
         console.log(err)
     }).always( () =>{
@@ -269,6 +299,7 @@ function onSignIn(googleUser) {
            google_token
        }
    }).done(resp =>{
+    console.log('goooooooooooooooooo')
     console.log(resp)
     localStorage.setItem('access_token',resp)
     mainPage()
@@ -278,19 +309,19 @@ function onSignIn(googleUser) {
   }
 function getExchangeAPI(){
     console.log('===EXCHANGE===')
-    $.ajax({
-        method : 'GET',
-        url : 'http://localhost:3000/exchange'
-    }).done(resp =>{
-        console.log(resp.conversion_rates)
-        $('#last-update').text(resp.time_last_update_utc)
-        $('#usd-idr').text(resp.conversion_rates.IDR)
-        $('#usd-jpy').text(resp.conversion_rates.JPY)
-        $('#usd-hkd').text(resp.conversion_rates.HKD)
-        $('#usd-aud').text(resp.conversion_rates.AUD)
-    }).fail(err =>{
-        console.log(fail)
-    })
+    // $.ajax({
+    //     method : 'GET',
+    //     url : 'http://localhost:3000/exchange'
+    // }).done(resp =>{
+    //     console.log(resp.conversion_rates)
+    //     $('#last-update').text(resp.time_last_update_utc)
+    //     $('#usd-idr').text(resp.conversion_rates.IDR)
+    //     $('#usd-jpy').text(resp.conversion_rates.JPY)
+    //     $('#usd-hkd').text(resp.conversion_rates.HKD)
+    //     $('#usd-aud').text(resp.conversion_rates.AUD)
+    // }).fail(err =>{
+    //     console.log(fail)
+    // })
 }
 
 function cuacaApi(){
@@ -301,13 +332,9 @@ function cuacaApi(){
 
     }).done(resp =>{
         console.log(resp)
-        console.log(resp.weather[0].description)
-        console.log(resp.main.temp)
-        console.log(resp.name)
-        const cuaca =resp.weather[0].description
-        $('#cuaca').text(cuaca)
-        $('#temperatur').text(resp.main.temp)
-        $('#location').text(resp.name)
+        $('#cuaca').text(resp.data.weather)
+        $('#temperatur').text(resp.data.temperature)
+        $('#location').text(resp.data.location)
     }).fail(err =>{
         console.log(err)
     })

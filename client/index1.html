@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <meta name="google-signin-client_id" content="480994684506-e289453dp9iff07ugdvpatnv4uvtqll5.apps.googleusercontent.com">
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+
+    <!-- CSS Manual -->
+    <link rel="stylesheet" href="style.css">
+    <title>Fancy TODO</title>
+</head>
+<body>
+    <div class="all-container">
+        <!-- navbar  -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <h3><strong>Fancy Todo<strong></h3>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <button class="nav-item btn btn-danger" id="logout-button">Sign Out</button>
+                    <button class="nav-item btn btn-primary" id="register-button">Sign Up</button>
+                </div>
+                </div>
+            </div>
+            
+        </nav>
+        <!-- end of navbar -->
+
+        <h1 class="center-text main-text"> Organize Your Day With Fancy TODO </h1>
+
+
+
+        <!-- register page -->
+        <div id="register-page" >
+            <h2 class = "center-text">Register Form</h2>
+            <form id="register-form">
+                <label>Name:</label>
+                <input type="text" name="name" id="register-name"><br>
+                <label>Email:</label>
+                <input type="email" name="email" id="register-email"><br>
+                <label>Password:</label>
+                <input type="password" name="password" id="register-password"><br>
+                <input type="submit" value="register" id="submit-register-btn">
+            </form>
+        </div>
+        <!-- end of register page -->
+
+        <!-- login form  -->
+        <div id="login-page" > 
+            <h4 class="center-text">LogIn Form</h4>
+            <br>
+            <form id="login-form">
+                <label>Email     : </label><br>
+                <input type="text" name="email" id="login-email"><br>
+
+                <label>Password  :</label><br>
+                <input type="password" name="password" id="login-password"><br>
+                <div id="login-button" class="container">
+                    <div class="row">
+                        <div class="login-manual">
+                            <input class="login-button btn btn-primary center-text " type="submit" value="login" id="submit-loginForm-btn">
+                        </div>
+                        <div class="login-manual">
+                            <div class="g-signin2 login-button google"  data-onsuccess="onSignIn"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <!-- end of login form -->
+
+
+        <!-- add page -->
+        <div id="add-page">
+            <h2>New Todo</h2>
+            <form id="add-form">
+                <label >Title</label><br>
+                <input type="text" name="title" id="add-title"><br>
+                <label >Description</label><br>
+                <input type="text" name="description" id="add-desc"><br>
+                <label  >due date</label><br>
+                <input type="date" name="due_date" id="add-due_date"><br>
+                <br>
+                <div class="row">
+                    <div class="login-manual">
+                        <input type="submit" class="btn btn-primary" value="add" id="add-new-todo-btn">
+                    </div>
+                    <div class="login-manual">
+                        <button class="btn btn-danger cancel-button"> cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- end of add page  -->
+
+        <!-- edit page -->
+        <div id="edit-page">
+            <h2>edit form</h2>
+            <form id="edit-form">
+                <input type="hidden" id="edit-id"></input>
+                <label >Title</label><br>
+                <input type="text" name="title" id="edit-title"><br>
+                <label >Description</label><br>
+                <input type="text" name="description" id="edit-desc"><br>
+                <label  >due date</label><br>
+                <input type="date" name="due_date" id="edit-due_date"><br>
+                <br>
+                <div class="row">
+                    <div class="login-manual">
+                        <input type="submit" class="btn btn-primary" value="edit" id="edit-todo-btn">
+                    </div>
+                    <div class="login-manual">
+                        <button class="btn btn-danger cancel-button"> cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- end of edit page -->
+        <!-- API CUACA -->
+            <div id="weather" class="col">
+              <h3 id="cuaca">Cuaca</h2>
+              <h3 id="location">Lokasi     : </h3>
+              <h3 id="temperatur"Temperatur :</h3>
+            </div>
+        <!-- API CUACA -->
+
+        <!-- Main Page -->
+        <div id="main-page">
+            <div id="todo-container">                
+                <h3 class="center-text">Todo List</h3>
+                <table id="todo-table" align="center">
+                <button id="add-new-button" class="tn btn-primary"> Add New Todo</button>
+            </div>
+
+            <div id="project-container">
+                <h3> Project List</h3>
+            </div>
+                <!-- dapat dari jquery -->
+        </div>
+        <!-- end of main page -->
+    
+    </div>
+
+<!-- script -->
+    <!-- google Oauth -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- Jquery & Boostrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <!-- Jquery script  -->
+    <script src="./assets/helper.js"></script>
+    <script src="./assets/main.js"></script>
+<!-- end of script -->
+</body>
+</html>

@@ -4,6 +4,7 @@ const axios = require('axios')
 class ApiController {
 
     static async exchangeAPI(req,res,next){
+        console.log('============= Get exchange=============')
         try {
             const exchangeData = await axios({
                 method : 'get',
@@ -43,20 +44,31 @@ class ApiController {
             console.log(location.data.lat)
             const latitude = location.data.lat
             const longitude = location.data.lon
-            const APIkey = process.env.open_weather_key
             const weather = await axios({
                 method: 'get',
                 url : `http://api.openweathermap.org/data/2.5/weather`,
                 params : {
                     lat : latitude,
                     lon : longitude,
-                    appid : process.env.open_weather_key
+                    appid : process.env.open_weather_key,
+                    units: "metric"
                 }
 
             })
             console.log('========== Get The Weather Data========')
             console.log(weather)
-            res.status(200).json(weather.data)
+            console.log('=========DAta========')
+            // console.log(weather.data.main.temp)
+
+            const mainData = {
+                weather : weather.data.weather[0].main,
+                location : weather.data.name,
+                temperature : weather.data.main.temp
+            }
+            console.log(mainData)
+            res.status(200).json({
+                data : mainData
+            })
 
         } catch (error) {
             next(error)

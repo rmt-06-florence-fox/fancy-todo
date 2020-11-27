@@ -1,116 +1,54 @@
-.all-container{
-    width: 1000px;
-    margin: auto;
-}
-
-.center-text {
-    justify-content: centers;
+.div-text{
     text-align: center;
-}
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 30px;
 
-.navbar{
-    padding: 20px;
-    margin-bottom: 10px;
 }
-
-.main-text{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border: black 2px solid;
-}
-.left-text{
-    text-align: left;
-}
-.exchange-table{
-    margin: auto;
-    width: 500px;
-    justify-content: center;
-}
-.head-todo{
-    font-size: 15pxpx ;
-    padding-top: 20px;
-    border: tomato solid 2px;
-}
-.checkbox{
+.check-box{
     width: 50px;
-}
-.desc {
-    padding: 20px;
     margin: auto;
+    padding-left: 15px;
+    padding-right: 15px;
 }
-.login-manual {
-    margin-top: 10px;
-    margin-left: 10px;
-}
-.col{
-    border: black 2px solid;
-}
-#exchange-api{
-    justify-content: center;
+.desc-card{
     margin: auto;
-    border:black solid 2px;
-    padding-bottom: 20px;
-}
-#login-page{
-    margin: auto;
-    /* border: black solid 2px; */
-}
-#login-form{
-    /* border: black solid 2px; */
-    width: 500px;
-    height: 300px;
-    margin: auto;
-    margin-bottom: 20px;
+    text-align: left;
     padding-left: 20px;
 }
-#login-button {
-    margin-top: 20px;
 
+#myCheck{
+    width: 20px;
+    height: 20px;
 }
-#main-page{
+#cuaca-container{
+    /* background-color: #6495ed; */
     justify-content: center;
-    border: black solid 2px;
     margin: auto;
-    margin-top: 20px;
-    padding-bottom: 20px;
-    padding-top: 20px;
-    /* background-color: #ffffcc; */
-    display: inline-block;
-
 }
-/* #cuaca {
-    border: solid 2px black;
-    width: 350px;
-    height: 500px;
-    display: inline-block;
-    position: relative;
-} */
-#todo-list{
-    border: black solid 2px;
+#logout-btn{
+    float: right;
+}
+#edit-form{
+    /* border: black 2px solid; */
+    /* background-color: blue; */
+    justify-content: center;
     margin: auto;
-    margin-left: 20px;
-    margin-right: 20px;
-
 }
-#todo-table{
-    border: black solid 2px;
-    width: 500px;
-    /* margin-left: 370px; */
-    margin-bottom: 20px;
-    position: relative;
-}
-#add-new-button{
-    float: rigth;
-    margin-left: 20px;
-    justify-content: left;
-    margin-left: 860px;
-}
-input[type=text],input[type=password], select {
+#add-new-todo-btn{
     width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
+}
+.edit-form-class{
+    /* border: blue 2px solid; */
+    margin: auto;
+    width: 500px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.add-form-class{
+    /* border: blue 2px solid; */
+    margin: auto;
+    width: 500px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}

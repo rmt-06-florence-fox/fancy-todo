@@ -5,9 +5,7 @@ $(document).ready( () =>{
     }else {
         loginForm()
     }
-
-    getExchangeAPI()
-    // form
+    
     $('#login-form').on('click', (e)=>{
         e.preventDefault()
     })
@@ -22,33 +20,40 @@ $(document).ready( () =>{
     })
 
 
-    // button
-    $('#logout-button').on('click', ()=>{
-        logout()
 
-    })  
-    $("#submit-loginForm-btn").on("click", ()=>{
+    $("#login-btn").on("click", ()=>{
         getLoginData()
+    })
+
+    $('#logout-btn').on('click', ()=>{
+        console.log('log outttttttttt')
+        logout()
+    }) 
+
+    $('#register-btn').on('click',() =>{
+        console.log('register')
+        registerForm()
     })
     $("#submit-register-btn").on("click", ()=>{
         getRegisterData()
     })
-    $('#add-new-todo-btn').on('click', ()=>{
-        addTodoList()
-    })  
-    $('#register-button').on('click' , () =>{
-        registerForm()
-    })
-    $('#logout-button').on('click' , () =>{
+    $('#cancel-register-btn').on('click', ()=>{
         loginForm()
-    })
-    $('#edit-todo-btn').on('click' , () =>{
-        saveEditData()
-    })
-    $('#add-new-button').on('click', ()=>{
-        addNewTodo()
-    })  
+    }) 
     $('.cancel-button').on('click', ()=>{
         mainPage()
+    }) 
+    $('#add-new-todo-btn').on('click', ()=>{
+        addTodoList()
+        console.log('addd newww')
+    }) 
+    $('#edit-todo-btn').on('click' , () =>{
+        saveEditData()
+        // console.log('edit')
+    })
+
+    $('#add-page-button').on('click', ()=>{
+        addNewTodo()
+        console.log('addd newww')
     }) 
 })
