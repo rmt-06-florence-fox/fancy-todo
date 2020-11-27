@@ -6,5 +6,6 @@ const UserController = require("../controllers/userControllers")
 route.use('/todos', todoRoute)
 route.post('/register', UserController.register)
 route.post('/login', UserController.login)
+route.post('/googleLogin', UserController.googleLogin)
 
 module.exports = route

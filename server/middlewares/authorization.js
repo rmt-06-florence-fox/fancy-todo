@@ -8,7 +8,7 @@ module.exports = async(req, res, next)=>{
                 UserId: req.loginUser.id
             }
         })
-        // console.log(data)
+        console.log(data)
         if(data){
             console.log("access controller")
             next()
