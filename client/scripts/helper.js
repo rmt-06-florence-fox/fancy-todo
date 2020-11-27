@@ -116,8 +116,8 @@ function homepage () {
                             ${el.desrcription} 
                         </td>
                         <td class="col-md-auto d-flex align-items-center">
-                        <button type="button" class="btn btn-warning btn-sm mr-1">Edit</button>
-                        <button type="button" class="btn btn-success btn-sm mr-1">Mark As Done</button>
+                        <button type="button" class="btn btn-warning btn-sm mr-1" onclick="editTask(${el.id})">Edit</button>
+                        <button type="button" class="btn btn-success btn-sm mr-1" onclick="patchTask(${el.id})">Mark As Done</button>
                         <button type="button" class="btn btn-dark btn-sm" onclick="deleteTask(${el.id})">Delete</button>
                         </td>
                     </tr>
@@ -129,8 +129,8 @@ function homepage () {
                             ${el.desrcription} 
                         </td>
                         <td class="col-md-auto d-flex align-items-center">
-                        <button type="button" class="btn btn-warning btn-sm" style="margin-right: 6px;">Edit</button>
-                        <button type="button" class="btn btn-danger btn-sm mr-1">Mark  Undone</button>
+                        <button type="button" class="btn btn-warning btn-sm" style="margin-right: 7px;" onclick="editTask(${el.id})">Edit</button>
+                        <button type="button" class="btn btn-danger btn-sm mr-1" onclick="patchTask(${el.id})">Mark  Undone</button>
                         <button type="button" class="btn btn-dark btn-sm" onclick="deleteTask(${el.id})">Delete</button>
                         </td>
                     </tr>
@@ -191,12 +191,30 @@ function getSuggest () {
 
 }
 
-function editTask () {
+function editTask (id) {
     $('#edit-task').show()
     $('#getsuggest').show()
     $('#homepage').hide()
     $('#newtask').hide()
     $('#getsuggest').hide()
+    $('#edit-success-message').hide()
+
+    $.ajax({
+        method: 'GET',
+        url: `http://localhost:3000/todos/${id}`,
+        headers: {
+            access_token: localStorage.getItem('access_token')
+        }
+    })
+    .done(msg => {
+        let dateData = msg.todo.due_date.split('')
+        dateData.splice(-1)
+        console.log(dateData.join(''))
+        $('#edit-task-id').val(msg.todo.id)
+        $('#edit-task-title').val(msg.todo.title)
+        $('#edit-task-description').val(msg.todo.desrcription)
+        $('#edit-task-due_date').val(dateData.join(''))
+    })
 }
 
 function backHome () {
@@ -224,6 +242,22 @@ function deleteTask (id) {
 
     })
     
+}
+
+function patchTask (id) {
+    $.ajax ({
+        method: 'PATCH',
+        url: `http://localhost:3000/todos/${id}`,
+        headers: {
+            access_token: localStorage.getItem('access_token')
+        }
+    })
+    .done(msg => {
+        homepage()
+    })
+    .fail((xhr, textStatus) => {
+
+    })
 }
 
 function logout () {

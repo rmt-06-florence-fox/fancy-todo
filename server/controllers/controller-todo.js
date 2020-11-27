@@ -7,7 +7,8 @@ class ControllerTodo {
 			const list = await TodoList.findAll({
 				where: {
 					UserId: req.loggedUser.id
-				}
+				},
+				order: [['due_date', 'DESC']]
 			});
 			res.status(200).json({ list });
 		} catch (err) {
