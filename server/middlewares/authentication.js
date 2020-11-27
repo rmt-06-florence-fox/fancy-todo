@@ -11,26 +11,18 @@ module.exports = async (req, res, next) => {
             }
         } else {
             const decoded = verify(access_token)
-            User.findOne({where: {id: decoded.id}})
-            .then(data => {
+            let data = await User.findOne({where: {id: decoded.id}})
+            if (data) {
                 req.loggedInUser = decoded
                 next()
-            })
-            .catch(err => {
+            } else {
                 throw {
                     status: 401,
                     message: 'Invalid Account'
                 }
-            })
+            }
         }
     } catch (error) {
-        if (error.status) {
-            next(error)
-        } else {
-            next({
-                status: 500,
-                message: 'Internal Server Error'
-            })
-        }
+        next(error)
     }
 }

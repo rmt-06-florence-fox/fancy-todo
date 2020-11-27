@@ -99,7 +99,7 @@
         }
 
         function showMainPage() {
-            getTodos()
+            // getTodos()
             $("#btn-logout").show()
             $("#login-form").hide()
             $("#main-page").show()
@@ -233,7 +233,21 @@
         }
 
         function onSignIn(googleUser) {
-            const id_token = googleUser.getAuthResponse().id_token;
+            let google_access_token = googleUser.getAuthResponse().id_token
+            $.ajax({
+                url: 'http://localhost:3000/googleLogin',
+                method: 'POST',
+                data: {
+                    google_access_token
+                }
+            })
+            .done(data => {
+                localStorage.setItem('access_token', response.access_token)
+                showMainPage()
+            })
+            .fail((xhr, textStatus) => {
+                console.log(xhr)
+            })
         }
 
         $(document).ready(function(){
@@ -316,7 +330,7 @@
                 const username = $("#username-register").val()
                 const password = $("#password-register").val()
                 $.ajax({
-                    url: 'http://localhost:3000/user/register',
+                    url: 'http://localhost:3000/register',
                     method: 'POST',
                     data: {
                         name,

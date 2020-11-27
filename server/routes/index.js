@@ -1,23 +1,25 @@
 const route = require('express').Router()
-const Controller = require('../controllers/controller')
+const UserController = require('../controllers/UserController')
+const TodoController = require('../controllers/TodoController')
 const authentication = require('../middlewares/authentication')
 const authorization = require('../middlewares/authorized')
 
-route.post('/user/register', Controller.addUser)
-route.post('/user/login', Controller.login)
+route.post('/register', UserController.addUser)
+route.post('/login', UserController.login)
+route.post('/googleLogin', UserController.googleLogin)
 
 
 route.use(authentication)
-route.get('/todos', Controller.listTodos)
-route.post('/todos/add', Controller.addTodos)
+route.get('/todos', TodoController.listTodos)
+route.post('/todos', TodoController.addTodos)
 
-route.patch('/todos/updateStatus/:id', authorization, Controller.updateTodos)
-route.put('/todos/edit/:id', authorization, Controller.editTodos)
-route.get('/todos/:id', authorization, Controller.detailTodo)
-route.delete('/todos/delete/:id', authorization, Controller.deleteTodo)
+route.use('/todos/:id', authorization)
+route.patch('/todos/:id', TodoController.updateTodos)
+route.put('/todos/:id', TodoController.editTodos)
+route.get('/todos/:id', TodoController.detailTodo)
+route.delete('/todos/:id', TodoController.deleteTodo)
 
-route.get('/holidays', Controller.holidays)
+route.get('/holidays', TodoController.holidays)
 
-// route.post('/googleLogin', Controller.googleLogin)
 
 module.exports = route

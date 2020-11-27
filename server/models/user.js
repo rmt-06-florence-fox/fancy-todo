@@ -1,6 +1,6 @@
 'use strict';
 
-const { hash, compare } = require('../helpers/bcrypt-pass')
+const { hash } = require('../helpers/bcrypt-pass')
 const {
   Model
 } = require('sequelize');
@@ -17,26 +17,37 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Todo)
     }
   };
+
   User.init({
     name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        validatename(value) {
-          if (value === null || value === '') {
-            throw new Error ('Please enter your name!!')
-          }
+        notNull: {
+          args: true,
+          msg: 'Please enter your name!!'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'Please enter your name!!'
         }
       }
     },
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: {
+        args: true,
+        msg: 'Email has already exist!!'
+      },
       validate: {
-        validatename(value) {
-          if (value === null || value === '') {
-            throw new Error ('Please enter your email!!')
-          }
+        notNull: {
+          args: true,
+          msg: 'Please enter your email!!'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'Please enter your email!!'
         },
         isEmail: {
           args: true,

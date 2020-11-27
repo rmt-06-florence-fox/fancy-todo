@@ -19,42 +19,28 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        validatename(value) {
-          if (value === null || value === '') {
-            throw new Error ('Please enter your title!!')
-          }
+        notNull: {
+          args: true,
+          msg: 'Masukkan Title!!'
         }
       }
     },
     description: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      validate: {
-        validatename(value) {
-          if (value === null || value === '') {
-            throw new Error ('Please enter your description!!')
-          }
-        }
-      }
+      type: DataTypes.TEXT
     },
     status: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        validatename(value) {
-          if (value === null || value === '') {
-            throw new Error ('Please enter your status!!')
-          }
-        }
-      }
+      type: DataTypes.STRING
     },
     due_date: {
       type: DataTypes.DATEONLY,
+      allowNull: false,
       validate: {
+        notNull: {
+          args: true,
+          msg: 'Masukkan Due Date!!'
+        },
         validateDate(value) {
-          if (value === null || value === '') {
-            throw new Error ('Please enter your due date!!')
-          } else if (new Date(value) <= new Date()) {
+          if (new Date(value) <= new Date()) {
             throw new Error ('Due Date must greater than today!!')
           }
         }
@@ -65,5 +51,10 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Todo',
   });
+
+  Todo.beforeCreate((instance, option) => {
+    instance.status = 'pending'
+  })
+
   return Todo;
 };
