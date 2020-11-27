@@ -1,14 +1,18 @@
-const { verifyToken } = require('../helper/jwt')
 const { User } = require('../models')
+const { verifyToken } = require('../helper/jwt')
 
 module.exports = async (req, res, next) => {
     try {
-        console.log("udah msk auth")
+        // console.log("udah msk authen")
         const { access_token } = req.headers
         if (!access_token) {
-            res,status(401).json({ message: "Please login first" })
+            throw {
+                status: 401,
+                message: "Please login first"
+            }
         } else {
             const decoded = verifyToken(access_token)
+            // console.log(decoded);
             req.signInUser = decoded
             const user = await User.findOne({
                 where: {
@@ -16,12 +20,16 @@ module.exports = async (req, res, next) => {
                 }
             })
             if (user) {
+                console.log("masuk bos")
                 next()
             } else {
-                res.status(401).json({ message: "Please login first" })
+                throw {
+                    status: 401,
+                    message: "Please login first"
+                }
             }
         }
-    } catch (error) {
-        res.status(500).json({ message: "Please login first" })
+    } catch (err) {
+        next(err)
     }
 }

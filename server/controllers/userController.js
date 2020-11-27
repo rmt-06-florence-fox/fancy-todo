@@ -3,7 +3,7 @@ const { comparePass } = require('../helper/hash')
 const { generateToken } = require('../helper/jwt')
 
 class UserController {
-    static async signUp(req, res) {
+    static async signUp(req, res, next) {
         try {
             let userObj = {
                 name: req.body.name,
@@ -12,21 +12,24 @@ class UserController {
             }
             const data = await User.create(userObj)
             res.status(201).json({id: data.id, email: data.email})
-        } catch (error) {
-            res.status(400).json({error: error.message})
+        } catch (err) {
+            next(err)
         }
     }
 
-    static async signIn(req, res) {
+    static async signIn(req, res, next) {
         try {
             const data = await User.findOne({
                 where: {
                     email: req.body.email
                 }
             })
-            if(!data) {
-                res.status(400).json({message : 'Invalid Account!'})
-            } else if(comparePass(req.body.password, data.password)) {
+            if (!data) {
+                throw {
+                    status: 400,
+                    message: "Invalid Email/Password"
+                }
+            } else if (comparePass(req.body.password, data.password)) {
                 const payload = {
                     id: data.id,
                     email: data.email,
@@ -35,11 +38,14 @@ class UserController {
                 const access_token = generateToken(payload)
                 res.status(200).json({ access_token })
             } else {
-                res.status(400).json({message : 'Invalid Email or Password!'})
+                throw {
+                    status: 400,
+                    message: "Invalid Email/Password"
+                }
             }
         }
-        catch (error) {
-            res.status(500).json({ message: "Internal Server Error"})
+        catch (err) {
+            next(err)
         }
     }
 }
