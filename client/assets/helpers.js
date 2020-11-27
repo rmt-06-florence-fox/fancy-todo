@@ -1,4 +1,7 @@
 let TodoId = null
+let calendar
+
+
 function showHomePage(){
   $("#homepage").show()
   $("#main-page").hide()
@@ -93,6 +96,9 @@ function showTodos(){
         
   })
   .done(function( response ) {
+    calendar.getEvents().forEach(element => {
+      element.remove()
+    });
     //console.log(response)
     $("#todos-list-ongoing").empty()
     $("#todos-list-completed").empty()
@@ -102,6 +108,11 @@ function showTodos(){
       let month = months[Number(response[i].due_date.slice(5,7)) - 1]
       let year = response[i].due_date.slice(0,4)
       if (response[i].status === "On Going"){
+        addEventCalendar({
+          title: response[i].title,
+          start: response[i].due_date,
+          allDay: false
+        })
         $("#todos-list-ongoing").prepend(`
         <div class="card bg-light mb-3 mx-auto" style="max-width: 25rem;">
         <div class="card-header">${response[i].title}<button class="close" id="btn-delete-todo" onclick="deleteTodo(${response[i].id})">&times;</button><br>
@@ -114,7 +125,7 @@ function showTodos(){
         </div>
         `)
       }
-      else  if (response[i].status === "Completed"){
+      else if (response[i].status === "Completed"){
         $("#todos-list-completed").prepend(`
         <div class="card bg-light mb-3 mx-auto" style="max-width: 25rem;">
         <div class="card-header">${response[i].title}<button class="close" id="btn-delete-todo" onclick="deleteTodo(${response[i].id})">&times;</button></div>
@@ -305,3 +316,29 @@ function logoutUser(){
   localStorage.clear()
   showHomePage()
 }
+
+renderCalendar()
+function renderCalendar(){
+  document.addEventListener('DOMContentLoaded', function() {
+    let calendarEl = document.getElementById('calendar');
+    calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      headerToolbar: {
+        left: 'prev next today',
+        center: 'title',
+        right: 'dayGridMonth, timeGridWeek, timeGridDay'
+      },
+      events: []
+    });
+    calendar.render();
+  });
+  
+}
+
+function addEventCalendar(event){
+  calendar.addEvent(event)
+}
+
+
+
+

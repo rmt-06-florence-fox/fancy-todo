@@ -2,12 +2,18 @@
 
  API Doc:
  https://documenter.getpostman.com/view/13589700/TVev5jw4
+ 
+ 1. Menambah fullCalendar
+ 2. Menambah API Quotes
+ 3. Menambah fitur reminder (opsional)
+ 4. Benerin layout login dan register
+ 5. Nodemailernya digunakan
+
+ 1. Menambah div dengan id calendar pada index html (line 128)
+ 2. Menambah fungsi kalendar pada helpers
 
 
- 1. Menambah hooks beforeCreate di file todo (models) X
- 2. komen input status pada fungsi replaceTodo pada controller todo
- 3. Komen input status pada form add pada index.html
- 4. Komen input status pada form edit pada index.html
- 5. Komen status pada helpers (line 166)
- 6. Komen status pada helpers (line 212)
- 7. Set default status pada main html form add
+
+
+
+ 
