@@ -160,6 +160,7 @@ function newTask () {
     $('#newtask').show(0)
     $('#homepage').hide()
     $('#getsuggest').hide()
+    $('#add-success-message').hide()
 }
 
 function getSuggest () {
@@ -168,25 +169,7 @@ function getSuggest () {
     $('#newtask').hide()
 }
 
-function footerLink () {
-    $('#homelink').on({
-            click: _=> {
-                homepage()
-            }
-        }
-    )
-
-    $('#newtasklink').on({
-                click: _=> {
-                    newTask()
-                }
-            }
-    )
-
-    $('#suggestlink').on({
-            click: _=> {
-                getSuggest()
-            }
-        }
-    )
+function logout () {
+    localStorage.clear()
+    landing()
 }
