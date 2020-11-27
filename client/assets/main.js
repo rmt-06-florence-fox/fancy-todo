@@ -43,7 +43,7 @@ $(document).ready(function(){
     event.preventDefault()
     let title = $("#title-add").val()
     let description = $("#description-add").val()
-    let status = $("#status-add").val()
+    let status = "On Going"
     let due_date = $("#due_date-add").val()
     console.log({
       title,

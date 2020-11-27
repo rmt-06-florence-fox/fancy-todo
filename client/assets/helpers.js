@@ -209,7 +209,7 @@ function toggleEditForm(id){
   .done(function(response) {
     $("#title-edit").val(response.title)
     $("#description-edit").val(response.description)
-    $("#status-edit").val(response.status)
+    //$("#status-edit").val(response.status)
     $("#due_date-edit").val(response.due_date)
     TodoId = response.id
 

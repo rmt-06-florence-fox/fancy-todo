@@ -53,7 +53,6 @@ class TodosController {
       let payload = {
         title: req.body.title,
         description: req.body.description,
-        status: req.body.status,
         due_date: req.body.due_date
       }
       const data = await Todo.update(payload, {
