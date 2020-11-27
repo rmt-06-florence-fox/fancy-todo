@@ -1,7 +1,7 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 module.exports = async (req, res, next) => {
-    const token =  req.headers.token
+    const token = req.headers.token
     if (!token) {
         res.status(400).json(`you must login first`)
     }else{
