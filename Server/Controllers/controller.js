@@ -7,8 +7,9 @@ class Controller{
   static async getQuotes(req, res, next){
     try{
       console.log('--- Get Quotes ---');
+      const gatcha = Math.ceil(Math.random()*100)
       const quotes = await axios({
-        url: 'https://quote-garden.herokuapp.com/api/v2/quotes?page=1&limit=10',
+        url: `https://quote-garden.herokuapp.com/api/v2/quotes?page=${gatcha}&limit=3`,
         method: "GET"
       })
       res.status(200).json({result: quotes.data})
@@ -19,18 +20,15 @@ class Controller{
   static async getRestaurants(req, res, next){
     try{
       console.log('--- Get Restaurants ---');
-      const dataRestaurants = await axios({
-        url:'https://developers.zomato.com/api/v2.1/collections?city_id=74',
+      const data = await axios({
+        url: `https://developers.zomato.com/api/v2.1/search?collection_id=306459&sort=rating`,
         method: 'GET',
-        params:{
-          'city_id': 74
-        },
         headers:{
           'user-key': process.env.ZOMATO_key
         }
       })
-      console.log(dataRestaurants);
-      res.status(200).json({result: dataRestaurants.data.collections})
+      console.log(data.data, '<<< terbaru');
+      res.status(200).json({data: data.data.restaurants})
     }catch(err){
       next(err)
     }

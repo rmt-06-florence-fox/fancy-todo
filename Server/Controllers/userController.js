@@ -2,6 +2,8 @@ const {User} = require('../models')
 const Helper = require('../Helper/helper')
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 class UserController{
   static async register(req, res, next){
@@ -43,6 +45,44 @@ class UserController{
     }catch(err){
       next(err)
     }
+  }
+  static googleLogin(req,res, next){
+    let payload
+    client.verifyIdToken({
+      idToken: req.body.googleToken,
+      audience: process.env.GOOGLE_CLIENT_ID
+    })
+      .then(ticket =>{
+        // console.log(ticket.getPayload());
+        payload = ticket.getPayload()
+        return User.findOne({
+          where: { email: payload.email }
+        })
+      })
+      .then(data =>{
+        if(data) return data
+        else{
+          console.log(payload, '<<< dari then 1');
+          return User.create({
+            username: payload.name,
+            email: payload.email,
+            password: process.env.passwordUser
+          })
+        }
+      })
+      .then(data =>{
+        console.log(data, '<<< dari then 2');
+        const accessToken = jwt.sign({
+          id: data.id,
+          email: data.email
+        }, process.env.SECRET)
+        // const accessToken = Helper.generateToken({
+        //   id: data.id,
+        //   email: data.email
+        // })
+        res.status(200).json({accessToken})
+      })
+      .catch(err => next(err))
   }
 }
 

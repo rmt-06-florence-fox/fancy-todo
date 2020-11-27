@@ -5,6 +5,7 @@ const {Controller} = require('../Controllers/controller')
 
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)
+router.post('/googleLogin', UserController.googleLogin)
 router.get('/quotes', Controller.getQuotes)
 router.get('/restaurants', Controller.getRestaurants)
 router.use('/todos', todoRouter)
