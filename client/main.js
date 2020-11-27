@@ -15,6 +15,7 @@ function checkauth() {
         todoList()
         $('#nav-log').hide()
         $('#nav-reg').hide()
+        getQotd()
     } else {
         $('#loginbox').show()
         $('#regisbox').hide()
@@ -24,6 +25,7 @@ function checkauth() {
         $('#nav-log').show()
         $('#nav-reg').show()
         $('#edit-todo').hide()
+        $('#quote-card').hide()
     }
 }
 
@@ -35,6 +37,11 @@ function logout(event) {
     auth2.signOut().then(function () {
         console.log('User signed out.');
     });
+    Swal.fire(
+        'Done!',
+        'Logout successfully!',
+        'success'
+    )
 }
 
 function showRegister(event) {
@@ -68,6 +75,9 @@ function login(event) {
     .done(res => {
         localStorage.setItem('access_token', res.access_token)
         checkauth()
+        getQotd()
+        $('#emaillogin').val('')
+        $('#passwordlogin').val('')
         Swal.fire(
             'Welcome!',
             'Welcome to the todo app',
@@ -94,7 +104,7 @@ function register(event) {
         data: {email, password}
     })
     .done(res => {
-        showLogin()
+        checkauth()
         Swal.fire(
             'Good job!',
             'Please log in!',
@@ -278,7 +288,7 @@ function deleteTodo(event) {
         todoList()
         Swal.fire(
             'Deleted!',
-            'Your recipe has been deleted!',
+            'Your task has been deleted!',
             'success'
         )
     })
@@ -305,11 +315,42 @@ function onSignIn(googleUser) {
         $('#emaillogin').val('')
         $('#passwordlogin').val('')
         checkauth()
+        getQotd()
         Swal.fire(
             'Welcome!',
             'Welcome to the todo app',
             'success'
         )
+    })
+    .fail(err => {
+        console.log(err)
+        Swal.fire(
+            'Error!!!',
+            err.responseJSON.msg,
+            'error'
+        )
+    })
+}
+
+function getQotd() {
+    const access_token = localStorage.getItem('access_token')
+    $.ajax({
+        method: 'Get',
+        url: baseURL + '/quotes',
+        headers: {
+            access_token
+        }
+    })
+    .done(res => {
+        $('#qotd').empty();
+        $('#qotd').append(`
+        <p>
+        ${res.qotd}
+        </p>
+        <cite>
+        ${res.author}
+        </cite>
+        `)
     })
     .fail(err => {
         console.log(err)
