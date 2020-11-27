@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
             }
           }},
     email: {type : DataTypes.STRING,
+          unique: true,
           validate: {
             notEmpty: {
               msg: `email must be fill`

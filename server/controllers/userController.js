@@ -1,4 +1,4 @@
-
+require('dotenv').config()
 const {Todo, User} = require('../models/index')
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.googleClient);
@@ -48,6 +48,7 @@ class UserController{
     }
     static googleLogin(req, res, next){
         let payload = null
+        console.log(req.body.googleToken, '<<<>>>>', process.env.googleClient);
         client.verifyIdToken({
             idToken: req.body.googleToken,
             audience: process.env.googleClient, 
@@ -63,7 +64,8 @@ class UserController{
         })
         .then(value => {
             if (value) {
-                return value
+                const access_token = jwt.sign({id: value.id, email:value.email}, process.env.secret)
+                res.status(200).json({access_token})
             }else{
                 return User.create({
                     name: payload.email.split('@')[0],
@@ -74,7 +76,8 @@ class UserController{
         })
         .then(user => {
             const access_token = jwt.sign({id: user.id, email:user.email}, process.env.secret)
-            res.status(200).json(access_token)
+            res.status(200).json({access_token})
+            console.log(access_token, '<<<<< acces token');
         })
         .catch(error => {
             console.log(error);
