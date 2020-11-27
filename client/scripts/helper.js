@@ -1,5 +1,6 @@
 function landing () {
         //show login form
+        $('#landing').show(0)
         $('#formlogin').show(0,_=> {
             $('#slog')
             .on('click', _=> {
@@ -87,8 +88,10 @@ function landing () {
     });
 
     //hide another page
+    $('#footernav').hide()
     $('#homepage').hide()
     $('#newtask').hide(0)
+    $('#getsuggest').hide()
 }
 
 function homepage () {
@@ -146,15 +149,24 @@ function homepage () {
         })
 
     //hide another page
+    $('#footernav').show()
     $('#landing').hide(0)
     $('#newtask').hide(0)
+    $('#getsuggest').hide()
+    
 }
 
 function newTask () {
     $('#newtask').show(0)
     $('#homepage').hide()
+    $('#getsuggest').hide()
 }
 
+function getSuggest () {
+    $('#getsuggest').show()
+    $('#homepage').hide()
+    $('#newtask').hide()
+}
 
 function footerLink () {
     $('#homelink').on({
@@ -165,9 +177,16 @@ function footerLink () {
     )
 
     $('#newtasklink').on({
-        click: _=> {
-            newTask()
+                click: _=> {
+                    newTask()
+                }
+            }
+    )
+
+    $('#suggestlink').on({
+            click: _=> {
+                getSuggest()
+            }
         }
-    }
-)
+    )
 }
