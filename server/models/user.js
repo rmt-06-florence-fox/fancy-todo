@@ -25,6 +25,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         notNull: {
           msg: `Email Required`
+        },
+        isEmail: {
+          msg: `Input Must Be Email`
         }
       }
     },
@@ -37,6 +40,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         notNull: {
           msg: `Password Required`
+        },
+        len: {
+          args: [6,255],
+          msg: `Password Min 6 Character`
         }
       }
     }

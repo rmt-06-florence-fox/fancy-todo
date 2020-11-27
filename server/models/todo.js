@@ -45,6 +45,12 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Todo',
   });
   Todo.beforeCreate((instance, opt) => {
+    if (instance.title.trim() == '') {
+      instance.title = 'Untitled'
+    }
+    if (instance.description.trim() == '') {
+      instance.description = 'Untitled'
+    }
     instance.status = false
   })
 
