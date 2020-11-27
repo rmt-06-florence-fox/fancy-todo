@@ -1,6 +1,6 @@
-
+const {Todo, User} = require('../models/index')
 module.exports = async (req, res, next) => {
-    const todoId = req.paramas.id
+    const todoId = req.params.id
     try {
         const todo = await Todo.findOne({
             where: {

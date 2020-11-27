@@ -52,6 +52,7 @@
             <br><br>
         </form>
         <!--Form Create Todo-->
+        <table id="table-todo" border="1"></table>
     </div>
     
 
@@ -101,7 +102,7 @@
             })
             .fail((xhr, textStatus) => {
                 console.log(xhr);
-                alert(xhr.responseText)
+                // alert(xhr.responseText)
             })
             .always(() => {
                 $('#login-email').val('')
@@ -125,11 +126,11 @@
             })
             .done(value => {
                 console.log(value);
-                alert(`Account as email ${value.email}`)
+                // alert(`Account as email ${value.email}`)
                 loginDisplay()
             })
             .fail((xhr, textStatus) => {
-                alert(xhr.responseText)
+                // alert(xhr.responseText)
                 console.log(error);
             })
             .always(() => {
@@ -151,6 +152,7 @@
             $('#main-page').show()
             $('#login-page').hide()
             $('#register-page').hide()
+            todo()
         }
         function loginDisplay(){
             $('#login-page').show()
@@ -176,7 +178,8 @@
                 }
             })
             .done(value => {
-                alert('Todo has been created')
+                // alert('Todo has been created')
+                todo()
             })
             .fail((xhr, textStatus) => {
                 alert(xhr.responseText)
@@ -186,6 +189,52 @@
                 // $('#description').val('')
                 // $('#status').val('')
                 // $('#due_date').val('')
+            })
+        }
+        function todo() {
+            $('#table-todo').empty()
+            $.ajax({
+                url: 'http://localhost:3000/todos',
+                method: 'GET',
+                headers: {
+                    token: localStorage.getItem('access_token')
+                }
+            })
+            .done(response => {
+                $('#table-todo').append(`<tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Action</th>
+                </tr>`)
+                response.forEach(todo => {
+                    $("#table-todo").append(`<tr>
+                    <td>${todo.title}</td>
+                    <td>${todo.description}</td>
+                    <td>${todo.status}</td>
+                    <td>${todo.due_date}</td>
+                    <td><button onClick="deleteTodo(${todo.id})"">Delete</button></td>
+                        </tr>`);
+                })
+            })
+             .fail((xhr, textStatus) => {
+                console.log(xhr);
+            })
+        }
+        function deleteTodo(id){
+            $.ajax({
+                url: `http://localhost:3000/todos/${id}`,
+                method: 'DELETE',
+                headers: {
+                    token: localStorage.getItem('access_token')
+                }
+            })
+            .done(response => {
+                todo()
+            })
+            .fail((xhr, textStatus) => {
+                console.log(xhr);
             })
         }
         $(document).ready(() => {
