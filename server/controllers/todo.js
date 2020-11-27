@@ -25,7 +25,7 @@ class TodoController {
                 where: {
                     UserId: req.loggedIn.id
                 },
-                order: [['status', 'asc'], ['due_date', 'asc']]
+                order: [['status', 'asc'], ['due_date', 'asc'], ['createdAt', 'desc']]
             })
             res.status(200).json(todo)
         } catch (error) {

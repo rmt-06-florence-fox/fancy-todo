@@ -1,6 +1,7 @@
 // ? helper function
 // ! show landing page
 let showLandingPage = () => {
+    getLocation()
     $("#landing-page").show()
     $("#main-page").hide()
     $("#register-page").hide()
@@ -9,7 +10,10 @@ let showLandingPage = () => {
 let showMainPage = () => {
     $("#landing-page").hide()
     $("#main-page").show()
+    getLocation()
     fetchTodo()
+    getWeather()
+    setName()
 }
 // ! show register form
 let showRegister = () => {
@@ -33,6 +37,7 @@ let login = () => {
     
     request.done((message) => {
         localStorage.setItem('access_token', message.access_token);
+        localStorage.setItem('name', message.name)
         showMainPage()
         $("#warning").hide()
         $("#warning").empty()
@@ -95,7 +100,7 @@ let fetchTodo = () => {
         msg.forEach(todo => {
             $("#list-todo").append(`
             <div class="col-sm-4" style="margin-bottom:30px">
-                <div class="card">
+                <div class="card shadow p-3 mb-5 rounded ${todo.status == false ? `` : `bg-danger text-black`}">
                 <div id="todo-${todo.id}" ${todo.status == true ? `ondblclick="patchTodo(${todo.id},${false})"` : `ondblclick="patchTodo(${todo.id},${true})"`}>
                     <div class="card-header" data-toggle="tooltip" data-placement="top" title="Double Click To Change Status">
                         <h4>${todo.title}</h4>
@@ -280,6 +285,7 @@ function onSignIn(googleUser) {
 
     request.done((message) => {
         localStorage.setItem('access_token', message.access_token);
+        localStorage.setItem('name', message.name)
         showMainPage()
         $("#warning").hide()
         $("#warning").empty()
@@ -302,3 +308,49 @@ function onSignIn(googleUser) {
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
+
+// ! get location
+
+let getLocation = () => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(saveLocation);
+    } else { 
+        $("#warning").show()
+        $("#warning").html(`<b>Geolocation is not supported by this browser.</b>`);
+    }
+}
+
+function saveLocation(position) {
+    localStorage.setItem("latitude", position.coords.latitude)
+    localStorage.setItem("longitude", position.coords.longitude)
+}
+
+// ! get weather
+let getWeather = () => {
+    const request = $.ajax({
+        url: "http://localhost:3000/weathers",
+        method: "GET",
+        headers: {
+            access_token:localStorage.getItem('access_token'),
+            latitude: localStorage.getItem("latitude"),
+            longitude: localStorage.getItem("longitude")
+        }
+    })
+
+    request.done(message => {
+        $("#warning").hide()
+        let kelvin = message.main.temp
+        const temperature = parseFloat(kelvin) - parseFloat(273.15)
+        $("#weather").text(`it looks like ${message.name}'s weather is on ${message.weather[0].main} with temperature ${temperature.toFixed(2)}°C`)
+    })
+
+    request.fail(function( jqXHR ) {
+        $("#warning").show()
+        $("#warning").html(`<b>${jqXHR.responseJSON.errors}</b>`);
+    });
+}
+
+// ! set name
+let setName = () => {
+    $("#user").text(localStorage.getItem("name"))
+}

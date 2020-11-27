@@ -1,5 +1,7 @@
 // ? jquery document ready
 $(document).ready(function(){
+
+    getLocation()
     
     if (!localStorage.access_token) {
         showLandingPage()
@@ -28,6 +30,9 @@ $(document).ready(function(){
     })
 
     $("#main-logout").on("click", (e) => {
+        $("#add-title").val("")
+        $("#add-description").val("")
+        $("#add-due-date").val("")
         e.preventDefault()
         localStorage.clear()
         showLandingPage()
@@ -41,4 +46,6 @@ $(document).ready(function(){
         e.preventDefault()
         addTodo()
     })
+
+    
 });

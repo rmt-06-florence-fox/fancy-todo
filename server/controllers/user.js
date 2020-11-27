@@ -40,8 +40,9 @@ class UserController {
                 }
             } else {
                 if (Password.comparePassword(payload.password, user.password)) {
+                    const name = user.email.split("@")[0]
                     const access_token = Token.getToken({id:user.id, email:user.email})
-                    res.status(200).json({access_token})
+                    res.status(200).json({access_token, name})
                 } else {
                     throw {
                         status: 400,
@@ -73,14 +74,14 @@ class UserController {
 
             if (userlogin) {
                 const access_token = Token.getToken({id:userlogin.id, email:userlogin.email})
-                res.status(200).json({access_token})
+                res.status(200).json({access_token, name: payload.name})
             } else {
                 const createuser = await User.create({
                     email: payload.email,
                     password: process.env.GOOGLE_PASSWORD
                 })
                 const access_token = Token.getToken({id:createuser.id, email:createuser.email})
-                res.status(200).json({access_token})
+                res.status(200).json({access_token, name: payload.name})
             }
         } catch (error) {
             next(error)
