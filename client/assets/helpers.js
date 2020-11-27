@@ -94,27 +94,37 @@ function showTodos(){
   })
   .done(function( response ) {
     //console.log(response)
-    $("#todos-list").empty()
+    $("#todos-list-ongoing").empty()
+    $("#todos-list-completed").empty()
     for (let i = 0; i < response.length; i++){
-      $("#todos-list").prepend(`
-      <div id="accordion" style="padding-left: 10px;">
-        <div class="card">
-        <div class="card-header">
-        <a class="card-link" data-toggle="collapse" href="#collapseOne">
-          <strong>${response[i].title}<strong> <br>
-            <button id="btn-update-status-todo" class="btn btn-primary" onclick="updateStatus(${response[i].id})">Mark As Done</button> <button id="btn-delete-todo" class="btn btn-danger" onclick="deleteTodo(${response[i].id})">Delete</button> <button id="btn-edit-todo" class="btn btn-success" data-toggle="modal" data-target="#edit-form" onclick="toggleEditForm(${response[i].id})">Edit</button>
-        </a>
+      let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      let date = response[i].due_date.slice(8,10)
+      let month = months[Number(response[i].due_date.slice(5,7)) - 1]
+      let year = response[i].due_date.slice(0,4)
+      if (response[i].status === "On Going"){
+        $("#todos-list-ongoing").prepend(`
+        <div class="card bg-light mb-3 mx-auto" style="max-width: 25rem;">
+        <div class="card-header">${response[i].title}<button class="close" id="btn-delete-todo" onclick="deleteTodo(${response[i].id})">&times;</button><br>
+        <button id="btn-update-status-todo" class="btn btn-primary" onclick="updateStatus(${response[i].id})">Mark As Done</button> <button id="btn-edit-todo" class="btn btn-success" data-toggle="modal" data-target="#edit-form" onclick="toggleEditForm(${response[i].id})">Edit</button>
         </div>
-        <div id="collapseOne" class="collapse show" data-parent="#accordion">
-          <div class="card-body">
-            <p>${response[i].description}</p>
-            <p>${response[i].due_date}</p>
-            <p>${response[i].status}</p>
-          </div>
+        <div class="card-body">
+          <p class="card-text">Desc: ${response[i].description}<br>
+          Due Date: ${date} ${month} ${year}</p>
         </div>
-      </div>
-      </div>
-      `)
+        </div>
+        `)
+      }
+      else  if (response[i].status === "Completed"){
+        $("#todos-list-completed").prepend(`
+        <div class="card bg-light mb-3 mx-auto" style="max-width: 25rem;">
+        <div class="card-header">${response[i].title}<button class="close" id="btn-delete-todo" onclick="deleteTodo(${response[i].id})">&times;</button></div>
+        <div class="card-body">
+          <p class="card-text">Desc: ${response[i].description}<br>
+          Due Date: ${date} ${month} ${year}</p>
+        </div>
+        </div>
+        `)
+      }
     }
   })
   .fail(xhr => {
@@ -122,6 +132,26 @@ function showTodos(){
   })
 
 }
+
+{/* <div id="accordion" style="padding-left: 10px;">
+<div class="card">
+<div class="card-header">
+<a class="card-link" data-toggle="collapse" href="#collapseOne">
+  <strong>${response[i].title}<strong> <br>
+    <button id="btn-update-status-todo" class="btn btn-primary" onclick="updateStatus(${response[i].id})">Mark As Done</button> <button id="btn-delete-todo" class="btn btn-danger" onclick="deleteTodo(${response[i].id})">Delete</button> <button id="btn-edit-todo" class="btn btn-success" data-toggle="modal" data-target="#edit-form" onclick="toggleEditForm(${response[i].id})">Edit</button>
+</a>
+</div>
+<div id="collapseOne" class="collapse show" data-parent="#accordion">
+  <div class="card-body">
+    <p>${response[i].description}</p>
+    <p>${response[i].due_date}</p>
+    <p>${response[i].status}</p>
+  </div>
+</div>
+</div>
+</div> */}
+
+
 function addTodos(title, description, due_date, status){
   $.ajax({
     method: "POST",
@@ -140,7 +170,7 @@ function addTodos(title, description, due_date, status){
     $("#add-form-notif").empty()
     $("#add-form-notif").prepend(`
     <div class="alert alert-success alert-dismisible">
-      <button typ"button" class="close" data-dismiss="alert">&times;</button>
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
       Successfully add todo list!
       </div>
     `)
