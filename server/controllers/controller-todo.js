@@ -51,8 +51,11 @@ class ControllerTodo {
 	}
 	static async patchId(req, res, next) {
 		try {
+			let statusInput;
+			const todo = await TodoList.findByPk(req.params.id);
+			todo.status == true ? statusInput = false : statusInput = true
 			const update = await TodoList.update(
-				{ status: true },
+				{ status: statusInput },
 				{
 					where: {
 						id: req.params.id,

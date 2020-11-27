@@ -118,7 +118,7 @@ function homepage () {
                         <td class="col-md-auto d-flex align-items-center">
                         <button type="button" class="btn btn-warning btn-sm mr-1">Edit</button>
                         <button type="button" class="btn btn-success btn-sm mr-1">Mark As Done</button>
-                        <button type="button" class="btn btn-dark btn-sm">Delete</button>
+                        <button type="button" class="btn btn-dark btn-sm" onclick="deleteTask(${el.id})">Delete</button>
                         </td>
                     </tr>
                                 `)
@@ -129,9 +129,9 @@ function homepage () {
                             ${el.desrcription} 
                         </td>
                         <td class="col-md-auto d-flex align-items-center">
-                        <button type="button" class="btn btn-warning btn-sm mr-1">Edit</button>
-                        <button type="button" class="btn btn-danger btn-sm mr-1">Mark Undone</button>
-                        <button type="button" class="btn btn-dark btn-sm">Delete</button>
+                        <button type="button" class="btn btn-warning btn-sm" style="margin-right: 6px;">Edit</button>
+                        <button type="button" class="btn btn-danger btn-sm mr-1">Mark  Undone</button>
+                        <button type="button" class="btn btn-dark btn-sm" onclick="deleteTask(${el.id})">Delete</button>
                         </td>
                     </tr>
                                 `)
@@ -207,6 +207,23 @@ function backHome () {
     $('#homelink').prop('checked', true);
     homepage()
 
+}
+
+function deleteTask (id) {
+    $.ajax ({
+        method: 'DELETE',
+        url: `http://localhost:3000/todos/${id}`,
+        headers: {
+            access_token: localStorage.getItem('access_token')
+        }
+    })
+    .done(msg => {
+        backHome()
+    })
+    .fail((xhr, textStatus) => {
+
+    })
+    
 }
 
 function logout () {
