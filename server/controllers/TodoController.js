@@ -27,14 +27,14 @@ class TodoController {
   static async find(req, res, next) {
     let id = +req.params.id;
     try {
-      let data = await Todo.findByPk(id);
-      if (!data) {
+      let data = await Todo.findOne({ where: { id } });
+      if (data) {
+        res.status(200).json(data);
+      } else {
         throw {
           status: 404,
           message: "Error, Data Not Found!",
         };
-      } else {
-        res.status(200).json(data);
       }
     } catch (error) {
       next(error);
@@ -49,14 +49,14 @@ class TodoController {
       due_date: req.body.due_date,
     };
     try {
-      let data = await Todo.findByPk(id);
+      let data = await Todo.findOne({ where: { id } });
       if (data) {
         let dataUpdated = await Todo.update(obj, {
           where: { id },
           returning: true,
         });
         if (!dataUpdated) {
-          throw error;
+          next(error);
         } else {
           res.status(200).json(dataUpdated[1][0]);
         }
@@ -76,7 +76,7 @@ class TodoController {
       status: req.body.status,
     };
     try {
-      let data = await Todo.findByPk(id);
+      let data = await Todo.findOne({ where: { id } });
       if (data) {
         let dataUpdated = await Todo.update(obj, {
           where: { id },
@@ -91,13 +91,13 @@ class TodoController {
         res.status(404).json({ message: "Error, Data Not Found!" });
       }
     } catch (error) {
-      res.status(500).json(error);
+      next(error);
     }
   }
   static async delete(req, res, next) {
     try {
       const id = +req.params.id;
-      const data = await Todo.findByPk(id);
+      const data = await Todo.findOne({ where: { id } });
       if (!data) {
         throw {
           status: 404,
