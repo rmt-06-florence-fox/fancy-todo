@@ -34,11 +34,14 @@ let login = () => {
     request.done((message) => {
         localStorage.setItem('access_token', message.access_token);
         showMainPage()
+        $("#warning").hide()
         $("#warning").empty()
+        $("#success").hide()
+        $("#success").empty()
     })
 
     request.fail((jqxhr, status) => {
-        // console.log(jqxhr.responseJSON);
+        $("#warning").show()
         $("#warning").html(`<b>${jqxhr.responseJSON.errors}</b>`);
     })
 
@@ -59,11 +62,15 @@ let register = () => {
 
     request.done((message) => {
         showLogin()
-        $("#warning").html(`<b>Success create user ${message.email}</b>`)
+        $("#warning").hide()
+        $("#warning").empty()
+        $("#success").show()
+        $("#success").html(`<b>Success create user ${message.email}</b>`)
     })
 
     request.fail((jqxhr, status) => {
         // console.log(jqxhr.responseJSON);
+        $("#warning").show()
         $("#warning").html(`<b>${jqxhr.responseJSON.errors}</b>`);
     })
 
@@ -81,64 +88,79 @@ let fetchTodo = () => {
     })
 
     request.done(function( msg ) {
+        $("#warning").hide()
         $("#warning").empty()
         $("#list-todo").empty()
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         msg.forEach(todo => {
             $("#list-todo").append(`
-            <div id="card">
-                <div id="todo-${todo.id}" ${todo.status == true ? `style="text-decoration: line-through;" ondblclick="patchTodo(${todo.id},${false})"` : `ondblclick="patchTodo(${todo.id},${true})"`}>
-                    <div id="todo-title">
-                        <h2>${todo.title}</h2>
+            <div class="col-sm-4" style="margin-bottom:30px">
+                <div class="card">
+                <div id="todo-${todo.id}" ${todo.status == true ? `ondblclick="patchTodo(${todo.id},${false})"` : `ondblclick="patchTodo(${todo.id},${true})"`}>
+                    <div class="card-header" data-toggle="tooltip" data-placement="top" title="Double Click To Change Status">
+                        <h4>${todo.title}</h4>
                     </div>
-                    <div id="todo-due-date">
-                        <p>${new Date(todo.due_date).toLocaleDateString(['jav', 'id'])}</p>
-                    </div>
-                    <div id="todo-description">
-                        <p>${todo.description}</p>
+                    <div class="card-body text-left" data-toggle="tooltip" data-placement="top" title="Double Click To Change Status">
+                        <blockquote class="blockquote">
+                            <p ${todo.status == true ? `style="text-decoration: line-through;"` : ``}>${todo.description}</p>
+                            <footer class="blockquote-footer">${new Date(todo.due_date).toLocaleDateString(undefined, options)}</footer>
+                        </blockquote>
+                    </div> 
+                    <div class="card-footer">
+                        <button class="btn btn-warning" onclick="event.preventDefault();document.getElementById('update-form-${todo.id}').style.display = 'block';document.getElementById('todo-${todo.id}').style.display = 'none';document.getElementById('opt-${todo.id}').style.display = 'none';">
+                            Edit Todo
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteTodo(${todo.id});event.preventDefault()">
+                            Delete Todo
+                        </button>
                     </div>
                 </div>
-                <div>
-                    <form id="update-form-${todo.id}" style="display:none;" onsubmit="updateTodo(${todo.id});event.preventDefault();">
-                        <div>
-                            <label for="title">Title</label>
-                            <input type="text" name="" id="update-title-${todo.id}" value="${todo.title}">
+
+                
+                <form id="update-form-${todo.id}" style="display:none;" onsubmit="updateTodo(${todo.id});event.preventDefault();">
+                    <div class="card-header">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="" id="update-title-${todo.id}" value="${todo.title}" data-toggle="tooltip" data-placement="top" title="Edit Title">
                         </div>
-                        <div>
-                            <label for="description">Description</label>
-                            <textarea name="" id="update-description-${todo.id}" cols="30" rows="10">${todo.description}</textarea>
                         </div>
-                        <div>
-                            <label for="status">Status</label>
-                            <select id="update-status-${todo.id}">
+                        <div class="card-body">
+                        <div class="form-group">
+                            <textarea name="edit-description" id="update-description-${todo.id}" class="form-control" cols="30" rows="5" style="resize: none;" data-toggle="tooltip" data-placement="top" title="Edit Description">${todo.description}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="date" name="" class="form-control" id="update-due-date-${todo.id}" value="${new Date(todo.due_date).toISOString().split("T")[0]}" data-toggle="tooltip" data-placement="top" title="Edit Due Date">
+                        </div>
+                        <div class="form-group">
+                            <select name="" id="update-status-${todo.id}" class="form-control" data-toggle="tooltip" data-placement="top" title="Edit Status">
                                 <option value="true" ${todo.status == true ? 'selected' : ''}>Done</option>
                                 <option value="false" ${todo.status == false ? 'selected' : ''}>Not Done</option>
                             </select>
                         </div>
-                        <div>
-                            <label for="due_date">Due Date</label>
-                            <input type="date" name="" id="update-due-date-${todo.id}" value="${new Date(todo.due_date).toISOString().split("T")[0]}">
-                        </div>
-                        <div>
-                            <button type="submit">
-                                Update    
-                            </button>
-                            <button onclick="event.preventDefault();document.getElementById('update-form-${todo.id}').style.display = 'none';document.getElementById('todo-${todo.id}').style.display = 'block';document.getElementById('opt-${todo.id}').style.display = 'block';">
-                                Cancel    
-                            </button>
-                        </div>
-                        <p id="warning-${todo.id}"></p>
-                    </form>
-                </div>
-                <div id="opt-${todo.id}">
-                    <a href="" onclick="event.preventDefault();document.getElementById('update-form-${todo.id}').style.display = 'block';document.getElementById('todo-${todo.id}').style.display = 'none';document.getElementById('opt-${todo.id}').style.display = 'none';">Edit</a>
-                    <a href="" onclick="deleteTodo(${todo.id});event.preventDefault()">Delete</a>
+                    </div> 
+                    
+                    
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-warning">
+                            Change Todo
+                        </button>
+                        <button class="btn btn-danger" onclick="event.preventDefault();document.getElementById('update-form-${todo.id}').style.display = 'none';document.getElementById('todo-${todo.id}').style.display = 'block';document.getElementById('opt-${todo.id}').style.display = 'block';">
+                            Cancel Edit
+                        </button>
+                    </div>
+                </form>
+
+                    <div class="alert alert-danger" role="alert" id="warning-${todo.id}" style="display:none;">
+
+                    </div>
+                    
                 </div>
             </div>
-            `) 
+            `)
         });
     });
        
     request.fail(function( jqXHR ) {
+        $("#warning").show()
         $("#warning").html(`<b>${jqXHR.responseJSON.errors}</b>`);
     });
 }
@@ -162,12 +184,16 @@ let addTodo = () => {
     })
 
     request.done(message => {
+        $("#warning").hide()
         fetchTodo()
     })
     request.fail(function( jqXHR ) {
+        $("#warning").show()
         $("#warning").html(`<b>${jqXHR.responseJSON.errors}</b>`);
     });
     request.always(() => {
+        $("#add-description").css("width", "13.85em");
+        $("#add-description").css("height", "2.4em");
         $("#add-title").val("")
         $("#add-description").val("")
         $("#add-due-date").val("")
@@ -183,11 +209,14 @@ let deleteTodo = (id) => {
     })
 
     request.done((message) => {
+
+        $(`#warning-${id}`).hide()
         fetchTodo()
     })
 
     request.fail(function( jqXHR ) {
-        $("#warning").html(`<b>${jqXHR.responseJSON.errors}</b>`);
+        $(`#warning-${id}`).show()
+        $(`#warning-${id}`).html(`<b>${jqXHR.responseJSON.errors}</b>`);
     });
 }
 
@@ -205,7 +234,8 @@ let patchTodo = (id, status) => {
         fetchTodo()
     })
     request.fail(function( jqXHR ) {
-        $("#warning").html(`<b>${jqXHR.responseJSON.errors}</b>`);
+        $(`#warning-${id}`).show()
+        $(`#warning-${id}`).html(`<b>${jqXHR.responseJSON.errors}</b>`);
     });
 }
 
@@ -229,10 +259,12 @@ let updateTodo = (id) => {
     })
 
     request.done((message) => {
+        $(`#warning-${id}`).hide()
         fetchTodo()
     })
 
     request.fail(function( jqXHR ) {
+        $(`#warning-${id}`).show()
         $(`#warning-${id}`).html(`<b>${jqXHR.responseJSON.errors}</b>`);
     });
 }
@@ -249,11 +281,13 @@ function onSignIn(googleUser) {
     request.done((message) => {
         localStorage.setItem('access_token', message.access_token);
         showMainPage()
+        $("#warning").hide()
         $("#warning").empty()
     })
 
     request.fail((jqxhr, status) => {
         // console.log(jqxhr.responseJSON);
+        $("#warning").show()
         $("#warning").html(`<b>${jqxhr.responseJSON.errors}</b>`);
     })
 
@@ -262,3 +296,9 @@ function onSignIn(googleUser) {
         $("#login-password").val("")
     })
 }
+
+// ! tooltip
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
