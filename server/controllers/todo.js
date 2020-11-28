@@ -80,10 +80,10 @@ class TodoController {
     static async weather(req, res, next){
         try {
             const response = await axios({
-                url: `https://api.weatherbit.io/v2.0/forecast/daily?&city=Jakarta&country=ID&key=${process.env.WEATHERBIT}`,
+                url: `http://api.weatherstack.com/current?access_key=${process.env.WEATHER_API}&query=Jakarta`,
                 method: "GET",
             })
-            res.json(response.data)
+            res.status(200).json(response.data)
         } catch (error) {
             next(error)
         }

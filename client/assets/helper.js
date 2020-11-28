@@ -6,6 +6,7 @@ function showLoginPage() {
     $("#add-todo-form").hide()
     $("#edit-todo-form").hide()
     $("#addModalButton").hide()
+    $("#content-weather").hide()
 }
 
 function showRegisterPage() {
@@ -16,12 +17,24 @@ function showRegisterPage() {
     $("#add-todo-form").hide()
     $("#edit-todo-form").hide()
     $("#addModalButton").hide()
+    $("#content-weather").hide()
+}
+
+function showMainPage() {
+    $('#register-form').hide()
+    $("#login-form").hide()
+    $("#todo-list").show()
+    $("#logout-button").show()
+    $("#add-todo-form").hide()
+    $("#edit-todo-form").hide()
+    $("#addModalButton").show()
+    $("#content-weather").show()
+    fetchTodo()
 }
 
 function login() {
     const email = $("#email-login").val()
     const password = $("#password-login").val()
-    console.log(email, password);
     $.ajax({
         url: 'http://localhost:3000/login',
         method: 'POST',
@@ -46,7 +59,6 @@ function login() {
 function register() {
     const email = $("#email-register").val()
     const password = $("#password-register").val()
-    console.log(email, password);
     $.ajax({
         url: 'http://localhost:3000/register',
         method: 'POST',
@@ -67,15 +79,21 @@ function register() {
         })
 }
 
-function showMainPage() {
-    $('#register-form').hide()
-    $("#login-form").hide()
-    $("#todo-list").show()
-    $("#logout-button").show()
-    $("#add-todo-form").hide()
-    $("#edit-todo-form").hide()
-    $("#addModalButton").show()
-    fetchTodo()
+
+function onSignIn(googleUser) {
+    const googleToken = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        url: 'http://localhost:3000/googlelogin',
+        method: 'POST',
+        data: {
+            googleToken
+        }
+    })
+        .done(response => {
+            localStorage.setItem('access_token', response.access_token)
+            showMainPage()
+        })
+        .fail(err => console.log(err))
 }
 
 function fetchTodo() {
@@ -128,7 +146,6 @@ function createTodo() {
     })
         .done(response => {
             fetchTodo()
-            console.log(response);
         })
         .fail(xhr => {
             console.log(xhr);
@@ -221,25 +238,20 @@ function weather() {
         }
     })
         .done(response => {
-            console.log(response);
+            $("#icon-weather").empty()
+            $("#temperature").empty()
+            $("#desc-weather").empty()
+            $("#location-weather").empty()
+            $("#local-time").empty()
+            $('#icon-weather').append(`<img src="${response.current.weather_icons[0]}" alt="weather">`)
+            $('#temperature').append(`<h1>${response.current.temperature}°</h1>`)
+            $('#desc-weather').append(`<p>${response.current.weather_descriptions[0]}</p>`)
+            $('#location-weather').append(`<p>${response.location.name}</p>`)
+            $('#local-time').append(`<p>${response.location.localtime}</p>`)
+
+           
         })
         .fail(xhr => {
             console.log(xhr);
         })
-}
-
-function onSignIn(googleUser) {
-    const googleToken = googleUser.getAuthResponse().id_token;
-    $.ajax({
-        url: 'http://localhost:3000/googlelogin',
-        method: 'POST',
-        data: {
-            googleToken
-        }
-    })
-        .done(response => {
-            localStorage.setItem('access_token', response.access_token)
-            showMainPage()
-        })
-        .fail(err => console.log(err))
 }
