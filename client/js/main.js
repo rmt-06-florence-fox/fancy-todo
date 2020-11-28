@@ -150,7 +150,7 @@ const fetchTodos = () => {
           </div>
           <div class="card-right">
             <p><span>status: </span>${item.status}</p>
-            <p>${item.due_date}</p>
+            <p>${formatDate(item.due_date)}</p>
             <button type="button" onclick="updateToDoForm(${item.id}, '${item.title}', '${item.description}', '${item.due_date}')">Edit</button>
             <button type="button" onclick="deleteTodo(${item.id})">Delete</button>
           </div>
