@@ -96,7 +96,7 @@ function landing () {
 }
 
 function homepage () {
-    $('#list').empty()
+    
     $('#homepage').show(0)
     $.ajax({
         method: "GET",
@@ -106,6 +106,7 @@ function homepage () {
         }
         })
         .done (msg => {
+            $('#list').empty()
             const list = msg.list
 
             list.forEach(el => {
@@ -166,6 +167,7 @@ function newTask () {
 }
 
 function getSuggest () {
+    $('#suggest-success-message').hide()
     $('#getsuggest').show()
     $('#homepage').hide()
     $('#newtask').hide()
@@ -262,5 +264,33 @@ function patchTask (id) {
 
 function logout () {
     localStorage.clear()
+    let auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
     landing()
+}
+
+//google sign in
+
+function onSignIn(googleUser) {
+    const id_token = googleUser.getAuthResponse().id_token;
+
+    $.ajax({
+        method: 'POST',
+        url: 'http://localhost:3000/google-login',
+        data: {
+            id_token
+        }
+    })
+    .done(msg => {
+        localStorage.setItem('access_token', msg.access_token)
+                homepage()
+    })
+    .fail((xhr, textStatus) => {
+
+    })
+    .always(_=> {
+
+    })
 }

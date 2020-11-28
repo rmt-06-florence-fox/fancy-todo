@@ -25,7 +25,7 @@ $(document).ready (function(){
             })
             .done(msg => {
               $('#add-success-message').show('fast')
-              setTimeout(homepage, 700);
+              setTimeout(backHome, 700);
             })
             .fail((xhr, textStatus) => {
                 console.log(xhr)
@@ -59,7 +59,7 @@ $(document).ready (function(){
         })
         .done(msg => {
           $('#edit-success-message').show('fast')
-          setTimeout(homepage, 700);
+          setTimeout(backHome, 700);
         })
         .fail((xhr, textStatus) => {
             console.log(xhr)
@@ -72,5 +72,39 @@ $(document).ready (function(){
         })
       }
     })
+
+    //post suggestion
+    $('#getsuggest').on({
+      submit: e => {
+        e.preventDefault()
+            const newUser = {
+              title: $('#get-suggest-title').val(),
+              desrcription: $('#get-suggest-description').val(),
+              due_date: $('#get-suggest-due_date').val()
+            }
+            $.ajax({
+              method: 'POST',
+              url: 'http://localhost:3000/todos',
+              headers: {
+                access_token: localStorage.getItem('access_token')
+              },
+              data: newUser
+            })
+            .done(msg => {
+              $('#suggest-success-message').show('fast')
+              setTimeout(backHome, 700);
+            })
+            .fail((xhr, textStatus) => {
+                console.log(xhr)
+            })
+            .always(_=> {
+              $('#add-task-title').val('')
+              $('#add-task-description').val('')
+              $('#add-task-due_date').val('')
+            })
+
+      }
+    })
+
     
   });
