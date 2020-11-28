@@ -25,8 +25,25 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     last_name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    email: {
+      type: DataTypes.STRING,
+      validate:{
+        notEmpty:{
+          args: true,
+          msg: `email is required`
+        },
+        isEmail:{
+          msg: `email must be formatted as email`
+        }
+      }},
+    password: {
+      type: DataTypes.STRING,
+      validate:{
+        len: {
+          args: [6],
+          msg: `password must be more than 6 character`
+        }
+      }}
   }, {
     sequelize,
     modelName: 'User',
