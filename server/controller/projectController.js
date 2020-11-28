@@ -16,7 +16,41 @@ class ProjectController {
                 },
                 include : [Project]
             })
+
             res.status(200).json(userProject)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    // dapatkan data user berdasarkan project Id 
+    static async getUserByProjectId(req,res,next){
+        const projectId = req.params.id
+        try {
+            const otherUser =await ProjectUser.findAll({
+                where : {
+                    ProjectId :projectId
+                },
+                include : [User]
+            })
+            let colaborate = []
+            console.log(otherUser)
+            otherUser.forEach(el =>{
+                console.log('========================INI DALAM LOOP')
+                // console.log(el.dataValues.User)
+                if(el.dataValues.User){
+                    console.log(el.dataValues.User)
+                    let coUser= {
+                    UserId : el.dataValues.User.dataValues.id,
+                    name : el.dataValues.User.dataValues.name
+                    }
+                    colaborate.push(coUser)
+
+                }
+            })
+            console.log('=====================')
+            console.log(colaborate)
+            res.status(200).json({colaborate})
         } catch (error) {
             next(error)
         }
@@ -89,7 +123,6 @@ class ProjectController {
     }
 
     // Get project by Id
-
     static async getProjectById(req,res ,next){
         const projectId = req.params.id
         try {
@@ -182,17 +215,16 @@ class ProjectController {
     }
 
     //tambahkan user ke project (POST)
-
     static async addUserToProject(req,res,next){
-        // console.log(req.loggedInUser.payload.id)
-        // const userId = req.loggedInUser.payload.id
-        const userId = req.body.id
+
+        const userId = req.body.userId
         const projectId = req.params.id
 
         const newData = {
             ProjectId : projectId,
             UserId : userId
         }
+        console.log(newData)
         try {
             const newUserAtProject = await ProjectUser.create(newData)
             console.log(newUserAtProject)

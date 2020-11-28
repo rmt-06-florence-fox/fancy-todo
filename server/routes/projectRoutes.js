@@ -9,8 +9,10 @@ route.use(authentication)
 route.get('/', ProjectController.getProject)
 route.post('/', ProjectController.addNewProject)
 route.get('/:id', ProjectController.getProjectById)
+route.get('/colaborate/:id', ProjectController.getUserByProjectId)
 route.put('/:id', ProjectController.replaceProject)
 route.delete('/:id',ProjectController.deleteProject)
+route.post('/:id', ProjectController.addUserToProject)
 route.delete('/deleteUser/:id', ProjectController.deleteUserFromProject)
 
 
