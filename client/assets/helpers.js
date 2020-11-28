@@ -314,6 +314,10 @@ function updateStatus(id){
 
 function logoutUser(){
   localStorage.clear()
+  let auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
   showHomePage()
 }
 
@@ -337,6 +341,28 @@ function renderCalendar(){
 
 function addEventCalendar(event){
   calendar.addEvent(event)
+}
+
+function onSignIn(googleUser) {
+  let id_token = googleUser.getAuthResponse().id_token;
+  $.ajax({
+    url: "http://localhost:3000/googleLogin",
+    method: "POST",
+    data: {
+      googleToken: id_token
+    }
+  })
+  .done(response => {
+    localStorage.setItem("access_token", response.access_token)
+    showMainPage()
+    console.log(response)
+  })
+  .fail(err => {
+    console.log(err)
+  })
+  // console.log(id_token)
+  
+
 }
 
 

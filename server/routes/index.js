@@ -7,6 +7,7 @@ const axios = require("axios")
 
 router.post("/register", UserController.register)
 router.post("/login", UserController.login)
+router.post("/googleLogin", UserController.googleLogin)
 router.use("/todos", todoRouter)
 router.get("/quotes", (req, res, next) => {
   axios({
