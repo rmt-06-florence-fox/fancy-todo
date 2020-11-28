@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Todo.belongsTo(models.User, {foreignKey: "UserId", targetKey: "id"})
     }
+    
   };
   Todo.init({
     title: {

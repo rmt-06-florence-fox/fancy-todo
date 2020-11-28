@@ -4,7 +4,7 @@ const axios = require('axios')
 class TodoController{
   static async show(req,res,next){
     try {
-      const list = await Todo.findAll({where : {UserId : req.userLogin.id}})
+      const list = await Todo.findAll({where : {UserId : req.userLogin.id}, order: [['due_date', 'DESC']]})
       if (list) {
         res.status(200).json(list)
       } else {
@@ -21,7 +21,7 @@ class TodoController{
   static async news(req,res, next){
     try {
       const news = await axios({
-        url: `https://newsapi.org/v2/top-headlines?country=id&apiKey=${process.env.newsApiSecret}`,
+        url: `https://newsapi.org/v2/top-headlines?country=id&apiKey=${process.env.newsSECRET}`,
         method : 'GET'
       })
       res.status(200).json(news.data)
@@ -33,7 +33,7 @@ class TodoController{
   static async weather(req,res,next){
     try {
       const weather = await axios({
-        url: `http://api.weatherstack.com/current?access_key=${process.env.weatherSecret}&query=Bandung`,
+        url: `http://api.weatherstack.com/current?access_key=${process.env.weatherSECRET}&query=Bandung`,
         method : 'GET'
       })
       res.status(200).json(weather.data)
@@ -80,7 +80,7 @@ class TodoController{
     let obj = {
       title : req.body.title,
       description : req.body.description,
-      status : req.body.status,
+      status : false,
       due_date : req.body.due_date
     }
     try {

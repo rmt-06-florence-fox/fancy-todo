@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
               contain = false
             }
           }
-          if (contain === false) throw new Error(`Password must contain minimum numbers and/or symbols (-=[];',./~!@#$%^&*()_+|}{:"<>?})`)
+          if (contain === false) throw new Error(`Password must contain minimum numbers and/or symbols`)
         }
       } 
     }
