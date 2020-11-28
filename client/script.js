@@ -103,22 +103,53 @@ $(document).ready( () => {
     .done(data => {
       const todo = `
       <div class="card mt-2">
-        <header class="card-header">
-          <h5 class="card-header-title">${data.title}</h5>
-        </header>
-        <div class="card-content>
-          <div class="content">
-            <time>${data.due_date}</time>
-            <br>
-            <p>${data.description}</p>
+        <div id="todo-${data.id}">
+          <header class="card-header">
+            <h5 class="card-header-title">${data.title}</h5>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              <time>${data.due_date}</time>
+              <br>
+              <p>${data.description}</p>
+            </div>
+          </div>
+          <div>
+            <footer class="card-footer">
+              <a href="#" class="card-footer-item" onclick="event.preventDefault();document.getElementById('edit-todo-${data.id}').style.display = 'block';document.getElementById('todo-${data.id}').style.display = 'none';">Update</a>
+              <a href="#" class="card-footer-item" onclick="deleteTodo(${data.id})">Remove</a>
+            </footer>
           </div>
         </div>
-        <div>
-          <footer class="card-footer">
-            <a href="#" class="card-footer-item" onclick="editTodo(${data.id})">Update</a>
-            <a href="#" class="card-footer-item" onclick="deleteTodo(${data.id})">Remove</a>
-          </footer>
+
+          <form id="edit-todo-${data.id}" style="display:none;" onsubmit="editTodo(${data.id});event.preventDefault();">
+              <header class="card-header">
+                <input type="text" id="todo-title-${data.id}" class="input" placeholder="Enter Todo Title" value="${data.title}">
+              </header>
+              <div class="card-content">
+                <div class="content">
+                  <div class="field">
+                    <input id="todo-due_date-${data.id}" value="${data.due_date}" type="date" class="input">
+                  </div>
+                  <br>
+                  <div class="field">
+                    <textarea id="todo-description-${data.id}" class="textarea" rows="3" placeholder="Enter description">${data.description}</textarea>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <footer class="card-footer">
+                  <button class="card-footer-item has-text-white-bis has-background-link" type="submit">
+                    Edit
+                  </button>
+                  <a href="#" class="card-footer-item has-text-white-bis has-background-danger" onclick="event.preventDefault();document.getElementById('edit-todo-${data.id}').style.display = 'none';document.getElementById('todo-${data.id}').style.display = 'block';">
+                    Cancel
+                  </a>
+                </footer>
+              </div>
+          </form>
         </div>
+        
       </div>`
       $('#todo-list').append(todo)
       $('#todo-title').val("")
@@ -330,32 +361,21 @@ function onSignIn(googleUser) {
     }
   })
   .done (response => {
-    console.log(response)
     localStorage.setItem('access_token', response.access_token)
-    homepage()
-    homePageNews()
+    $('#login-form').hide()
+    displayMainPage()
+    displayLogout()
   })
-  .fail((xhr, textStatus) => {
-    const errorLog = xhr
-      .responseJSON
-      .errors
-      .map(el => el.message)
-                       
-    errorLog.forEach( el => {
-      $('#errorlog').append(
-        `<small id="errmes" class="form-text text-danger">${el}</small>`
-      )                    
-    })                   
-    // alert(errorLog)
+  .fail((xhr, textStatus) => {                
+    alert(errorLog)
     console.log(xhr
       .responseJSON
       .errors[0]
       .message)
   })
   .always(_=> {
-    $('#namereg').val('')
-    $('#emailreg').val('')
-    $('#passwordreg').val('')
+    $('#login-email').val('')
+    $('#login-password').val('')
   })
 }
 
