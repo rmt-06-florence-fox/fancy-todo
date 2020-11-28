@@ -269,6 +269,11 @@ function getSuggest () {
     $('#homepage').hide()
     $('#newtask').hide()
     $('#edit-task').hide()
+    
+    loadSuggest()
+}
+
+function loadSuggest () {
     $.ajax({
         url: 'http://localhost:3000/todos/suggest',
         method: 'GET',
@@ -287,7 +292,6 @@ function getSuggest () {
     .always(_=> {
 
     })
-
 }
 
 function editTask (id) {
