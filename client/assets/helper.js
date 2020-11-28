@@ -14,6 +14,7 @@ $(document).ready(() => {
     createTodo()
   })
   $('#signup').click((e) => {
+    e.preventDefault()
     showSignUpPage()
   })
   $('#signup-user').on('submit', ((e) => {
@@ -63,6 +64,21 @@ function showSignUpPage() {
   $('#edit-page-container').hide()
 }
 
+function onSignIn(googleUser) {
+  const googleToken = googleUser.getAuthResponse().id_token
+  // console.log(googleToken)
+  $.ajax({
+    url: `${URL}googleSignIn`,
+    method: 'POST',
+    data: { googleToken }
+  })
+    .done(response => {
+      localStorage.setItem('accessToken', response.accessToken)
+      showMainPage()
+    })
+    .fail(err => console.log(err))
+}
+
 function doSignIn() {
   const email = $('#input-email').val()
   const password = $('#input-password').val()
@@ -71,10 +87,10 @@ function doSignIn() {
     method: "POST",
     data: { email, password }
   })
-    .done(result => {
+    .done(response => {
       //set token di client, tergantung nama variabel di controller
-      localStorage.setItem('accessToken', result.accessToken)
-      console.log('berhasil login', result)
+      localStorage.setItem('accessToken', response.accessToken)
+      // console.log('berhasil login', response)
       showMainPage()
     })
     .fail(err => {
@@ -89,6 +105,10 @@ function doSignIn() {
 function doSignOut() {
   localStorage.clear()
   showSignInPage()
+  const auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.')
+  })
 }
 
 function doSignUp() {
@@ -117,16 +137,19 @@ function fetchTodos() {
     .done(result => {
       result.forEach(e => {
         $('#todo-list').append(`
-        <div>
-          <div>
-            <h5>${e.title}</h5>
-            <h5>${e.description}</h5>
-            <h5>${e.status}</h5>
-            <h5>${e.dueDate}</h5>
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-header">${e.title}</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">${e.description}</li>
+              <li class="list-group-item">${e.status}</li>
+              <li class="list-group-item">${e.dueDate}</li>
+            </ul>
             <button type="submit" onclick="showEditPage(${e.id})" class="btn btn-primary">Edit</button>
-            <button type="submit" onclick="deleteTodo(${e.id})">Delete</button>
+            <button type="submit" onclick="deleteTodo(${e.id})" class="btn btn-primary">Delete</button>
           </div>
-        </div>`)
+        `)
       })
     })
     .fail(err => {

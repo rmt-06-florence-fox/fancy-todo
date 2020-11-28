@@ -3,100 +3,113 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-signin-client_id" content="1087480175057-oh6n4h3cijp2idcapc3cqu06645rdop8.apps.googleusercontent.com">
+  <link rel="stylesheet" href="assets/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-  <title>Document</title>
+  <title>Fancy To-Do</title>
 </head>
-<body>
-  <nav>
-    <span>My To-Dos</span>
-    <button type="submit" id="signout">Sign Out</button>
-    <button type="submit" id="signup">Sign Up</button>
+<body class="body-color">
+  <nav class="nav-color navbar navbar-expand-lg navbar-light">
+    <div>
+      <h3 class="text-setter navbar-brand">My To-Dos</h3>
+    </div>
+    <div class="form-inline my-2 my-lg-0">
+      <button type="submit" class="btn btn-primary btn-navbar form-inline my-2 my-sm-0" id="signout">Sign Out</button>
+    </div>
   </nav>
+
   <div id="signin-container">
-    <h1>Sign In</h1>
-    <form action="">
-      <div>
-        <label for="inputEmail">Email: </label>
-        <input type="email" id="input-email">
+    <form class="form-color col-md-7">
+      <h1 class="form-group form-text">Sign In</h1>
+      <div class="form-group">
+        <label for="inputEmail" class="form-text">Email: </label>
+        <input type="email" class="form-control" id="input-email">
+        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
       </div><br>
-      <div>
-        <label for="inputPassword">Password: </label>
-        <input type="password" id="input-password">
+      <div class="form-group">
+        <label for="inputPassword" class="form-text">Password: </label>
+        <input type="password" class="form-control" id="input-password">
       </div><br>
-      <div>
-        <button type="submit" id="signin">Sign In</button>
+      <div class="form-group form-text">
+        <button type="submit" class="btn btn-primary btn-margin" id="signin">Sign In</button>
+        <button type="submit" class="btn btn-primary btn-margin" id="signup">Sign Up</button>
       </div>
+      <div class="g-signin2 btn-place btn-margin" data-onsuccess="onSignIn"></div>
     </form>
   </div>
 
   <div id="main-page-container">
-    <h1>Add To Do</h1>
-    <form id="add-todo">
-      <div>
-        <label for="inputTitle">Title: </label>
-        <input type="text" id="input-title">
+    <form class="form-color col-md-7" id="add-todo">
+      <h1 class="form-group form-text">Add To Do</h1>
+      <div class="form-group">
+        <label for="inputTitle" class="form-text">Title: </label>
+        <input type="text" class="form-control" id="input-title">
       </div>
-      <div>
-        <label for="inputDescription">Description: </label>
-        <input type="text" id="input-description">
+      <div class="form-group">
+        <label for="inputDescription" class="form-text">Description: </label>
+        <input type="text" class="form-control" id="input-description">
       </div>
-      <div>
-        <label for="inputDate">Due Date: </label>
-        <input type="date" id="input-date">
+      <div class="form-group">
+        <label for="inputDate" class="form-text">Due Date: </label>
+        <input type="date" class="form-control" id="input-date">
       </div>
-      <button type="submit">Add To-Do</button>
+      <div class="form-group form-text">
+        <button type="submit" class="btn btn-primary btn-margin">Add To-Do</button>
+      </div>
     </form><br><br>
     <div id="todo-list">
     </div>
   </div>
 
   <div id="edit-page-container">
-    <h1>Edit To Do</h1>
-    <form id="edit-todo">
-      <div>
-        <label for="editTitle">Title: </label>
-        <input type="text" id="edit-title">
+    <form class="form-color col-md-7" id="edit-todo">
+      <h1 class="form-group form-text">Edit To Do</h1>
+      <div class="form-group">
+        <label for="editTitle" class="form-text">Title: </label>
+        <input type="text" class="form-control" id="edit-title">
       </div>
-      <div>
-        <label for="editDescription">Description: </label>
-        <input type="text" id="edit-description">
+      <div class="form-group">
+        <label for="editDescription" class="form-text">Description: </label>
+        <input type="text" class="form-control" id="edit-description">
       </div>
-      <div>
-        <label for="editStatus">Status: </label>
-        <input type="text" id="edit-status">
+      <div class="form-group">
+        <label for="editStatus" class="form-text">Status: </label>
+        <input type="text" class="form-control" id="edit-status">
       </div>
-      <div>
-        <label for="editDate">Due Date: </label>
-        <input type="date" id="edit-date">
+      <div class="form-group">
+        <label for="editDate" class="form-text">Due Date: </label>
+        <input type="date" class="form-control" id="edit-date">
       </div>
-      <button type="submit">Edit To-Do</button>
+      <div class="form-group form-text">
+        <button type="submit" class="btn btn-primary btn-margin">Edit To-Do</button>
+      </div>
     </form>
   </div>
 
   <div id="signup-container">
-    <h1>Sign Up</h1>
-    <form id="signup-user">
-      <div>
-        <label for="inputEmail">Username: </label>
-        <input type="text" id="signup-username">
+    <form class="form-color col-md-7" id="signup-user">
+      <h1 class="form-group form-text">Sign Up</h1>
+      <div class="form-group">
+        <label for="inputEmail" class="form-text">Username: </label>
+        <input type="text" class="form-control" id="signup-username">
       </div><br>
       <div>
-      <div>
-        <label for="inputEmail">Email: </label>
-        <input type="email" id="signup-email">
+      <div class="form-group">
+        <label for="inputEmail" class="form-text">Email: </label>
+        <input type="email" class="form-control" id="signup-email">
       </div><br>
-      <div>
-        <label for="inputPassword">Password: </label>
-        <input type="password" id="signup-password">
+      <div class="form-group">
+        <label for="inputPassword" class="form-text">Password: </label>
+        <input type="password" class="form-control" id="signup-password">
       </div><br>
-      <div>
-        <button type="submit">Sign Up</button>
+      <div class="form-group form-text">
+        <button type="submit" class="btn btn-primary btn-margin">Sign Up</button>
       </div>
     </form>
   </div>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript" src="assets/helper.js"></script>
-  <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
 </body>
 </html>
