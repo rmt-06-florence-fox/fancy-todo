@@ -45,7 +45,7 @@
         </div>
         <input type="submit" id="submit-login" value="login">
       </form>
-      <a href="" id="link-register">register</a>
+      <a href="" id="link-register">register(?)</a>
 
     </div>
     <!-- register -->
@@ -75,10 +75,10 @@
             <label for="inputDescription">Description</label>
             <input type="text" id="inputDescription" class="form-control">
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="inputStatus">Status</label>
             <input type="text" id="inputStatus" class="form-control">
-          </div>
+          </div> -->
           <div class="form-group">
             <label for="inputDuedate">Due date</label>
             <input type="date" id="inputDuedate" class="form-control">
@@ -143,10 +143,6 @@
             <input type="text" id="editDescription" class="form-control" value="${data.description}">
           </div>
           <div class="form-group">
-            <label for="editStatus">Status</label>
-            <input type="text" id="editStatus" class="form-control" value="${data.status}">
-          </div>
-          <div class="form-group">
             <label for="editDuedate">Due date</label>
             <input type="date" id="editDuedate" class="form-control" value="${data.due_date}">
           </div>
@@ -154,6 +150,10 @@
         </form>
       `);
     }
+    // <div class="form-group">
+    //         <label for="editStatus">Status</label>
+    //         <input type="text" id="editStatus" class="form-control" value="${data.status}">
+    //       </div>
 
     function login() {
 
@@ -235,7 +235,8 @@
                   <p class="card-text">description : ${e.description}</p>
                   <p class="card-text">due date : ${e.due_date}</p>
                   <a href="#" class="btn btn-primary" onclick = "editTodo(${e.id})">edit</a>
-                  <a href="#" class="btn btn-primary" onclick = "deleteTodo(${e.id})">delete</a>
+                  <a href="#" class="btn btn-primary" onclick = "deleteTodo(${e.id})">del</a>
+                  <a href="#" class="btn btn-primary" onclick = "doneTodo(${e.id})">done</a>
                 </div>
               </div>
             </div>
@@ -251,7 +252,7 @@
     function create() {
       const tittle = $('#inputTittle').val();
       const description = $('#inputDescription').val();
-      const status = $('#inputStatus').val();
+      // const status = $('#inputStatus').val();
       const due_date = $('#inputDuedate').val();
 
       console.log(tittle, description, status, due_date);
@@ -265,7 +266,7 @@
         data: {
           tittle,
           description,
-          status,
+          // status,
           due_date
         }
       })
@@ -278,7 +279,7 @@
         .always(_ => {
           $('#inputTittle').val("");
           $('#inputDescription').val("");
-          $('#inputStatus').val("");
+          // $('#inputStatus').val("");
           $('#inputDuedate').val("");
         })
     }
@@ -301,7 +302,7 @@
     }
 
     function editTodo(id) {
-      console.log(id);
+     
       $.ajax({
         method: 'GET',
         url: `http://localhost:3000/todos/${id}`,
@@ -310,7 +311,6 @@
         }
       })
         .done(data => {
-          // console.log(data);submit-edit
           showEditForm(data)
         })
         .fail((xhr, textStatus) => {
@@ -322,7 +322,7 @@
 
       const tittle = $('#editTittle').val();
       const description = $('#editDescription').val();
-      const status = $('#editStatus').val();
+      // const status = $('#editStatus').val();
       const due_date = $('#editDuedate').val();
       console.log(id, tittle, description, status, due_date);
 
@@ -347,6 +347,27 @@
         })
     }
 
+    function doneTodo(id){
+      console.log(id);
+      $.ajax({
+        method: "PATCH",
+        url: `http://localhost:3000/todos/${id}`,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        data:{
+          status:"done"
+        }
+      })
+      .done(_=>{
+        showMainPage()
+      })
+      .fail((xhr, textStatus)=>{
+        console.log(xhr,textStatus);
+      })
+      .always()
+    }
+
     function checkToken() {
       if (localStorage.getItem('access_token')) {
         return true
@@ -367,7 +388,7 @@
         login()
       })
 
-      $('#home').on('click', e => {
+      $('#home').on('click', (e) => {
         e.preventDefault();
         if (checkToken()) {
           showMainPage()
@@ -388,8 +409,6 @@
         e.preventDefault();
         create();
       })
-
-
     })
   </script>
 </body>

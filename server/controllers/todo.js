@@ -5,7 +5,7 @@ class TodoController {
     const newTodo = {
       tittle: req.body.tittle,
       description: req.body.description,
-      status: req.body.status,
+      status: "not finished",
       due_date: req.body.due_date,
       UserId: req.currentUser.id
     }
@@ -50,7 +50,7 @@ class TodoController {
     const editedTodo = {
       tittle: req.body.tittle,
       description: req.body.description,
-      status: req.body.status,
+      // status: req.body.status,
       due_date: req.body.due_date,
       UserId: req.currentUser.id
     }
