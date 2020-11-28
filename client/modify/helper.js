@@ -4,10 +4,13 @@ function showMainPage() {
     $('#main-page').show()
     $('#btn-logout').show()
     $('#navbar').show()
+    $('#change-todo').show()
     $('#body-main').css('background', 'none')
+    
 }
 
 function showLogIn() {
+    $('#change-todo').hide()
     $('#login-form').show()
     $('#register-form').hide()
     $('#main-page').hide()
@@ -17,11 +20,13 @@ function showLogIn() {
 
 function showRegister() {
     $('#login-form').hide()
+    $('#change-todo').hide()
     $('#register-form').show()
     $('#main-page').hide()
     $('#btn-logout').hide()
     $('#navbar').hide()
 }
+
 
 
 function register(){
@@ -137,6 +142,7 @@ function fetchTodos() {
                 <th scope="col" class="text-center">Title</th>
                 <th scope="col" class="text-center">Description</th>
                 <th scope="col" class="text-center">Status</th>
+                <th scope="col" class="text-center">Due Date</th>
                 <th scope="col" class="text-center">Action</th>
                 </tr>
             </thead>
@@ -147,14 +153,9 @@ function fetchTodos() {
                     <tr>
                     <td>${todo.title}</td>
                     <td class="text-center">${todo.description}</td>
-                    <td class="text-center">
-                    <select class="custom-select col-lg-8 offset-lg-0" id="mySelect">
-                        <option id="status${todo.id}"  value="${todo.id}" ${todo.status == 'uncompleted' ? 'selected' : ''}>Uncomplete</option>
-                        <option id="status${todo.id}" value="${todo.id}" ${todo.status == 'uncomplete' ? 'selected' : ''}>On Progress</option>
-                        <option id="status${todo.id}" value="${todo.id}" ${todo.status == 'uncomplete' ? 'selected' : ''}>Completed</option>
-                    </select>
-                    </td>
-                    <td class="text-center"><button class="btn btn-danger" onClick="deleteTodo(${todo.id})"">Delete</button></td>
+                    <td class="text-center">${todo.status}</td>
+                    <td class="text-center">${todo.due_date.split('T')[0]}</td>
+                    <td class="text-center"><button class="btn btn-success" onClick="changeTodo(${todo.id}, '${todo.title}', '${todo.description}','${todo.status}','${todo.due_date}' )">Update</button> | <button class="btn btn-danger" onClick="deleteTodo(${todo.id})"">Delete</button></td>
                     </tr>
                 </tbody>
              `);
@@ -192,6 +193,7 @@ function createTodo(){
 }
 
 function deleteTodo(id){
+    console.log(id);
     $.ajax({
         url: 'http://localhost:3000/todos/' + id,
         method: 'DELETE',
@@ -204,6 +206,49 @@ function deleteTodo(id){
         })
         .fail(err => {
             console.log(err);
+        })
+}
+
+function changeTodo(id, title, description, status, due_date){ //untuk change status
+    // console.log(id);
+    // console.log(title);
+    $('#login-form').hide()
+   
+    $('#register-form').hide()
+    $('#main-page').hide()
+    $('#btn-logout').hide()
+    $('#navbar').hide()
+    localStorage.setItem('todos_id',id)
+    $('#change-title').val(title)
+    $('#change-description').val(description)
+    $('#change-status').val(status)
+    $('#change-due_date').val(due_date)
+    $('#change-todo').show()
+}
+
+function updateTodo(){
+    const title = $('#change-title').val()
+    const description = $('#change-description').val()
+    const status = $('#change-status').val()
+    const due_date = $('#change-due_date').val()
+    console.log(title, description, status, due_date , '>>>');
+    $.ajax({
+        url: 'http://localhost:3000/todos/' + localStorage.getItem('todos_id'),
+        method: 'PUT',
+        headers: {
+            access_token: localStorage.getItem('access_token')
+        } ,
+        data:{
+            title, description, status, due_date
+        }
+    })
+        .done(response => {
+            fetchTodos()
+            localStorage.setItem('todos_id', null)
+            showMainPage()
+        })
+        .fail(xhr => {
+            console.log(xhr);
         })
 }
 

@@ -25,12 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: DataTypes.STRING,
     status: {
-      type: DataTypes.STRING,
-      validate: {
-        isAlphanumeric:{
-          msg: 'Only allow alphanumeric'
-        }
-      }
+      type: DataTypes.STRING
     },
     due_date: {
       type: DataTypes.DATE,

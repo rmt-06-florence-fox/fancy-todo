@@ -36,4 +36,12 @@ $(document).ready(function () {
         localStorage.clear()
         // regisToLogIn()
     })
+
+    $('#change-todos-form').on('submit', function (e) {
+        e.preventDefault()
+        updateTodo()
+    })
+
+   
+
 });
