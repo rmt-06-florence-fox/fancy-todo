@@ -63,7 +63,7 @@ function login(code=null){
          icon:'question',
          text:'Testing your credential..',
          footer:'Please wait',
-         timer:3000,
+         timer:4000,
          showConfirmButton:false,
          timerProgressBar:true
       })

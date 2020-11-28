@@ -61,8 +61,10 @@ class Controller {
                UserId
             }
          })
+         let year = new Date()
+         year = year.getFullYear();
          let holidays = await axios({
-            url:'https://date.nager.at/api/v2/publicholidays/2020/ID',
+            url:`https://date.nager.at/api/v2/publicholidays/${year}/ID`,
             method:'GET'
          })
 
