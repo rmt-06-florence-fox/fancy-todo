@@ -70,7 +70,6 @@ class TodoController{
         })
         .then(value => {
             if (!value) {
-                // res.status(404).json(`data not found`)
                 throw {
                     status: 404,
                     message: `data not ound`
@@ -94,7 +93,6 @@ class TodoController{
         Todo.findByPk(id)
          .then(value => {
              if (!value) {
-                // res.status(404).json(`data not found`)
                 throw {
                     status: 404,
                     message: `data not ound`
@@ -106,9 +104,6 @@ class TodoController{
                   })
              }
          })
-        // Todo.update(obj,{ where: {
-        //      id
-        // }, returning: true})
         .then(value => {
             console.log(value);
             res.status(200).json(value)
@@ -123,7 +118,6 @@ class TodoController{
         Todo.findByPk(id)
          .then(value => {
             if (!value) {
-                // res.status(404).json(`data not found`)
                 throw {
                     status: 404,
                     message: `data not ound`
@@ -148,7 +142,6 @@ class TodoController{
         Todo.findByPk(id)
          .then(value => {
             if (!value) {
-                // res.status(404).json(`data not found`)
                 throw {
                     status: 404,
                     message: `data not ound`
@@ -176,7 +169,6 @@ class TodoController{
             res.status(200).json(value.data)
         })
         .catch(error => {
-            console.log(error);
             next(error)
         })
     }
