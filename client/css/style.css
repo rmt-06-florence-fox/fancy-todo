@@ -13,7 +13,7 @@ body {
 #register_form {
   display: flex;
   width: 100vw;
-  height: 100vh;
+  height: 92.5vh;
   align-items: center;
   overflow: hidden;
 }
@@ -113,7 +113,6 @@ body {
   padding: 20px;
   align-items: center;
   justify-content: center;
-  align-content: center;
 }
 #quote h1 {
   text-align: center;
@@ -121,7 +120,8 @@ body {
 }
 #quote h4 {
   margin-top: 10px;
-  margin-left: 230px;
+  /* margin-left: 230px; */
+  text-align: center;
   justify-self: center;
   color: black;
 }
@@ -165,7 +165,7 @@ nav {
 #main_page {
   display: flex;
   width: 100vw;
-  height: 100vh;
+  height: 92.5vh;
   align-items: center;
   overflow: hidden;
 }
@@ -187,13 +187,16 @@ nav {
   justify-content: center;
   overflow: hidden;
 }
+.button-filter {
+  margin: 50px 0px 20px 20px;
+}
 .main-page-left h1 {
   margin-top: 20px;
   text-align: center;
 }
 
 .main-page-left table {
-  margin: 50px 20px;
+  margin: 0px 20px;
   text-align: center;
   width: 95%;
 }

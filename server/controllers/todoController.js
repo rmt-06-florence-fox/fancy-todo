@@ -53,13 +53,12 @@ class Controller {
     static async getTodo(req, res, next) {
         try {
             let UserId = req.userLoggedIn.id 
-            console.log(UserId)
             let data = await Todo.findAll({
                 where : {
                     UserId
                 },
                 order: [
-                    ['due_date', 'DESC']
+                    ['due_date']
                 ]
             })
             res.status(200).json(data)
@@ -87,11 +86,6 @@ class Controller {
     static async updateTodo(req, res, next){
         try {
             let id = req.params.id
-            // let obj = {
-            //     title: req.body.title,
-            //     description: req.body.description,
-            //     due_date: req.body.due_date
-            // }
             let data = await Todo.update({
                 title: req.body.title,
                 description: req.body.description,
@@ -109,7 +103,6 @@ class Controller {
                     status: 404,
                     message: `error not found`
                 })
-                // res.status(404).json({message: `error not found`})
             } else {
                 res.status(200).json(data[1][0])
     
@@ -133,7 +126,6 @@ class Controller {
                     status: 404,
                     message: `error not found`
                 })
-                // res.status(404).json({message: `error not found`})
             } else {
                 res.status(200).json(data[1][0])
             }
@@ -155,13 +147,46 @@ class Controller {
                     status: 404,
                     message: `error not found`
                 })
-                // res.status(404).json({message: `error not found`})
             } else {
                 console.log(data)
-                res.status(200).json(data)
+                res.status(200).json({message: `delete success`})
             }
         } catch (err) {
             next(err)
+        }
+    }
+    static async completedTodo(req, res, next){
+        try {
+            let UserId = req.userLoggedIn.id 
+            let data = await Todo.findAll({
+                where: {
+                    UserId,
+                    status: 'completed'
+                },
+                order: [
+                    ['due_date']
+                ]
+            })
+            res.status(200).json(data)
+        } catch (error) {
+            next(error)
+        }
+    }
+    static async unfinishedTodo(req, res, next){
+        try {
+            let UserId = req.userLoggedIn.id 
+            let data = await Todo.findAll({
+                where: {
+                    UserId,
+                    status: 'unfinished'
+                },
+                order: [
+                    ['due_date']
+                ]
+            })
+            res.status(200).json(data)
+        } catch (error) {
+            next(error)
         }
     }
 }

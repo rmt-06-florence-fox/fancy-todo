@@ -13,6 +13,9 @@ function showMainPage(){
   $("#register_form").hide()
   $("#button_logout").show()
   fetchTodo()
+  
+  console.log($("#user-name").text(`${name}`))
+  $("#user-name").text(`${name}`)
 }
 function showRegister(){
   $("#main_page").hide()
@@ -40,7 +43,7 @@ function logout(){
 function login(){
   const email = $("#email_input_login").val()
   const password = $("#password_input_login").val()
-  console.log(email, password)
+  const name = email.split('@')[0].toUpperCase()
   $.ajax({
     url: 'http://localhost:3000/login',
     method: 'POST',
@@ -50,11 +53,13 @@ function login(){
     }
   })
   .done(res => {
+    
     localStorage.setItem('access_token', res.access_token)
-    showMainPage()  
+    showMainPage()
+    $("#greeting").append(`<h2>HI!</h2><h3 id="">${name}</h3>`)
   })
   .fail((xhr, textStatus) => {
-    console.log(xhr, textStatus)
+    swal(`${xhr.responseJSON.message}`);
   }) 
   .always( () => {
     $("#email_input_login").val("")
@@ -64,6 +69,7 @@ function login(){
 
 function onSignIn(googleUser) {
   let googleToken = googleUser.getAuthResponse().id_token;
+  console.log(googleToken)
   $.ajax({
     url: 'http://localhost:3000/googleLogin',
     method: 'POST',
@@ -77,7 +83,7 @@ function onSignIn(googleUser) {
     console.log(res)
   })
   .fail(err => {
-    console.log(err)  
+    swal(`error`)
   })
 }
 function register(){
@@ -92,17 +98,90 @@ function register(){
     }
   })
   .done(res => {
-    showLoginPage()  
-    console.log(res)
+    swal(`REGISTER SUCCESS`)
+    showLoginPage()
   })
   .fail((xhr, textStatus) => {
-    console.log(xhr, textStatus)
+    swal(`${xhr.responseJSON.message}`)
   }) 
+  .always(() => {
+    const email = $("#email_input_register").val("")
+    const password = $("#password_input_register").val("")
+  })
 }
 function fetchTodo(){
   $("#todo-list").empty()
   $.ajax({
     url: 'http://localhost:3000/todos',
+    method: 'GET',
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    }
+  })
+  .done(res => {
+    res.forEach(element => {
+      $("#todo-list").append(`
+          <tr>
+            <td id=${"title-"+element.id} scope="row">${element.title}</th>
+            <td id=${"desc-"+element.id}>${element.description}</td>
+            <td id=${"status-"+element.id}>${element.status}</td>
+            <td id=${"due_date-"+element.id}>${element.due_date}</td>
+            <td>
+              <button id="but_edit" onclick="moveToEditPage(${element.id})" class="btn btn-dark">edit</button> 
+              <button id="but_delete" onclick="deleteTodo(${element.id})" class="btn btn-info">delete</button>
+            </td>
+            <td>
+            <button id="but-completed" onclick="completedStatus(${element.id})" class="btn btn-primary">
+              <i class="fas fa-check"></i>
+            </button>
+            <button id="but-unfinished" onclick="uncompletedStatus(${element.id})"  class="btn btn-danger">
+            <i class="fas fa-times"></i>
+            </button>
+          </td>
+          </tr>
+        `)
+    });
+  })
+}
+function fetchCompletedTodo(){
+  $("#todo-list").empty()
+  $.ajax({
+    url: 'http://localhost:3000/todos/completed',
+    method: 'GET',
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    }
+  })
+  .done(res => {
+    res.forEach(element => {
+      $("#todo-list").append(`
+          <tr>
+            <td id=${"title-"+element.id} scope="row">${element.title}</th>
+            <td id=${"desc-"+element.id}>${element.description}</td>
+            <td id=${"status-"+element.id}>${element.status}</td>
+            <td id=${"due_date-"+element.id}>${element.due_date}</td>
+            <td>
+              <button id="but_edit" onclick="moveToEditPage(${element.id})" class="btn btn-dark">edit</button> 
+              <button id="but_delete" onclick="deleteTodo(${element.id})" class="btn btn-info">delete</button>
+            </td>
+            <td>
+            <button id="but-completed" onclick="completedStatus(${element.id})" class="btn btn-primary">
+              <i class="fas fa-check"></i>
+            </button>
+            <button id="but-unfinished" onclick="uncompletedStatus(${element.id})"  class="btn btn-danger">
+            <i class="fas fa-times"></i>
+            </button>
+          </td>
+          </tr>
+        `)
+    });
+  })
+}
+
+function fetchUnfinishedTodo(){
+  $("#todo-list").empty()
+  $.ajax({
+    url: 'http://localhost:3000/todos/unfinished',
     method: 'GET',
     headers: {
       access_token: localStorage.getItem('access_token')
@@ -183,7 +262,6 @@ function createTodo(){
   })
 }
 function moveToEditPage(id){
-  console.log(id)
   toggleModal(id)
 }
 function editTodo(){
@@ -205,10 +283,11 @@ function editTodo(){
     }
   })
   .done(res => {
+    swal("Succes!", "Edit Your Task ");
     showMainPage()
   })
   .fail(xhr => {
-    console.log(xhr)
+    swal(`Error!, ${xhr.responseJSON.message}`);
   })
   .always(() => {
     const title = $("#title-addForm").val("")
@@ -238,7 +317,6 @@ function completedStatus(id){
     }
   })
   .done(res => {
-    console.log(res)
     showMainPage()
   })
   .fail(xhr => {
@@ -258,7 +336,6 @@ function uncompletedStatus(id){
     }
   })
   .done(res => {
-    console.log(res)
     showMainPage()
   })
   .fail(xhr => {
@@ -266,12 +343,12 @@ function uncompletedStatus(id){
   })
 }
 function quoteShow(){
+  $("#quote").empty()
   $.ajax({
     method: 'GET',
     url: `http://localhost:3000/quote`,
   })
   .done(res => {
-    console.log(res)
     $("#quote").append(
       `<h1>${res.quote}</h1>
       <h4>--${res.author}--</h4>
@@ -283,6 +360,7 @@ function quoteShow(){
   })
 }
 function jokeShow(){
+  $("#jokes").empty()
   $.ajax({
     method: 'GET',
     url: `http://localhost:3000/jokes`,

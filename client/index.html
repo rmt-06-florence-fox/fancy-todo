@@ -14,7 +14,7 @@
   <body>
     <nav >
       <div class="nav-left">
-        <h4>TODO APP</h4>
+        <h4>TODO</h4>
       </div>
       <div class="nav-right">
         <button id="button_logout" onclick="logout()">LOGOUT</button>
@@ -76,8 +76,17 @@
     
     <!--List Todo Start-->
     <div class="main-page-left">
-      <h1>TODO LIST</h1>
-      <table class="table" border="3">
+      <div class="main-page-left-top">
+        <div id="greeting">
+        </div>
+        <h1>MY TODO LIST</h1>
+      </div>
+      <div class="button-filter">
+        <button type="button" class="btn btn-primary" onclick="fetchTodo()">ALL TODO</button>
+        <button type="button" class="btn btn-primary" onclick="fetchCompletedTodo()">COMPLETED TODO</button>
+        <button type="button" class="btn btn-primary" onclick="fetchUnfinishedTodo()">UNFINISHED TODO</button>
+      </div>
+      <table class="table table-hover table-dark">
         <thead>
           <tr>
             <th scope="col">Title</th>
@@ -98,6 +107,7 @@
     <div class="main-page-right">
       <!--add Todo Start-->
         <div id="form-todo">
+          <h2>ADD NEW TASK ?</h2>
           <form>
             <div class="form-group">
               <label for="title">Title</label>
@@ -125,7 +135,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit Form</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

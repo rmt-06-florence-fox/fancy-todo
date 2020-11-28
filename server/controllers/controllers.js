@@ -56,7 +56,6 @@ class Controller {
         })
         .then(ticket => {
             payload = ticket.getPayload()
-            console.log(payload)
             return User.findOne({
                 where: {
                     email: payload.email
