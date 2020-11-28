@@ -1,6 +1,7 @@
 const {User} = require('../models')
 const {comparePassword} = require('../helpers/bcrypt')
 const {generateToken} = require('../helpers/jwt')
+const {registerSuccess} = require('../helpers/send-mail')
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -8,6 +9,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 class UserController{
     static async register(req, res, next){
         try {
+            registerSuccess(process.env.NODEMAILER_EMAIL, process.env.NODEMAILER_PASS, req.body.email)
             let userObj = {
                 email: req.body.email,
                 password: req.body.password

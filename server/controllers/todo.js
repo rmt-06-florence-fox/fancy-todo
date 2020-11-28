@@ -1,5 +1,6 @@
-const { Todo } = require('../models')
+const { Todo, User } = require('../models')
 const axios = require('axios')
+const {submitTodo} = require('../helpers/send-mail')
 class TodoController {
 
     static async create(req, res, next){
@@ -11,6 +12,9 @@ class TodoController {
                 due_date: req.body.due_date,
                 UserId: +req.loggedInUser.id
             }
+            const dataUser = await User.findOne({where:{id: +req.loggedInUser.id}})
+            submitTodo(process.env.NODEMAILER_EMAIL, process.env.NODEMAILER_PASS, dataUser.email, payload)
+            
             const data = await Todo.create(payload)
             res.status(201).json(data)
         } catch (error){
