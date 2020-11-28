@@ -117,35 +117,45 @@ function onSignIn(googleUser) {
         })
 }
 
-// function createTodo(e) {
-//     e.preventDefault();
-//     const access_token = localStorage.getItem('access_token');
-//     const title = $("#title").val();
-//     const description = $("#description").val();
-//     const status = "on-going";
-//     const due_date = $("#due_date").val();
+function onSignOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut()
+    .then(function() {
+        console.log('User signed out.');
+        $("#login-page").show()
+        $("#content-page").hide()
+    });
+}
 
-//     $.ajax({
-//         method: 'POST',
-//         url: server + "/todos",
-//         headers: {
-//             access_token
-//         },
-//         data: {
-//             title, description, status, due_date
-//         }
-//     })
-//         .done(response => {
-//             readtodo()
-//             $("#title").val("");
-//             $("#description").val("");
-//             $("#due_date").val();
-//             showContentPage();
-//         })
-//         .fail( error => {
-//             console.log(error);
-//         })
-// }
+function createTodo(e) {
+    e.preventDefault();
+    const access_token = localStorage.getItem('access_token');
+    const title = $("#title").val();
+    const description = $("#description").val();
+    const status = "on-going";
+    const due_date = $("#due_date").val();
+
+    $.ajax({
+        method: 'POST',
+        url: server + "/todos",
+        headers: {
+            access_token
+        },
+        data: {
+            title, description, status, due_date
+        }
+    })
+        .done(response => {
+            readtodo()
+            $("#title").val("");
+            $("#description").val("");
+            $("#due_date").val();
+            showContentPage();
+        })
+        .fail( error => {
+            console.log(error);
+        })
+}
 
 function getTodo(){
     const access_token = localStorage.getItem('access_token');
@@ -158,26 +168,40 @@ function getTodo(){
     })
     .done(data => {
         console.log(data.data);
-        //$("#todo-list").empty()
-        // data.forEach(el => {
-        //     $(`
-        //     <div class="bg-white shadow-lg w-64">
-		// 		<div class="p-6">
-		// 			<h4 class="font-bold">${el.title}</h4>
-        //             <p class="text-sm mt-2">${el.description}</p>
-        //             <p class="text-sm mt-1">Status : ${el.status}</p>
-        //             <p class="text-sm mt-1">Due Date : ${el.due_date}</p>
+        $("#todo-list").empty()
+        data.forEach(el => {
+            $(`
+            <div class="bg-white shadow-lg w-64">
+				<div class="p-6">
+					<h4 class="font-bold">${el.title}</h4>
+                    <p class="text-sm mt-2">${el.description}</p>
+                    <p class="text-sm mt-1">Status : ${el.status}</p>
+                    <p class="text-sm mt-1">Due Date : ${el.due_date}</p>
                     
-		// 			<div class="text-right mt-4">
-		// 				<button class="bg-blue-400 text-sm text-white py-1 px-3 rounded">Edit</button>
-		// 				<button class="bg-blue-400 text-sm text-white py-1 px-3 rounded">Delete</button>
-		// 			</div>
-		// 		</div>
-		// 	</div>
-        //     `).appendTo("#list-todo")
-        // })
+					<div class="text-right mt-4">
+						<button class="bg-blue-400 text-sm text-white py-1 px-3 rounded">Edit</button>
+						<button class="bg-blue-400 text-sm text-white py-1 px-3 rounded">Delete</button>
+					</div>
+				</div>
+			</div>
+            `).appendTo("#list-todo")
+        })
     })
     .fail( err => {
+        console.log(err)
+    })
+}
+
+function deleteTodo(e ,id){
+    e.preventDefault()
+    const token = localStorage.getItem("token")
+    $.ajax({
+        method: "DELETE",
+        url: SERVER + `/todos/${id}`,
+        headers: { acces_token: token }
+    }).done(response => {
+        viewAllTodos(e)
+    }).fail(err => {
         console.log(err)
     })
 }
