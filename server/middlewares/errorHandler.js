@@ -5,7 +5,7 @@ function errorHandler(err, req, res, next) {
     switch (name) {
         case 'SequelizeValidationError':
             status = 400;
-            msg = err.errors.map(el => el.message).join(' ');
+            msg = err.errors.map(el => el.message)[0];
             break;
         case 'SequelizeUniqueConstraintError':
             status = 400;

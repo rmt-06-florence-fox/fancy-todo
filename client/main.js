@@ -33,6 +33,7 @@ function logout(event) {
     event.preventDefault()
     localStorage.removeItem('access_token')
     checkauth()
+    $('#quote-card').hide()
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
         console.log('User signed out.');
@@ -60,6 +61,7 @@ function showAdd(event) {
     event.preventDefault()
     $('#edit-todo').hide();
     $('#add-todo').show();
+    $('#quote-card').show()
 }
 
 function login(event) {
@@ -145,6 +147,8 @@ function addTodo(event) {
             'success'
         )
         checkauth()
+        getQotd()
+        $('#quote-card').show()
     })
     .fail(err => {
         Swal.fire(
@@ -204,6 +208,7 @@ function editForm(id) {
     })
     .done(res => {
         console.log(res)
+        $('#quote-card').show()
         $('#edit-todo').show()
         $('#add-todo').hide()
         $('#edit-id').val(res.id)
@@ -211,7 +216,6 @@ function editForm(id) {
         $('#edit-description').val(res.description)
         $('#edit-status').val(res.status)
         $('#edit-due_date').val(res.due_date)
-        
     })
     .fail(err => {
         console.log(err)
@@ -253,6 +257,7 @@ function editTodo(event) {
         $('#edit-description').val('');
         $('#edit-status').val('');
         $('#edit-due_date').val('');
+        $('#quote-card').show()
         Swal.fire(
             'Updated!!!',
             'Your new todo has been updated',
@@ -286,6 +291,7 @@ function deleteTodo(event) {
     .done(res => {
         $('#deleteModal').modal('hide')
         todoList()
+        $('#quote-card').show()
         Swal.fire(
             'Deleted!',
             'Your task has been deleted!',
@@ -312,10 +318,10 @@ function onSignIn(googleUser) {
     })
     .done(res => {
         localStorage.setItem('access_token', res.access_token)
-        $('#emaillogin').val('')
-        $('#passwordlogin').val('')
         checkauth()
         getQotd()
+        $('#emaillogin').val('')
+        $('#passwordlogin').val('')
         Swal.fire(
             'Welcome!',
             'Welcome to the todo app',
