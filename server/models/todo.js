@@ -2,6 +2,9 @@
 const {
   Model
 } = require('sequelize');
+
+const date = new Date();
+
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
 

@@ -11,6 +11,13 @@ function showLoginPage() {
     $("#content-page").hide()
 }
 
+function showContentPage() {
+    $("#button-logout").show()
+    $("#login-page").hide()
+    $("#register-page").hide()
+    $("#content-page").show()
+}
+
 function jumpToRegister() {
     $("#login-page").hide()
     $("#register-page").show()
@@ -61,10 +68,14 @@ function login(e) {
         const token = response.access_token;
         localStorage.setItem("token", token);
         console.log("Logged In!");
-        $("#login-page").hide()
-        $("#content-page").show()
+        showContentPage();
     })
     .fail( err => {
         console.log(err);
     })
+}
+
+function logout() {
+    localStorage.removeItem("token");
+	showLoginPage();
 }
