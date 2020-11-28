@@ -1,6 +1,5 @@
 const { Todo } = require("../models")
 const axios = require("axios")
-const { response } = require("express")
 
 class TodoController {
 
@@ -49,7 +48,7 @@ class TodoController {
             })
     }
 
-    static getTodoById(req, res) {
+    static getTodoById(req, res, next) {
         const id = req.params.id
         Todo.findByPk(id)
             .then(data => {
@@ -156,7 +155,7 @@ class TodoController {
             })
     }
 
-    static getHolidays(req, res) {
+    static getHolidays(req, res, next) {
         axios({
             url: "https://calendarific.com/api/v2/holidays",
             method: "GET",
@@ -168,7 +167,7 @@ class TodoController {
             }
         })
             .then(response   => {
-                res.status(200).json(response.data)
+                res.status(200).json(response.data.response.holidays)
             })
             .catch(err => {
                 next(err)

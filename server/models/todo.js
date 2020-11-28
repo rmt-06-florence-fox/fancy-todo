@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         dateValidation(value) {
           const day = new Date().toISOString().split("T")[0]
-          if (value < day || value > day) {
+          if (value < day) {
             throw new Error("The date cannot be later than today")
           }
         }

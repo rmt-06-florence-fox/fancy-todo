@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+#nav-bar {
+    display: flex;
+    justify-content: space-between;
+    background-color: orange;
+}
+
+#main-page {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background-image: url(https://cdn.britannica.com/17/83817-050-67C814CD/Mount-Everest.jpg);
+}
+
+#API {
+    padding: 10px;
+    background: rgb(9,186,157);
+    background: linear-gradient(164deg, rgba(9,186,157,1) 0%, rgba(24,62,48,1) 100%);border: 1px solid black;
+    flex-direction: column;
+}
+
+#card-todo {
+    color: white;
+    width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgb(9,186,157);
+    background: linear-gradient(164deg, rgba(9,186,157,1) 0%, rgba(24,62,48,1) 100%);border: 1px solid black;
+}
+
+#form {
+    color: white;
+    background: rgb(9,186,157);
+    background: linear-gradient(164deg, rgba(9,186,157,1) 0%, rgba(24,62,48,1) 100%);border: 1px solid black;
+    border-radius: 10px;
+    width: 350px;
+    padding: 20px;
+}
+
+#list-todo {
+    flex-direction: column;
+}
+
+#data {
+    display: flex;
+    /* justify-content: space-around; */
+}
+
+#left {
+    width: 100px;
+}
