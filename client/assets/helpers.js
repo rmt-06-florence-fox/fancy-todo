@@ -1,4 +1,4 @@
-const port = 'http://localhost:3000/'
+const port = 'http://localhost:3002/'
 let dataUedit = {}
 
 //page
@@ -34,7 +34,6 @@ function mainhome(){
     $("#signup").hide()
     $("#home").hide()
     $("#editTodo").hide()
-    // $("#showlist").show()
     $("#mainhome").show()
     showlist()
     weather()
@@ -245,12 +244,14 @@ function editTodoProcess(id){
     })
 }   
 
-function inputEdit(id){
+function inputEdit(){
+    const data = dataUedit
+    console.log(data);
     const title = $('#edittitleToDo').val()
     const description = $('#editdescriptionToDo').val()
     const due_date = $('#editdue_dateToDo').val()
     $.ajax({
-        url : port + 'todos/' + id,
+        url : port + 'todos/' + data.id,
         method : 'put',
         headers : {
             accesstoken : localStorage.getItem('accesstoken')

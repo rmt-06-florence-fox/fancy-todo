@@ -31,7 +31,7 @@
 
         <div id="signin">
           <h1 style="text-align: center;"> Sign In </h1>
-          <form action="/users/signin" method="post" id="f-signin">
+          <form id="f-signin">
             <div class="form-group">
               <label for="email">Email:</label>
               <input type="email" class="form-control" id="emailsignin" placeholder="Enter email" name="email">
@@ -47,7 +47,7 @@
 
       <div id="signup">
         <h1 style="text-align: center;"> Sign Up </h1>
-          <form action="/users/signup" method="post" id="f-signup">
+          <form id="f-signup">
             <div class="form-group">
               <label for="email">Email:</label>
               <input type="email" class="form-control" id="emailsignup" placeholder="Enter email" name="email">
@@ -66,7 +66,7 @@
         <div id="createtodo">
 
           <h1 style="text-align: center;"> Create To Do </h1>
-          <form action="/todos/" method="post" id="f-createTodo">
+          <form id="f-createTodo">
             <div class="form-group">
               <label for="title">Title:</label>
               <input type="text" name="title" id="titleToDo" class="form-control" placeholder="Enter title">
@@ -99,7 +99,7 @@
       <div id="editTodo">
 
         <h1 style="text-align: center;"> Edit To Do </h1>
-          <form action="/todos/${data.id}" method="post" id="f-editTodo">
+          <form id="f-editTodo">
             <div class="form-group">
               <label for="title">Title:</label>
               <input type="text" name="title" id="edittitleToDo" class="form-control" placeholder="Enter title">

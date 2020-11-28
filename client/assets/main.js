@@ -5,12 +5,12 @@ $(document).ready(function(){
         home()
     }
     
-    $('#f-signup').on('submit', function(){
-        // e.preventDefault()
+    $('#f-signup').on('submit', function(e){
+        e.preventDefault()
         signupProcess()
     })
-    $('#f-signin').on('submit', function(e){
-        e.preventDefault()
+    $('#f-signin').on('submit', function(){
+        // e.preventDefault()
         signinProcess()
     }) 
     $('#f-createTodo').on('submit', function(e){
