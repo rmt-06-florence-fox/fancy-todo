@@ -5,7 +5,10 @@ module.exports = async (req, res, next) => {
     try {
         const token = req.headers.token
         if(!token){
-            res.status(401).json({msg: 'please login first'})
+            throw({
+                status: 401,
+                msg: 'please login first'
+            })
         } else {
             const decoded = verifyToken(token)
             req.loggedInUser = decoded
@@ -18,6 +21,7 @@ module.exports = async (req, res, next) => {
             }
         }
     } catch(error) {
-        res.status(401).json({msg: 'please login first'})
+        console.log(error)
+        next (error)
     }
 }

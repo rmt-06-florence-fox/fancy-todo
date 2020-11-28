@@ -1,5 +1,5 @@
 'use strict';
-const hashPassword = require('../helpers/bcrypt')
+const {hashPassword} = require('../helpers/bcrypt')
 
 const {
   Model
@@ -33,7 +33,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Password cannot be empty'
+        }
+      }
     }
   }, {
     hooks:{

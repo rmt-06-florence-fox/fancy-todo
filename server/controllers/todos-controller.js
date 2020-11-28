@@ -1,12 +1,11 @@
 const { Todo } = require('../models')
 
 class TodoController {
-
     static addTask(req, res, next){
         const newTask = {
             title: req.body.title,
             description: req.body.description,
-            status: req.body.status,
+            status: 'Uncomplete',
             due_date: req.body.due_date,
             UserId: req.loggedInUser.id
         }
@@ -22,6 +21,7 @@ class TodoController {
     }
 
     static showAll(req, res, next){
+        console.log('masuk todo')
         Todo.findAll({where: {UserId: req.loggedInUser.id}})
         .then(data => {
             res.status(200).json(data)
