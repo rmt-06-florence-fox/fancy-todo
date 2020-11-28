@@ -160,6 +160,7 @@ $("#cancel-register").on('click', ()=> {
 
 function fetchTodo(){
 const access_token= localStorage.getItem('access_token')
+console.log(access_token)
 $.ajax({
     method: "GET",
     url: SERVER + "/todos",
@@ -167,6 +168,7 @@ $.ajax({
       access_token
     }
   }).done(response => {
+    console.log(response, 'ini kan yang ngaco')
     $("#content-card").empty();
     $("#weather-card").empty()
     if (response.length !== 0) {
@@ -205,9 +207,12 @@ $.ajax({
         $(`#edit-button${element.id}`).on("click", () => {
           $(`#info-button${element.id}`).show();
           $(`#todo-description${element.id}`).empty();
-          $('#homepage_navbar').show()
           $("#edit-todo-page").empty()
+          $("#home-page").hide(); 
+          $("#homepage_navbar").show()
+          $("#add-todo-button").hide()
           $("#edit-todo-page").show()
+          $("#navbar-home").show()
           editTodoSource(element.id)
         })
         $(`#done${element.id}`).on("click", () => {
@@ -224,7 +229,7 @@ $.ajax({
     } else {
       $("#content-card").append(`
         <div class="row justify-content-center mt-5">
-          <p>It's empty here</p>
+          <p>You do not have any Todo</p>
         </div>
       `)
     }
@@ -315,10 +320,15 @@ function editTodo(id, event) {
   }).done(response => {
     $("#content-card").empty();
     fetchTodo()
+    weather()
     $("#landing-page").hide();
     $("#home-page").show();
     $("#add-todo-page").hide();
     $("#edit-todo-page").empty()
+    Swal.fire(
+      'Good job, you just edited your todo!',
+      'success'
+    )
   }).fail(err => {
     errorMessage(err)
   })
@@ -433,10 +443,11 @@ function deleteTodo(id) {
         $("#content-card").empty()
         $("#weather-card").empty()
         fetchTodo()
-        Toast.fire({
-            icon: 'success',
-            title: 'deleted successfully'
-          })
+        weather()
+        Swal.fire(
+          'success !',
+          'you just deleted your todo'
+      )
     })
     .fail(err => {
         Swal.fire(
@@ -504,6 +515,7 @@ function addTodo(event) {
     })
     .done(response => {
         fetchTodo()
+        weather()
         $("#content-card").empty();
         $("#weather-card").empty()
         $("#register-page").hide()
@@ -513,8 +525,7 @@ function addTodo(event) {
         $("#add-todo-page").hide()
         $("#add-todo-button").show()
         Swal.fire(
-          'Good job, you just added todo!',
-          'You clicked the button!',
+          'Good job, you just added your todo!',
           'success'
         )
     })

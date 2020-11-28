@@ -80,7 +80,7 @@ class UserController {
       } else {
         var userObj = {
           email,
-          password: 'random'
+          password: process.env.GOOGLE_SECRET
         }
         return User.create(userObj);
       }

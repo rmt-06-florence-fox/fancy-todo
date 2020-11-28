@@ -8,11 +8,7 @@ class TodoController {
                     UserId: req.loggedIn.id
                 }
             })
-            if (todos.length <= 0) {
-                res.status(200).json({message : 'you do not have any todo'})
-            }else {
                 res.status(200).json(todos)
-            }
         }
         catch (error) {
             res.status(500).json(error)
