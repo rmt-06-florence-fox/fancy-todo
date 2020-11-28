@@ -93,6 +93,7 @@ let fetchTodo = () => {
     })
 
     request.done(function( msg ) {
+        const today = new Date()
         $("#warning").hide()
         $("#warning").empty()
         $("#list-todo").empty()
@@ -100,7 +101,7 @@ let fetchTodo = () => {
         msg.forEach(todo => {
             $("#list-todo").append(`
             <div class="col-sm-4" style="margin-bottom:30px">
-                <div class="card shadow p-3 mb-5 rounded ${todo.status == false ? `` : `bg-danger text-black`}">
+                <div class="card shadow p-3 mb-5 rounded ${todo.status == false ? `` : `bg-secondary text-black`} ${new Date(todo.due_date) <= today ? `bg-danger text-black` : ``}">
                 <div id="todo-${todo.id}" ${todo.status == true ? `ondblclick="patchTodo(${todo.id},${false})"` : `ondblclick="patchTodo(${todo.id},${true})"`}>
                     <div class="card-header" data-toggle="tooltip" data-placement="top" title="Double Click To Change Status">
                         <h4>${todo.title}</h4>
@@ -197,12 +198,16 @@ let addTodo = () => {
         $("#warning").html(`<b>${jqXHR.responseJSON.errors}</b>`);
     });
     request.always(() => {
-        $("#add-description").css("width", "13.85em");
-        $("#add-description").css("height", "2.4em");
-        $("#add-title").val("")
-        $("#add-description").val("")
-        $("#add-due-date").val("")
+        clearAddForm()
     })
+}
+
+let clearAddForm = () => {
+    $("#add-description").css("width", "13.85em");
+    $("#add-description").css("height", "2.4em");
+    $("#add-title").val("")
+    $("#add-description").val("")
+    $("#add-due-date").val("")
 }
 
 // ! delete todo

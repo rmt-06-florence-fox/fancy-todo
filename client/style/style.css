@@ -1,6 +1,6 @@
 .jumbotron {
     font-family: 'Dancing Script', cursive;
-    background: url('../public/notes.jpg');
+    background: url('../asset/notes.jpg');
     background-size: cover;
     background-position: center;
 }
@@ -30,7 +30,7 @@ body {
 }
 
 .card-header {
-    background: url('../public/pin-svgrepo-com.svg');
+    background: url('../asset/pin-svgrepo-com.svg');
     background-size: 25px 25px;
     width: auto;
     height: auto;

@@ -47,5 +47,8 @@ $(document).ready(function(){
         addTodo()
     })
 
-    
+    $("#clear-add").on("click", (e) => {
+        e.preventDefault()
+        clearAddForm()
+    }) 
 });

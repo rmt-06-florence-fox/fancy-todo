@@ -32,10 +32,10 @@
                     <div id="login-page">
                         <form id="login-form">
                             <div class="form-group">
-                                <input type="email" class="form-control" name="" id="login-email" placeholder="Email">
+                                <input type="email" class="form-control" name="" id="login-email" placeholder="Email" data-toggle="tooltip" data-placement="top" title="Type Your Email">
                             </div>
                             <div class="form-group">
-                                <input type="password" class="form-control" name="" id="login-password" placeholder="Password">
+                                <input type="password" class="form-control" name="" id="login-password" placeholder="Password" data-toggle="tooltip" data-placement="top" title="Type Your Password">
                             </div>
                             <button type="submit" class="btn btn-primary">
                                 Login    
@@ -67,10 +67,10 @@
                     <div id="register-page">
                         <form id="register-form">
                             <div class="form-group">
-                                <input type="email" name="" id="register-email" class="form-control" placeholder="Email">
+                                <input type="email" name="" id="register-email" class="form-control" placeholder="Email" data-toggle="tooltip" data-placement="top" title="Type Your Email">
                             </div>
                             <div class="form-group">
-                                <input type="password" name="" id="register-password" class="form-control" placeholder="Password">
+                                <input type="password" name="" id="register-password" class="form-control" placeholder="Password" data-toggle="tooltip" data-placement="top" title="Type Your Password, Password Must 6 Characters Or More">
                             </div>
                             <button type="submit" class="btn btn-primary">
                                 Register    
@@ -127,20 +127,23 @@
                     <div class="col-10">
                         <form id="add-form" class="form-inline" style="margin:auto">
                             <div class="form-group mb-2" style="margin-right:10px;"">
-                                <input type="text" class="form-control" name="" id="add-title" placeholder="Add New Title">
+                                <input type="text" class="form-control" name="" id="add-title" placeholder="Add New Title" data-toggle="tooltip" data-placement="top" title="Add Todo Title">
                             </div>
                             <div class="form-group mb-2" style="margin-right:10px">
-                                <textarea name="add-description" id="add-description" class="form-control" cols="20" rows="1" placeholder="Add New Description"></textarea>
+                                <textarea name="add-description" id="add-description" class="form-control" cols="20" rows="1" placeholder="Add New Description" data-toggle="tooltip" data-placement="top" title="Add Todo Description"></textarea>
                             </div>
                             <div class="form-group mb-2" style="margin-right:10px">
-                                <input required="" type="text" id="add-due-date" class="form-control" placeholder="Add New Due Date" onfocus="(this.type='date')"/>
+                                <input required="" type="text" id="add-due-date" data-toggle="tooltip" data-placement="top" title="Add Todo Due Date" class="form-control" placeholder="Add New Due Date" onfocus="(this.type='date')"/>
                             </div>
                             
                             
-                                <button type="submit" class="btn btn-primary mb-2">
+                                <button type="submit" class="btn btn-primary mb-2" style="margin-right:10px">
                                     Add Todo
                                 </button>
-                            
+                                
+                                <button type="button" class="btn btn-warning mb-2" style="margin-right:10px" id="clear-add">
+                                    Clear Input
+                                </button>
                         </form>
                     </div>
                     <div class="col-1"></div>
@@ -164,7 +167,7 @@
     </div>
     </div>
     <footer>
-        <div class="footer-copyright text-center py-3">© 2020 Copyright: Fancy-Todo Florence-Fox | Author : <a href="https://github.com/jarooda" target="_blank">Jalu Wibowo</a>
+        <div class="footer-copyright text-center py-3">© 2020 Copyright: Fancy-Todo Florence-Fox | Author : <a href="https://github.com/jarooda" target="_blank">Jalu Wibowo</a> | <a href="https://github.com/jarooda/fancy-todo">Need Help ?</a>
         </div>
     </footer>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
