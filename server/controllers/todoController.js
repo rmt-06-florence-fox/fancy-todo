@@ -13,39 +13,39 @@ class Controller {
             }
 
             let data = await Todo.create(todo)
-        //     let targetMail = req.userLoggedIn.email
-        //     const OAuth2 = google.auth.OAuth2;
-        //     const oauth2Client = new OAuth2(
-        //         process.env.CLIENTID, // ClientID
-        //         process.env.CLIENTSECRET, // Client Secret
-        //         "https://developers.google.com/oauthplayground" // Redirect URL
-        //     );   
-        //     oauth2Client.setCredentials({
-        //     refresh_token: process.env.REFRESHTOKEN
-        //     });
-        //     const accessToken = oauth2Client.getAccessToken()
-        //     const smtpTransport = nodemailer.createTransport({
-        //         service: "gmail",
-        //         auth: {
-        //              type: "OAuth2",
-        //              user: "ask.untara@gmail.com", 
-        //              clientId: process.env.CLIENTID,
-        //              clientSecret: process.env.CLIENTSECRET,
-        //              refreshToken: process.env.REFRESHTOKEN,
-        //              accessToken: accessToken
-        //         }
-        //    });   
-        //     let mailOptions = {
-        //       from: 'ask.untara@gmail.com',
-        //       to: `${targetMail}`,
-        //       subject: 'Confirmation New ToDo',
-        //       text: `your new todo: ${JSON.stringify(data)}`
-        //     };
-        //     smtpTransport.sendMail(mailOptions, (error, response) => {
-        //         error ? console.log(error) : console.log(response);
-        //         smtpTransport.close();
-        //    });
-                res.status(201).json(data)
+            let targetMail = req.userLoggedIn.email
+            const OAuth2 = google.auth.OAuth2;
+            const oauth2Client = new OAuth2(
+                process.env.CLIENTID, // ClientID
+                process.env.CLIENTSECRET, // Client Secret
+                "https://developers.google.com/oauthplayground" // Redirect URL
+            );   
+            oauth2Client.setCredentials({
+            refresh_token: process.env.REFRESHTOKEN
+            });
+            const accessToken = oauth2Client.getAccessToken()
+            const smtpTransport = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                     type: "OAuth2",
+                     user: "ask.untara@gmail.com", 
+                     clientId: process.env.CLIENTID,
+                     clientSecret: process.env.CLIENTSECRET,
+                     refreshToken: process.env.REFRESHTOKEN,
+                     accessToken: accessToken
+                }
+           });   
+            let mailOptions = {
+              from: 'ask.untara@gmail.com',
+              to: `${targetMail}`,
+              subject: 'Confirmation New ToDo',
+              text: `your new todo: ${JSON.stringify(data)}`
+            };
+            smtpTransport.sendMail(mailOptions, (error, response) => {
+                error ? console.log(error) : console.log(response);
+                smtpTransport.close();
+           });
+           res.status(201).json(data)
         } catch (err) {
             next(err)
         }
