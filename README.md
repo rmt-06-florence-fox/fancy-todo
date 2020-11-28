@@ -1,3 +1,3 @@
 # fancy-todo
 
-link : https://fensi-project.web.app
+link : https://fancy-twodo.web.app
