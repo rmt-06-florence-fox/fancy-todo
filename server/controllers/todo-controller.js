@@ -20,7 +20,7 @@ class ToDoController {
         
         try {
             const UserId = req.headers.loggedInUser.id
-            //console.log(UserId)
+            console.log(UserId)
             let {title, description, due_date} = req.body
             //console.log( req.get('Content-Type'))
             //console.log(req.body) 

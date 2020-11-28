@@ -17,10 +17,13 @@
         <button class="nav-bar justify-content-end text-white bg-dark" id="logoutBtn">Log Out</button>
     </header>
 
+    <div id="error-message" class="text-center text-danger justify-content-center"></div>
+    
     <br>
-    <div id="login-form" class="d-flex justify-content-center container-fluid">
-        <div>
-            <form action="" method="POST">
+    <div id="login-page">
+        <div class="d-flex justify-content-center container-fluid">
+           <div>
+            <form id="login-form">
                 <div class="form-group">
                     <label for="email">Email : </label> <br>
                     <input type="email" name="email" id="login-email" class="form-control"> <br>
@@ -34,41 +37,55 @@
                 <br>
             </form>
             <p>or register <button id="register-anchor" class="bg-secondary text-white">here</button></p>
+            </div>
         </div>
     </div>
-    <br>
-    <div id="register-form" class="d-flex justify-content-center container-fluid">
-        <form action="" method="POST">
-            <div class="form-group">
-                <label for="fullName">Name : </label> <br>
-                <input type="text" name="fullName" id="fullName" class="form-control"> <br>
-            </div>
+    
+    <div id="register-page" >
+    <div class="d-flex justify-content-center container-fluid">
+       <div>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="fullName">Name : </label> <br>
+                    <input type="text" name="fullName" id="fullName" class="form-control"> <br>
+                </div>
             
-            <div class="form-group">
-                <label for="userName">User Name : </label> <br>
-                <input type="text" name="userName" id="userName" class="form-control"> <br>
-            </div>
-            <div class="form-group">
-                <label for="email">Email : </label> <br>
-                <input type="email" name="email" id="email" class="form-control"> <br>
-            </div>
-
-            <div class="form-group">
+                <div class="form-group">
+                    <label for="userName">User Name : </label> <br>
+                    <input type="text" name="userName" id="userName" class="form-control"> <br>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email : </label> <br>
+                    <input type="email" name="email" id="email" class="form-control"> <br>
+                </div>
+            
+                <div class="form-group">
                     <label for="password">Password : </label> <br>
                     <input type="password" name="password" id="password" class="form-control"> <br>
-            </div>
-        
-            <input type="submit" value="register" class="form-control btn-dark">
-        </form>
+                </div>
+            
+                <input type="submit" value="register" class="form-control btn-dark">
+            </form>
+            <br>
+            <p>have an account? <button id="login-anchor" class="bg-dark text-white">login here</button></p>
+       </div>
+    </div>
     </div>
 
     <br>
-    <div id="edit-form" class="d-flex justify-content-center">
+    <div id="edit-page">
+        <div class="d-flex justify-content-center">
         <div class="d-flex flex-column">
             <h4>Edit here</h4><br>
-            <form action="" method="POST">
-                <input type="text" placeholder="title goes here" id="title-edit" class="form-group form-control"> <br>
-                <textarea name="" id="description-edit"  cols="25" rows="5" placeholder="description goes here"></textarea>
+            <form id="edit-form">
+                <div class="form-group">
+                    <label for="title">Title</label><br>
+                    <input type="text" id="title-edit" name="title"> <br>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label><br>
+                    <textarea name="" id="description-edit"  cols="25" rows="5" name="description"></textarea>
+                </div>
 
                 <div class="form-group">
                     <label for="due_date">Due Date</label><br>
@@ -76,27 +93,39 @@
                 </div>
                 <button type="submit" class="bg-dark text-white form-control">Edit</button>
             </form>
+            <button id="cancel-edit">cancel</button>
+        </div>
         </div>
     </div>
-    <div id="add-form" class="d-flex justify-content-center">
+    <div id="add-page">
+        <div class="d-flex justify-content-center">
+
         <div class="d-flex flex-column">
             <br><h4>Create todo here</h4><br>
-            <form action="" method="POST">
+            <form id="add-form">
                 <input type="text" placeholder="title goes here" id="title-add" class="form-group form-control"> <br>
-                <textarea name="" id="descriptio-add" cols="25" rows="5" placeholder="description goes here" class="form-control"></textarea>
+                
+                <textarea name="" id="description-add" cols="25" rows="5" placeholder="description goes here" class="form-control"></textarea>
+
                 <div class="form-group">
                     <label for="due_date">Due Date</label><br>
                     <input type="date" id="due_date-add" name="due_date" class="form-control">
                 </div>
+
                 <button type="submit" class="form-control bg-dark text-white">Create</button>
             </form>
+            <button id="cancel-add">cancel</button>
+        </div>
         </div>
     </div>
-    <div id="content" class="row">
-        
+
+    <div id="main-page">
+        <button class="text-white bg-dark d-flex justify-content-end" id="add-anchor">add todo</button> <br><br>
+        <div id="content" class="row"></div>
     </div>
     
-    <script src="scripts/helpers.js"></script>
+    <script src="scripts/beforeLogin.js"></script>
+    <script src="scripts/afterLogin.js"></script>
     <script src="scripts/manipulator.js"></script>
 </body>
 </html>

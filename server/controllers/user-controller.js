@@ -2,28 +2,20 @@ const {User} = require('../models/')
 const Helper = require('../helper')
 
 class UserController {
-    
-    static getRegisterForm(req, res){
-        res.status(200).json({message : 'go to registration form'})
-    }
 
     static async register(req, res, next){
         let {fullName, userName, email, password} = req.body
         let data = { fullName, userName, email, password }
         //console.log(data)
         try {
-            await User.create(data) 
-            res.status(201).json(data)
+           const response =  await User.create(data)
+            let { fullName, userName, email} = response 
+            res.status(201).json({fullName, userName, email})
             
         } catch (err) {
            next(err)
             
         }
-    }
-
-    static getLoginForm(req, res){
-        res.status(200).json({message : 'go to login form'})
-
     }
 
     static async login(req, res, next){

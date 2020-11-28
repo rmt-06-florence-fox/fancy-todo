@@ -5,10 +5,8 @@ const UserController = require('../controllers/user-controller')
 const authenticate = require('../middlewares/authentication')
 
 
-router.get('/', UserController.getRegisterForm)
 router.post('/register', UserController.register)
 
-router.get('/login', UserController.getLoginForm)
 //using authecitacion middleware
 router.post('/login', UserController.login)
 
