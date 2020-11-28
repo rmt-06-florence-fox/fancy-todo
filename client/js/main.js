@@ -17,6 +17,7 @@ function afterLogin() {
 	$('#login-page').hide()
 	$('#register-page').hide()
 	$('#edit-page').hide()
+	$('#weather').show()
 }
 
 // function show register
@@ -120,6 +121,7 @@ $(document).ready(function () {
 	if (token) {
 		afterLogin()
 		fetchTodos()
+		weather()
 	} else {
 		beforeLogin()
 	}
@@ -287,3 +289,29 @@ function onSignIn(googleUser) {
   })
 }
 
+//Weather
+const weather = () => {
+	const access_token = localStorage.getItem('access_token')
+
+	$('#weather').empty()
+	console.log('enter in weathers');
+	$.ajax({
+		method: 'GET',
+		url: `${SERVER}/weathers`,
+		headers: {
+			access_token: access_token,
+		}
+	})
+	.done(response => {
+		console.log("enter in weather bro");
+		console.log(response)
+		$('#weather').append(`
+		<p>${response.name}</p>
+		<p>${response.weather[0].description}</p>
+		`)
+	})
+	.fail(err => {
+		console.log(err);
+		$('#weather').hide()
+	})
+}

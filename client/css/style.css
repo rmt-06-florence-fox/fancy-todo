@@ -275,3 +275,11 @@ h4 {
   padding-bottom: 35px;
   height: 30px;
 }
+
+.weather {
+  width: 350px; 
+  height: 400px; 
+  float: left; 
+  margin-left: 80px;
+  margin-top: 60px;
+}
