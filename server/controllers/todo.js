@@ -131,7 +131,8 @@ class TodosController {
         title: response.data.articles[0].title,
         description: response.data.articles[0].description,
         imageUrl: response.data.articles[0].urlToImage,
-        publishedAt: response.data.articles[0].publishedAt
+        publishedAt: response.data.articles[0].publishedAt,
+        url: response.data.articles[0].publishedAt 
       }
       res.json(payload)
     })
