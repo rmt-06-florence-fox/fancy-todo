@@ -10,6 +10,7 @@ $(document).ready (function(){
     $('#newtask').on({
       submit: e => {
         e.preventDefault()
+            $('#add-error').empty()
             const newUser = {
               title: $('#add-task-title').val(),
               desrcription: $('#add-task-description').val(),
@@ -29,6 +30,16 @@ $(document).ready (function(){
             })
             .fail((xhr, textStatus) => {
                 console.log(xhr)
+                const errorLog = xhr
+                                    .responseJSON
+                                    .errors
+                                    // .map(el => el.message)
+                                   
+                errorLog.forEach( el => {
+                    $('#add-error').append(
+                        `<div><small id="errmes" class="form-text text-danger">${el.message}</small></div>`
+                    )                    
+                })  
             })
             .always(_=> {
               $('#add-task-title').val('')
@@ -43,7 +54,7 @@ $(document).ready (function(){
     $('#edit-task').on({
       submit: e => {
         e.preventDefault()
-
+        $('#edit-error').empty()
         const updateData = {
           title: $('#edit-task-title').val(),
           desrcription: $('#edit-task-description').val(),
@@ -63,6 +74,17 @@ $(document).ready (function(){
         })
         .fail((xhr, textStatus) => {
             console.log(xhr)
+
+            const errorLog = xhr
+                                    .responseJSON
+                                    .errors
+                                    // .map(el => el.message)
+                                   
+                errorLog.forEach( el => {
+                    $('#edit-error').append(
+                        `<div><small id="errmes" class="form-text text-danger">${el.message}</small></div>`
+                    )                    
+                })  
         })
         .always(_=> {
           $('#edit-task-id').val('')
@@ -77,6 +99,7 @@ $(document).ready (function(){
     $('#getsuggest').on({
       submit: e => {
         e.preventDefault()
+        $('#suggest-error').empty()
             const newUser = {
               title: $('#get-suggest-title').val(),
               desrcription: $('#get-suggest-description').val(),
@@ -96,6 +119,17 @@ $(document).ready (function(){
             })
             .fail((xhr, textStatus) => {
                 console.log(xhr)
+
+                 const errorLog = xhr
+                                    .responseJSON
+                                    .errors
+                                    // .map(el => el.message)
+                                   
+                errorLog.forEach( el => {
+                    $('#suggest-error').append(
+                        `<div><small id="errmes" class="form-text text-danger">${el.message}</small></div>`
+                    )                    
+                }) 
             })
             .always(_=> {
               $('#add-task-title').val('')

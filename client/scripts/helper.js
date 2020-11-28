@@ -148,7 +148,6 @@ function homepage () {
                 let dateLog = new Date (el.due_date)
                 let date = dateLog.toDateString()
                 let time = dateLog.toTimeString().split('GMT')[0]
-                console.log(date, time)
                 if (el.status == false) {
                     if(new Date(el.due_date) < new Date ()) {
                         missingList++
@@ -254,6 +253,8 @@ function homepage () {
 }
 
 function newTask () {
+    $('#add-error').empty()
+
     $('#newtask').show(0)
     $('#homepage').hide()
     $('#getsuggest').hide()
@@ -262,6 +263,7 @@ function newTask () {
 }
 
 function getSuggest () {
+    $('#suggest-error').empty()
     $('#suggest-success-message').hide()
     $('#getsuggest').show()
     $('#homepage').hide()
@@ -289,6 +291,8 @@ function getSuggest () {
 }
 
 function editTask (id) {
+    $('#edit-error').empty()
+
     $('#edit-task').show()
     $('#getsuggest').show()
     $('#homepage').hide()
@@ -315,6 +319,7 @@ function editTask (id) {
 }
 
 function backHome () {
+    
     console.log($('input.btn-check'))
     $('input.btn-check').removeAttr('checked')
     $('input.btn-check').prop('checked', false);

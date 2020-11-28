@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
-          msg: `Can't be empty`
+          msg: `Title Can't be empty`
         },
         notEmpty: {
-          msg: `Can't be empty`
+          msg: `Title Can't be empty`
         }
       }
     },
@@ -34,10 +34,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
       validate: {
         notNull: {
-          msg: `Can't be empty`
+          msg: `Status Can't be empty`
         },
         notEmpty: {
-          msg: `Can't be empty`
+          msg: `Status Can't be empty`
         }
       },
     },
@@ -47,13 +47,13 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isDate: {
           args: true,
-          msg: 'Date only'
+          msg: 'Date only for Due Date'
         }, 
         notNull: {
-          msg: `Can't be empty`
+          msg: `Due Date Can't be empty`
         },
         notEmpty: {
-          msg: `Can't be empty`
+          msg: `Due Date Can't be empty`
         },
         checkDate (value) {
           const now  = new Date ()
