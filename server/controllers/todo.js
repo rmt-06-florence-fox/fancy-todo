@@ -58,7 +58,7 @@ class TodoController {
         try {
             let id = +req.params.id
             let payload = {
-                status: req.body.status
+                status: 'Completed'
             }
             const data = await Todo.update(payload, {where: {id}, returning:true})
             res.status(200).json(data[1][0])

@@ -114,8 +114,9 @@ function fetchTodo() {
                 <h6 class="card-subtitle mb-2 text-muted">${todo.status}</h6>
                 <p class="card-text">${todo.description}</p>
                 <p class="card-text">Due Date: ${todo.due_date}</p>
-                <button class="btn btn-secondary text-white col-5" onclick=" $('#edit-todo-form').show(), getEditTodo(${todo.id})">Edit</button>
-                <button class="btn btn-danger text-white col-5" onclick="deleteTodo(${todo.id})">Delete</button>
+                <button class="btn btn-secondary text-white" onclick=" $('#edit-todo-form').show(), getEditTodo(${todo.id})">Edit</button>
+                <button class="btn btn-danger text-white" onclick="deleteTodo(${todo.id})">Delete</button>
+                <button class="btn btn-primary text-white" onclick="completeTodo(${todo.id})">Complete</button>
             </div>
         </div>`)
             })
@@ -207,6 +208,23 @@ function editTodo() {
 function deleteTodo(id) {
     $.ajax({
         method: "DELETE",
+        url: "http://localhost:3000/todos/" + id,
+        headers: {
+            access_token: localStorage.getItem('access_token')
+        }
+    })
+        .done(_ => {
+            fetchTodo()
+        })
+        .fail(err => {
+            console.log(err);
+        })
+}
+
+
+function completeTodo(id) {
+    $.ajax({
+        method: "PATCH",
         url: "http://localhost:3000/todos/" + id,
         headers: {
             access_token: localStorage.getItem('access_token')
