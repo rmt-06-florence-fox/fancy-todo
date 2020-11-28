@@ -11,10 +11,10 @@ todoRouter.post('/', TodoController.createTodo);
 todoRouter.get('/', TodoController.showTodo);
 
 todoRouter.use('/:id', authorization)
-todoRouter.get(TodoController.showTodoById);
-todoRouter.put(TodoController.replaceTodo);
-todoRouter.patch(TodoController.modifyTodo);
-todoRouter.delete(TodoController.deleteTodo);
+todoRouter.get('/:id', TodoController.showTodoById);
+todoRouter.put('/:id', TodoController.replaceTodo);
+todoRouter.patch('/:id', TodoController.modifyTodo);
+todoRouter.delete('/:id', TodoController.deleteTodo);
 
 
 module.exports = todoRouter;

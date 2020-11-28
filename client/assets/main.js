@@ -4,25 +4,48 @@ $(document).ready(function() {
     } else {
         showRegistrationPage()
     }
+    
     $("#todo-form").on("submit", function(e) {
         e.preventDefault()        
         createTodo()
     })
+    
     $("#registration-form").on("submit", function(e) {
         e.preventDefault()        
-        registration()
+        register()
     })
+    
     $("#login-form").on("submit", function(e) {
         e.preventDefault()        
         login()
     })
-    $("#btn-logout").on("click", function (e) {
+    
+    $("#btn-logout").click(()=> {
         logout()
     })
-    $('#back-login').click(()=> {
+    
+    $("#back-login").click(()=> {
         showLoginPage()
     })
-      $('#back-register').click(() => {
+    
+    $("#back-register").click(() => {
         showRegistrationPage()
+    })
+    
+    $("#show-todo").click(()=> {
+        fetchTodos()
+        showList()
+    })
+    
+    $("#add-todo").click(() => {
+        showAddForm()
+    })
+
+    $("#back-main").click(() => {
+        showMainPage()
+    })
+
+    $("#listback-main").click(() => {
+        showMainPage()
     })
 });

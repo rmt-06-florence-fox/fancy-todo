@@ -11,8 +11,9 @@
 <body>
     <nav>
         <span>My Todo</span>
-        <button id="btn-logout">Logout</button>
+        <button id="btn-logout" class="btn btn-secondary">Logout</button>
     </nav>
+
     <div class="container" id="registration-page">
         <h2>Registration Form</h2><br>
         <form id="registration-form">
@@ -29,6 +30,7 @@
         </br>
         <button id="back-login" class="btn btn-secondary">Click here if you want to login</button>
       </div>
+
     <div class="container" id="login-page">
         <h2>Login Form</h2><br>
         <form id="login-form">
@@ -36,7 +38,7 @@
                 <label for="inputEmail">Email</label>
                 <input type="email" class="form-control" id="email-input">
             </div>
-            <div>
+            <div class="form-group">
                 <label for="inputPassword">Password</label>
                 <input type="password" class="form-control" id="password-input">
             </div>
@@ -49,59 +51,50 @@
         <button id="back-register" class="btn btn-secondary">Don't have Account? Let's Register</button>
     </div>
 
-    <div id="main-page">
+    <div class="container" id="main-page">
         <h1>Welcome to Todo App!</h1>
+        </br>
+        <button id="show-todo" class="btn btn-primary">Show todo</button>
+        </br></br>
+        <button id="add-todo" class="btn btn-primary">Add todo</button>
+        </br></br>
+    </div>
+    
+    <div class="container" id="add-form-page">
+        <button id="back-main" class="btn btn-primary">Back</button></br></br>
         <!-- form add todo -->
         <h2>Form Add Todo</h2>
         <form id="todo-form">
-            <div>
+            <div class="form-group">
                 <label for="addTitle">Title</label>
                 <input type="text" class="form-control" id="title-input">
             </div>
-            <div>
+            <div class="form-group">
                 <label for="addDescription">Description</label>
                 <input type="text" class="form-control" id="description-input">
             </div>
-            <div>
+            <div class="form-group">
                 <label for="addStatus">Status</label>
                 <input type="text" class="form-control" id="status-input">
             </div>
-            <div>
+            <div class="form-group">
                 <label for="addDueDate">Due Date</label>
                 <input type="date" class="form-control" id="duedate-input">
             </div>
-            <button type="submit" lass="btn btn-primary">Submit</button>
+            </br>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
         </br></br>
-         <!-- form edit todo -->
-        <!-- <h2>Form Edit Todo</h2>
-        <form id="todo-edit">
-            <div>
-                <label for="addTitle">Title</label>
-                <input type="text" id="title-edir">
-            </div>
-            <div>
-                <label for="addDescription">Description</label>
-                <input type="text" id="description-edit">
-            </div>
-            <div>
-                <label for="addStatus">Status</label>
-                <input type="text" id="status-edit">
-            </div>
-            <div>
-                <label for="addDueDate">Due Date</label>
-                <input type="date" id="duedate-edit">
-            </div>
-            <button type="submit">Submit</button>
-        </form>
-        </br></br> -->
-        <!-- fetch todo -->
-        <div id="todo-list">
+    </div>
+
+    <div class="container" id="list">
+        <button id="listback-main" class="btn btn-primary">Back</button></br></br>
+        <div class="container" id="todo-list">
             <!-- isi di function fetchTodo (append) -->
         </div>
     </div>
 
-    <div id="todo-edit">
+    <div class="container" id="todo-edit">
         
     </div>
 

@@ -2,50 +2,78 @@ function showRegistrationPage() {
     $("#registration-page").show()
     $("#login-page").hide()
     $("#main-page").hide()
-    $("#btn-logout").show()
+    $("#btn-logout").hide()
+    $("#todo-edit").hide()
+    $("#add-form-page").hide()   
+    $("#list").hide()   
 }
 function showLoginPage() {
     $("#login-page").show()
     $("#registration-page").hide()
     $("#main-page").hide()
     $("#btn-logout").show()
+    $("#todo-edit").hide()
+    $("#add-form-page").hide()
+    $("#list").hide()   
 }
 function showMainPage() {
     $("#login-page").hide()
     $("#registration-page").hide()
     $("#main-page").show()
     $("#btn-logout").show()
+    $("#todo-edit").hide()
+    $("#add-form-page").hide()
+    $("#list").hide()   
 }
-function showEditTodo() {
+function showList() {
+    $("#login-page").hide()
+    $("#registration-page").hide()
+    $("#main-page").hide()
+    $("#btn-logout").hide()
+    $("#todo-edit").hide()
+    $("#add-form-page").hide()
+    $("#list").show()   
+}
+function showEditTodo(todo) {
     $("#login-page").hide()
     $("#main-page").hide()
     $("#btn-logout").show()
     $('#todo-edit').show()
-    fetchTodos()           
-    $('#todo-edit').append(`
+    $("#add-form-page").hide() 
+    $("#list").hide()              
+    $("#todo-edit").append(`
         <h2>Form Edit Todo</h2>
-        <form id="todo-edit" onsubmit="updateData(${todo.id})>
-            <div>
+        <form id="form-edit" onsubmit="updateTodo(${todo.id})">
+            <div class="form-group">
                 <label for="addTitle">Title</label>
-                <input type="text" id="title-edit" value="${todo.title}">
+                <input type="text" class="form-control" id="title-edit" value="${todo.title}">
             </div>
-            <div>
+            <div class="form-group">
                 <label for="addDescription">Description</label>
-                <input type="text" id="description-edit" value="${todo.description}">
+                <input type="text" class="form-control" id="description-edit" value="${todo.description}">
             </div>
-            <div>
+            <div class="form-group">
                 <label for="addStatus">Status</label>
-                <input type="text" id="status-edit" value="${todo.status}">
+                <input type="text" class="form-control" id="status-edit" value="${todo.status}">
             </div>
-            <div>
+            <div class="form-group"> 
                 <label for="addDueDate">Due Date</label>
-                <input type="date" id="duedate-edit" value="${todo.due_date}">
+                <input type="date" class="form-control" id="duedate-edit" value="${todo.due_date}">
             </div>
-            <button type="submit">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button></br></br>
         </form>
     `)                                   
 }
-function registration() {
+function showAddForm () {
+    $("#login-page").hide()
+    $("#registration-page").hide()
+    $("#main-page").hide()
+    $("#btn-logout").show()
+    $("#todo-edit").hide()
+    $("#add-form-page").show()
+    $("#list").hide()   
+}
+function register() {
     const email = $("#email-register").val()
     const password = $("#password-register").val()
     console.log(email, '<<<email', password, '<<<password');
@@ -137,8 +165,7 @@ function createTodo () {
         }
     })
     .done(response => {
-        fetchTodos()
-        console.log(response)
+        showMainPage()
     })
     .fail(xhr => {
         console.log(xhr)
@@ -176,7 +203,7 @@ function editTodo(id) {
         }
     })
     .done(response => {
-        showEditTodo(response.data)
+        showEditTodo(response)
     })
     .fail(xhr => console.log(xhr))
 }
@@ -198,8 +225,8 @@ function updateTodo(id) {
             due_date
         }
     })
-    .done(response =>{
-        showMainPage()
+    .done(() => {
+        showList()
     })
     .fail(xhr => console.log(xhr))
     .always(_ => $('#edit-todo').trigger('reset'))
