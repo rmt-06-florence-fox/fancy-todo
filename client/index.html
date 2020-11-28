@@ -73,11 +73,11 @@
             <form onsubmit="addTodo(event)">
                 <div class="search-item">
                     <label>Title</label>
-                    <input id="title" class="form-control" type="text" placeholder="ex. read documentation" required>
+                    <input id="title" class="form-control" type="text" placeholder="add a todo" required>
                 </div>
                 <div class="search-item">
                     <label>Description</label>
-                    <input id="desc" class="form-control" type="text" placeholder="ex. jquery ajax v10" required>
+                    <input id="desc" class="form-control" type="text" placeholder="add a details" required>
                 </div>
                 <div class="search-item">
                     <label>Due Date</label>
@@ -113,7 +113,8 @@
         </nav>
         <div class="search-box" id="form-editTodo">
             <form onsubmit="editTodoForm(event)">
-            <div class="search-item">
+                <button onclick=afterLogin()>Back</button>
+                <div class="search-item">
                     <label>Title</label>
                     <input class="form-control" id="edit-input-title" type="text" required>
                 </div>
@@ -129,7 +130,7 @@
                     <label>Due Date</label>
                     <input class="form-control" id="edit-input-due_date" type="date" required>
                 </div>
-                <button type="submit"></button>
+                <button type="submit">Submit</button>
         </form>
         </div>
     </section>

@@ -42,7 +42,6 @@ class UserController {
 				audience: process.env.GOOGLE_CLIENT_ID
 			})
 			.then((ticket) => {
-        console.log('masuk pak eko');
 				payload = ticket.getPayload()
 				console.log(payload)
 				return User.findOne({

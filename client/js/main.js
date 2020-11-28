@@ -239,7 +239,8 @@ const editTodoForm = (e) => {
 		},
 	})
 		.done((response) => {
-			// afterLogin()
+			afterLogin()
+			fetchTodos()
 			console.log(response)
 		})
 		.fail((error) => {

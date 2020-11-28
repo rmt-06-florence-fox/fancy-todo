@@ -1,5 +1,3 @@
-/** @format */
-
 const router = require('express').Router()
 const todoRouter = require('./todo')
 const UserController = require('../controllers/user')
