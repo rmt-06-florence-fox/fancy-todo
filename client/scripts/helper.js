@@ -269,7 +269,9 @@ function getSuggest () {
     $('#homepage').hide()
     $('#newtask').hide()
     $('#edit-task').hide()
-    $('#pickdue').show()
+        $('#pickdue').show()
+    
+    $('#get-suggest-due_date').val('')
 
     loadSuggest()
 }
