@@ -2,9 +2,10 @@ const{User} = require('../models')
 const {verifyHash} = require('../helpers/bcrypt')
 const {signToken} = require('../helpers/token')
 const {OAuth2Client} = require('google-auth-library');
+const axios = require('axios')
 
 class UserController{
-  static async register(req, res, next){
+  static async register(req, res, next) {
     try {
       const{email, password} = req.body
 
@@ -62,7 +63,7 @@ class UserController{
     }
   }
 
-  static async googleLogin(req, res){
+  static async googleLogin(req, res) {
     const googleToken = req.body.googleToken
     const client = new OAuth2Client(process.env.googleID)
     // const 
@@ -113,5 +114,17 @@ class UserController{
     }
   }
 
+  static async getRandomQuotes(req, res) {
+    try {
+      const { data } = await axios({
+        method: 'get',
+        url: 'https://goquotes-api.herokuapp.com/api/v1/random?count=1'
+      })
+      
+      res.status(200).json(data)
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 module.exports = UserController
