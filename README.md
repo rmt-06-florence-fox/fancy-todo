@@ -35,12 +35,12 @@
 }
 ```
 #
-##### ERROR *`'Date must be greater than today' `*
+##### ERROR *`'Validation Error' `*
 
 - Request Body
 ```JS
 {
-    "title": "Belajar",
+    "title": "",
     "description": "belajar Restful API",
     "status": "belum dikerjakan",
     "due_date": "2020-11-23"
@@ -49,27 +49,12 @@
 - Response *400*
 ``` JS
 {
-    "name": "SequelizeValidationError",
-    "errors": [
+    "messages": [
         {
-            "message": "Date must be greater than today",
-            "type": "Validation error",
-            "path": "due_date",
-            "value": "2020-11-23",
-            "origin": "FUNCTION",
-            "instance": {
-                "id": null,
-                "title": "Belajar",
-                "description": "belajar Restful API",
-                "status": "belum dikerjakan",
-                "due_date": "2020-11-23",
-                "updatedAt": "2020-11-23T13:25:56.899Z",
-                "createdAt": "2020-11-23T13:25:56.899Z"
-            },
-            "validatorKey": "isGreaterThan",
-            "validatorName": null,
-            "validatorArgs": [],
-            "original": {}
+            "message": "Date must be greater than today"
+        },
+        {
+            "message": "Title can't be empty !"
         }
     ]
 }
@@ -226,7 +211,7 @@
 }
 ```
 #
-##### ERROR *`'Sequelize Validation Error'`*
+##### ERROR *`'Validation Error'`*
 
 - Request Body
 ``` JS
@@ -240,44 +225,12 @@
 - Response *400*
 ```JS
 {
-    "name": "SequelizeValidationError",
-    "errors": [
+    "messages": [
         {
-            "message": "Todo.title cannot be null",
-            "type": "notNull Violation",
-            "path": "title",
-            "value": null,
-            "origin": "CORE",
-            "instance": {
-                "id": null,
-                "title": null,
-                "description": "Studying Restful API",
-                "status": "belum dikerjakan",
-                "due_date": "",
-                "updatedAt": "2020-11-23T13:48:47.896Z"
-            },
-            "validatorKey": "is_null",
-            "validatorName": null,
-            "validatorArgs": []
+            "message": "Date must be greater than today"
         },
         {
-            "message": "Date must be greater than today",
-            "type": "Validation error",
-            "path": "due_date",
-            "value": "",
-            "origin": "FUNCTION",
-            "instance": {
-                "id": null,
-                "title": null,
-                "description": "Studying Restful API",
-                "status": "belum dikerjakan",
-                "due_date": "",
-                "updatedAt": "2020-11-23T13:48:47.896Z"
-            },
-            "validatorKey": "isGreaterThan",
-            "validatorName": null,
-            "validatorArgs": [],
-            "original": {}
+            "message": "Due Date can't be empty"
         }
     ]
 }
@@ -336,7 +289,7 @@
 }
 ```
 #
-##### ERROR *`'Sequelize Validation Error'`*
+##### ERROR *`'Validation Error'`*
 #
 - Request Body
 ``` JS
@@ -347,32 +300,7 @@
 - Response *400*
 ```JS
 {
-    "name": "SequelizeValidationError",
-    "errors": [
-        {
-            "message": "Validation notEmpty on status failed",
-            "type": "Validation error",
-            "path": "status",
-            "value": "",
-            "origin": "FUNCTION",
-            "instance": {
-                "id": null,
-                "status": "",
-                "updatedAt": "2020-11-23T13:57:01.184Z"
-            },
-            "validatorKey": "notEmpty",
-            "validatorName": "notEmpty",
-            "validatorArgs": [
-                true
-            ],
-            "original": {
-                "validatorName": "notEmpty",
-                "validatorArgs": [
-                    true
-                ]
-            }
-        }
-    ]
+    "message": "Status can't be empty"
 }
 ```
 #
