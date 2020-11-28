@@ -56,7 +56,7 @@ function login(){
     
     localStorage.setItem('access_token', res.access_token)
     showMainPage()
-    $("#greeting").append(`<h2>HI!</h2><h3 id="">${name}</h3>`)
+    $("#user-name").text(`HI! ${name}`)
   })
   .fail((xhr, textStatus) => {
     swal(`${xhr.responseJSON.message}`);
@@ -366,7 +366,7 @@ function jokeShow(){
     url: `http://localhost:3000/jokes`,
   })
   .done(res => {
-
+    $("#jokes").empty()
     $("#jokes").append(
       `<h1>${res.setup}</h1>
       <h3>${res.punchline}</h3>
