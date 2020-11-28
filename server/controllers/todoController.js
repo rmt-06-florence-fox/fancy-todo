@@ -9,6 +9,7 @@ class todoController {
                 order: [["due_date", "DESC"]]
             });
             response.status(200).json({ data });
+            console.log(data);
         } catch (error) {
             console.log(error);
             next(error);
