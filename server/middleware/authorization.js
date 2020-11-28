@@ -5,14 +5,19 @@ function authorization(req, res, next) {
     
     Todo.findByPk(id)
         .then(data => {
-            if(req.dataLoginUser.id === Todo.UserId) {
+            if(req.dataLoginUser.id === data.UserId) {
                 next()
             }else {
-                res.status(500).json({ error: "You don't have permission" })
+                throw {
+                    status: 500,
+                    message: { error: "You don't have permission" }
+                }
+                // res.status(500).json({ error: "You don't have permission" })
             }
         })
         .catch(err => {
-            res.status(500).json(err)
+            next(err)
+            // res.status(500).json(err)
         })
 }
 

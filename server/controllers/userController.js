@@ -1,9 +1,11 @@
 const { User } = require("../models/index")
 const bcrypt = require('bcryptjs');
 const { generateToken } = require("../helpers/generateAndVerifyToken")
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENT_ID);
 
 class ControllerUser {
-    static addDataUser(req, res) {
+    static addDataUser(req, res, next) {
         let objUser = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -15,11 +17,11 @@ class ControllerUser {
                 res.status(201).json({ name: data.firstName, email: data.email })
             })
             .catch(err => {
-                res.status(500).json(err)
+                next(err)
             })
     }
 
-    static loginUser(req, res) {
+    static loginUser(req, res, next) {
         let email = req.body.email
         let password = req.body.password
         User.findOne({
@@ -29,20 +31,66 @@ class ControllerUser {
         })
             .then(data => {
                 if(!data) {
-                    res.status(401).json({ message: "Invalid email/password" })
+                    throw {
+                        status: 400,
+                        message: "Invalid email/password",
+                      }
                 }else {
                     let passwordInDataBase = data.password
                     if(bcrypt.compareSync(password, passwordInDataBase)) {
                         const accesToken = generateToken({ fullName: data.fullName(), id: data.id, email: data.email }) // change generate token using helper
                         res.status(200).json({accesToken})
                     }else {
-                        res.status(401).json({ message: "Invalid email/password" })
+                        throw {
+                            status: 401,
+                            message: "Invalid email/password",
+                          }
                     }
                 }
             })
             .catch(err => {
-                res.status(500).json({ message : "Internal Server Error"})
-                // console.log(err)
+                next(err)
+            })
+    }
+
+    static loginWithGoogle(req, res, next) {
+         // Verify Token
+        // Dapetin Token dari Client
+    
+        client.verifyIdToken({
+            idToken: req.body.googleToken,
+            audience: process.env.CLIENT_ID, 
+        })
+            .then((ticket) => {
+                let payload = ticket.getPayload();
+                let email = payload.email
+
+                return User.findOne({
+                            where: {
+                                email
+                            }
+                })
+            })
+            .then(user => {
+                if(user) {
+                    return user
+                } else {
+                    return User.create({
+                        firstName: payload.given_name,
+                        lastName: payload.family_name,
+                        email: payload.email,
+                        password: process.env.GOOGLE_SECRET
+                    })
+                }
+            }) 
+            .then(user => {
+                // console.log(user)
+                const accestoken = generateToken({ email: user.email, id: user.id, fullName: user.fullName()})
+                res.status(200).json({accestoken})
+            })
+
+            .catch(err => {
+                next(err)
             })
     }
 }

@@ -23,15 +23,21 @@ function authenticate(req, res, next) {
                     if(data) {
                         next()
                     }else {
-                        res.status(401).json({ msg: "You must have account, please login first"})
+                        throw {
+                            status: 401,
+                            message: { msg: "You must have account, please login first"}
+                        }
+                        // res.status(401).json({ msg: "You must have account, please login first"})
                     }
                 })
                 .catch(err => {
-                    res.status(500).json(err)
+                    next(err)
+                    // res.status(500).json(err)
                 })
         }
     }
     catch(err) {
+        next(err)
         res.status(500).json(err)
     }
 

@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 class ControllerApi {
-    static showApi(req, res) {
+    static showApi(req, res, next) {
         axios.get('https://indonesia-covid-19.mathdro.id/api/')
             .then(function ({ data }) {
                 const result = {
@@ -14,7 +14,8 @@ class ControllerApi {
                 res.status(200).json(result)
             })
             .catch(function (error) {
-                res.status(500).json(error)
+                next(error)
+                // res.status(500).json(error)
             })
 
     }

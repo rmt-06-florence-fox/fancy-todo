@@ -1,7 +1,7 @@
 const { Todo } = require("../models/index")
 
 class ControllerTodo {
-    static showAllDataTodos(req, res) {
+    static showAllDataTodos(req, res, next) {
         // console.log(req.dataLoginUser, "------") // ini cara mendapatkan data yang dilempar dari authentication (mention req yang dibuat di authentication)
         let UserId = req.dataLoginUser.id       
         Todo.findAll({
@@ -13,11 +13,11 @@ class ControllerTodo {
                 res.status(200).json({ data })
             })
             .catch(err => {
-                res.status(500).json(err)
+                next(err)
             })
     }
 
-    static addDataTodos(req, res) {
+    static addDataTodos(req, res, next) {
         // console.log(req.dataLoginUser, "------") // ini cara mendapatkan data yang dilempar dari authentication (mention req yang dibuat di authentication)
         let objTodo = {
             title: req.body.title,
@@ -34,34 +34,44 @@ class ControllerTodo {
             })
             .catch(err => {
                 if(err.name === "SequelizeValidationError") {
-                    res.status(400).json({error: err.errors[0].message})
+                    throw {
+                        status: 400,
+                        message: {error: err.errors[0].message}
+                    }
+                    
                 }else {
-                    res.status(500).json(err)
+                    next(err)
                 }
             })
     }
 
-    static showDataTodosById(req, res) {
+    static showDataTodosById(req, res, next) {
         // let id = req.params.id
         let UserId = req.dataLoginUser.id
-        Todo.findByOne({
+        let id = req.params.id
+        Todo.findOne({
             where: {
-                UserId
+                id
             }
         })
             .then(data => {
                 if(data) {
                     res.status(200).json({ data })
                 }else {
-                    res.status(404).json({ error: "error not found" })
+                    throw {
+                        status: 404,
+                        message: { error: "error not found" }
+                    }
+                    // res.status(404).json({ error: "error not found" })
                 }
             })
             .catch(err => {
-                res.status(500).json(err)
+                next(err)
+                // res.status(500).json(err)
             })
     }
 
-    static replaceDataTodosById(req, res) {
+    static replaceDataTodosById(req, res, next) {
         let id = req.params.id
         let UserId = req.dataLoginUser.id
         let objTodo = {
@@ -81,15 +91,20 @@ class ControllerTodo {
                 if(data[1].length >= 1) {
                     res.status(200).json({ data })
                 }else if (data[1].length === 0) {
-                    res.status(400).json({ error: "error not found" })
+                    throw {
+                        status: 400,
+                        message: { error: "error not found" }
+                    }
+                    // res.status(400).json({ error: "error not found" })
                 }
             })
             .catch(err => {
-                res.status(500).json(err)
+                next(err)
+                // res.status(500).json(err)
             })
     }
 
-    static modifyDataTodosById(req, res) {
+    static modifyDataTodosById(req, res, next) {
         let id = req.params.id
         let objStatus = {
             status: req.body.status
@@ -105,11 +120,16 @@ class ControllerTodo {
                 if(data[1].length >= 1) {
                     res.status(200).json({ data })
                 }else {
-                    res.status(404).json({ error: "error not found" })
+                    throw {
+                        status: 404,
+                        message: { error: "error not found" }
+                    }
+                    // res.status(404).json({ error: "error not found" })
                 }
             })
             .catch(err => {
-                res.status(500).json(err)
+                next(err)
+                // res.status(500).json(err)
             })
     }
 
@@ -124,11 +144,17 @@ class ControllerTodo {
                 if(data) {
                     res.status(200).json({ The_number_of_destroyed_rows: data})
                 }else {
-                    res.status(404).json({ error: "error not found"})
+                    throw {
+                        status: 404,
+                        message: { error: "error not found" }
+                    }
+                    // res.status(404).json({ error: "error not found"})
                 }
             })
             .catch(err => {
-                res.status(500).json(err)
+                next(err)
+                // console.log(err)
+                // res.status(500).json(err)
             })
     }
 
