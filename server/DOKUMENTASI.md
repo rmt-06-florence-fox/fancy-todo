@@ -1,3 +1,101 @@
+*Sign in
+Users sign in
+
+URL
+/users/sign-in
+
+Method:
+POST
+
+URL Params
+None
+
+Headers
+none
+
+Req Body:
+email: string
+password: string
+
+Data Params
+None
+
+Success Response:
+Code: 201
+Content: {
+    "email": string,
+    "id": integer
+}
+Error Response:
+
+Code: 500 INTERNAL SERVER ERROR
+Content: { error : "INTERNAL SERVER ERROR." }
+
+*Sign up
+Users sign up
+
+URL
+/users/sign-up
+
+Method:
+POST
+
+URL Params
+None
+
+Headers
+none
+
+Req Body:
+email: string
+password: string
+
+Data Params
+None
+
+Success Response:
+Code: 201
+Content: {
+    "acces_token": string,
+}
+Error Response:
+
+Code: 500 INTERNAL SERVER ERROR
+Content: { error : "INTERNAL SERVER ERROR." }
+
+*Google sign in
+Users sign in through third party api (google)
+
+URL
+/users/googleSignIn
+
+Method:
+POST
+
+URL Params
+None
+
+Headers
+none
+
+Req Body:
+email: string
+password: string
+
+Data Params
+None
+
+Success Response:
+Code: 201
+Content: {
+    "acces_token": string,
+}
+Error Response:
+
+Code: 500 INTERNAL SERVER ERROR
+Content: { error : "INTERNAL SERVER ERROR." }
+
+
 *Create Todo
 Create json data about a single activity.
 
@@ -9,6 +107,10 @@ POST
 
 URL Params
 None
+
+Headers
+required:
+acces_token
 
 Data Params
 None
@@ -45,6 +147,10 @@ DELETE
 URL Params
 id:[integer]
 
+Headers
+required:
+acces_token
+
 Data Params
 None
 
@@ -68,6 +174,10 @@ GET
 URL Params
 Required:
 id=[integer]
+
+Headers
+required:
+acces_token
 
 Data Params
 None
@@ -100,6 +210,46 @@ URL Params
 required:
 id=[integer]
 
+Headers
+required:
+acces_token
+
+Data Params
+None
+
+Success Response:
+Code: 200
+Content:  {
+            "id": 2,
+            "title": "makan",
+            "description": "ayo makan malam",
+            "status": "sudah selesai",
+            "due_date": "2020-10-08T17:00:00.000Z",
+            "createdAt": "2020-10-27T08:57:42.332Z",
+            "updatedAt": "2020-10-27T11:13:46.615Z"
+        }
+Error Response:
+
+Code: 500 INTERNAL SERVER ERROR
+Content: { error : "INTERNAL SERVER ERROR." }
+
+*Update Todo
+Changing attributes of one activity.
+
+URL
+/todos/:id
+
+Method:
+PUT
+
+URL Params
+required:
+id=[integer]
+
+Headers
+required:
+acces_token
+
 Data Params
 None
 
@@ -118,3 +268,49 @@ Error Response:
 
 Code: 500 INTERNAL SERVER ERROR
 Content: { error : "INTERNAL SERVER ERROR." }
+
+*Get Todo
+Get all list of activity.
+
+URL
+/todos
+
+Method:
+GET
+
+URL Params
+none
+
+Headers
+required:
+acces_token
+
+Data Params
+None
+
+Success Response:
+Code: 200
+Content: 
+        {
+            "id": 1,
+            "title": "makan",
+            "description": "ayo makan malam",
+            "status": "belum selesai",
+            "due_date": "2020-10-08T17:00:00.000Z",
+            "createdAt": "2020-10-27T08:57:42.332Z",
+            "updatedAt": "2020-10-27T11:13:46.615Z"
+        }, 
+        {
+            "id": 2,
+            "title": "makan",
+            "description": "ayo makan malam",
+            "status": "belum selesai",
+            "due_date": "2020-10-08T17:00:00.000Z",
+            "createdAt": "2020-10-27T08:57:42.332Z",
+            "updatedAt": "2020-10-27T11:13:46.615Z"
+        }
+Error Response:
+
+Code: 500 INTERNAL SERVER ERROR
+Content: { error : "INTERNAL SERVER ERROR." }
+
