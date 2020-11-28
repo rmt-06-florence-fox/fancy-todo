@@ -86,7 +86,6 @@ const addTodo=()=>{
   })
   .done(response =>{
     console.log(response)
-   
     showMainPage()
   })
   .fail((xhr, textStatus)=>{
@@ -99,6 +98,27 @@ const addTodo=()=>{
   })
 }
 
+const delTodo=(id)=>{
+  // let id=$("#delete-button").val()
+  $.ajax({
+    url: `http://localhost:3000/todos/${id}`,
+    method: "DELETE",
+    headers:{
+      access_token: localStorage.access_token
+    },
+    params:{
+      id
+    }
+  })
+  .done(response =>{
+    // console.log(response)
+    showMainPage()
+  })
+  .fail((xhr, textStatus)=>{
+    console.log(xhr, textStatus)
+  })
+}
+
 const getTodo=()=>{
   $.ajax({
     url: "http://localhost:3000/todos",
@@ -108,6 +128,7 @@ const getTodo=()=>{
     }
   })
   .done(response =>{
+    $("#todos").empty()
     response.forEach(todo => {
       console.log(todo)
       $("#todos").append(`
@@ -121,8 +142,8 @@ const getTodo=()=>{
             <p class="card-text">${todo.description}</p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Delete</button>
+                <button type="button" id="edit-button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                <button type="button" id="delete-button" href="#" onclick = "delTodo(${todo.id})" class="btn btn-sm btn-outline-secondary">Delete</button>
               </div>
               <small class="text-muted">Due ${todo.due}</small>
             </div>
@@ -171,6 +192,9 @@ $(document).ready(function(){
     event.preventDefault()
     addTodo()
   })
+  // $('#delete-button').on('click',()=>{
+  //   delTodo()
+  // })
 
   $('#logout-button').on('click',()=>{
     logout()
