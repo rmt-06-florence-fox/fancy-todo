@@ -1,6 +1,6 @@
 function onSignIn(googleUser) {
 	const googleToken = googleUser.getAuthResponse().id_token;
-	// console.log(googleToken);
+	console.log(googleToken);
 	$.ajax({
 		url: 'http://localhost:3000/googleLogin',
 		method: 'POST',
@@ -9,6 +9,7 @@ function onSignIn(googleUser) {
 		},
 	})
 		.done((response) => {
+			// console.log(response.access_token)
 			localStorage.setItem('access_token', response.access_token);
 			loggedIn();
 			hideCoronaInfo();
@@ -372,7 +373,7 @@ $(document).ready(function () {
 	$('#login-form').on('submit', function (e) {
 		e.preventDefault();
 		loginInput();
-		loggedIn();
+		// loggedIn();
 		hideCoronaInfo();
 	});
 
