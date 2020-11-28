@@ -10,14 +10,13 @@ module.exports = async (req, res, next) => {
         if(todo.UserId === req.loggedInUser.id) {
             next()
         } else {
-            res.status(401).json({
-                message : "You are not authorized"
-            })
+            throw {
+                errorDesc : 'AuthenticationFailed'
+            }
         }
 
     } catch (error) {
-        res.status(500).json({ message : "Internal Server Error"})
+        next(error)
         
     }
-
 }

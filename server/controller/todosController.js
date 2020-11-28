@@ -1,37 +1,20 @@
 const { Todo } = require('../models')
 class TodoController {
-    static async getTodos(req, res) {
-    // res.status(200).json([
-    //     {
-    //nz
-    // res.status(200).json(todos)
-
+    static async getTodos(req, res, next) {
     try {
         const data = await Todo.findAll({
-            //buat authen disini tambah satu param buat nandain user ini udah login coy
             where : {
                 UserId : req.loggedInUser.id
             }
         })
-        // throw("error")
         res.status(200).json({data})
     } catch (error) {
-        res.status(500).json(error)
+        next(err)
         
     }
     }
 
-    static createTodo (req, res) {
-        // const { title, description, due_date, status } = req.body
-        // console.log(req.body);
-
-        // const payload = {
-        //     title, //: req.body.title,
-        //     description, //: req.body.description,
-        //     due_date, //: req.body.due_date,
-        //     status //: req.body.status
-        // }
-
+    static createTodo (req, res, next) {
         const payload = {
             title : req.body.title,
             description : req.body.description,
@@ -41,57 +24,55 @@ class TodoController {
             
         }
 
-        // .create(req.body)
-        Todo.create(payload)
-        .then(data =>{
-            console.log(data);
-            res.status(201).json(data)
-        })
-        .catch(err => {
-            res.status(400).json()
-        })
+        Todo.create(todo)
+            .then(todo => res.status(201).json(todo))
+            .catch(err => next(err))
 
     }
 
-    static async updateTodo (req, res) {
+    static async getTodoById(req, res, next) {
+        const id = +req.params.id
+        try {
+            const data = await Todo.findByPk(id)
+            if(data) {
+                res.status(200).json(data)
+            } else {
+                res.status(404).json({errorDesc: 'NotFound' })
+            }
+        } catch (err){
+            next(err)
+        }
+    }
+
+    static async updateTodo(req, res, next) {
+        try {
             const id = +req.params.id
             const payload = {
-                title : req.body.title,
-                description : req.body.description,
-                status : req.body.status,
-                due_date : req.body.due_date
-        }
-
-        try {
-            let data = await Todo.findByPk(id)
-            if (data) {
-                const updatedData = await Todo.update(payload, {
-                    where: {
-                        id
-                    },
-                    returning : true, // krn ini async mesti returning ini, kalo gak ada , gaada yg direturn
-                })
-
-                if (!updatedData) {
-                res.status(400).json({message : 'Validation Errors'})
-                } else {
-                    // console.log
+                title: req.body.title,
+                description: req.body.description,
+                due_date: req.body.due_date
+            }
+            const data = await Todo.findByPk(id)
+            if (!data) {
+                throw {
+                    errorDesc : NotFound
                 }
             } else {
-                res.status(404).json({message : 'Error Not Found'})
-                // kalau pakai findbyPK ini bakal keliatan, bs dpt semua
+                const todo = await Todo.update(payload, {
+                    where: {
+                        id: id
+                    },
+                    returning: true
+                })
+                res.status(200).json(todo[1])
             }
-
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({message : 'Internal Server Errors'})
+        } catch (err) {
+            next(err)
         }
-        
     }
 
-    static async updateStatusTodo(req, res) {
+    static async updateStatusTodo(req, res, next) {
         const id = +req.params.id
-        // console.log(req.params);
         const payload = {
             status : req.body.status,
         }
@@ -110,29 +91,33 @@ class TodoController {
             
 
         } catch (error) {
-            res.status(500).json({message : 'Internal Server Errors'})
+            next(error)
         }
 
         
     }
 
-    static async deleteTodo(req, res) {
-        const id = +req.params.id
-
+    static async deleteTodo(req, res, next) {
         try {
-            await Todo.destroy({
-                where: {
-                    id
-                },
-                // returning : true => gak direturn krn delete
-            })
-            res.status(200).json(200)
-
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ message : 'Internal Server Errors'})
+            const id = +req.params.id
+            const data = await Todo.findByPk(id)
+            if (!data) {
+                throw {
+                    errorDesc : NotFound
+                }
+            } else {
+                await Todo.destroy({
+                    where : {
+                        id: id
+                    }
+                })
+                res.status(200).json({message: 'Successfully for delete Todo'})
+            }
+        } catch (err) {
+            next(err)
         }
     }
+
 }
 
 module.exports = TodoController
