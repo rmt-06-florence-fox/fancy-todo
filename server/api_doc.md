@@ -92,6 +92,13 @@ RESTfull API Doc
 
   None
 
+* **Header Params**
+
+  **Required:**
+ 
+   `access_token=[string]`
+
+
 
 * **Data Params**
 
@@ -133,6 +140,12 @@ RESTfull API Doc
 *  **URL Params**
 
   None
+
+* **Header Params**
+
+  **Required:**
+ 
+   `access_token=[string]`
 
 
 * **Data Params**
@@ -183,6 +196,12 @@ RESTfull API Doc
 
   `id=[integer]`
 
+* **Header Params**
+
+  **Required:**
+ 
+   `access_token=[string]`
+
 
 * **Data Params**
  
@@ -225,6 +244,12 @@ RESTfull API Doc
 *  **URL Params**
 
   `id=[integer]`
+
+* **Header Params**
+
+  **Required:**
+ 
+   `access_token=[string]`
 
 
 * **Data Params**
@@ -273,6 +298,12 @@ RESTfull API Doc
 *  **URL Params**
 
   `id=[integer]`
+
+* **Header Params**
+
+  **Required:**
+ 
+   `access_token=[string]`
 
 
 * **Data Params**
@@ -325,6 +356,12 @@ RESTfull API Doc
 *  **URL Params**
 
   `id=[integer]`
+
+* **Header Params**
+
+  **Required:**
+ 
+   `access_token=[string]`
 
 
 * **Data Params**

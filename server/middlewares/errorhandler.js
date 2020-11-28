@@ -6,7 +6,5 @@ module.exports = (err, req, res, next) => {
         res.status(400).json(errors)
     } else if (err.Error === undefined) {
         res.status(400).json({message: 'Data is missing/Access Denied'})
-    } else {
-       res.status(500).json(err)
     }
 }
