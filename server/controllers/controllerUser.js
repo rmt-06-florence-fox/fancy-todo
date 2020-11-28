@@ -10,7 +10,7 @@ class ControllerUser {
         res.send("hello")
     }
 
-    static register(req,res){
+    static register(req,res,next){
         const obj = {
             firstname: req.body.firstname,
             lastname: req.body.lastname,
@@ -27,15 +27,11 @@ class ControllerUser {
             })
         })
         .catch(error => {
-            const err = []
-            for (let i = 0 ; i < error.errors.length; i++){
-                err.push(error.errors[i].message)
-            }
-            res.status(500).json({message: err})
+            next(error)
         })
     }
 
-    static login(req,res){
+    static login(req,res,next){
         User.findOne({where: {email: req.body.email}})
         .then(data => {
             if (data){
@@ -50,18 +46,26 @@ class ControllerUser {
                     const access_token = generateToken({id: data.id, email:data.email})
                     res.status(200).json({ access_token })
                 } else {
-                    res.status(404).json({message: "email/password salah"})
+                    throw {
+                        status: 404,
+                        message: "email/password salah"
+                    }
+                    
                 } 
             } else {
-                res.status(404).json({message: "email/password salah"})
+                throw {
+                    status: 404,
+                    message: "email/password salah"
+                }
             }
         })
         .catch(error => {
-            res.status(500).json({message: "internal server error"})
+            console.log(error)
+            next(error)
         })
     }
 
-    static createTodo(req,res) {
+    static createTodo(req,res,next) {
         const obj = {
             title: req.body.title,
             description: req.body.description,
@@ -80,7 +84,7 @@ class ControllerUser {
             })
         })
         .catch(error => {
-            res.status(500).json({message: "internal server error"})
+            next(error)
         })
     }
 }

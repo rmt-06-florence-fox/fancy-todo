@@ -16,6 +16,6 @@ module.exports = (req,res,next) => {
 
         })
         .catch(error => {
-
+            res.status(401).json({message: 'you are not authorize with this todo'})
         })
 }

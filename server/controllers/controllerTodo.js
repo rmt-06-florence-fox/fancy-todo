@@ -3,7 +3,7 @@ const { compare } = require('../helper/bcrypt')
 
 class Controller {
 
-    static createTodo(req,res) {
+    static createTodo(req,res,next) {
         console.log("masuk sini")
         const obj = {
             title: req.body.title,
@@ -25,16 +25,18 @@ class Controller {
             })
         })
         .catch(error => {
-            const err = []
-            for (let i = 0 ; i < error.errors.length; i++){
-                err.push(error.errors[i].message)
-            }
-            console.log(err)
-            res.status(500).json({message: err})
+            // const err = []
+            // for (let i = 0 ; i < error.errors.length; i++){
+            //     err.push(error.errors[i].message)
+            // }
+            // console.log(err)
+            // res.status(500).json({message: err})
+            next(error)
+            
         })
     }
 
-    static listTodo(req,res){
+    static listTodo(req,res,next){
         Todo.findAll({where: {UserId: req.loggedInUser.id}})
         .then(data => {
             console.log("masuk")
@@ -45,7 +47,7 @@ class Controller {
         })
     }
 
-    static findTodoById(req,res){
+    static findTodoById(req,res,next){
         Todo.findOne({where: {id: req.params.id}})
         .then(data => {
             if (data){
@@ -57,17 +59,18 @@ class Controller {
                     UserId: data.UserId
                 })
             } else {
-                res.status(404).json({message: "id not found!"})
+                throw {
+                    status: 401,
+                    message: "id not found!"
+                }
             }
         })
         .catch(error => {
-            res.status(500).json({message: "internal server error"})
+            next(error)
         })
     }
 
-    static updateTodo(req,res){
-        console.log(req.body)
-        console.log(req.params)
+    static updateTodo(req,res,next){
         Todo.update({
             title: req.body.title,
             description: req.body.description,
@@ -76,7 +79,10 @@ class Controller {
         },{where: {id: req.params.id}})
         .then(data => {
             if (!data){
-                res.status(404).json({message: "id not found"})
+                throw {
+                    status: 401,
+                    message: "id not found!"
+                }
             } else {
                 return Todo.findOne({where: {id: req.params.id}})
                 .then(data2 => {
@@ -89,20 +95,21 @@ class Controller {
                             UserId: data2.UserId
                         })
                     }else {
-                        res.status(404).json({message: "id not found!"})
+                        throw {
+                            status: 401,
+                            message: "id not found!"
+                        }
                     }
                 })
             }
             
         })
         .catch(error => {
-            console.log(error)
-
-            res.status(500).json(error.message)
+            next(error)
         })
     }
 
-    static updateStatusTodo(req,res){
+    static updateStatusTodo(req,res,next){
         console.log(req.body)
         console.log(req.params.id)
         Todo.update({
@@ -121,28 +128,33 @@ class Controller {
                         UserId: data2.UserId
                     })
                 }else {
-                    res.status(404).json({message: "id not found!"})
+                    throw {
+                        status: 401,
+                        message: "id not found!"
+                    }
                 }
             })
             
         })
         .catch(error => {
-            res.status(500).json({message: 'internal server error'})
+            next(error)
         })
     }
 
-    static deleteTodo(req,res){
+    static deleteTodo(req,res,next){
         Todo.destroy({where: {id: req.params.id}})
         .then( data => {
             if (data){
                 res.status(200).json({message: 'todo success to delete'})
             } else {
-                res.status(404).json({message: 'id not found!'})
+                throw {
+                    status: 401,
+                    message: "id not found!"
+                }
             }
         })
         .catch( error => {
-            console.log(req.params)
-            res.status(500).json({message: 'internal server error'})
+            next(error)
         })
     }
 }
