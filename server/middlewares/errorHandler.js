@@ -1,6 +1,6 @@
 module.exports = (err,req,res,next) => {
-   console.log("Masuk error");
    if(err.status){
+      console.log(err)
       res.status(err.status).json([{message:err.message}])
    }else if(err.name === 'SequelizeValidationError'){
       let errors = err.errors.map(item => {

@@ -105,8 +105,9 @@ class Controller {
 
    static async update(req,res,next){
       const id = +req.params.id
-      const newStatus = req.body.status
       try {
+         let targetData = await Todo.findByPk(id)
+         let newStatus = targetData.status === false ? true : false
          let updatedData = await Todo.update({status:newStatus},{
             where:{
                id
@@ -151,20 +152,28 @@ class Controller {
          email:req.body.email,
          password:req.body.password
       }
-      console.log(target);
-
+      
       try{
          let data = await User.findOne({where:{email:target.email}})
-         if(!data || !decrypt(target.password,data.password)){
+
+         if(!data){
+            console.log('masuk error login')
+            throw{
+               status:400,
+               message:"Invalid email/password"
+            }
+         }else if(!decrypt(target.password,data.password)){
             throw{
                status:400,
                message:"Invalid email/password"
             }
          }else if(decrypt(target.password,data.password)){
+            console.log(sign(data))
             const token = sign(data)
             res.status(200).json({token})
          }
       }catch(err){
+         console.log(err)
          next(err);
       }
    }
@@ -180,12 +189,14 @@ class Controller {
          })
          res.status(200).json({id:user.id,email:user.email})
       }catch(err){
+         console.log("error register");
          next(err)
       }
    }
 
    static googleLogin(req,res,next){
       let payload
+      console.log('google login')
       client.verifyIdToken({
          idToken:req.body.googleToken,
          audience:process.env.GOOGLE_CLIENT_ID
@@ -214,6 +225,60 @@ class Controller {
       })
       .catch(err => {
          next(err)
+      })
+   }
+
+   static getGithubLogin(req,res){
+      res.redirect("https://github.com/login/oauth/authorize?client_id=e576cf43557f362a6995&scope=user:email")
+   }
+
+   static githubLogin(req,res,next){
+      let email
+      const code = req.body.code
+      const data ={
+         client_id : process.env.GITHUB_CLIENT_ID,
+         client_secret: process.env.GITHUB_CLIENT_SECRET,
+         code
+      }
+      console.log(data)
+      axios({
+         url:'https://github.com/login/oauth/access_token',
+         method:'POST',
+         data:data,
+         headers:{
+            accept:'application/json'
+         }
+      })
+      .then(response => {
+         return axios({
+            url:'https://api.github.com/user/emails',
+            method:'GET',
+            headers:{
+               Authorization: `token ${response.data.access_token}`
+            }
+         })
+      })
+      .then(response => {
+         console.log(response.data[0].email)
+         email=response.data[0].email
+         return User.findOne({where:{email}})
+         
+      })
+      .then(data => {
+         console.log(data)
+         if(data){
+            return data
+         }else{
+            return User.create({email,password:"alksfjajflkjs"})
+         }
+      })
+      .then(data => {
+        const access_token = sign({id:data.id,email:data.email})
+        
+        res.status(200).json({token:access_token})
+      })
+      .catch(err => {
+         console.log(err)
       })
    }
 }

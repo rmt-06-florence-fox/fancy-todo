@@ -9,7 +9,7 @@
 </head>
 <body>
    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Fancy Todo</a>
+      <a class="navbar-brand" href="#" onclick="showLoginPage()">Fancy Todo</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -19,58 +19,106 @@
         </div>
       </div>
    </nav>
+   <div id="errormessage"></div>
    <div class="container">
-      <div id="notLoggedIn-page">
+      <div id="register-page">
          <h1>Register</h1>
-         <form action="" id="form-register">
-            <label for="email">Email:</label><br>
-            <input type="text" name="email" id="emailRegister-input"><br>
-            <label for="password">Password:</label><br>
-            <input type="password" name="password" id="passwordRegister-input"><br>
-            <button type="submit" id="btn-submit">Register</button>
+         <form action="" id="form-register" >
+            <div class="form-group" id="form-register">
+               <label for="exampleInputEmail1">Email address</label>
+               <input type="email" class="form-control" id="emailRegister-input" aria-describedby="emailHelp" placeholder="Enter email">
+               <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+             </div>
+             <div class="form-group">
+               <label for="exampleInputPassword1">Password</label>
+               <input type="password" class="form-control" id="passwordRegister-input" placeholder="Password">
+             </div>
+             <button type="submit" class="btn btn-primary">Register</button>
          </form>
+      </div>
+      <div id="notLoggedIn-page">
+         <!-- <h1>Register</h1>
+         <form action="" id="form-register" >
+            <div class="form-group" id="form-register">
+               <label for="exampleInputEmail1">Email address</label>
+               <input type="email" class="form-control" id="emailRegister-input" aria-describedby="emailHelp" placeholder="Enter email">
+               <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+             </div>
+             <div class="form-group">
+               <label for="exampleInputPassword1">Password</label>
+               <input type="password" class="form-control" id="passwordRegister-input" placeholder="Password">
+             </div>
+             <button type="submit" class="btn btn-primary">Register</button>
+         </form> -->
          <br>
          <h1>Log In</h1>
-         <form action="" id="form-login">
-            <label for="email">Email:</label><br>
-            <input type="text" name="email" id="emailLogin-input"><br>
-            <label for="password">Password:</label><br>
-            <input type="password" name="password" id="passwordLogin-input"><br>
-            <button type="submit" id="btn-submit">Login</button>
+         
+         <form action="" id="form-login" class="form-group">
+            <div class="form-group" >
+               <label for="exampleInputEmail1">Email address</label>
+               <input type="email" class="form-control" id="emailLogin-input" aria-describedby="emailHelp" placeholder="Enter email">
+               <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+             </div>
+             <div class="form-group">
+               <label for="passwordLogin-input">Password</label>
+               <input type="password" class="form-control" id="passwordLogin-input" placeholder="Password">
+             </div>
+             <button type="submit" class="btn btn-primary">Log In</button>
          </form>
-      
-         <div class="g-signin2" data-onsuccess="onSignIn"></div>
+         
+         <div class="login-external" style="display: flex;">
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <div id='githubLogin' style="margin-left: 30px;">
+               <a href="https://github.com/login/oauth/authorize?client_id=e576cf43557f362a6995&scope=user:email">
+                  <img style="width: 80px;" src="./assets/img/Octocat.png" alt="">
+                  Github Login
+               </a>
+            </div>
+         </div>
+         Don't have account? <a  href="#"onclick="showRegisterPage()">Create account</a>
       </div>
       <br>
       <div id="loggedIn-page">
       
          <h1>Add Todo</h1>
          <form action="" id="form-addTodo">
-            <label for="title">Title</label><br>
-            <input type="text" name="title" id="title-input"><br>
-            <label for="description">Description:</label><br>
-            <textarea name="description" id="description-input" cols="30" rows="10">
-            </textarea><br>
-            <label for="due_date">Due Date:</label><br>
-            <input type="date" name="due_date" id="due_date-input"><br>
-            <button type="submit">Add Todo</button>
+            <div class="form-group" >
+               <label for="title">Title</label><br>
+               <input type="text" name="title" id="title-input" class="form-control">
+             </div>
+             <div class="form-group">
+               <label for="description">Description:</label><br>
+               <textarea name="description" id="description-input" cols="30" rows="5" class="form-control"></textarea>
+             </div>
+             <div class="form-group">
+               <label for="due_date">Due Date:</label><br>
+               <input type="date" name="due_date" id="due_date-input" >
+             </div>
+             <button type="submit" class="btn btn-primary">Add todo</button>
          </form>
-         <h1>Your Todo</h1>
+         
+         <h1 style="margin-top: 50px;">Your Todo</h1>
          <div id='todos'>
          </div>
 
          <div id="edit-page">
             <h1>Edit Todo</h1>
-
+            <div class=""></div>
             <form action="" id="form-editTodo">
-               <label for="title">Title</label><br>
-               <input type="text" name="title" id="title-edit"><br>
-               <label for="description">Description:</label><br>
-               <textarea name="description" id="description-edit" cols="30" rows="10">
-               </textarea><br>
-               <label for="due_date">Due Date:</label><br>
-               <input type="date" name="due_date" id="due_date-edit"><br>
-               <button type="submit" class="btn-primary">Edit Todo</button>
+               <div class="form-group" >
+                  <label for="title">Title</label><br>
+                  <input type="text" name="title" id="title-edit" class="form-control"><br>
+                </div>
+                <div class="form-group">
+                  <label for="description">Description:</label><br>
+                  <textarea name="description" id="description-edit" cols="30" rows="5" class="form-control"></textarea><br>
+                </div>
+                <div class="form-group">
+                  <label for="due_date">Due Date:</label><br>
+                  <input type="date" name="due_date" id="due_date-edit" ><br>
+                </div>
+              
+               <button type="submit" class="btn btn-primary">Edit</button>
             </form>
          </div>
       </div>
@@ -82,15 +130,33 @@
          $('#notLoggedIn-page').show()
          $('#loggedIn-page').hide()
          $('.btn-signOut').hide()
+         $('#register-page').hide();
       }
-
+      function showRegisterPage(){
+         $('#notLoggedIn-page').hide()
+         $('#loggedIn-page').hide()
+         $('.btn-signOut').hide()
+         $('#register-page').show()
+      }
       function showMainPage(){
          $('#notLoggedIn-page').hide()
          $('#loggedIn-page').show()
          $('#edit-page').hide();
          $('.btn-signOut').show();
+         $('#register-page').hide();
       }
-
+      function githubLogin(){
+         $.ajax({
+            url:'http://localhost:3000/users/githubLogin',
+            method:'GET',
+         })
+         .done(response => {
+            console.log(response)
+         })
+         .fail(error => {
+            console.log(error)
+         })
+      }
       
       function register(){
          const email = $("#emailRegister-input").val()
@@ -104,29 +170,60 @@
             }
          })
          .done(response => {
-            console.log(response)
+            showLoginPage();
          })
          .fail(err => {
-            console.log(err)
+            err = err.responseJSON
+            console.log(err[0].message)
+            err.forEach(item => {
+               $('#errormessage').append(`<p>${item.message}</p`)
+            })
+         })
+         .always(_ =>{
+            $("#emailRegister-input").val("")
+            $("#passwordRegister-input").val("")  
          })
       }
-      function login(){
+      function login(code=null){
          const email = $("#emailLogin-input").val()
          const password = $("#passwordLogin-input").val()
-         $.ajax({
-            url:"http://localhost:3000/users/login",
-            method:'POST',
-            data:{
+         let url;
+         let data
+         if(code){
+            console.log('githublogin')
+            url = 'http://localhost:3000/users/githubLogin'
+            data={
+               code
+            }
+            
+         }else{
+            url='http://localhost:3000/users/login',
+            data={
                email,
                password
             }
+         }
+         $.ajax({
+            url,
+            method:'POST',
+            data,
          })
          .done(response => {
             console.log(response)
             localStorage.setItem('access_token',response.token);
+            //showMainPage();
+            $("#errormessage").empty()
+            window.location.href = "http://localhost:8080"
          })
-         .fail(error => {
-            console.log(error)
+         .fail(err => {
+            console.log(err.response)
+            $("#errormessage").append(`
+               <p>'test'</p>
+            `)
+         })
+         .always(_ => {
+            $("#emailLogin-input").val("")
+            $("#passwordLogin-input").val("")
          })
       }
       function addTodo(){
@@ -151,7 +248,12 @@
             getAllTodo();
          })
          .fail(err => {
-            console.log(err)
+            $('#errormessage').text(err.message)
+         })
+         .always(_ => {
+            $('#title-input').val("")
+            $('#description-input').val("")
+            $('#due_date-input').val("")
          })
       }
       function getAllTodo(){
@@ -166,13 +268,13 @@
          .done(response => {
             $("#todos").append(
                `
-               <table id=table-todos >
+               <table id=table-todos class="table" >
                   <tr>
-                     <th>Title</th>
-                     <th>Description</th>
-                     <th>Due Date</th>
-                     <th>Status</th>
-                     <th>Action</th>
+                     <th scope="col">Title</th>
+                     <th scope="col">Description</th>
+                     <th scope="col">Due Date</th>
+                     <th scope="col">Status</th>
+                     <th scope="col">Action</th>
                   </tr>
                </table>
                `
@@ -181,12 +283,15 @@
                console.log(item)
                let currStatus = item.status === false ?'Not Done' :'Done'
                $("#table-todos").append( 
-               `  <tr>
+               `  <tr scope="row">
                      <td>${item.title}</td>
                      <td>${item.description}</td>
                      <td>${item.due_date}</td>
                      <td>${currStatus}</td>
-                     <td><button id='edit-btn' class='btn btn-primary' onclick=getEdit(${item.id})>Edit</button>|<button id="delete-btn" class='btn btn-danger' onclick=delTodo(${item.id})>Delete</button></td>
+                     <td><button id='edit-btn' class='btn btn-primary' onclick=getEdit(${item.id})>Edit</button>|
+                        <button id="delete-btn" class='btn btn-danger' onclick=delTodo(${item.id})>Delete</button>|
+                        <button id="updateStatus-btn" class='btn btn-success' onclick=updateStatus(${item.id})>Update Progress</button>
+                     </td>
                   </tr>
                `
             )
@@ -194,7 +299,7 @@
             
          })
          .fail(err => {
-            console.log(err)
+            $('#errormessage').text(err.message)
          })
       }
       function delTodo(id){
@@ -209,7 +314,7 @@
             getAllTodo();
          })
          .fail(err => {
-            console.log(err);
+            $('#errormessage').text(err.message)
          })
       }
       function getEdit(id){
@@ -228,9 +333,12 @@
             $("#description-edit").val(response.description)
             $("#due_date-edit").val(response.due_date)
             $('#edit-page').show();
+            $('html,body').animate({
+               scrollTop:$("#form-editTodo").offset().top
+            },1000)
          })
          .catch(err => {
-            console.log(err)
+            $('#errormessage').text(err.message)
          })
       }
       function postEdit(){
@@ -255,7 +363,7 @@
             getAllTodo();
          })
          .fail(err => {
-            console.log(err)
+            $('#errormessage').text(err.message)
          })
          .always(_ =>{
             $("#title-edit").val("")
@@ -266,11 +374,11 @@
       function onSignIn(googleUser) {
          var profile = googleUser.getBasicProfile();
          var googleToken = googleUser.getAuthResponse().id_token;
-         //console.log(id_token);
          //console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
          //console.log('Name: ' + profile.getName());
          //console.log('Image URL: ' + profile.getImageUrl());
          //console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+         
          $.ajax({
             url:'http://localhost:3000/users/googleLogin',
             method:"POST",
@@ -283,7 +391,7 @@
             showMainPage();
          })
          .fail(err => {
-            console.log(err)
+            $('#errormessage').text(err.message)
          })
        }
       function signOut() {
@@ -294,12 +402,45 @@
          });
          showLoginPage();
       }
+      function update(id){
+         $.ajax({
+            url:"http://localhost:3000/todos"+id,
+            method:"PATCH",
+         })
+      }
+      function updateStatus(id){
+         $.ajax({
+            url:'http://localhost:3000/todos/'+id,
+            method:'PATCH',
+            headers:{
+               access_token:localStorage.access_token
+            }
+         })
+         .done(response => {
+            //showMainPage();
+            getAllTodo();
+         })
+         .fail(err => {
+            console.log(err)
+         })
+      }
+      
+      function getTokenGithub(){
+         const URL_PARAMS= new URLSearchParams(window.location.search)
+         return URL_PARAMS.get('code')
+      }
+      
       $(document).ready(function(){
+         const githubToken = getTokenGithub();
+         if(githubToken){
+            login(githubToken)
+         }
          const token = localStorage.getItem('access_token')
          if(!token)
             showLoginPage()
          else
             showMainPage();
+         
          getAllTodo()
          $("#form-register").on("submit",function(e){
             e.preventDefault();
@@ -309,7 +450,7 @@
          $("#form-login").on("submit",function(e){
             e.preventDefault();
             login();
-            showMainPage()
+            //showMainPage()
 
          })
          $("#form-addTodo").on('submit',function(e){
