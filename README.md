@@ -75,7 +75,7 @@ _Response(500)_
 }
 ```
 
-### GET/googlelogin
+### POST/googlelogin
 
 >login with google account
 
