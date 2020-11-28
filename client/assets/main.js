@@ -30,5 +30,9 @@ $(document).ready(function () {
         event.preventDefault()
         postEditTodo()
     })
+    $("#editStatus-form").on("submit", function(event){
+        event.preventDefault()
+        postEditStatusTodo()
+    })
     
 })

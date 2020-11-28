@@ -9,6 +9,7 @@ function mainPage() {
     $("#btn-holiday").show()
     $("#holiday-table").hide()
     $("#edit-page").hide()
+    $("#editStatus-page").hide()
 }
 function registerPage() {
     $("#register-page").show()
@@ -21,6 +22,7 @@ function registerPage() {
     $("#btn-holiday").hide()
     $("#holiday-table").hide()
     $("#edit-page").hide()
+    $("#editStatus-page").hide()
 }
 function loginPage() {
     $("#register-page").hide()
@@ -33,6 +35,7 @@ function loginPage() {
     $("#btn-holiday").hide()
     $("#holiday-table").hide()
     $("#edit-page").hide()
+    $("#editStatus-page").hdie()
 }
 function holidayPage() {
     $("#register-page").hide()
@@ -45,6 +48,7 @@ function holidayPage() {
     $("#btn-holiday").show()
     $("#holiday-table").show()
     $("#edit-page").hide()
+    $("#editStatus-page").hide()
     calendar()
 }
 function createPage() {
@@ -58,6 +62,7 @@ function createPage() {
     $('.g-signin2').hide()
     $("#holiday-table").hide()
     $("#edit-page").hide()
+    $("#editStatus-page").hide()
 }
 function editPage() {
     $("#register-page").hide()
@@ -70,6 +75,20 @@ function editPage() {
     $("#btn-holiday").show()
     $("#holiday-table").hide()
     $("#edit-page").show()
+    $("#editStatus-page").hide()
+}
+function editStatusPage() {
+    $("#register-page").hide()
+    $("#login-page").hide()
+    $("#create-page").hide()
+    $("#main-page").hide()
+    $("#btn-logout").show()
+    $('.g-signin2').hide()
+    $("#btn-add").show()
+    $("#btn-holiday").show()
+    $("#holiday-table").hide()
+    $("#edit-page").hide()
+    $("#editStatus-page").show()
 }
 function register() {
     const email = $("#email-register").val()
@@ -165,7 +184,7 @@ function showTodo() {
                         <h3 class="card-title">${todo.title}</h3>
                         <div class="card-body">
                         <p class="card-description">${todo.description}</p>
-                            <h5 class="card-status">${todo.status}</h5>
+                            <h5 class="card-status">${todo.status}</h5> <button class="btn btn-primary text-white col-3" onclick="getEditStatusTodo(${todo.id})">Edit Status</button>
                             <h5 class="card-duedate">${todo.due_date}</h5>
                             <button class="btn btn-primary text-white col-4" onclick="getEditTodo(${todo.id})">Edit</button>
                             <button class="btn btn-warning text-white col-4" onclick="deleteTodo(${todo.id})">Delete</button>
@@ -180,23 +199,23 @@ function showTodo() {
     })
 }
 function createTodo() {
-const title = $("#title-create").val()
-const description = $("#description-create").val()
-const status = $("#status-create").val()
-const due_date = $("#due_date-create").val()
-$.ajax({
-    method: "POST",
-    url: "http://localhost:3000/todos",
-    headers: {
-        access_token: localStorage.getItem("access_token")
-    },
-    data: {
-        title,
-        description,
-        status,
-        due_date
-    }
-})
+    const title = $("#title-create").val()
+    const description = $("#description-create").val()
+    const status = $("#status-create").val()
+    const due_date = $("#due_date-create").val()
+    $.ajax({
+        method: "POST",
+        url: "http://localhost:3000/todos",
+        headers: {
+            access_token: localStorage.getItem("access_token")
+        },
+        data: {
+            title,
+            description,
+            status,
+            due_date
+        }
+    })
     .done(response => {
         console.log(response);
         showTodo()
@@ -206,6 +225,50 @@ $.ajax({
     })
     .always(() => {
         $("#create-form").trigger("reset")
+    })
+}
+function getEditStatusTodo(params){
+    console.log(params)
+    $.ajax({
+        method:"GET",
+        url:"http://localhost:3000/todos/"+params,
+        headers:{
+        access_token:localStorage.getItem("access_token")
+        }
+    })
+    .done(response=>{
+        localStorage.setItem('todo.id',params);
+        $("#status-editStatus").val(response.status)
+        $('#editStatus-page').show();
+    })
+    .fail(err => {
+        console.log(err)
+    })
+}
+function postEditStatusTodo(){
+    const status = $('#status-editStatus').val()
+    $.ajax({
+        method:"PATCH",
+        url:"http://localhost:3000/todos/" + localStorage.getItem('todo.id'),
+        headers:{
+        access_token: localStorage.getItem('access_token')
+        },
+        data:{
+
+        status
+        }
+    })
+    .done(response => {
+        mainPage();
+        showTodo();
+    })
+    .fail(err => {
+        console.log(err)
+    })
+    .always(_ =>{
+
+        $("#status-editStatus").val("")
+
     })
 }
 function getEditTodo(params){
