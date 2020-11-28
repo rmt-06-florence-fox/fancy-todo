@@ -6,7 +6,7 @@ const authorization = require('../middlewares/authorization.js');
 const TodoController = require('../controllers/TodoController.js');
 const router = require('./index.js');
 
-todoRouter.use('/:id', authentication)
+todoRouter.use(authentication)
 todoRouter.post('/', TodoController.createTodo);
 todoRouter.get('/', TodoController.showTodo);
 
