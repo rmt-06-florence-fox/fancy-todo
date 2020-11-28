@@ -14,6 +14,17 @@ class UserController{
         password: req.body.password
       }
       const result = await User.create(payload)
+      if(result){
+        Helper.sendingEmail({
+         email: result.email,
+         subject: `Welcome to Fancy Todo App !`,
+         text: `
+          <h1> Hello ${result.username}! </h1> 
+          <p> Thank You for your first regist in Fancy Todo App ! </p>
+          <br> <p> Enjoy :) <p>
+         `
+        })
+      }
       res.status(201).json({ id: result.id, email: result.email })
     }catch(err){
       if(err.name === 'SequelizeValidationError'){
@@ -38,6 +49,18 @@ class UserController{
           id: findData.id,
           email: findData.email
         }, process.env.SECRET)
+        if(accessToken){
+          Helper.sendingEmail({
+           email: findData.email,
+           subject: `Welcome to Fancy Todo App !`,
+           text: `
+            <h1> Hello ${findData.username}! </h1> 
+            <p> How are you today ? </p>
+            <p> Let's create your schedule and finished it ! </p>
+            <br> <p> Enjoy :) <p>
+           `
+          })
+        }
         res.status(200).json({accessToken})
       }else{
         throw {
@@ -83,6 +106,18 @@ class UserController{
         //   id: data.id,
         //   email: data.email
         // })
+        if(accessToken){
+          Helper.sendingEmail({
+           email: data.email,
+           subject: `Welcome to Fancy Todo App !`,
+           text: `
+            <h1> Hello ${data.username}! </h1> 
+            <p> How are you today ? </p>
+            <p> Let's create your schedule and finished it ! </p>
+            <br> <p> Enjoy :) <p>
+           `
+          })
+        }
         res.status(200).json({accessToken})
       })
       .catch(err => next(err))
