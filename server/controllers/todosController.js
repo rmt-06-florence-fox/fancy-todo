@@ -1,7 +1,7 @@
 const {Todo} = require('../models')
 
 class todosController {
-    static async getTodo(req, res) {
+    static async getTodo(req, res, next) {
         try {
             const data = await Todo.findAll({
                 order: [['id', 'asc']],
@@ -11,11 +11,11 @@ class todosController {
             })
             res.status(200).json(data)
         } catch (error) {
-            res.status(500).json({"msg" : "Internal Server Error"})
+            next(error)
         }
     }
 
-    static async createTodo(req, res) {
+    static async createTodo(req, res, next) {
         try {
             let newTodo = {
                 title: req.body.title,
@@ -25,32 +25,30 @@ class todosController {
                 UserId: req.loggedUser.id
             }
             const data = await Todo.create(newTodo)
-            res.status(201).json(data)
+            res.status(201).json({data})
         } catch (error) {
-            if(error.name === 'SequelizeValidationError') {
-                res.status(400).json(error.errors[0].message)
-            }else {
-                res.status(500).json({"msg" : "Internal Server Error"})
-            }
+            next(error)
         }
     }
 
-    static async findTodo(req, res) {
+    static async findTodo(req, res, next) {
         try {
             let id = +req.params.id
             const data =  await Todo.findByPk(id)
             
             if(!data) {
-                res.status(404).json({"msg" : "Data not found!"})
+                throw({status: 404,
+                        message: "Data not found!"        
+                })
             } else {
                 res.status(200).json(data)
             }
         } catch (error) {
-            res.status(500).json(error)
+           next(error)
         }
     }
 
-    static  async replaceTodo(req, res) {
+    static  async replaceTodo(req, res, next) {
         // res.status(200).json({msg: "update status"})
         try {
             let id = +req.params.id
@@ -68,20 +66,19 @@ class todosController {
                 returning : true
             })
             if(!data[1].length) {
-                res.status(404).json({"msg" : "Data not found!"})
+                throw({status: 404,
+                    message: "Data not found!"        
+                })
             }else {
                 res.status(200).json(data[1][0])
             }
         } catch (error) {
-            if (error.name === 'SequelizeValidationError') {
-                res.status(400).json(error.errors[0].message)
-            } else {
-                res.status(500).json({"msg" : "Internal Server Error"})
-            }
+            // console.log(error);
+                next(error)
         }
     }
 
-    static async modifyTodo(req, res) {
+    static async modifyTodo(req, res, next) {
         try {
             let id = +req.params.id
             let status = { status : req.body.status }
@@ -93,20 +90,18 @@ class todosController {
                 returning: true
             })
             if(!data[1].length) {
-                res.status(404).json({"msg" : "Data not found!"})
+                throw({status: 404,
+                    message: "Data not found!"        
+                })
             } else {
                 res.status(200).json(data[1][0])
             }
         } catch (error) {
-            if (error.name === 'SequelizeValidationError') {
-                res.status(400).json(error.errors[0].message)
-            } else {
-                res.status(500).json({"msg" : "Internal Server Error"})
-            }
+                next(error)
         }
     }
 
-    static async deleteTodo(req, res) {
+    static async deleteTodo(req, res, next) {
         try {
             let id = +req.params.id
             const data = await Todo.destroy({
@@ -115,12 +110,14 @@ class todosController {
                 }
             })
             if(!data) {
-                res.status(404).json({"msg" : "Data not found!"})
+                throw({status: 404,
+                    message: "Data not found!"        
+                })
             }else {
-                res.status(200).json('Todo success to delete')
+                res.status(200).json({message: 'Todo success to delete'})
             }
         } catch (error) {
-            res.status(500).json({"msg" : "Internal Server Error"})
+            next(error)
         }
     }
 }

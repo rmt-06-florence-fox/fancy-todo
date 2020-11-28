@@ -10,10 +10,12 @@ module.exports = async (req, res, next) => {
         if(todo.UserId === req.loggedUser.id) {
             next()
         } else {
-            res.status(401).json({msg: "you are not authorized to access this todo!"})
+            throw({status: 401,
+                  message: "you are not authorized to access this todo!"})
         }
     } catch (error) {
-        res.status(500).json({msg: "internal server error"})
+        // console.log(error);
+        next(error)
     }
 
 }

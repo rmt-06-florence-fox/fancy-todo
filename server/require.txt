@@ -1,0 +1,15 @@
+***Fancy-Todo***
+
+- API Documentation []
+- Routes REST API [x]
+- CRUD [x]
+- Register [x] note: password min.6 char blm
+- Login [x]
+- Authentication [x]
+- Authorization [x]
+- Social Login []
+- Client []
+
+Rocket : 
+- 3rd party API [x] ex: Covid19
+

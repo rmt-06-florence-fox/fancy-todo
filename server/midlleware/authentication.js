@@ -5,7 +5,10 @@ module.exports = async (req, res, next) => {
     try {
         const {access_token} = req.headers
         if (!access_token) {
-            res.status(401).json({"msg" : "please login first!"})
+            throw({
+                status: 401,
+                message: "Please Login Fisrt!"
+            })
         }else {
             const decoded = verifyToken(access_token)
             req.loggedUser = decoded
@@ -16,12 +19,14 @@ module.exports = async (req, res, next) => {
             })
             if (user) next()
             else {
-                res.status(401).json({
-                    "msg": "please login first!"
+                throw({
+                    status: 401,
+                    message: "Please Login Fisrt!"
                 })
             }
         }
     } catch (error) {
-        res.status(400).json({"msg" : "please login first!"})
+        // console.log(error);
+        next(error)
     }
 }
