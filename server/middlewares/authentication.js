@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-require('dotenv').config()
+const { User } = require('../models')
 const secret = process.env.SECRET
 
 const authentication = (req, res, next) => {
@@ -7,15 +7,22 @@ const authentication = (req, res, next) => {
 
   if(!access_token) {
     next({name: 'AccessDenied'})
-  }
-  try {
+  } else {
     const decoded = jwt.verify(access_token, secret)
     req.userData = decoded
-    next()
-  } 
-  catch(err) {
-    next({name: 'AuthenticationFailed'})
+    User.findByPk(decoded.id)
+    .then(user => {
+      if(user) {
+        next()
+      } else {
+        next({name: 'AuthenticationFailed'})
+      }
+    })
+    .catch(err => {
+      next(err)
+    })
   }
+
 }
 
 module.exports = authentication

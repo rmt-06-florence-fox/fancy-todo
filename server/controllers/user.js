@@ -70,10 +70,19 @@ class UserController {
       })
     })
     .then(user => {
-      if(user) {
-        const access_token = signToken({ email: user.email, id: user.id })
-        res.status(200).json({access_token})
+      if(user){
+        return user
+      } else {
+        return User.create({
+          name: payload.name,
+          email: payload.email,
+          password: process.env.GOOGLE_PASSWORD
+        })
       }
+    })
+    .then(user => {
+      const access_token = generateToken(user)
+      res.status(200).json({access_token})
     })
     .catch(err => {
       next(err)

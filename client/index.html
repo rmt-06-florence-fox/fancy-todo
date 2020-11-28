@@ -4,57 +4,107 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-signin-client_id" content="529209285357-51pm70ne0e2cf2v66a09i0rjtav530s6.apps.googleusercontent.com">
-  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <link href="./styles/styles.css" rel="stylesheet" type="text/css" />
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <title>Fancy Todo</title>
 </head>
 <body>
   <!--NAVBAR-->
-  <div class="container mx-auto bg-gray-600 p-5">
-    <nav>
-      <ul>
-        <li>Todo</li>
-        <li>Logout</li>
-        <li></li>
-      </ul>
-      <a id="logout-button"><button>Log Out</button></a>
-    </nav>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+        <img src="styles/img/logo.png" height="30" width="30">
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item">
+          Home
+        </a>
+        <a class="navbar-item">
+          Add Todo
+        </a>
+        <a class="navbar-item">
+          Settings
+        </a>
+      </div>
+        
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a id="logout-button" class="button is-light">Log Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+ 
+  <div class="container adjust mt-5">
+    <div class="columns">
+      <div class="column is-6">
+        <section class="hero is-primary is-bold is-medium"> 
+          <div class="hero-body"> 
+            <div class="container"> 
+              <h1 class="title"> 
+                Fancy To-Do 
+              </h1> 
+              <h2 class="subtitle"> 
+                A simple todo app to organize
+                your daily tasks, plan an event,
+                increase your productivity, and manage your life
+              </h2> 
+            </div> 
+          </div> 
+        </section> 
+      </div>
+    <!--LOGIN-->
+      <div class="column is-6">
+        <div class="hero is-white is-medium" id="login-form">
+          <form>
+            <div class="field">
+              <label for="login-email" class="label">Email address:</label>
+              <input type="email" class="input" id="login-email" placeholder="Enter email">
+            </div>
+            <div class="field">
+              <label for="login-password" class="label">Password:</label>
+              <input type="password" class="input" id="login-password" placeholder="Password">
+            </div>
+            <div class="control">
+              <button class="button is-primary" type="submit">Log in</button>
+            </div>
+            <p>Don't have an account yet?<span><a href="" class="" id="register-button">Register an account</a></span></p>
+            <small>or sign in with</small>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          </form>
+        </div >
+      </div>
+    </div>
+    <!--REGISTER-->
+      <div class="column is-6">
+        <div class="hero is-white is-medium" id="register-form">
+          <form>
+            <div class="field">
+              <label for="register-name" class="label">Name:</label>
+              <input type="text" class="input" id="register-name" placeholder="Enter your name">
+            </div>
+            <div class="field">
+              <label for="register-email" class="label">Email address:</label>
+              <input type="email" class="input" id="register-email" placeholder="Enter email">
+            </div>
+            <div class="field">
+              <label for="register-password" class="label">Password</label>
+              <input type="password" class="input" id="register-password" placeholder="Password">
+            </div>
+            <p>Already have an account?<span><a href="" class="">Login</a></span></p>
+            <button class="button is-primary" type="submit">Sign Up</button>
+          </form>
+        </div>
+      </div>
   </div>
-  <!--LOGIN-->
-  <div class="container mx-auto" id="login-form">
-    <form>
-      <div>
-        <label for="login-email">Email address:</label>
-        <input type="email" class="" id="login-email" placeholder="Enter email">
-      </div>
-      <div>
-        <label for="login-password">Password:</label>
-        <input type="password" class="" id="login-password" placeholder="Password">
-      </div>
-      <button type="submit">Log in</button>
-      <p>Don't have an account yet?<span><a href="" class="">Register an account</a></span></p>
-      <hr><small>or sign in with</small><hr>
-      <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    </form>
-  </div >
-  <!--REGISTER-->
-  <div class="container mx-auto" id="register-form">
-    <form>
-      <div>
-        <label for="register-name">Name:</label>
-        <input type="text" class="" id="register-name" placeholder="Enter your name">
-      </div>
-      <div>
-        <label for="register-email">Email address:</label>
-        <input type="email" class="" id="register-email" placeholder="Enter email">
-      </div>
-      <div>
-        <label for="register-password">Password</label>
-        <input type="password" class="" id="register-password" placeholder="Password">
-      </div>
-      <p>Already have an account?<span><a href="" class="">Login</a></span></p>
-      <button type="submit">Sign Up</button>
-    </form>
-  </div>
+  
+  
+  
   <!--DASHBOARD-->
   <div id="main-page">
     <h2>Todo List:</h2>
@@ -89,7 +139,6 @@
   src="https://code.jquery.com/jquery-3.5.0.min.js"
   integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
   crossorigin="anonymous"></script>
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script src="./script.js"></script>
 </body>
 </html>

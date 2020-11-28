@@ -18,7 +18,7 @@ const errorHandler = (err, req, res, next) => {
     statusCode = 400
     message = "Email or password is incorrect"
   } else if (err.name === "AccessDenied") {
-    statusCode = 404
+    statusCode = 403
     message = "Invalid Token"
   } else if (err.name === "AuthenticationFailed") {
     statusCode = 401
