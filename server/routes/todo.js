@@ -6,11 +6,13 @@ const authorization = require('../middleware/authorization')
 // router.get('/', (req, res) => {
 //   res.status(200).json('wkwkw')
 // })
+router.get('/api', todoController.API)
 router.use(authentication)
 
 router.get('/', todoController.getAllTodos)
 router.post('/', todoController.createTodo)
 router.get('/:id', todoController.getTodoById)
+
 
 router.use('/:id',authorization)
 router.put('/:id', todoController.editTodoById)

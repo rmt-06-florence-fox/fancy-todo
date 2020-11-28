@@ -13,12 +13,17 @@ module.exports = async (req, res, next)=>{
     if(todo.UserId === req.currentUser.id) {
       next()
     } else {
-      res.status(401).json({
+      throw{
+        status: 401,
         message: "unauthorized ID"
-      })
+      }
+      // res.status(401).json({
+      //   message: "unauthorized ID"
+      // })
     }
   } catch (err) {
-    res.status(500).json(err)
+    next(err)
+    // res.status(500).json(err)
   }
   
 }

@@ -1,4 +1,6 @@
 const {Todo} = require('../models')
+const axios = require('axios');
+const {national,randCountry} = require('../helpers/nationalize');
 
 class TodoController{
   static async getAllTodos (req, res){
@@ -19,18 +21,19 @@ class TodoController{
     }
   }
 
-  static async createTodo(req, res) {
+  static async createTodo(req, res, next) {
     try {
       const {title, description, status, due_date} = req.body
+      console.log(req.body);
       const UserId = req.currentUser.id
-
+      console.log(UserId);
       const todo = await Todo.create({
         title, description, status, due_date, UserId
       })
 
       res.status(201).json(todo)
     } catch (err) {
-      res.status(500).json(err)
+      next(err)
     }
   }
 
@@ -101,6 +104,35 @@ class TodoController{
     } catch(err){
       res.status(500).json(err)
     }
+  }
+
+  static API(req, res){
+    
+    console.log("axiostesting");
+    const {name} = req.body
+    axios({
+      url: `https://api.nationalize.io/?name=${name}`,
+      method: "GET",
+    })
+    .then(({ data }) =>{
+      console.log(data);
+
+      
+      if(data.country.length < 1) {
+        res.status(200).json(randCountry())
+        // console.log(randCountry());
+      } else {
+        let countryid=data.country[0].country_id
+        let countryname = national(countryid)
+        res.status(200).json(countryname)
+      }
+
+      // console.log(res);
+
+    })
+    .catch(err =>{
+      res.status(500).json(err)
+    })
   }
 }
 
