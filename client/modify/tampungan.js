@@ -4,7 +4,7 @@ function showMainPage() {
     $('#main-page').show()
     $('#btn-logout').show()
     $('#navbar').show()
-    $('#body-main').css('background', 'none')
+    
 }
 
 function showLogIn() {
@@ -23,38 +23,12 @@ function showRegister() {
     $('#navbar').hide()
 }
 
-
-function register(){
-    const name = $('#name-register').val()
-    const email = $('#email-register').val()
-    const password = $('#password-register').val()
-    console.log(name, email, password);
-    $.ajax({
-            url: "http://localhost:3000/register",
-            method: "POST",
-            data: {
-                name,
-                email,
-                password
-            }
-        })
-        .done(response => {
-            localStorage.clear()
-            showLogIn()
-        })
-        .fail((xhr, textStatus) => {
-            console.log(xhr, '<<');
-        })
-        .always(() => {
-            $('#name-login').val('')
-            $('#email-login').val('')
-            $('#password-login').val('')
-        })
-}
-
 function login() {
     const email = $('#email-login').val()
     const password = $('#password-login').val()
+    console.log(email);
+    console.log(password);
+    console.log($('#email-login').val());
     $.ajax({
             url: "http://localhost:3000/login",
             method: "POST",
@@ -90,35 +64,6 @@ function logout(){
     });
 }
 
-function fetchNews(){
-    $.ajax({
-        url: 'http://localhost:3000/todos/news',
-        method: 'GET',
-        headers: {
-            access_token: localStorage.getItem('access_token')
-        } 
-    })
-        .done(response => {
-            console.log(response);
-            response.forEach(el => {
-                $('#card-news').append(`
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title">${el.name}</h5>
-                    <p class="card-text">${el.title}</p>
-                  </div>
-                  <div class="card-footer">
-                    <small class="text-muted"><a href="${el.url}" target="_blank">Read full article here</a></small>
-                  </div>
-                </div>
-                `)
-            })
-        })
-        .fail(xhr => {
-            console.log(xhr);
-        })
-}
-
 function fetchTodos() {
     $('#table-todo').empty()
     $.ajax({
@@ -130,34 +75,21 @@ function fetchTodos() {
         })
         .done(response => {
             console.log(response);
-            fetchNews()
-            $('#table-todo').append(`
-            <thead class="thead-dark">
-                <tr>
-                <th scope="col" class="text-center">Title</th>
-                <th scope="col" class="text-center">Description</th>
-                <th scope="col" class="text-center">Status</th>
-                <th scope="col" class="text-center">Action</th>
-                </tr>
-            </thead>
-            `)
-            response.forEach((todo, i) => {
-                $("#table-todo").append(`
-                <tbody>
-                    <tr>
-                    <td>${todo.title}</td>
-                    <td class="text-center">${todo.description}</td>
-                    <td class="text-center">
-                    <select class="custom-select col-lg-8 offset-lg-0" id="mySelect">
-                        <option id="status${todo.id}"  value="${todo.id}" ${todo.status == 'uncompleted' ? 'selected' : ''}>Uncomplete</option>
-                        <option id="status${todo.id}" value="${todo.id}" ${todo.status == 'uncomplete' ? 'selected' : ''}>On Progress</option>
-                        <option id="status${todo.id}" value="${todo.id}" ${todo.status == 'uncomplete' ? 'selected' : ''}>Completed</option>
-                    </select>
-                    </td>
-                    <td class="text-center"><button class="btn btn-danger" onClick="deleteTodo(${todo.id})"">Delete</button></td>
-                    </tr>
-                </tbody>
-             `);
+            $('#table-todo').append(`<tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Due Date</th>
+            <th>Action</th>
+        </tr>`)
+            response.forEach(todo => {
+                $("#table-todo").append(`<tr>
+            <td>${todo.title}</td>
+            <td>${todo.description}</td>
+            <td>${todo.status}</td>
+            <td>${todo.due_date}</td>
+            <td><button onClick="deleteTodo(${todo.id})"">Delete</button></td>
+        </tr>`);
             })
             })
         .fail((xhr, textStatus) => {
@@ -169,7 +101,6 @@ function createTodo(){
     const title = $('#title').val()
     const description = $('#description').val()
     const due_date = $('#due_date').val()
-    console.log(title, '>>>');
     $.ajax({
         url: 'http://localhost:3000/todos',
         method: 'POST',
@@ -224,9 +155,4 @@ function onSignIn(googleUser) {
         .fail(err => {
             console.log(err);
         })
-}
-
-function changeStatus(){
-    let status = $('.click-status').val()
-    console.log(status);
 }

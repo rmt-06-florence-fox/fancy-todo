@@ -1,6 +1,6 @@
 const { User } = require('../models')
-const {createToken, verifyToken} = require('../helper/jwt')
-const  {comparePw, generatePw}  = require('../helper/password')
+const {createToken} = require('../helper/jwt')
+const  {comparePw}  = require('../helper/password')
 const {OAuth2Client} = require('google-auth-library');
 
 class UserController{
@@ -8,15 +8,15 @@ class UserController{
         const payload = {
             name: req.body.name,
             email: req.body.email,
-            password: generatePw(req.body.password)
+            password: req.body.password
         }
+        // console.log(typeof req.body.password, '<<<');
         User.create(payload)
             .then(data => {
                 res.status(201).json({id: data.id, email: data.email})
             })
             .catch(err => {
                 next(err)
-                // res.status(400).json(err.errors)
             })
     }
 
@@ -63,7 +63,6 @@ class UserController{
                         email: payload.email
                     }
                 })
-                // res.status(200).json('masuk pak eko')
             })
             .then(user => {
                 if (user){

@@ -2,6 +2,8 @@
 const {
   Model
 } = require('sequelize');
+const { generatePw } = require('../helper/password');
+const {Op} = require('sequelize')
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -24,23 +26,28 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: 'input correct email'
         }
-      },
-      unique: {
-        args: true,
-        msg: 'This email is already exits'
       }
     },
     password: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       validate: {
         notEmpty: {
           msg: 'Password is required'
+        },
+        len:{
+          args: [6,],
+          msg: 'Minimal 6 characters'
         }
       }
     }
   }, {
     sequelize,
-    modelName: 'User'
+    modelName: 'User',
+    hooks: {
+      beforeCreate(instance, options){
+        instance.password = generatePw(instance.password)
+      }
+    }
   });
   return User;
 };

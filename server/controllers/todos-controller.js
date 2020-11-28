@@ -144,17 +144,18 @@ class TodosController {
     static getNews(req, res, next){
         console.log('news in todos');
         axios({
-            url: `https://content.guardianapis.com/search?api-key=${process.env.SECRET_APIKEY}`,
+            url: `https://content.guardianapis.com/search?q=news&api-key=${process.env.SECRET_APIKEY}`,
             method: 'GET'
         })
             .then(response=>{
+                // console.log(response, '<<<');
                 const dataResponse = response.data.response.results
                 const dataNews = []
                 dataResponse.forEach(el => {
-                    dataNews.push({title: el.webTitle, url: el.webUrl})
+                    dataNews.push({title: el.webTitle, url: el.webUrl, name: el.sectionName})
                 })
-                console.log(dataNews);
-                res.json(dataNews)
+                console.log(dataNews.slice(5));
+                res.json(dataNews.slice(5))
             })
             .catch(err => {
                 next(err)

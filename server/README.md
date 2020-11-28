@@ -23,9 +23,9 @@ required :
 - password = [string]
 
 {
-  "name": "<name to get insert into>",
-  "email": "<email to get insert into>"
-  "password": "<password to get insert into>"
+"name": "<name to get insert into>",
+"email": "<email to get insert into>"
+"password": "<password to get insert into>"
 
 }
 ```
@@ -33,18 +33,18 @@ required :
 _Response (201)_
 ```
 {
-    "id": 5,
-    "email": "on2@mail.com"
+"id": 5,
+"email": "on2@mail.com"
 }
 ```
 
 _Response (400 - Bad Request)_
 ```
 {
-    "message": [
-        "input correct email",
-        "Password is required"
-    ]
+"message": [
+    "input correct email",
+    "Password is required"
+]
 }
 ```
 ---
@@ -64,28 +64,28 @@ required :
 - password = [string]
 
 {
-  "email": "<email to get insert into>",
-  "password": "<password to get insert into>"
+"email": "<email to get insert into>",
+"password": "<password to get insert into>"
 }
 ```
 
 _Response (200 - Success)_
 ```
 {
-  "access_token": "<your access token>"
+"access_token": "<your access token>"
 }
 ```
 
 _Response (401 - Unauthorized)_
 ```
 {
-    "message": "Invalid account"
+"message": "Invalid account"
 }
 
 OR
 
 {
-    "message": "Invalid email/password"
+"message": "Invalid email/password"
 }
 ```
 

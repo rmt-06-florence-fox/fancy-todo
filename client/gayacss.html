@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#myselect").change(function () {
+
+                    // var selectedVal = $("#myselect option:selected").text();
+                    var selectedVal = $("#myselect option:selected").val();
+                    alert("Hi, your favorite programming language is " + selectedVal);
+
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+        <h1>Get the value of selected option in a select box using jQuery</h1>
+        <label>Select Programming Language:</label>
+        <select id="myselect">
+            <option value="Java">Java</option>
+            <option value="C">C</option>
+            <option value="PHP">PHP</option>
+            <option value="C#">C#</option>
+            <option value="C++">C++</option>
+        </select>      
+    </body>
+</html>
