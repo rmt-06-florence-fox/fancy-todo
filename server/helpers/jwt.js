@@ -5,7 +5,6 @@ function generateToken(dataObj) {
 }
 
 function verifyToken(token) {
-    console.log(token);
     return jwt.verify(token, process.env.Secret)
 }
 

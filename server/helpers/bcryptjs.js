@@ -7,7 +7,7 @@ class Bcrypt {
         return data
     }
 
-    static compareSync(data, password){a
+    static compareSync(data, password){
         return bcrypt.compareSync(data, password)
     }
 }

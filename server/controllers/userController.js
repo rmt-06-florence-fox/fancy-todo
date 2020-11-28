@@ -1,5 +1,5 @@
 const Bcrypt = require('../helpers/bcryptjs');
-const { generateToken } = require('../helpers/jwt');
+const { generateToken, verifyToken} = require('../helpers/jwt');
 const {User} = require('../models/index')
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLECLIENTID);
@@ -26,9 +26,24 @@ class UserController{
         }
         try {
             const data = await User.findOne({where : {email : dataLogin.email}})
-            const accessToken = await generateToken({id : data.id, email : data.email})
-            res.status(200).json({accessToken})
+            if(data == null){
+                throw {
+                    status : 400,
+                    message : "Email/Password Invalid"
+                }
+            } else {
+                if(Bcrypt.compareSync(dataLogin.password, data.password)){
+                    const accessToken = await generateToken({id : data.id, email : data.email})
+                    res.status(200).json({accessToken}) 
+                } else {
+                    throw {
+                        status : 400,
+                        message : "Email/Password Invalid"
+                    }
+                }
+            }
         } catch (err) {
+            console.log(err);
             next(err)
         }
     }
