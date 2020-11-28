@@ -37,4 +37,10 @@ $(document).ready(function() {
     $('#btn-AddTodo').on("click", function(e) {
         showAddTodo()
     })
+
+    $('#put-form').on("submit", function(e) {
+        e.preventDefault()
+        putTodo()
+        showMainPage()
+    })
 })

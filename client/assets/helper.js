@@ -21,6 +21,7 @@ function showMainPage() {
     $('#todo-form').hide()
     $('#btn-logout').show()
     $('#todo').show()
+    $('#put-form').hide()
     fetchTodos()
     fetchHolidays()
 }
@@ -34,7 +35,19 @@ function showAddTodo() {
     $('#todo-form').show()
     $('#btn-logout').show()
     $('#todo').hide()
-    fetchTodos()
+    $('#put-form').hide()
+}
+
+function showEditTodo() {
+    $('#main-page').show()
+    $('#put-form').show()
+    $('#login-page').hide()
+    $('#register-page').hide()
+    $('#btn-AddTodo').hide()
+    $('#holiday-div').show()
+    $('#todo-form').hide()
+    $('#btn-logout').show()
+    $('#todo').hide()
 }
 
 function register() {
@@ -131,9 +144,9 @@ function fetchTodos() {
                     <h3 style="text-align: center"><strong>${todo.title}</strong></h3>
                     <h5 style="text-align: justify;">Description: ${todo.description}</h5>
                     <h5 style="text-align: justify;">Date: ${todo.due_date}</h5>
-                    <form class="form-group" id="patch-form">
-                    <label for="status">Status: </label>
-                    <input type="checkbox" id="status" name="status" value="Done"
+                    <form class="form-group">
+                    <label>Status: </label>
+                    <input type="checkbox">
                     </form>
                     <div class="row">
                         <button class="btn btn-primary text-white col-3" style="margin-left: 1em;" onclick="editTodo(${todo.id})">Edit</button>
@@ -166,7 +179,6 @@ function createTodo() {
         .done(res => {
             showMainPage()
             fetchTodos()
-            console.log(res);
         })
         .fail(xhr => {
             console.log(xhr);
@@ -185,7 +197,39 @@ function editTodo(id) {
         }
     })
         .done(res => {
-            
+            localStorage.setItem('id_todo', id)
+            $('#title-edit').val(res.title)
+            $('#description-edit').val(res.description)
+            $('#due_date-edit').val(res.due_date)
+            showEditTodo()
+        })
+        .fail(xhr => {
+            console.log(xhr);
+        })
+}
+
+function putTodo() {
+    const title = $("#title-edit").val()
+    const description = $("#description-edit").val()
+    const due_date = $("#due_date-edit").val()
+    $.ajax({
+        method: "PUT",
+        url: "http://localhost:3000/todos/" + localStorage.getItem('id_todo'),
+        headers: {
+            accesstoken: localStorage.getItem('accesstoken')
+        },
+        data: {
+            title,
+            description,
+            due_date
+        }
+    })
+        .done(res => {
+            showMainPage()
+            fetchTodos()
+        })
+        .fail(err => {
+            console.log(err);
         })
 }
 
@@ -203,6 +247,7 @@ function patchTodo(id) {
         }
     })
         .done(res => {
+            showMainPage()
             fetchTodos()
         })
         .fail(xhr => {
