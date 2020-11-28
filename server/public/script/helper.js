@@ -30,7 +30,7 @@ let login = () => {
     const email = $("#login-email").val()
     const password = $("#login-password").val()
     const request = $.ajax({
-        url: "http://localhost:3000/login",
+        url: "/login",
         method: "POST",
         data: {email, password}
     });
@@ -60,7 +60,7 @@ let register = () => {
     const email = $("#register-email").val()
     const password = $("#register-password").val()
     const request = $.ajax({
-        url: "http://localhost:3000/register",
+        url: "/register",
         method: "POST",
         data: {email, password}
     })
@@ -74,7 +74,6 @@ let register = () => {
     })
 
     request.fail((jqxhr, status) => {
-        // console.log(jqxhr.responseJSON);
         $("#warning").show()
         $("#warning").html(`<b>${jqxhr.responseJSON.errors}</b>`);
     })
@@ -87,7 +86,7 @@ let register = () => {
 // ! fetch todo
 let fetchTodo = () => {
     const request = $.ajax({
-        url: "http://localhost:3000/todos",
+        url: "/todos",
         method: "GET",
         headers: {access_token:localStorage.getItem('access_token')}
     })
@@ -101,8 +100,7 @@ let fetchTodo = () => {
         msg.forEach(todo => {
             $("#list-todo").append(`
             <div class="col-sm-4" style="margin-bottom:30px">
-                <div class="card shadow p-3 mb-5 rounded ${todo.status == false ? `` : `bg-secondary text-black`} ${new Date(todo.due_date) <= today && todo.status == false ? `bg-danger text-black` : ``}">
-
+                <div class="card shadow p-3 mb-5 rounded ${todo.status == false ? `` : `bg-secondary text-black`} ${new Date(todo.due_date) && todo.status == false <= today ? `bg-danger text-black` : ``}">
                 <div id="todo-${todo.id}" ${todo.status == true ? `ondblclick="patchTodo(${todo.id},${false})"` : `ondblclick="patchTodo(${todo.id},${true})"`}>
                     <div class="card-header" data-toggle="tooltip" data-placement="top" title="Double Click To Change Status">
                         <h4>${todo.title}</h4>
@@ -177,10 +175,8 @@ let addTodo = () => {
     const title = $("#add-title").val()
     const description = $("#add-description").val()
     const due_date = $('#add-due-date').val() || new Date()
-
-    // console.log(title, description, due_date);
     const request = $.ajax({
-        url: "http://localhost:3000/todos",
+        url: "/todos",
         method: "POST",
         data: {
             title,
@@ -215,7 +211,7 @@ let clearAddForm = () => {
 let deleteTodo = (id) => {
     const request = $.ajax({
         method: "DELETE",
-        url:`http://localhost:3000/todos/${id}`,
+        url:`/todos/${id}`,
         headers: {access_token:localStorage.getItem('access_token')}
     })
 
@@ -234,14 +230,13 @@ let deleteTodo = (id) => {
 // ! patch todo
 let patchTodo = (id, status) => {
     const request = $.ajax({
-        url: `http://localhost:3000/todos/${id}`,
+        url: `/todos/${id}`,
         method: 'PATCH',
         headers: {access_token:localStorage.getItem('access_token')},
         data: {status}
     })
     
     request.done((message) => {
-        // console.log(message);
         fetchTodo()
     })
     request.fail(function( jqXHR ) {
@@ -258,7 +253,7 @@ let updateTodo = (id) => {
     const due_date = $(`#update-due-date-${id}`).val()
     
     const request = $.ajax({
-        url: `http://localhost:3000/todos/${id}`,
+        url: `/todos/${id}`,
         method: "PUT",
         data: {
             title,
@@ -284,7 +279,7 @@ let updateTodo = (id) => {
 function onSignIn(googleUser) {
     const google_token = googleUser.getAuthResponse().id_token;
     const request = $.ajax({
-        url: "http://localhost:3000/googleLogin",
+        url: "/googleLogin",
         method: "POST",
         data: {google_token}
     });
@@ -298,7 +293,6 @@ function onSignIn(googleUser) {
     })
 
     request.fail((jqxhr, status) => {
-        // console.log(jqxhr.responseJSON);
         $("#warning").show()
         $("#warning").html(`<b>${jqxhr.responseJSON.errors}</b>`);
     })
@@ -334,7 +328,7 @@ function saveLocation(position) {
 // ! get weather
 let getWeather = () => {
     const request = $.ajax({
-        url: "http://localhost:3000/weathers",
+        url: "/weathers",
         method: "GET",
         headers: {
             access_token:localStorage.getItem('access_token'),
