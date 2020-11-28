@@ -352,15 +352,15 @@
 ##### SUCCESS
 - Request Body
 ```JS
-username	User
-email	    user@gmail.com
-password	1234567
+username	'username'
+email	    'user email'
+password	'user password'
 ```
 - Response *200*
 ```JS
 {
-  "id": 2,
-  "email": "user@gmail.com"
+  "id": "user id",
+  "email": "user email"
 }
 ```
 #
@@ -404,8 +404,8 @@ password	""
 ### POST /login 
 - Request Body
 ```JS
-email	    user@gmail.com
-password	1234567
+email	    'user email'
+password	'user password'
 ```
 ##### SUCCESS
 - Response *200*
@@ -416,11 +416,6 @@ password	1234567
 ```
 #
 ##### ERROR *`'Invalid Account!'`*
-- Request Body
-```JS
-email	    user2@gmail.com
-password	1234567
-```
 - Response *400*
 ```JS
 {
@@ -429,11 +424,6 @@ password	1234567
 ```
 #
 ##### ERROR *`'Invalid email / password'`*
-- Request Body
-```JS
-email	    user@gmail.com
-password	12345678
-```
 - Response *400*
 ```JS
 {
