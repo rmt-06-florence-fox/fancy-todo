@@ -10,48 +10,89 @@
 </head>
 <body>
     <!--Form Login-->
-    <div id="login-page" >
-        <h1>Login</h1>
-        <form class="form-group">
-            <input type="email" name="email" placeholder="email" id="login-email"><br>
-            <input type="password" name="password" placeholder="password" id="login-password"><br>
-            <button type="submit" id="btn-submit-login" class="btn btn-primary">Login</button>
-        </form>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
-        <button id="btn-register" class="btn btn-link">Don't Have Account? Let's Register</button>
-    </div>
+    <div class="container" style="margin-top: 10%;" id="login-page">
+        <div class="row justify-content-center mt-5">
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-header bg-transparent mb-0"><h5 class="text-center">Please <span class="font-weight-bold text-primary">LOGIN</span></h5></div>
+              <div class="card-body">
+                  <!-- form!!-->
+                <form >
+                  <div class="form-group">
+                    <input type="text" name="email" class="form-control" placeholder="Email"  id="login-email">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" name="password" class="form-control" placeholder="Password" id="login-password">
+                  </div>
+                  <div class="form-group">
+                    <input type="submit" name="" value="Login" class="btn btn-primary btn-block" id="btn-submit-login">
+                  </div>
+                </form>
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                <button id="btn-register" class="btn btn-link">Don't Have Account? Let's Register</button>
+                <!-- form!!!-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     <!--Form Login-->
 
     <!--Register Page-->
-    <div id="register-page">
-        <h1>page register</h1>
-        <form id="form-regiter">
-            <input type="text" placeholder="name" name="name" id="register-name"><br>
-            <input type="email" name="email" placeholder="email" id="register-email"><br>
-            <input type="password" name="password" placeholder="password" id="register-password"><br>
-            <button type="submit" id="btn-submit-register" class="btn btn-primary">Register</button>
-        </form>
+    <div class="container" style="margin-top: 10%;" id="register-page"> 
+        <center><h1>Register</h1></center> 
+        <form action="/signup" method="post">
+            <div class="form-group"> 
+                <label for="register-name">Full Name</label> 
+                <input type="text" class="form-control" id="register-name" aria-describedby="emailHelp" placeholder="Enter Full Name" name="name"> 
+           </div> 
+             <div class="form-group"> 
+                  <label for="register-email">Email address</label> 
+                  <input type="email" class="form-control" id="register-email" aria-describedby="emailHelp" placeholder="Enter email" name="email"> 
+                  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> 
+             </div> 
+             <div class="form-group"> 
+                  <label for="btn-submit-register">Password</label> 
+                  <input type="password" class="form-control" id="register-password" placeholder="Password" name="password"> 
+             </div> 
+             <button type="submit" class="btn btn-primary" id="btn-submit-register">Submit</button> 
+        </form> 
         <button id="btn-login" class="btn btn-link">Have Account? Let's Login</button>
-    </div>
+   </div>
+
     <!--Register Page-->
     
     <!--Main Page-->
     <div id="main-page">
-        <h1>Ini adalah Main Page</h1>
-        <button id="btn-logout" class="btn btn-warning">logout</button>
+        <center><h1>Create And See Your Todo</h1></center> 
+        <button id="btn-logout" class="btn btn-danger" style="text-align: center; ">Logout</button>
         <!--Form Create Todo-->
-        <form id="todos-form" method="POST">
-            <label for="title">Title</label><br>
-            <input type="text" id="title" name="title" value=""><br><br>
-            <label for="description">Description</label><br>
-            <input type="text" id="description" name="description" value=""><br><br>
-            <label for="description">Status</label><br>
-            <input type="text" id="status" name="status" value=""><br><br>
-            <label for="due_date">Due date</label><br>
-            <input type="date" id="due_date" name="due_date" value=""><br><br>
-            <button type="submit" id="btn-submit-todo" class="btn btn-primary">Add</button>
-            <br><br>
-        </form>
+        <form class="form-inline" id="todos-form" method="POST">
+            <label class="sr-only" for="title">Title</label>
+            <input type="text" class="form-control mb-2 mr-sm-2" id="title" name="title" placeholder="Title">
+          
+            <label class="sr-only" for="description">Description</label>
+            <div class="input-group mb-2 mr-sm-2">
+              <div class="input-group-prepend">
+              </div>
+              <input type="text" class="form-control" id="description" name="description" placeholder="Description">
+            </div>
+
+            <label class="sr-only" for="status">Status</label>
+            <div class="input-group mb-2 mr-sm-2">
+              <div class="input-group-prepend">
+              </div>
+              <input type="text" class="form-control" id="status" name="status" placeholder="Status">
+            </div>
+
+            <label class="sr-only" for="due_date">Due date</label>
+            <div class="input-group mb-2 mr-sm-2">
+              <div class="input-group-prepend">
+              </div>
+              <input type="date" class="form-control" id="due_date" name="due_date" placeholder="Due Date">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2" id="btn-submit-todo">Submit</button>
+          </form>
         <!--Form Create Todo-->
         <table id="table-todo" border="1"></table>
     </div>
@@ -297,7 +338,7 @@
                 }
             })
             .done(value => {
-                // console.log(value);
+                console.log(value);
                 mainDisplay()
             })
             .fail((xhr, textStatus) => {
