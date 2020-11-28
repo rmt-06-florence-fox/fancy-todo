@@ -1,4 +1,5 @@
-const {Todo} = require("../models/index")
+const {Todo, User} = require("../models/index")
+const mailing = require("../Helper/mailer")
 
 class TodoController{
     static async getTodos (req, res, next){
@@ -17,6 +18,7 @@ class TodoController{
 
     static addTodo(req, res, next){
         // console.log(req.body)
+        let todo
         // res.status(201).json({message: 'masuk create movie'})
         const obj = {
             title: req.body.title,
@@ -27,7 +29,22 @@ class TodoController{
         }
         Todo.create(obj)
         .then(data=>{
-            res.status(201).json(data)
+            todo = data
+            // res.status(201).json(data)
+            return User.findOne({
+                where:{
+                    id: obj.UserId
+                }
+            })
+        })
+        .then(data=>{
+            mailing({
+                title: todo.title,
+                description: todo.description,
+                status: todo.status,
+                due_date: todo.due_date
+            }, data.email)
+            res.status(201).json(todo)
         })
         .catch(e=>{
             next(e)
