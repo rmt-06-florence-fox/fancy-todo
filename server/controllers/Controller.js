@@ -1,8 +1,9 @@
-const { Todo, User } = require('../../models')
+const { Todo, User } = require('../models')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const axios = require('axios')
-// const age = require('../helpers/age')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 class Controller {
 
@@ -35,9 +36,11 @@ class Controller {
     }
 
     static login(req, res, next) {
-        User.findOne({ where: { username: req.body.username, email: req.body.email }})
+        User.findOne({ where: { email: req.body.email }})
         .then(data => {
             if(!data) {
+                // console.log('======');
+                // console.log(data);
                 throw {
                     status: 401,
                     message: 'are you sure you have your account registered?'
@@ -48,6 +51,7 @@ class Controller {
                 if(bcrypt.compareSync(req.body.password, data.password)) {
                     res.status(200).json({access_token})                    
                 } else {
+                    console.log('======');
                     throw {
                         status: 401,
                         message: 'are you sure you have your account registered?'
@@ -58,6 +62,45 @@ class Controller {
         })
         .catch(err => {
             // console.log(err);
+            next(err)
+        })
+    }
+
+
+    static googleLogin(req, res, next) {
+        let payload
+        client.verifyIdToken({
+            idToken: req.body.googleToken,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        })
+        .then(ticket => {
+            console.log('MASUK TICKET');
+            payload = ticket.getPayload()
+            return User.findOne({
+                where: {
+                    email: payload.email
+                }
+            })
+        })
+        .then(user => {
+            if (user) {
+                return user
+            } else {
+                console.log('MASUK CREATE')
+                // console.log(payload);
+                return User.create({
+                    email: payload.email,
+                    password: process.env.GOOGLE_PASSWORD,
+                })
+            }
+        })
+        .then(user => {
+            console.log('MASUK FINAL');
+            const access_token = jwt.sign({id: user.id, username: user.username, email: user.email}, 'rahasiarangga')
+            res.status(200).json({access_token})
+        })
+        .catch(err => {
+            console.log(err);
             next(err)
         })
     }
@@ -214,18 +257,36 @@ class Controller {
 
     ////////////////////////////////////////////////////////////
     static weather(req, res, next) {
-        axios({
-            url: '',
-            method: 'GET'
-        })
-        .then(response => {
-            console.log(response.data);
-        })
-        .catch(err => {
-            console.log(err);
-            next(err)
-        })
+        var unirest = require("unirest");
+
+        var req = unirest("GET", "https://community-open-weather-map.p.rapidapi.com/weather");
+
+        req.query({
+            "q": "Jakarta, ID",
+            "cnt": "5",
+            "mode": "null",
+            "lon": "0",
+            "type": "link, accurate",
+            "lat": "0",
+            "units": "imperial, metric"
+        });
+        
+        req.headers({
+            "x-rapidapi-key": "afe633e64dmshadad915c1d8b611p10cffdjsnd66ee2fde21f",
+            "x-rapidapi-host": "community-open-weather-map.p.rapidapi.com",
+            "useQueryString": true
+        });
+
+
+        req.end(function (result) {
+            if (result.error) throw new Error(result.error);
+
+            res.status(200).json(result.body)
+            console.log(result.body);
+        });
     }
 }
 
 module.exports = Controller
+
+        

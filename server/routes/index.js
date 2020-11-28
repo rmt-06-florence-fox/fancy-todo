@@ -4,10 +4,13 @@ const Controller = require('../controllers/Controller')
 const authentication = require('../middlewares/authentication')
 const authorization = require('../middlewares/authorization')
 
+
 router.post('/register', Controller.register)
 router.post('/login', Controller.login)
+router.post('/googleLogin', Controller.googleLogin)
 
 router.get('/weather', Controller.weather)
+// router.get('/weather', Controller.weather)
 
 // Todo
 router.use(authentication)

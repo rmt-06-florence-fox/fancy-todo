@@ -34,12 +34,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       validate: {
         isAfter: {
-          args: `${new Date().getFullYear().toString()}-${new Date().getMonth().toString()}-${new Date().getDate().toString()}`,
+          args: `${new Date().getFullYear().toString()}-${(new Date().getMonth()+1).toString()}-${new Date().getDate().toString()}`,
           msg: 'Date must be after today'
         }
       }
     }
   }, {
+    hooks: {
+      beforeCreate: (instance, options) => {        
+        if(instance.description === null) {
+          instance.description = '<br>'
+        }
+      }
+    },
     sequelize,
     modelName: 'Todo',
   });
