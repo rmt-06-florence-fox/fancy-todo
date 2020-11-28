@@ -3,6 +3,7 @@ const PassHelper = require('../helper/passwordHelper')
 const JwtHelper = require('../helper/jwtHelper')
 const jwt = require('jsonwebtoken')
 const { OAuth2Client } = require('google-auth-library');
+const mailer = require('../helper/mailer')
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 
@@ -50,11 +51,11 @@ class UserController {
       });
       const payload = ticket.getPayload();
       const user = await User.findOne({ where: { email: payload.email } })
-      console.log(user);
       if (!user) {
         // res.status(401).json({ msg: "gada" })
         const googleUser = await User.create({email: payload.email, password: process.env.GOOGLE_USER_PASS})
         const access_token = JwtHelper.generateToken({ id: googleUser.id, email: googleUser.email })
+        mailer.welcomeMail(payload.email)
         res.status(200).json({ access_token })
       } else {
         const access_token = JwtHelper.generateToken({ id: user.id, email: user.email })
