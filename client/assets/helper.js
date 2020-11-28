@@ -140,13 +140,14 @@ function fetchTodos() {
         .done(res => {
             $("#todo-list").empty()
             res.forEach(todo => {
-                $("#todo-list").append(`<div class="card" style="margin-left: 1em;  margin-bottom: 1em; height: 200px; width: 300px">
+                $("#todo-list").append(`<div class="card" style="margin-left: 1em;  margin-bottom: 1em; height: 250px; width: 350px">
                     <h3 style="text-align: center"><strong>${todo.title}</strong></h3>
                     <h5 style="text-align: justify;">Description: ${todo.description}</h5>
                     <h5 style="text-align: justify;">Date: ${todo.due_date}</h5>
-                    <form class="form-group">
-                    <label>Status: </label>
-                    <input type="checkbox">
+                    <form class="form-group" name="status-form">
+                    <label><h5>Status: </h5></label>
+                    <input type="text" style="width: 10em;" name="status-box" value="${todo.status}">
+                    <button class="btn btn-primary text-white col-3" <button type="submit" class="btn btn-primary" style="width: 6em; height: 2em;">Update Status</button>
                     </form>
                     <div class="row">
                         <button class="btn btn-primary text-white col-3" style="margin-left: 1em;" onclick="editTodo(${todo.id})">Edit</button>
@@ -234,8 +235,7 @@ function putTodo() {
 }
 
 function patchTodo(id) {
-    const status = $("#status").val()
-    console.log(status);
+    const status = $('input[name="status-box"]').val()
     $.ajax({
         method: "PATCH",
         url: "http://localhost:3000/todos/" + id,

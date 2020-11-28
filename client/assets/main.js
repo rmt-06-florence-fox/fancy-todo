@@ -43,4 +43,10 @@ $(document).ready(function() {
         putTodo()
         showMainPage()
     })
+
+    $('input[name="status-box"]').on("submit", function(e) {
+        e.preventDefault()
+        patchTodo()
+        showMainPage()
+    })
 })
