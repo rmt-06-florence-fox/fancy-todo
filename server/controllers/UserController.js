@@ -1,8 +1,9 @@
 const { User } = require('../models/index')
 const { compare } = require('../helpers/bcrypt-pass')
 const { getToken } = require('../helpers/jwt-token')
-const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const {OAuth2Client} = require('google-auth-library')
+const { use } = require('../routes')
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
 class UserController {
     static async addUser(req, res, next) {
@@ -45,7 +46,7 @@ class UserController {
                     }
                 } else if (compare(req.body.password, data.password)) {
                     const access_token = getToken(data)
-                    res.status(200).json({access_token})
+                    res.status(200).json({access_token, name: data.name})
                 } else {
                     throw {
                         status: 401,
@@ -59,37 +60,36 @@ class UserController {
     }
 
     static googleLogin(req, res, next) {
-        let {google_access_token} = req.body
-        let email
         let payload
         client.verifyIdToken({
-            idToken: google_access_token,
+            idToken: req.body.googleToken,
             audience: process.env.GOOGLE_CLIENT_ID
-            })
-            .then(ticket => {
-                payload = ticket.getPayload()
-                email = payload.email
-                return User.findOne({where: {
-                    email: payload.email
+        })
+        .then(ticket => {
+            payload = ticket.getPayload()
+            return User.findOne({
+                where: {
+                    username: payload.email
                 }
             })
-            .then(user => {
-                if(user) {
-                    return user
-                } else {
-                    return User.create({
-                        email: payload.email,
-                        password: '12345'
-                    })
-                }
-            })
-            .then(user => {
-                const access_token = getToken({id: user.id, email: user.email})
-                return res.status(200).json({access_token})
-            })
-            .catch(err => {
-                next(err)
-            })
+        })
+        .then(user => {
+            if(user) {
+                return user
+            } else {
+                return User.create({
+                    name: payload.name,
+                    username: payload.email,
+                    password: process.env.GOOGLE_PASSWORD
+                })
+            }
+        })
+        .then(user => {
+            const access_token = getToken({id: user.id, username: user.email})
+            res.status(200).json({access_token, name: user.name})
+        })
+        .catch(err => {
+            next(err)
         })
     }
 }

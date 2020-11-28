@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {
           args: true,
           msg: 'Masukkan Title!!'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'Masukkan Title!!'
         }
       }
     },
@@ -36,6 +40,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
+          args: true,
+          msg: 'Masukkan Due Date!!'
+        },
+        notEmpty: {
           args: true,
           msg: 'Masukkan Due Date!!'
         },

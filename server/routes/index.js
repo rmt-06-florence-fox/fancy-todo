@@ -16,7 +16,7 @@ route.post('/todos', TodoController.addTodos)
 route.use('/todos/:id', authorization)
 route.patch('/todos/:id', TodoController.updateTodos)
 route.put('/todos/:id', TodoController.editTodos)
-route.get('/todos/:id', TodoController.detailTodo)
+route.get('/todos/:id', authorization, TodoController.detailTodo)
 route.delete('/todos/:id', TodoController.deleteTodo)
 
 route.get('/holidays', TodoController.holidays)

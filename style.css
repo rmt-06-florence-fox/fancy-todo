@@ -1,0 +1,40 @@
+#login-page, #register-page {
+    padding: 100px;
+    margin-left: 300px;
+    margin-right: 300px;
+    background: hsla(175, 38%, 89%, 0.7);
+}
+
+#google-guidetext, #register-guidetext {
+    font-size: 10px;
+}
+
+body {
+    background-image: url('./assets/note\ pin.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+.navbar {
+    position: fixed;
+    width: 100%;
+    height: 40px;
+}
+
+#btn-logout {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.row {
+    padding-left: 150px;
+    padding-right: 150px;
+}
+
+#head-text {
+    padding: 5px;
+    margin-left: 300px;
+    margin-right: 300px;
+    background: hsla(175, 38%, 89%, 0.7);
+    width: auto;
+}
