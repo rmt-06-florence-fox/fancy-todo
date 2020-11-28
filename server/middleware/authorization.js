@@ -6,7 +6,6 @@ module.exports = async (req, res, next) => {
                 id: req.params.id
             }
         });
-
         if(!result) {
             throw {
                 status: 404,

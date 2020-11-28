@@ -31,15 +31,15 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: "Date is required."
+          msg: "Due date is required."
         },
         notEmpty: {
           args: true,
-          msg: "Date is required."
+          msg: "Due date is required."
         },
         isAfter: {
           args: (new Date).toString(),
-          msg: "Date must be greater than today."
+          msg: "Due date must be greater than today."
         }
       }
     },

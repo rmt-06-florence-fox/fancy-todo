@@ -65,8 +65,8 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'User',
     validate: {
       isPasswordMinLength (){
-        if(this.password.length < 6) {
-          throw new Error ("Password must be at least 6 characters.");
+        if(this.password !== "" && this.password.length < 6) {
+          throw new Error ("Password must contain at least 6 characters.");
         }
       }
     }
