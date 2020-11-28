@@ -53,7 +53,7 @@ function onSignIn(googleUser) {
       let access_token = response.access_token
       localStorage.setItem('access_token', access_token)
       $("#content-card").empty()
-      $("#weather-card").empty()
+      $("#weather-card").show()
       $("#login-page").hide()
       $("#home-page").show()
       $("#homepage_navbar").show()
@@ -94,7 +94,7 @@ function login(event) {
     })
     .done(response => {
         $("#content-card").empty()
-        $("#weather-card").empty()
+        $("#weather-card").show()
         const access_token= response.access_token
         console.log(access_token)
         localStorage.setItem('access_token', access_token)
@@ -170,7 +170,7 @@ $.ajax({
   }).done(response => {
     console.log(response, 'ini kan yang ngaco')
     $("#content-card").empty();
-    $("#weather-card").empty()
+    $("#weather-card").show()
     if (response.length !== 0) {
       response.forEach(element => {
         $("#content-card").append(`
@@ -214,6 +214,7 @@ $.ajax({
           $("#edit-todo-page").show()
           $("#navbar-home").show()
           editTodoSource(element.id)
+          weather()
         })
         $(`#done${element.id}`).on("click", () => {
           yetDoneStatus(element.id);
@@ -240,6 +241,9 @@ $.ajax({
 
 $("#delete-button").on('click', () => {
     ready()
+    weather()
+    $("#weather-card").show()
+    
 })
 function editTodoSource(id) {
   const access_token = localStorage.getItem("access_token")
@@ -290,6 +294,7 @@ function editTodoSource(id) {
       $("#add-todo-button").show()
       fetchTodo()
       weather()
+      $("#weather-card").show()
       $("#edit-todo-page").hide()
       $("#edit-todo-page").empty()
     })
@@ -325,6 +330,9 @@ function editTodo(id, event) {
     $("#home-page").show();
     $("#add-todo-page").hide();
     $("#edit-todo-page").empty()
+    $("#homepage_navbar").show()
+    $("#weather-card").show()
+    $("#add-todo-button").show()
     Swal.fire(
       'Good job, you just edited your todo!',
       'success'
@@ -346,6 +354,8 @@ function todoById(id) {
   }).done(response => {
     $(`#todo-description${id}`).append(response.description);
     $(`#info-button${id}`).hide();
+    $("#weather-card").show()
+    weather()
   }).fail(err => {
     console.log(err)
   })
@@ -441,7 +451,7 @@ function deleteTodo(id) {
     })
     .done(response => {
         $("#content-card").empty()
-        $("#weather-card").empty()
+        $("#weather-card").show()
         fetchTodo()
         weather()
         Swal.fire(
@@ -482,6 +492,10 @@ $("#add-todo-button").on('click', () => {
     $("#homepage_navbar").hide()
     $("#add-todo-page").show()
     $("#add-todo-button").hide()
+    $("#add-title-todo").val('')
+    $("#add-description-todo").val('')
+    $("#add-due-date-todo").val('')
+    $("#add-clock-todo").val('')
 })
 
 $("#cancel-button").on('click', ()=> {
@@ -517,13 +531,14 @@ function addTodo(event) {
         fetchTodo()
         weather()
         $("#content-card").empty();
-        $("#weather-card").empty()
+        $("#weather-card").show()
         $("#register-page").hide()
         $("#login-page").hide()
         $("#home-page").show()
         $("#homepage_navbar").show()
         $("#add-todo-page").hide()
         $("#add-todo-button").show()
+        
         Swal.fire(
           'Good job, you just added your todo!',
           'success'
