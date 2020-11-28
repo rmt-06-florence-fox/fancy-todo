@@ -4,6 +4,7 @@ $(document).ready(function () {
         $('#body-main').css('background', 'none')
         showMainPage()
         fetchTodos()
+        // fetchNews()
     } else if (localStorage.getItem('register') == 1) {
         showRegister()
     } else {

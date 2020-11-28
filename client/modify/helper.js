@@ -74,7 +74,7 @@ function login() {
             showMainPage()
             $('#body-main').css('background', 'none')
             fetchTodos()
-
+            fetchNews()
         })
         .fail((xhr, textStatus) => {
             console.log(xhr, '<<');
@@ -135,7 +135,7 @@ function fetchTodos() {
         })
         .done(response => {
             console.log(response);
-            fetchNews()
+            // fetchNews()
             $('#table-todo').append(`
             <thead class="thead-dark">
                 <tr>
@@ -265,6 +265,8 @@ function onSignIn(googleUser) {
             // console.log(response);
             localStorage.setItem('access_token', response.access_token)
             showMainPage()
+            fetchTodos()
+            fetchNews()
         })
         .fail(err => {
             console.log(err);
