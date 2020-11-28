@@ -3,7 +3,7 @@ const { Todo } = require('../models')
 
 class TodoController {
     static async createTodo (req, res, next) {
-        const { title, description, status, due_date} = req.body
+        const { title, description, status, due_date } = req.body
         const UserId = req.loggedInUser.id
         const payload = { title, description, status, due_date, UserId}
 
