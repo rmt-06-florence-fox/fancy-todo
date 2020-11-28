@@ -14,7 +14,6 @@ const authentication = async (req, res, next) => {
         throw {name: 'Authentication failed'}
       } else {
         req.loggedInUser = decoded
-        console.log("🚀 ~ file: authentication.js ~ line 17 ~ authentication ~ req.loggedInUser", req.loggedInUser)
         next()
       }
     }
