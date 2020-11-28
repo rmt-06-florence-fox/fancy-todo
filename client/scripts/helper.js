@@ -6,6 +6,7 @@ function landing () {
             .on('click', _=> {
                 $('#formregister').show();
                 $('#formlogin').hide()
+                $('#error-log').empty()
           })
         })
 
@@ -15,6 +16,7 @@ function landing () {
           .on('click', _=> {
                 $('#formregister').hide();
                 $('#formlogin').show()
+                $('#errorlog').empty()
           })
       });
 
@@ -38,21 +40,33 @@ function landing () {
                 homepage()
             })
             .fail((xhr, textStatus) => {
+               
                 const errorLog = xhr
                                     .responseJSON
                                     .errors
-                                    .map(el => el.message)
+                                    // .map(el => el.message)
                                    
                 errorLog.forEach( el => {
                     $('#errorlog').append(
-                        `<small id="errmes" class="form-text text-danger">${el}</small>`
+                        `<div><small id="errmes" class="form-text text-danger">${el.message}</small></div>`
                     )                    
-                })                   
+                })        
+                
+                if(xhr
+                    .responseJSON
+                    .errors[0]
+                    .message == 'email must be unique') {
+                        $('#errorlog').empty()
+                        $('#errorlog').append(
+                            `<div><small id="errmes" class="form-text text-danger">Email have been used</small></div>`
+                        )    
+                    }
                 // alert(errorLog)
                 console.log(xhr
                     .responseJSON
                     .errors[0]
                     .message)
+
             })
             .always(_=> {
                 $('#namereg').val('')
@@ -63,6 +77,7 @@ function landing () {
 
     //login user
     $('#formlogin').on('submit', e => {
+        $('#error-log').empty()
         e.preventDefault()
         const data = {
                         email: $('#emaillog').val(),
@@ -79,7 +94,16 @@ function landing () {
                 homepage()
             })
             .fail((xhr, textStatus) => {
-                console.log(xhr)
+                const errorLog = xhr
+                .responseJSON
+                .message
+                // .map(el => el.message)
+                console.log(errorLog)
+               
+                $('#error-log').append(
+                    `<div><small id="errmes" class="form-text text-danger">${errorLog}</small></div>`
+                )                    
+
             })
             .always(_=> {
                 $('#emaillog').val('')
@@ -107,40 +131,111 @@ function homepage () {
         })
         .done (msg => {
             $('#list').empty()
+            $('#complete-list').empty()
+            $('#uncomplete-list').empty()
+            $('#missing-list').empty()
             const list = msg.list
+            let completedList = 0
+            let uncompletedList = 0
+            let missingList = 0
+
+            $('#tabel-all').show()
+            $('#tabel-complete').hide()
+            $('#tabel-uncomplete').hide()
+            $('#tabel-missing').hide()
 
             list.forEach(el => {
+                let dateLog = new Date (el.due_date)
+                let date = dateLog.toDateString()
+                let time = dateLog.toTimeString().split('GMT')[0]
+                console.log(date, time)
                 if (el.status == false) {
+                    if(new Date(el.due_date) < new Date ()) {
+                        missingList++
+                        $('#missing-list').prepend(`
+                    <tr class='row'>
+                        <td class="col"><b>${el.title}</b><br>
+                            ${el.desrcription}  <br>
+                            <span class="badge bg-light text-dark"><em> due </em> ${date} ${time}</span> 
+                        </td>
+                        <td class="col-md-auto d-flex align-items-center">
+                            <button type="button" class="btn btn-warning btn-sm mr-1" onclick="editTask(${el.id})">Edit</button>
+                            <button type="button" class="btn btn-success btn-sm mr-1" onclick="patchTask(${el.id})">Mark As Done</button>
+                            <button type="button" class="btn btn-dark btn-sm delbut" onclick="deleteTask(${el.id})">Delete</button>
+                        </td>
+                    </tr>
+                                `)
+                    }
+                    uncompletedList++
+                    //adding item to all tab
                     $('#list').prepend(`
                     <tr class='row'>
                         <td class="col"><b>${el.title}</b><br>
-                            ${el.desrcription} 
+                            ${el.desrcription}  <br>
+                            <span class="badge bg-light text-dark"><em> due </em> ${date} ${time}</span> 
+                            
                         </td>
                         <td class="col-md-auto d-flex align-items-center">
-                        <button type="button" class="btn btn-warning btn-sm mr-1" onclick="editTask(${el.id})">Edit</button>
-                        <button type="button" class="btn btn-success btn-sm mr-1" onclick="patchTask(${el.id})">Mark As Done</button>
-                        <button type="button" class="btn btn-dark btn-sm" onclick="deleteTask(${el.id})">Delete</button>
+                            <button type="button" class="btn btn-warning btn-sm mr-1" onclick="editTask(${el.id})">Edit</button>
+                            <button type="button" class="btn btn-success btn-sm mr-1" onclick="patchTask(${el.id})">Mark As Done</button>
+                            <button type="button" class="btn btn-dark btn-sm delbut" onclick="deleteTask(${el.id})">Delete</button>
+                        </td>
+                    </tr>
+                                `)
+
+                    //add to missing tab
+                    $('#uncomplete-list').prepend(`
+                    <tr class='row'>
+                        <td class="col"><b>${el.title}</b><br>
+                            ${el.desrcription}  <br>
+                            <span class="badge bg-light text-dark"><em> due </em> ${date} ${time}</span>  
+                        </td>
+                        <td class="col-md-auto d-flex align-items-center">
+                            <button type="button" class="btn btn-warning btn-sm mr-1" onclick="editTask(${el.id})">Edit</button>
+                            <button type="button" class="btn btn-success btn-sm mr-1" onclick="patchTask(${el.id})">Mark As Done</button>
+                            <button type="button" class="btn btn-dark btn-sm delbut" onclick="deleteTask(${el.id})">Delete</button>
                         </td>
                     </tr>
                                 `)
                 } else {
+                    completedList++
                     $('#list').prepend(`
                     <tr class='row'>
                         <td class="col"><b>${el.title}</b><br>
-                            ${el.desrcription} 
+                            ${el.desrcription}  <br>
+                            <span class="badge bg-light text-dark"><em> due </em> ${date} ${time}</span>  
                         </td>
                         <td class="col-md-auto d-flex align-items-center">
-                        <button type="button" class="btn btn-warning btn-sm" style="margin-right: 7px;" onclick="editTask(${el.id})">Edit</button>
-                        <button type="button" class="btn btn-danger btn-sm mr-1" onclick="patchTask(${el.id})">Mark  Undone</button>
-                        <button type="button" class="btn btn-dark btn-sm" onclick="deleteTask(${el.id})">Delete</button>
+                            <button type="button" class="btn btn-warning btn-sm" style="margin-right: 7px;" onclick="editTask(${el.id})">Edit</button>
+                            <button type="button" class="btn btn-danger btn-sm mr-1" onclick="patchTask(${el.id})">Mark  Undone</button>
+                            <button type="button" class="btn btn-dark btn-sm delbut" onclick="deleteTask(${el.id})">Delete</button>
                         </td>
                     </tr>
                                 `)
+                    
+                        $('#complete-list').prepend(`
+                        <tr class='row'>
+                            <td class="col"><b>${el.title}</b><br>
+                                ${el.desrcription}  <br>
+                            <span class="badge bg-light text-dark"><em> due </em> ${date} ${time}</span>  
+                            </td>
+                            <td class="col-md-auto d-flex align-items-center">
+                                <button type="button" class="btn btn-warning btn-sm" style="margin-right: 7px;" onclick="editTask(${el.id})">Edit</button>
+                                <button type="button" class="btn btn-danger btn-sm mr-1" onclick="patchTask(${el.id})">Mark  Undone</button>
+                                <button type="button" class="btn btn-dark btn-sm delbut" onclick="deleteTask(${el.id})">Delete</button>
+                            </td>
+                        </tr>
+                                    `)
                 }
             })
-            console.log(list)
+            // console.log(list)
+            $('#all-count').text(list.length)
+            $('#uncomplete-count').text(uncompletedList)
+            $('#complete-count').text(completedList)
+            $('#missing-count').text(missingList)
 
-            //atur link navigasi bawah
+ 
+
             
         })
         .fail((xhr, textStatus) => {

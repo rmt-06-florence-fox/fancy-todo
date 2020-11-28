@@ -106,5 +106,44 @@ $(document).ready (function(){
       }
     })
 
-    
+         //atur link navigasi atas
+         $('#alltask').on({
+          click: _=> {
+              console.log('alltask')
+              $('#tabel-all').show()
+              $('#tabel-complete').hide()
+              $('#tabel-uncomplete').hide()
+              $('#tabel-missing').hide()
+          }
+      })
+      $('#uncomplete-task').on({
+          click: _=> {
+              console.log('uncompletetask')
+              $('#tabel-all').hide()
+              $('#tabel-complete').hide()
+              $('#tabel-uncomplete').show()
+              $('#tabel-missing').hide()
+          }
+      })
+      $('#completetask').on({
+          click: _=> {
+              console.log('completetask')
+              $('#tabel-all').hide()
+              $('#tabel-complete').show()
+              $('#tabel-uncomplete').hide()
+              $('#tabel-missing').hide()
+          }
+      })
+      $('#missingtask').on({
+          click: _=> {
+              console.log('missingtask')
+              $('#tabel-all').hide()
+              $('#tabel-complete').hide()
+              $('#tabel-uncomplete').hide()
+              $('#tabel-missing').show()
+          }
+      })
+     
+
+
   });

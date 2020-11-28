@@ -15,6 +15,9 @@ class ControllerMain {
 
 	static async login(req, res, next) {
 		try {
+			if (!req.body.password || !req.body.email) {
+				throw {status: 401, message:`password/email don't match`}
+			}
 			const getUser = await User.findOne({
 				where: {
 					email: req.body.email,

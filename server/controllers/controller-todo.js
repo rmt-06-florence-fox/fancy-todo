@@ -8,7 +8,7 @@ class ControllerTodo {
 				where: {
 					UserId: req.loggedUser.id
 				},
-				order: [['due_date', 'DESC']]
+				order: [['due_date', 'ASC']]
 			});
 			res.status(200).json({ list });
 		} catch (err) {
