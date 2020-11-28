@@ -107,6 +107,10 @@ const login = (ev) => {
 function logout() {
 	localStorage.removeItem('access_token')
 	showRegister()
+	var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
 }
 
 // save access token in application
@@ -255,3 +259,30 @@ const updateToDoForm = (id, title, description, due_date) => {
 	$('#edit_due_date').val(due_date)
 	idTemp = id
 }
+
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+	const googleToken = googleUser.getAuthResponse().id_token;
+	console.log(googleToken);
+
+	$.ajax({
+    url: `${SERVER}/googleLogin`,
+    method: 'POST',
+    data: {
+      googleToken
+    } 
+  })
+  .done(res => {
+    console.log(`glogin succes`)
+    localStorage.setItem('access_token', res.access_token)
+		afterLogin()
+		fetchTodos()
+    console.log(res)
+  })
+  .fail(err => {
+    console.log(err)
+  })
+}
+
