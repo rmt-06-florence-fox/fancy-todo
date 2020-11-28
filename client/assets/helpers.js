@@ -14,6 +14,7 @@ function showMainPage(){
   $("#add-todo-form").hide()
   $("#edit-todo-form").hide()
   showTodos()
+  quotes()
 }
 function loginUser(email, password){
   $.ajax({
@@ -26,7 +27,6 @@ function loginUser(email, password){
   })
   .done(function(response) {
     localStorage.setItem("access_token", response.access_token)
-    console.log("Berhasil login")
     showMainPage()
   })
   .fail(xhr => {
@@ -64,7 +64,6 @@ function registerUser(first_name, last_name, username, email,password){
         </div>
       `)
       showHomePage()
-      console.log(response)
     })
     .fail(xhr => {
       for(let i = 0; i < xhr.responseJSON.message.length; i++){
@@ -99,7 +98,6 @@ function showTodos(){
     calendar.getEvents().forEach(element => {
       element.remove()
     });
-    //console.log(response)
     $("#todos-list-ongoing").empty()
     $("#todos-list-completed").empty()
     for (let i = 0; i < response.length; i++){
@@ -144,25 +142,6 @@ function showTodos(){
 
 }
 
-{/* <div id="accordion" style="padding-left: 10px;">
-<div class="card">
-<div class="card-header">
-<a class="card-link" data-toggle="collapse" href="#collapseOne">
-  <strong>${response[i].title}<strong> <br>
-    <button id="btn-update-status-todo" class="btn btn-primary" onclick="updateStatus(${response[i].id})">Mark As Done</button> <button id="btn-delete-todo" class="btn btn-danger" onclick="deleteTodo(${response[i].id})">Delete</button> <button id="btn-edit-todo" class="btn btn-success" data-toggle="modal" data-target="#edit-form" onclick="toggleEditForm(${response[i].id})">Edit</button>
-</a>
-</div>
-<div id="collapseOne" class="collapse show" data-parent="#accordion">
-  <div class="card-body">
-    <p>${response[i].description}</p>
-    <p>${response[i].due_date}</p>
-    <p>${response[i].status}</p>
-  </div>
-</div>
-</div>
-</div> */}
-
-
 function addTodos(title, description, due_date, status){
   $.ajax({
     method: "POST",
@@ -186,7 +165,6 @@ function addTodos(title, description, due_date, status){
       </div>
     `)
     showMainPage()
-    console.log(response)
   })
   .fail(xhr => {
     for(let i = 0; i < xhr.responseJSON.message.length; i++){
@@ -225,7 +203,6 @@ function toggleEditForm(id){
     TodoId = response.id
 
     $("#edit-todo-form").toggle()
-    console.log(response)
   })
   .fail(function(xhr) {
     console.log(xhr)
@@ -254,7 +231,6 @@ function editTodo(title, description, due_date, status, TodoId){
       Successfully edit todo list!
       </div>
     `)
-    console.log("Berhasil edit data")
     showMainPage()
   })
   .fail(xhr => {
@@ -355,14 +331,34 @@ function onSignIn(googleUser) {
   .done(response => {
     localStorage.setItem("access_token", response.access_token)
     showMainPage()
-    console.log(response)
   })
   .fail(err => {
     console.log(err)
   })
-  // console.log(id_token)
   
 
+}
+
+function quotes(){
+  $.ajax({
+    url: "http://localhost:3000/quotes",
+    method: "GET"
+  })
+  .done(response => {
+    $("#quotes").empty()
+    $("#quotes").prepend(`
+    <figure class="card" style="background: #eee; width: 30rem;>
+      <blockquote class="text-center">
+        ${response.quotes}
+      </blockquote>
+      <figcaption class="text-center">&mdash; ${response.author} </figcaption>
+  </figure>
+    `)
+    console.log(response)
+  })
+  .fail(err => {
+    console.log(err + "<<<< ini error")
+  })
 }
 
 

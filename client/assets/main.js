@@ -12,10 +12,6 @@ $(document).ready(function(){
     let email = $("#email-login").val()
     let password = $("#password-login").val()
     loginUser(email,password)
-    console.log({
-      email,
-      password
-    })
   })
 
   $("#submit-register-form").on("submit", function(event){

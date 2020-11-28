@@ -51,10 +51,13 @@
                   Password:<br>
                   <input type="password" name="password" id="password-login" required><br>
                 </div>
+                
+                <button type="submit" class="btn btn-primary" style="margin-left: auto; margin-right: auto;">Login</button>
+               
+                <div style="font-style: italic; font-size: small; margin-top: 10px; margin-bottom: 10px;">or sign in with Google Account</div>
+               
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
               
-                <button type="submit" class="btn btn-primary mx-auto">Login</button><br>
-                <div style="font-style: italic; font-size: small;" class="text-center">or sign in with Google Account</div><br>
-                <div class="g-signin2" data-onsuccess="onSignIn" class="mx-auto"></div>
               </form>
             </div>
           </div>
@@ -109,10 +112,11 @@
       <button id="btn-logout" class="btn btn-secondary ml-auto">logout</button>
     </nav>
     <br>
-    <div style="padding-left: 10px;">
+    <div style="padding-left: 15px;">
       <button id="btn-add-todo" class="btn btn-primary" data-toggle="modal" data-target="#add-form">Add Todo</button>
     </div>
     <br>
+
       <div class="row">
 
         <div class="card col-sm-4 mx-auto" style="max-width: 35rem;">
@@ -140,7 +144,8 @@
           
         </div> -->
         <div class="col-sm-8">
-          <div id="calendar"></div>
+          <div id="quotes" class="d-flex justify-content-center text-center"></div><br>
+          <div id="calendar" style="height: 80%; width: 100%;" class="d-flex justify-content-center"></div>
         </div>
       </div>
   </div>
