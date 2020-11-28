@@ -4,6 +4,22 @@ h1 {
     text-align: center;
 }
 
+body{
+    background-image: url('https://cdn.wallpaperhub.app/cloudcache/7/4/f/3/d/5/74f3d51cbec9db78da32e103de1b28538af1b76a.jpg');
+    background-size: cover;
+    color: beige;
+}
+
+.form-login{
+    margin-left: 30%;
+    margin-top: 17%;
+    font-size: 30px;
+}
+
+h1{
+    color: beige;
+}
+
 .main-page{
     background-image: url('http://i.stack.imgur.com/kx8MT.gif');
     background-size: cover;
@@ -61,4 +77,14 @@ button{
     font-size: 20px;
     border-radius: 4px;
 }
+
+button:hover{
+    background-color: #3e8e41
+}
+
+button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
 
