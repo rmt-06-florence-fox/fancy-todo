@@ -1,7 +1,7 @@
 $(document).ready( () => {
 
-  //launch()
-  //displayLogin()
+  launch()
+  displayLogin()
   
   $('#login-form').submit( e => {
     e.preventDefault()
@@ -34,19 +34,26 @@ $(document).ready( () => {
     logOut()
   })
 
+  $('#login-button').on('click', () => {
+    displayLogIn()
+  })
+
   $('#register-form').submit(e => {
     e.preventDefault()
+    const name = $('#register-name').val()
     const email = $('#register-email').val()
     const password = $('#register-password').val()
     $.ajax({
       url: "http://localhost:3000/register",
       method: "POST",
       data: {
+        name,
         email,
         password
       }
     })
     .done(()=> {
+      $('#register-name').val("")
       $('#register-email').val("")
       $('#register-password').val("")
       launch()
@@ -61,7 +68,71 @@ $(document).ready( () => {
     launch()
     displayRegister()
   })
+
+  $('#add-button').on('click', () => {
+    $('#news-today').hide()
+    $('#add-button').hide()
+    $('#todo-list').hide()
+    $('#add-todo').show()
+  })
+
+  $('#cancel-add').on('click', () => {
+    $('#news-today').show()
+    $('#add-button').show()
+    $('#todo-list').show()
+    $('#add-todo').hide()
+  })
   
+  $('#add-todo').submit(e => {
+    e.preventDefault()
+    const title = $('#todo-title').val()
+    const description = $('#todo-description').val()
+    const due_date = $('#todo-due_date').val()
+    $.ajax({
+      url: "http://localhost:3000/todos",
+      method: "POST",
+      data: {
+        title,
+        description,
+        due_date
+      },
+      headers: {
+        'access_token' : localStorage.getItem('access_token')
+      }
+    })
+    .done(data => {
+      const todo = `
+      <div class="card mt-2">
+        <header class="card-header">
+          <h5 class="card-header-title">${data.title}</h5>
+        </header>
+        <div class="card-content>
+          <div class="content">
+            <time>${data.due_date}</time>
+            <br>
+            <p>${data.description}</p>
+          </div>
+        </div>
+        <div>
+          <footer class="card-footer">
+            <a href="#" class="card-footer-item" onclick="editTodo(${data.id})">Update</a>
+            <a href="#" class="card-footer-item" onclick="deleteTodo(${data.id})">Remove</a>
+          </footer>
+        </div>
+      </div>`
+      $('#todo-list').append(todo)
+      $('#todo-title').val("")
+      $('#todo-description').val("")
+      $('#todo-due_date').val("")
+      $('#news-today').show()
+      $('#add-button').show()
+      $('#todo-list').show()
+      $('#add-todo').hide()
+    })
+    .fail(response => {
+      $('#add-todo-error').text(response.responseJSON.message)
+    })
+  })
 })
 
 function launch() {
@@ -88,6 +159,7 @@ function displayRegister() {
 function displayMainPage() {
   getTodos()
   getNews()
+  $('#add-todo').hide()
   $('#main-page').show()
   $('#login-form').hide()
   $('#register-form').hide()
@@ -106,39 +178,105 @@ function getTodos() {
     let todos = ``
     data.forEach(el => {
       todos += `
-      <div class="card">
-        <header class="card-header">
-          <h5 class="card-header-title">${el.title}</h5>
-        </header>
-        <div class="card-content>
-          <div class="content">
-            <time>${el.due_date}</time>
-            <br>
-            <p>${el.description}</p>
+      <div class="card mt-2">
+        <div id="todo-${el.id}">
+          <header class="card-header">
+            <h5 class="card-header-title">${el.title}</h5>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              <time>${el.due_date}</time>
+              <br>
+              <p>${el.description}</p>
+            </div>
+          </div>
+          <div>
+            <footer class="card-footer">
+              <a href="#" class="card-footer-item" onclick="event.preventDefault();document.getElementById('edit-todo-${el.id}').style.display = 'block';document.getElementById('todo-${el.id}').style.display = 'none';">Update</a>
+              <a href="#" class="card-footer-item" onclick="deleteTodo(${el.id})">Remove</a>
+            </footer>
           </div>
         </div>
-        <div>
-          <footer class="card-footer">
-            <a href="#" class="card-footer-item" onclick="editTodo(${el.id})">Update</a>
-            <a href="#" class="card-footer-item" onclick="deleteTodo(${el.id})">Remove</a>
-          </footer>
+
+          <form id="edit-todo-${el.id}" style="display:none;" onsubmit="editTodo(${el.id});event.preventDefault();">
+              <header class="card-header">
+                <input type="text" id="todo-title-${el.id}" class="input" placeholder="Enter Todo Title" value="${el.title}">
+              </header>
+              <div class="card-content">
+                <div class="content">
+                  <div class="field">
+                    <input id="todo-due_date-${el.id}" value="${el.due_date}" type="date" class="input">
+                  </div>
+                  <br>
+                  <div class="field">
+                    <textarea id="todo-description-${el.id}" class="textarea" rows="3" placeholder="Enter description">${el.description}</textarea>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <footer class="card-footer">
+                  <button class="card-footer-item has-text-white-bis has-background-link" type="submit">
+                    Edit
+                  </button>
+                  <a href="#" class="card-footer-item has-text-white-bis has-background-danger" onclick="event.preventDefault();document.getElementById('edit-todo-${el.id}').style.display = 'none';document.getElementById('todo-${el.id}').style.display = 'block';">
+                    Cancel
+                  </a>
+                </footer>
+              </div>
+          </form>
         </div>
+        
       </div>`
     })
-    $('#todo-list').append(todos)
+    $('#todo-list').html(todos)
   })
 }
 
 function editTodo(id) {
-  console.log(id)
+  const title = $(`#todo-title-${id}`).val()
+  const description = $(`#todo-description-${id}`).val()
+  const due_date = $(`#todo-due_date-${id}`).val()
+
+  $.ajax({
+    url: `http://localhost:3000/todos/${id}`,
+    method: "PUT",
+    data: {
+      title,
+      description,
+      due_date
+    },
+    headers: {
+      access_token: localStorage.getItem("access_token")
+    }
+  })
+  .done(() => {
+    getTodos()
+  })
+  .fail((err) => {
+    console.log(err)
+  })
 }
 
 function deleteTodo(id) {
-  console.log(id)
+  $.ajax({
+    url: `http://localhost:3000/todos/${id}`,
+    method: "DELETE",
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    }
+  })
+  .done(() => {
+    getTodos()
+  })
+  .fail(error => {
+    console.log(error)
+  })
 }
 
 function logOut() {
   localStorage.removeItem('access_token')
+  $('#news').empty()
+  $('#todo-list').empty()
   launch()
   displayLogin()
 }
@@ -168,7 +306,8 @@ function getNews() {
           <br>
           <div class="content">
             <p>${news.description}</p>
-            <time>${news.publishedAt}</time>
+            <time>${news.publishedAt}</time><br>
+            <a href=${news.url}>Click to see more of this news</a>
           </div>
         </div>
       </div>`
