@@ -1,4 +1,4 @@
-const SERVER = 'https://gute-fancy.herokuapp.com'
+const SERVER = 'https://gute-fancy.herokuapp.com/'
 
 const Toast = Swal.mixin({
     toast: true,

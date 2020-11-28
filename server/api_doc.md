@@ -427,7 +427,8 @@ not needed
    
      ```
     {
-      "appid": "<your appid>"
+      access_key: your access key,
+      query: 'Jakarta'
     }
     ``
 
@@ -438,11 +439,10 @@ not needed
 {
     {
     "weather": {
-        "main": "Rain",
-        "description": "moderate rain",
-        "temp": 300.65,
-        "country": "ID",
-        "name": "Jakarta"
+        "query": "Rain",
+        "description": "Light rain",
+        "temperature": 32,
+        "location": "Jakarta,ID",
     }
 }
 }
@@ -452,47 +452,3 @@ not needed
   * **Code:** 500 INTERNAL SERVER ERROR <br />
     **Content:** `{ message : "Internal server error!" }`
 
-
-**GET MUSIC**
-----
-> get recomendation Music
-
-* **URL**
-
-  /music
-
-* **Method:**
-  
-  `GET`
-
-* **_Request Header_**
-
-  none
-
-* **_Request Params_**
-   
-  none
-
-* **Success Response:**
-
-  * **Code:** 201 <br />
-    **Content:**
-{
-[
-    {
-        "title": "Bohemian Rhapsody",
-        "artist": "Queen",
-        "album": "A Night At The Opera (2011 Remaster)"
-    },
-    {
-        "title": "Don't Stop Me Now",
-        "artist": "Queen",
-        "album": "Jazz (2011 Remaster)"
-    },
-]
-}
- 
-* **Error Response:**
-
-  * **Code:** 500 INTERNAL SERVER ERROR <br />
-    **Content:** `{ message : "Internal server error!" }`
