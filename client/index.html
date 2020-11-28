@@ -98,7 +98,7 @@
 
 
 
-
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script src="http://code.jquery.com/jquery-3.5.1.min.js"
     integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -132,8 +132,6 @@
     function showEditForm(data) {
       hideAll();
       $('#sign-out-button').show();
-
-      // console.log(data);
       $('#edit-page').show().empty().append(`
         <form id="edit-form" onsubmit="updateTodo(${data.id})">
           <div class="form-group">
@@ -157,19 +155,19 @@
       var id_token = googleUser.getAuthResponse().id_token;
       console.log(id_token);
       $.ajax({
-        url:'http://localhost:3000/googlelogin',
+        url: 'http://localhost:3000/googlelogin',
         method: 'POST',
-        data :{
-          googleToken : id_token
+        data: {
+          googleToken: id_token
         }
       })
-      .done(response=>{
-        localStorage.setItem('access_token', response.access_token)
-        showMainPage();
-      })
-      .fail((xhr,textStatus)=>{
-        console.log(xhr,textStatus);
-      })
+        .done(response => {
+          localStorage.setItem('access_token', response.access_token)
+          showMainPage();
+        })
+        .fail((xhr, textStatus) => {
+          console.log(xhr, textStatus);
+        })
     }
 
     function login() {
@@ -274,7 +272,6 @@
     function create() {
       const tittle = $('#inputTittle').val();
       const description = $('#inputDescription').val();
-      // const status = $('#inputStatus').val();
       const due_date = $('#inputDuedate').val();
 
       console.log(tittle, description, status, due_date);
@@ -288,11 +285,15 @@
         data: {
           tittle,
           description,
-          // status,
           due_date
         }
       })
         .done(_ => {
+          swal({
+            title: "Todo added!",
+            icon: "success",
+            button: "lets go!",
+          });
           fetchAll();
         })
         .fail((xhr, textStatus) => {
@@ -301,26 +302,42 @@
         .always(_ => {
           $('#inputTittle').val("");
           $('#inputDescription').val("");
-          // $('#inputStatus').val("");
           $('#inputDuedate').val("");
         })
     }
 
     function deleteTodo(id) {
       console.log(id);
-      $.ajax({
-        method: 'DELETE',
-        url: `http://localhost:3000/todos/${id}`,
-        headers: {
-          access_token: localStorage.getItem('access_token')
-        }
+      swal({
+        title: "Delete?",
+        text: "Once deleted, you will not be able to recover this todo!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
       })
-        .done(_ => {
-          fetchAll()
-        })
-        .fail((xhr, textStatus) => {
-          console.log(xhr, textStatus);
-        })
+        .then((willDelete) => {
+          if (willDelete) {
+            $.ajax({
+              method: 'DELETE',
+              url: `http://localhost:3000/todos/${id}`,
+              headers: {
+                access_token: localStorage.getItem('access_token')
+              }
+            })
+              .done(_ => {
+                fetchAll()
+              })
+              .fail((xhr, textStatus) => {
+                console.log(xhr, textStatus);
+              })
+            swal("Deleted", {
+              icon: "success",
+            });
+          } else {
+            swal("well.. okay..");
+          }
+        });
+
     }
 
     function editTodo(id) {
@@ -344,7 +361,6 @@
 
       const tittle = $('#editTittle').val();
       const description = $('#editDescription').val();
-      // const status = $('#editStatus').val();
       const due_date = $('#editDuedate').val();
       console.log(id, tittle, description, status, due_date);
 
