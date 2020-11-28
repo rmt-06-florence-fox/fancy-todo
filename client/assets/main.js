@@ -1,28 +1,25 @@
 $(document).ready(function(){
     if(localStorage.getItem('accesstoken')){
-       mainhome()
+        mainhome()
     } else {
-        signup()
+        home()
     }
     
-    $('#f-signup').on('submit', function(e){
-        e.preventDefault()
+    $('#f-signup').on('submit', function(){
+        // e.preventDefault()
         signupProcess()
     })
     $('#f-signin').on('submit', function(e){
         e.preventDefault()
         signinProcess()
     }) 
-    $('#signout').on('click', function(){
-        signOut()
-    })
     $('#f-createTodo').on('submit', function(e){
         e.preventDefault()
         createTodo()
     })
-    // $('#fe-createTodo').on('submit', function(e){
-    //     e.preventDefault()
-    //     editTodoProcess(id)
-    // })
+    $('#f-editTodo').on('submit', function(e){
+        e.preventDefault()
+        inputEdit()
+    })
     
 })

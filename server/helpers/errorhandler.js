@@ -13,10 +13,6 @@ module.exports = (err, req, res, next) => {
         res.status(404).json({
             message : "Data Not Found"
         })
-    } else if (err.msg == ""){
-        res.status().json({
-            message : err.errors[0].message
-        })
     } else {
         res.status(500).json(err)
     }

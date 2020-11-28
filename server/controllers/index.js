@@ -2,7 +2,7 @@ const {ToDo} = require('../models/index')
 
 class Controller{
 
-    static home(req, res){
+    static home(req, res, next){
         try {
            res.status(200).json('home') 
         } catch (err) {
@@ -98,7 +98,7 @@ class Controller{
         }
     }
 
-    static async updateData(req, res){
+    static async updateData(req, res, next){
         let id = Number(req.params.id)
         let stat =  { status : req.body.status}
         try {
@@ -124,7 +124,7 @@ class Controller{
         }
     }
 
-    static async deletedTodo(req, res){
+    static async deletedTodo(req, res, next){
         let id = Number(req.params.id)
         try {
             const find = await ToDo.findByPk(id)

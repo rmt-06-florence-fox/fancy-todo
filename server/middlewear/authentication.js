@@ -11,16 +11,24 @@ module.exports = (req, res, next) => {
           }
       } else {
             const decoded = verifyToken(token)
-            req.activeUser = decoded
-            const dataUser = User.findByPk(decoded.id)
-            if (dataUser == null){
+            if (!decoded) {
                 throw{
                     status : 404,
                     msg : "Data Not Found"
                 }
             } else {
-                next()
+                req.activeUser = decoded
+                const dataUser = User.findByPk(decoded.id)
+                if (dataUser == null){
+                    throw{
+                        status : 404,
+                        msg : "Data Not Found"
+                    }
+                } else {
+                    next()
+                }  
             }
+            
       }
     } catch (err) {
         console.log(err);

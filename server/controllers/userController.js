@@ -35,21 +35,30 @@ class UserController{
 
     static async google(req, res, next) {
         try {
-           const ticket = await client.verifyIdToken({
+            const ticket = await client.verifyIdToken({
                 idToken: req.body.tokenGoogle,
                 audience: process.env.GOOGLECLIENTID,
             });
             const payload = ticket.getPayload();
-            const userid = payload['sub']; 
-            console.log(userid, '< userid');
-            console.log(payload, '< payload');
+            const findUser = await User.findOne({where :
+                {email : payload.email}
+            })
+            if(findUser){
+                let accessToken =  generateToken({id : findUser.id, email : findUser.email})
+                res.status(200).json({accessToken})
+            } else {
+                const newUser = await User.create({
+                    email : payload.email,
+                    password : process.env.passwordGoogle
+                })
+                let dataShow = { id : newUser.id, email : newUser.email}
+                let accessToken = generateToken(dataShow)
+                res.status(201).json({accessToken})
+            }
         } catch (err) {
-            res.status(500).json(err)
+            next(err)
         }
-        
     }
-    //   verify().catch(console.error);
-    // }
 }
 
 module.exports = UserController
