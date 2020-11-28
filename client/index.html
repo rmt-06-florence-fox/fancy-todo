@@ -99,7 +99,9 @@
                           </tbody>
                         </table>
                     </div>
-                    
+                    <div style="min-height: 100px;">
+
+                    </div>
             </div>
 
             <!-- Add New Task -->
@@ -180,21 +182,23 @@
             </div>
 
             <!-- Tombol Nav Bawah -->
-            <div id="footernav" class="position-absolute top-100 left-50 translate-middle mb-5">
-              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="btnradio" id="homelink" autocomplete="off" checked onclick="homepage()">
-                <label class="btn btn-outline-dark" for="homelink">See List</label>
-              
-                <input type="radio" class="btn-check" name="btnradio" id="newlink" autocomplete="off"  onclick="newTask()">
-                <label class="btn btn-outline-dark" for="newlink">Add New</label>
-              
-                <input type="radio" class="btn-check" name="btnradio" id="suggestlink" autocomplete="off" onclick="getSuggest()">
-                <label class="btn btn-outline-dark" for="suggestlink">Get Suggestion</label>
+              <div class="fixed-bottom pb-5 bg-light pt-2" id="footernav">
+                <ul class="nav justify-content-center">
+                  <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio" id="homelink" autocomplete="off" checked onclick="homepage()">
+                    <label class="btn btn-outline-dark" for="homelink">See List</label>
+                  
+                    <input type="radio" class="btn-check" name="btnradio" id="newlink" autocomplete="off"  onclick="newTask()">
+                    <label class="btn btn-outline-dark" for="newlink">Add New</label>
+                  
+                    <input type="radio" class="btn-check" name="btnradio" id="suggestlink" autocomplete="off" onclick="getSuggest()">
+                    <label class="btn btn-outline-dark" for="suggestlink">Get Suggestion</label>
 
-                <input type="radio" class="btn-check" name="btnradio" id="logout" autocomplete="off" onclick="logout()">
-                <label class="btn btn-outline-primary" for="logout">Log Out</label>
+                    <input type="radio" class="btn-check" name="btnradio" id="logout" autocomplete="off" onclick="logout()">
+                    <label class="btn btn-outline-primary" for="logout">Log Out</label>
+                  </div>
+                </ul>
               </div>
-            </div>
           </div>
           <div class="col col-lg-2">
           </div>
