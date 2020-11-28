@@ -1,30 +1,29 @@
 //Authentication
-const {User} = require('../models')
-const {verifyToken} = require('../helpers')
-const Authentication= async (req,res, next)=>{
+const { User } = require('../models')
+const { verifyToken } = require('../helpers')
+const Authentication = async (req, res, next) => {
   try {
-    const {access_token} = req.headers
-   
-    if(!access_token){
-      throw{
+    const { access_token } = req.headers
+    if (!access_token) {
+      throw {
         status: 401,
         message: 'Please Login'
       }
-    }else{
+    } else {
       const decoded = verifyToken(access_token)
       const user = await User.findOne({
-        where:{
-          id : decoded.id
+        where: {
+          id: decoded.id
         }
       })
-      req.loggedIn=decoded
-      
-      if(!user){
-        throw{
-          status: 401,
-          message: 'Please Login'
+      req.loggedIn = decoded
+
+      if (!user) {
+        throw {
+          status: 404,
+          message: "User not found, please register"
         }
-      }else{
+      } else {
         next()
       }
     }
@@ -34,4 +33,4 @@ const Authentication= async (req,res, next)=>{
 
 }
 
-module.exports= Authentication
+module.exports = Authentication
