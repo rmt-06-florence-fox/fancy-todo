@@ -52,7 +52,16 @@ class Controller {
     }
     static async getTodo(req, res, next) {
         try {
-            let data = await Todo.findAll()
+            let UserId = req.userLoggedIn.id 
+            console.log(UserId)
+            let data = await Todo.findAll({
+                where : {
+                    UserId
+                },
+                order: [
+                    ['due_date', 'DESC']
+                ]
+            })
             res.status(200).json(data)
         } catch (error) {
             res.status(500).json({message: `internal server error`})            
@@ -78,18 +87,23 @@ class Controller {
     static async updateTodo(req, res, next){
         try {
             let id = req.params.id
-            let obj = {
+            // let obj = {
+            //     title: req.body.title,
+            //     description: req.body.description,
+            //     due_date: req.body.due_date
+            // }
+            let data = await Todo.update({
                 title: req.body.title,
                 description: req.body.description,
-                status: req.body.status,
                 due_date: req.body.due_date
-            }
-            let data = await Todo.update(obj, {
-                where: {
-                    id
-                },
-                returning: true,
+                }
+                , {
+                    where: {
+                        id
+                    },
+                    returning: true,
             })
+            console.log(data[1])
             if(!data[0]){
                 throw({
                     status: 404,
@@ -143,7 +157,8 @@ class Controller {
                 })
                 // res.status(404).json({message: `error not found`})
             } else {
-                res.status(200).json(data[1][0])
+                console.log(data)
+                res.status(200).json(data)
             }
         } catch (err) {
             next(err)

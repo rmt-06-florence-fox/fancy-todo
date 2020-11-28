@@ -17,8 +17,31 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: {
+        message: `email must be unique`,
+      },
+      validate: {
+        isEmail: true,
+        notNull: true,
+        notEmpty: true,
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        notNull: true,
+        minLength(value){
+          if(value.length < 4){
+            throw new Error(`min password length is 4`)
+          }
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'User',

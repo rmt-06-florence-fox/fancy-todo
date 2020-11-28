@@ -15,15 +15,24 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Todo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    status: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
         notNull: true,
       }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        notNull: true,
+      }
+    },
+    status: {
+      type: DataTypes.STRING,
     },
     due_date: {
       type: DataTypes.DATEONLY,
@@ -43,5 +52,12 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Todo',
   });
+  Todo.beforeCreate((instance, option) => {
+    instance.status =  "unfinished"
+  })
+  Todo.beforeUpdate((instance, option) => {
+    console.log('tes')
+    instance.status =  "unfinished"
+  })
   return Todo;
 };

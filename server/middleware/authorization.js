@@ -16,11 +16,11 @@ module.exports = async (req, res, next) => {
         if(data.UserId == req.userLoggedIn.id){
             next()
         } else {
+            console.log(`masuk sini kah?`)
             throw({
                 status: 401,
                 message: 'you are not authorized'
             })
-            // res.status(401).json({message: "you are not authorized"})
         }
     } catch (err) {
         next(err)

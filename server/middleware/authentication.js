@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
                     id: decode.id
                 }
             })
-            if(data){
+            if(data){   
                 next()
             } else {
                 throw({
