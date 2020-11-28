@@ -28,8 +28,8 @@ class UserController {
             })
             if (!data) {
                 throw {
-                    status: 400,
-                    message: "Invalid Email/Password"
+                    status: 404,
+                    message: "Invalid Account!"
                 }
             } else if (comparePass(req.body.password, data.password)) {
                 const payload = {
