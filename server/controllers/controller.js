@@ -37,9 +37,16 @@ class Controller {
             returning:true
          }
          )
-         res.status(201).json(data)
+         let response = await axios({
+            url : 'https://quote-garden.herokuapp.com/api/v2/quotes/random',
+            method :"GET",
+         })
+         let quote = response.data.quote
+
+         res.status(201).json([data,quote])
       }catch(err){
          next(err)
+         
       }
       
    }
@@ -114,13 +121,14 @@ class Controller {
             },
             returning:true
          })
-         if(updatedData[0] !== 0)
+         if(updatedData[0] !== 0){
             res.status(200).json(updatedData)
-         else
+         }else{
             throw{
                status:404,
                message:"Todo Not Found"
             }
+         }
       } catch (err) {
          next(err)
       }
@@ -157,7 +165,6 @@ class Controller {
          let data = await User.findOne({where:{email:target.email}})
 
          if(!data){
-            console.log('masuk error login')
             throw{
                status:400,
                message:"Invalid email/password"
