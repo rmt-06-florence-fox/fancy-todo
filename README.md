@@ -76,3 +76,104 @@
     **Content:** `{ error : Internal Server Error }`
 
 ----
+
+## POST /todos
+
+* **Success Response**
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```md
+    {
+
+    }
+    ```
+
+* **Error Response**
+
+  * **Code:** 400 <br />
+    **Content:** `{ error : Validation Error }`
+
+----
+
+## GET /todos
+
+* **Success Response**
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```md
+    {
+        
+    }
+    ```
+
+* **Error Response**
+
+  * **Code:** 500 <br />
+    **Content:** `{ error : Internal Server Error }`
+
+----
+
+## PUT /todos
+
+* **Success Response**
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```md
+    {
+        
+    }
+    ```
+
+* **Error Response**
+
+  * **Code:** 404 <br />
+    **Content:** `{ error : Not Found }`
+
+  * **Code:** 500 <br />
+    **Content:** `{ error : Internal Server Error }`
+
+----
+
+## PATCH /todos
+
+* **Success Response**
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```md
+    {
+        
+    }
+    ```
+
+* **Error Response**
+
+  * **Code:** 500 <br />
+    **Content:** `{ error : Internal Server Error }`
+
+----
+
+## DELETE /todos
+
+* **Success Response**
+
+  * **Code:** 200 <br />
+    **Content:**
+    ```md
+    {
+        
+    }
+    ```
+
+* **Error Response**
+
+  * **Code:** 404 <br />
+    **Content:** `{ error : Not Found }`
+
+  * **Code:** 500 <br />
+    **Content:** `{ error : Internal Server Error }`
+
+----
