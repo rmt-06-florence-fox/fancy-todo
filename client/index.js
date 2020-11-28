@@ -43,7 +43,7 @@ function onSignIn(googleUser) {
 
   $.ajax({
       method: 'POST',
-      url: SERVER + "/loginGoogle",
+      url: SERVER + "loginGoogle",
       data: {
         google_access_token
       }
@@ -86,7 +86,7 @@ function login(event) {
     const password = $("#input-password").val()
     $.ajax({
         method: "POST",
-        url: SERVER + '/login',
+        url: SERVER + 'login',
         data: {
             email,
             password
@@ -126,7 +126,7 @@ function register(event) {
   const password = $("#register-password").val();
   $.ajax({
     method: "POST",
-    url: SERVER + "/register",
+    url: SERVER + "register",
     data: {
       email,
       password
@@ -163,7 +163,7 @@ const access_token= localStorage.getItem('access_token')
 console.log(access_token)
 $.ajax({
     method: "GET",
-    url: SERVER + "/todos",
+    url: SERVER + "todos",
     headers: {
       access_token
     }
@@ -245,7 +245,7 @@ function editTodoSource(id) {
   const access_token = localStorage.getItem("access_token")
   $.ajax({
     method: "GET",
-    url: SERVER + "/todos/" + id,
+    url: SERVER + "todos/" + id,
     headers: {
       access_token
     }
@@ -308,7 +308,7 @@ function editTodo(id, event) {
   const date = new Date(due_date + " " + clock)
   $.ajax({
     method: "PUT",
-    url: SERVER + "/todos/" + id,
+    url: SERVER + "todos/" + id,
     headers: {
       access_token
     },
@@ -339,7 +339,7 @@ function todoById(id) {
   $("todo-description").show()
   $.ajax({
     method: "GET",
-    url: SERVER + "/todos/" + id,
+    url: SERVER + "todos/" + id,
     headers: {
       access_token
     }
@@ -354,7 +354,7 @@ function todoById(id) {
 function weather() {
     $.ajax({
         method: 'GET',
-        url: SERVER + '/weather'
+        url: SERVER + 'weather'
     })
     .done(response => {
         $("#weather-card").empty()
@@ -390,7 +390,7 @@ function doneStatus(id) {
     const status = true;
     $.ajax({
       method: "PATCH",
-      url: SERVER + "/todos/" + id,
+      url: SERVER + "todos/" + id,
       headers: {
         access_token
       },
@@ -416,7 +416,7 @@ function doneStatus(id) {
     const status = false;
     $.ajax({
       method: "PATCH",
-      url: SERVER + "/todos/" + id,
+      url: SERVER + "todos/" + id,
       headers: {
         access_token
       },
@@ -434,7 +434,7 @@ function deleteTodo(id) {
     const access_token= localStorage.getItem('access_token')
     $.ajax({
         method: 'DELETE',
-        url: SERVER + '/todos/' + id,
+        url: SERVER + 'todos/' + id,
         headers: {
             access_token
         }
@@ -503,7 +503,7 @@ function addTodo(event) {
     const date = new Date(due_date + " " + clock)
     $.ajax({
         method: 'POST',
-        url: SERVER + '/todos',
+        url: SERVER + 'todos',
         headers: {
             access_token
         },
