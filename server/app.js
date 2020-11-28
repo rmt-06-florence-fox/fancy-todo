@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 3002
 const routes = require('./routes/index')
 const errHandler = require('./helpers/errorhandler')
 const cors = require('cors')

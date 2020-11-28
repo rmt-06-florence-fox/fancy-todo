@@ -1,6 +1,7 @@
 module.exports = (err, req, res, next) => {
-    if (err.status){
-        res.status(err.status).json({message : err.message})
+    console.log(err.errors[0].message);
+    if (err.errors){
+        res.status(400).json({message : err.errors[0].message})
     } else if (err.msg == "Due Date"){
         res.status(400).json({
             message : "Due date must be h+1"
