@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken')
 const { User } = require('../models/index')
-
+const { verifyToken } = require('../helpers/jwt')
+ 
 async function authentication (req, res, next){
 
     try {
@@ -8,7 +8,7 @@ async function authentication (req, res, next){
         if(!access_token){
             res.status(401).json({message: `You haven't login yet`})
         } else {
-            const decoded = jwt.verify(access_token, 'SECRET')
+            const decoded = verifyToken(access_token)
             //console.log(decoded)
             const data = await User.findOne({
                 where:{
@@ -19,7 +19,7 @@ async function authentication (req, res, next){
                 req.loggedInUser = decoded
                 next()
             }else{
-                res.status(401).json({message: 'You need to login first'})
+                res.status(401).json({message: 'Token Expired'})
             }
         }  
     } catch (error) {

@@ -1,8 +1,8 @@
 const { Todo } = require('../models/index')
+const axios = require('axios')
 
 class TodosController {
-
-    static async getTodos(req,res){
+    static async getTodos(req,res,next){
         
         try {
             const data = await Todo.findAll({
@@ -13,11 +13,11 @@ class TodosController {
             })
             res.status(200).json(data)
         } catch (error) {
-            res.status(500).json(error)
+            next(error)
         }
     }
 
-    static async createTodo(req, res){
+    static async createTodo(req, res, next){
         
         const newTodo = {
             title: req.body.title,
@@ -29,17 +29,20 @@ class TodosController {
 
         try {
             if(new Date().getTime() > new Date(newTodo.due_date).getTime()){
-                res.status(400).json({message: 'validation errors'})
+                throw {
+                    status: 400,
+                    message: 'Date must be greater than today'
+                }
             }else{  
                 const data = await Todo.create(newTodo)
                 res.status(201).json(data)
             }
         } catch (error) {
-                res.status(500).json(error)
+            next(error)
         }
     }
 
-    static async getTodoById(req,res){
+    static async getTodoById(req,res,next){
         const id = req.params.id
 
         try {
@@ -48,14 +51,17 @@ class TodosController {
                 res.status(200).json(data)
             }
             else{
-                res.status(404).json({message: `Data not found`})
+                throw{
+                    status: 404,
+                    message: 'Data not found'
+                }
             }
         } catch (error) {
-            res.status(500).json(error)
+            next(error)
         }
     }
 
-    static async editTodo(req, res){
+    static async editTodo(req, res, next){
         const id = req.params.id
 
         const updateTodo = {
@@ -75,15 +81,18 @@ class TodosController {
             if(data[1].length > 0){
                 res.status(200).json(data[1][0])
             }else{
-                res.status(404).json({message: 'error id not found'})
+                throw{
+                    status: 404,
+                    message: 'Id not found'
+                }
             }
         } catch (error) {
-                res.status(500).json(error)
+            next(error)
         }
         
     }
 
-    static async editstatusTodo(req,res){
+    static async editstatusTodo(req,res,next){
         const id = req.params.id
 
         const updatestatusTodo = {
@@ -100,14 +109,17 @@ class TodosController {
             if(data[1].length > 0){
                 res.status(200).json(data[1][0])
             }else{
-                res.status(404).json({message: 'error id not found'})
+                throw{
+                    status: 404,
+                    message: 'Id not found'
+                }
             }
         } catch (error) {
-            res.status(500).json(error)
+            next(error)
         }
     }
 
-    static async deleteTodo(req,res){
+    static async deleteTodo(req,res,next){
         const id = req.params.id
 
         try {
@@ -119,11 +131,29 @@ class TodosController {
             if(data){
                 res.status(200).json({message: 'todo success to delete'})
             }else{
-                res.status(404).json({message: 'error not found'})
+                throw{
+                    status: 404,
+                    message: 'Id not found'
+                }
             }
         } catch (error) {
-            res.status(500).json(error)
+            next(error)
         }
+    }
+
+    static async todayNews(req,res,next){
+        axios({
+            url: 'https://api.nytimes.com/svc/topstories/v2/world.json?api-key=s1UTO3G3SN9GioZKGcUsOgueVVo88C83',
+            method: "GET"
+        })
+        .then(response => {
+            console.log(response.data.results[0])
+            res.status(200).json({title : response.data.results[0].title, url: response.data.results[0].url, image: response.data.results[0].multimedia[0].url})
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json(err)
+        })
     }
 }
 

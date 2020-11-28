@@ -5,6 +5,7 @@ const authorization = require('../middlewares/authorization')
 
 router.get('/', TodosController.getTodos)
 router.post('/', TodosController.createTodo)
+router.get('/news', TodosController.todayNews)
 
 router.get('/:id', authorization, TodosController.getTodoById)
 router.put('/:id', authorization, TodosController.editTodo)
