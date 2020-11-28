@@ -1,14 +1,20 @@
+function showRegistrationPage() {
+    $("#registration-page").show()
+    $("#login-page").hide()
+    $("#main-page").hide()
+    $("#btn-logout").show()
+}
 function showLoginPage() {
     $("#login-page").show()
+    $("#registration-page").hide()
     $("#main-page").hide()
     $("#btn-logout").show()
 }
 function showMainPage() {
     $("#login-page").hide()
+    $("#registration-page").hide()
     $("#main-page").show()
     $("#btn-logout").show()
-    $('#todo-edit').hide()
-    fetchTodos()
 }
 function showEditTodo() {
     $("#login-page").hide()
@@ -38,6 +44,29 @@ function showEditTodo() {
             <button type="submit">Submit</button>
         </form>
     `)                                   
+}
+function registration() {
+    const email = $("#email-register").val()
+    const password = $("#password-register").val()
+    console.log(email, '<<<email', password, '<<<password');
+    $.ajax({
+        url: 'http://localhost:3000/register',
+        method: 'POST',
+        data: {
+            email,
+            password
+        }
+    })
+    .done(response => {
+        showLoginPage()
+    })
+    .fail((xhr, textStatus) => {
+        console.log(xhr, textStatus)
+    })
+    .always(() => {
+        $("#email-register").val("")
+        $("#password-register").val("")
+    })
 }
 function login() {
     const email = $("#email-input").val()

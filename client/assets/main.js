@@ -2,11 +2,15 @@ $(document).ready(function() {
     if (localStorage.getItem('access_token')) {
         showMainPage()
     } else {
-        showLoginPage()
+        showRegistrationPage()
     }
     $("#todo-form").on("submit", function(e) {
         e.preventDefault()        
         createTodo()
+    })
+    $("#registration-form").on("submit", function(e) {
+        e.preventDefault()        
+        registration()
     })
     $("#login-form").on("submit", function(e) {
         e.preventDefault()        
@@ -14,5 +18,11 @@ $(document).ready(function() {
     })
     $("#btn-logout").on("click", function (e) {
         logout()
+    })
+    $('#back-login').click(()=> {
+        showLoginPage()
+    })
+      $('#back-register').click(() => {
+        showRegistrationPage()
     })
 });

@@ -5,7 +5,7 @@ function email(data){
         service: 'gmail',
         auth: {
             user: 'sandaksa98@gmail.com',
-            pass: 'Sandaksa321'
+            pass: process.env.NODEMAILER_PASS
         }
     });
 
