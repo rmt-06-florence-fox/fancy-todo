@@ -2,6 +2,7 @@ let TodoId = null
 let calendar
 
 
+
 function showHomePage(){
   $("#homepage").show()
   $("#main-page").hide()
@@ -95,17 +96,37 @@ function showTodos(){
         
   })
   .done(function( response ) {
+    let closestDeadline = {
+      daysLeft: 0,
+      activity: null
+    }
     calendar.getEvents().forEach(element => {
       element.remove()
     });
     $("#todos-list-ongoing").empty()
     $("#todos-list-completed").empty()
+    const milisecondsperDay = 24*60*60*1000
+    let daysLeft = (new Date(response[0].due_date).getTime() - new Date(new Date().toISOString().split("T")[0]).getTime())/milisecondsperDay
+    closestDeadline.daysLeft = daysLeft
+    closestDeadline.activity = []
     for (let i = 0; i < response.length; i++){
+      //show Todos on list and calendar
       let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
       let date = response[i].due_date.slice(8,10)
       let month = months[Number(response[i].due_date.slice(5,7)) - 1]
       let year = response[i].due_date.slice(0,4)
       if (response[i].status === "On Going"){
+
+        daysLeft = (new Date(response[i].due_date).getTime() - new Date(new Date().toISOString().split("T")[0]).getTime())/milisecondsperDay
+        if (daysLeft < closestDeadline.daysLeft){
+          closestDeadline.daysLeft = daysLeft
+          closestDeadline.activity = []
+          closestDeadline.activity.push(response[i].title)
+        }
+        else if (daysLeft === closestDeadline.daysLeft){
+          closestDeadline.activity.push(response[i].title)
+        }
+
         addEventCalendar({
           title: response[i].title,
           start: response[i].due_date,
@@ -135,6 +156,10 @@ function showTodos(){
         `)
       }
     }
+    if(!closestDeadline.activity.length){
+      closestDeadline.daysLeft = "-"
+    }
+    getDeadline(closestDeadline)
   })
   .fail(xhr => {
     console.log(xhr)
@@ -349,6 +374,7 @@ function quotes(){
     $("#quotes").prepend(`
     <figure class="card" style="background: #eee; width: 30rem;>
       <blockquote class="text-center">
+      <p><strong>Quotes Of The Day</strong></p>
         ${response.quotes}
       </blockquote>
       <figcaption class="text-center">&mdash; ${response.author} </figcaption>
@@ -360,6 +386,21 @@ function quotes(){
     console.log(err + "<<<< ini error")
   })
 }
+
+function getDeadline(data){
+  $("#closestDeadline").empty()
+  $("#closestDeadline").prepend(`
+  <figure class="card" style="background: #eee; width: 40rem;>
+    <blockquote class="text-center">
+      <p><strong>Reminder<strong></p>
+      Your closest deadline: ${data.activity.join(", ")}<br>
+      Day(s) left: ${data.daysLeft} day(s)
+    </blockquote>
+  </figure>
+  `)
+}
+
+
 
 
 
