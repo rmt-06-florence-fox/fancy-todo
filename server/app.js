@@ -8,8 +8,8 @@ const errorHandler = require("./middlewares/errorHandler");
 
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
-app.use(routes);
 app.use(errorHandler);
+app.use(routes);
 
 app.listen(PORT, ()=>{
     console.log("Application is listening on http://localhost:"+PORT);
