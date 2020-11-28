@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-signin-client_id" content="529209285357-51pm70ne0e2cf2v66a09i0rjtav530s6.apps.googleusercontent.com">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-  <link href="./styles/styles.css" rel="stylesheet" type="text/css" />
+  <!-- <link href="./styles/styles.css" rel="stylesheet" type="text/css" /> -->
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <title>Fancy Todo</title>
 </head>
@@ -33,6 +33,7 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
+            <a id="login-button" class="button is-primary">Log In</a>
             <a id="logout-button" class="button is-light">Log Out</a>
           </div>
         </div>
@@ -40,7 +41,7 @@
     </div>
   </nav>
  
-  <div class="container adjust mt-5">
+  <div class="container is-fluid mt-5">
     <div class="columns">
       <div class="column is-6">
         <section class="hero is-primary is-bold is-medium"> 
@@ -81,8 +82,9 @@
       </div>
     </div>
     <!--REGISTER-->
-      <div class="column is-6">
+      <div class="section is-medium is-justify-content-center">
         <div class="hero is-white is-medium" id="register-form">
+          <h1 class="is-size-1 has-text-black-ter"> Register an Account </h1>
           <form>
             <div class="field">
               <label for="register-name" class="label">Name:</label>
@@ -106,32 +108,41 @@
   
   
   <!--DASHBOARD-->
-  <div id="main-page">
-    <h2>Todo List:</h2>
+  <div id="main-page" class="container is-fluid mt-5">
+    <div class="section is-medium is-justify-content-center">
+      <h1 class="is-size-1 has-text-black-ter">Todo List:</h1>
     <a href=# onclick="addTodoForm()">Add Todo</a>
-    <div id="add-todo">
+    <div id="add-todo" class="hero is-white">
       <form>
-        <div>
+        <div class="field">
           <label for="todo-title">Title:</label>
-          <input id="todo-title" class="" placeholder="Enter Todo Title">
+          <input id="todo-title" class="input" placeholder="Enter Todo Title">
         </div>
-        <div>
-          <label for=""></label>
-          <input>
+        <div class="field">
+          <label for="todo-description" >Description</label>
+          <textarea class="textarea" rows="3" placeholder="Enter description"></textarea>
         </div>
-        <div>
-          <label></label>
-          <input>
+        <div class="field">
+          <label for="todo-due_date">Due Date</label>
+          <input type="date" class="input">
         </div>
-        <div>
-          <button type="submit">Add</button>
-          <button>Cancel</button>
+        <div class="field is-grouped">
+          <div class="control">
+            <button type="submit" class="button is-link">Add</button>
+            <button class="button is-danger">Cancel</button>
+          </div>
         </div>
       </form>
     </div>
-    <div id="todo-list">
+    <div class="columns is-white">
+      <div id="news" class="column">
+        <h1 class="is-size-4 has-text-black-ter is-justify-content-center">News Today</h1>
+      </div>
+      <div id="todo-list" class="column is-8">
+      </div>
 
     </div>
+    
   </div>
  
   

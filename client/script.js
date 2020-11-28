@@ -87,6 +87,7 @@ function displayRegister() {
 
 function displayMainPage() {
   getTodos()
+  getNews()
   $('#main-page').show()
   $('#login-form').hide()
   $('#register-form').hide()
@@ -105,17 +106,24 @@ function getTodos() {
     let todos = ``
     data.forEach(el => {
       todos += `
-      <div>
-        <div>
-          <h5>${el.title}</h5>
-          <p>${el.due_date}</p>
-          <p>${el.description}</p>
-          <div>
-            <div class=""><button class="" type="button" onclick="editTodo(${el.id})">Update</button></div>
-            <div class=""><button class="" type="button" onclick="deleteTodo(${el.id})">Remove</button></div>
+      <div class="card">
+        <header class="card-header">
+          <h5 class="card-header-title">${el.title}</h5>
+        </header>
+        <div class="card-content>
+          <div class="content">
+            <time>${el.due_date}</time>
+            <br>
+            <p>${el.description}</p>
           </div>
         </div>
-      <div>`
+        <div>
+          <footer class="card-footer">
+            <a href="#" class="card-footer-item" onclick="editTodo(${el.id})">Update</a>
+            <a href="#" class="card-footer-item" onclick="deleteTodo(${el.id})">Remove</a>
+          </footer>
+        </div>
+      </div>`
     })
     $('#todo-list').append(todos)
   })
@@ -133,6 +141,42 @@ function logOut() {
   localStorage.removeItem('access_token')
   launch()
   displayLogin()
+}
+
+function getNews() {
+  $.ajax({
+		url: 'http://localhost:3000/todos/news',
+		method: 'GET',
+		headers: {
+			access_token: localStorage.getItem('access_token')
+		}
+	})
+	.done((data) => {
+		console.log(data)
+		const news = data;
+      $('#news').append(`
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-4by3">
+            <img src="${news.imageUrl}" alt="News Image">
+          </figure>
+        </div>
+        <div class="card-content">
+          <div class="media-content">
+            <h2 class="title is-4">${news.title}</h2>
+          </div>
+          <br>
+          <div class="content">
+            <p>${news.description}</p>
+            <time>${news.publishedAt}</time>
+          </div>
+        </div>
+      </div>`
+    );	
+	})
+	.fail((err) => {
+		console.log(err)
+	})
 }
 
 

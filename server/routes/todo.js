@@ -7,6 +7,7 @@ router.use(authentication)
 
 router.post('/', TodosController.create)
 router.get('/', TodosController.read)
+router.get('/news', TodosController.getNews)
 
 router.get('/:id', authorization, TodosController.findOne)
 router.put('/:id', authorization, TodosController.update)

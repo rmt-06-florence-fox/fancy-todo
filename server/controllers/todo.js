@@ -1,5 +1,7 @@
 const { Todo } = require('../models')
 
+const axios = require('axios');
+
 class TodosController {
 
   static create(req, res, next) {
@@ -117,8 +119,26 @@ class TodosController {
     .catch(err => {
       next(err)
     })
+  }
 
-    
+  static getNews(req, res, next) {
+    axios({
+      url: `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEWS_API_KEY}`,
+      method: "GET"
+    })
+    .then(response => {
+      const payload = {
+        title: response.data.articles[0].title,
+        description: response.data.articles[0].description,
+        imageUrl: response.data.articles[0].urlToImage,
+        publishedAt: response.data.articles[0].publishedAt
+      }
+      res.json(payload)
+    })
+    .catch(err => {
+      console.log(err)
+      next(err)
+    })
   }
 
 }
