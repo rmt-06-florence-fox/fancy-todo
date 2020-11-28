@@ -3,13 +3,9 @@ const server = "http://localhost:3000"
 $(document).ready(function () {
     const token = localStorage.getItem("token")
     // console.log(token)
-    if(token){
-        $("#home-page").show()
-        $("#sign-in-page").hide()
-        $("#sign-up-page").hide()
-        $("#add-todo-form").hide()
-        $("#edit-todo-form").hide()
+    if(token){ 
         getTodo()
+        showMainPage()
     }
     else{
         $("#home-page").hide()
@@ -23,6 +19,7 @@ $(document).ready(function () {
 
 function signIn(e){
     e.preventDefault()
+    $("#error").hide()
     // console.log("button terclick")
     const email = $("#email").val()
     const password = $("#password").val()
@@ -135,6 +132,9 @@ function addedTodo(e){
         }
     }).done(response => {
         getTodo()
+        $("#title").val("")
+        $("#description").val("")
+        $("#due-date").val("")
         $("#home-page").show()
         $("#sign-in-page").hide()
         $("#sign-up-page").hide()
@@ -312,6 +312,34 @@ function onSignIn(googleUser) {
         $("#sign-up-page").hide()
     })  
     .fail(err => {
+        console.log(err)
+    })
+}
+
+function showMainPage(){
+    $("#home-page").show()
+    $("#sign-in-page").hide()
+    $("#sign-up-page").hide()
+    $("#add-todo-form").hide()
+    $("#edit-todo-form").hide()
+    getWeather()
+}
+function getWeather(){
+    // $("#min-temperature").empty()
+    // $("#max-temperature").empty()
+    const token = localStorage.getItem("token")
+    $.ajax({
+        method: "GET",
+        url: server + "/weather",
+        headers: {
+            acces_token: token
+        }
+    }).done(response =>{
+        $(`<h6 class="ml-5 mt-4" style="display: block; width: 100px;">${response.consolidated_weather[0].min_temp}</h6>`).appendTo("#min-temperature")
+        $(`<h6 class="ml-5 mt-4" style="display: block; width: 100px;">${response.consolidated_weather[0].max_temp}</h6>`).appendTo("#max-temperature")
+        $(`<h6 class="ml-5 mt-4" style="display: block; width: 100px;">${response.consolidated_weather[0].weather_state_name}</h6>`).appendTo("#weather-state")
+        console.log(response)
+    }).fail(err => {
         console.log(err)
     })
 }
