@@ -8,6 +8,7 @@ function logoutHandler() {
 function showContent() {
     clearContent()
     fetchContents()
+    fetchQuote()
     $('#login-page').hide()
     $('#register-page').hide()
     $('#edit-page').hide()
@@ -81,15 +82,15 @@ function fetchContents() {
                     <div class="card-deck border-dark m-5 col-sm-3">
                     <div class="card-header row">
                     
-                    <button onclick="alterStatus(${id}, '${btn}')" class="col-3 btn-dark text-light"> ${btn} </button>
+                    <button onclick="alterStatus(${id}, '${btn}')" class="col-3 btn-dark m-1 text-light"> ${btn} </button>
 
-                    <button onclick="showEdit(${id},'${title}', '${description}', '${due_date}')" class="col-3 btn-dark text-light"> EDIT </button>
+                    <button onclick="showEdit(${id},'${title}', '${description}', '${due_date}')" class="col-3 btn-warning text-light m-1"> EDIT </button>
 
-                    <button onclick="deleteTodo(${id})" class="col-3 btn-danger text-light"> DEL </button> 
+                    <button onclick="deleteTodo(${id})" class="col-3 btn-danger text-light m-1"> DEL </button> 
                     
-                    <h3 class="col-8"> ${title}</h3></div>
+                    <h4 class="col-8"> ${title}</h4></div>
 
-                    <div class="card-body">${description}</div>
+                    <div class="card-body bg-info text-white">${description}</div>
                     
                     <div class="card-footer">due date : ${due_date} </div>
                     </div>
@@ -128,7 +129,7 @@ function addHandler(){
         }
     })
     .done(response => {
-        console.log('berhasilk cuy',response)
+        //console.log('berhasilk cuy',response)
         showContent()
     })
     .fail(xhr => {
@@ -181,5 +182,22 @@ function editHandler(){
         //console.log(errors)
         showError(errors)
         showEdit(id, title, description, due_date)
+    })
+}
+
+function fetchQuote(){
+    $.ajax({
+        url : server + '/quote',
+        method : 'GET',
+        headers : {token : localStorage.getItem('token')}
+    })
+    .done(response => {
+        //console.log(response)
+        $('#quote').text(response.quoteText);
+        $('#quote-author').text(response.quoteAuthor);
+
+    })
+    .fail(xhr => {
+        console.log(xhr.responseJSON.errors)
     })
 }

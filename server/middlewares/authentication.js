@@ -8,7 +8,7 @@ module.exports = function (req, res, next){
     
      if (token){
         const decoded = Helper.verifyToken(token)
-        console.log(decoded, '<<<<<<<<<<< DECODED TOKEN HERRRRRE')
+        //console.log(decoded, '<<<<<<<<<<< DECODED TOKEN HERRRRRE')
         const userId = +decoded.id
 
         User.findByPk(userId)

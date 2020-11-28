@@ -3,21 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="757992987828-76tv4bh6rdeebs3f16icftkt3g52l7n7.apps.googleusercontent.com">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Fancy To Do</title>
 </head>
 
 <body>
-    <header class="container-fluid page-header bg-dark d-flex flex-row justify-content-around">
-        <div class="container-fluid">
+    <header class="container-fluid m-0 page-header bg-dark row justify-content-around">
+        <div class="container-fluid col-10">
             <h1 id="home" class="text-white">FANCY TO DO</h1>
             <p class="text-white">listing your todo in a fancy way</p>
         </div>
-        <button class="nav-bar justify-content-end text-white bg-dark" id="logoutBtn">Log Out</button>
+        <div class="">
+            <button class="nav-bar justify-content-end text-white btn-danger btn-sm" id="logoutBtn">Log Out</button>
+        </div>
     </header>
 
-    <div id="error-message" class="text-center text-danger justify-content-center"></div>
+    <div id="error-message" class="text-center text-danger justify-content-center align-middle"></div>
     
     <br>
     <div id="login-page">
@@ -36,6 +39,7 @@
                 <input type="submit" value="login" class="bg-dark text-white form-control">
                 <br>
             </form>
+            <p>have google account ?</p> <div class="g-signin2" data-onsuccess="onSignIn"></div><br>
             <p>or register <button id="register-anchor" class="bg-secondary text-white">here</button></p>
             </div>
         </div>
@@ -120,10 +124,16 @@
     </div>
 
     <div id="main-page">
+        <div class="container bg-dark">
+            <div class="text-white">
+                <h5 id="quote"></h5>
+                <p id="quote-author"></p>
+            </div>
+        </div>
         <button class="text-white bg-dark d-flex justify-content-end" id="add-anchor">add todo</button> <br><br>
         <div id="content" class="row"></div>
     </div>
-    
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="scripts/beforeLogin.js"></script>
     <script src="scripts/afterLogin.js"></script>
     <script src="scripts/manipulator.js"></script>

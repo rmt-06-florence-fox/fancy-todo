@@ -51,7 +51,36 @@ class UserController {
         }
     }
 
-    
+    static async googleSignIn(req, res, next){
+        try{
+            const {email, fullName} = req.body
+            let datum = await User.findOne({where : {email}})
+            
+            if(datum){
+                const token = Helper.generateToken({
+                    id: datum.id,
+                    userName: datum.userName,
+                    email: datum.email
+                })
+                res.status(201).json({token})
+            
+            } else {
+                let userName = fullName.split(' ')[0]
+                let password = Helper.randomString()
+                let record = {email, fullName, userName, password}
+                let datum = await User.create(record)    
+                const token = Helper.generateToken({
+                    id: datum.id,
+                    userName: datum.userName,
+                    email: datum.email
+                })
+                res.status(201).json({ token })
+            }
+        
+        } catch (err){
+            next(err)
+        }
+    }
 }
 
 module.exports = UserController

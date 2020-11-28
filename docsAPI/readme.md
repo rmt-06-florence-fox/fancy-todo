@@ -2,3 +2,6 @@
 ```
 npx serve
 ```
+
+or simply visit 
+``` https://hndrbs.github.io/docs-api-todo/ ```

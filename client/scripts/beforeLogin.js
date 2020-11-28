@@ -70,7 +70,7 @@ function registerHandler (){
         .fail(xhr => {
             //console.log(xhr)
             const errors = xhr.responseJSON.errors
-            console.log(errors)
+            //console.log(errors)
             showError(errors) 
             showRegister()
         })
@@ -87,4 +87,26 @@ function showError(array){
 }
 function clearError(){
     $('#error-message').empty()
+}
+function onSignIn(googleUser) {
+    const profile = googleUser.getBasicProfile();
+    const fullName =  profile.getName()
+    const email =  profile.getEmail()
+
+    $.ajax({
+        url : server + '/google',
+        method : 'POST',
+        data : {email, fullName}
+    })
+    .done (response => {
+        localStorage.setItem('token', response.token)
+        showContent()
+    })
+    .fail (xhr => {
+        const errors = xhr.responseJSON.errors
+        //console.log(errors)
+        showError(errors)
+        showLogin()
+    })
+
 }
