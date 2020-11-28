@@ -41,6 +41,75 @@ $(document).ready(() => {
         getQuote();
     })
 
+    $("#uncompleted-search").on("keyup", function() {
+        let value = $(this).val().toLowerCase();
+        if (value !== "") {
+            let category = $("#uncompleted-search-category").val().toLowerCase();
+            let target;
+            if (category === "title") {
+                target = ".card-title";
+            } else if (category === "description") {
+                target = ".card-text";
+            } else {
+                target = ".card-subtitle";
+            }
+            console.log(target);
+            console.log(value);
+            $("#main-uncompleted-content > div").filter(function() {
+                let targetText =  $(this).find(`${target}`).text().toLowerCase();
+                $(this).toggle($(this).find(`${target}`).text().toLowerCase().indexOf(value) > -1);
+            });
+        } else {
+            $("#main-uncompleted-content > div").show();
+        }
+    });
+
+    $("#completed-search").on("keyup", function() {
+        let value = $(this).val().toLowerCase();
+        if (value !== "") {
+            let category = $("#completed-search-category").val().toLowerCase();
+            let target;
+            if (category === "title") {
+                target = ".card-title";
+            } else if (category === "description") {
+                target = ".card-text";
+            } else {
+                target = ".card-subtitle";
+            }
+            console.log(target);
+            console.log(value);
+            $("#main-completed-content > div").filter(function() {
+                let targetText =  $(this).find(`${target}`).text().toLowerCase();
+                $(this).toggle($(this).find(`${target}`).text().toLowerCase().indexOf(value) > -1);
+            });
+        } else {
+            $("#main-completed-content > div").show();
+        }
+    });
+
+    $("#expired-search").on("keyup", function() {
+        let value = $(this).val().toLowerCase();
+        if (value !== "") {
+            let category = $("#expired-search-category").val().toLowerCase();
+            let target;
+            if (category === "title") {
+                target = ".card-title";
+            } else if (category === "description") {
+                target = ".card-text";
+            } else {
+                target = ".card-subtitle";
+            }
+            console.log(target);
+            console.log(value);
+            $("#main-expired-content > div").filter(function() {
+                let targetText =  $(this).find(`${target}`).text().toLowerCase();
+                $(this).toggle($(this).find(`${target}`).text().toLowerCase().indexOf(value) > -1);
+            });
+        } else {
+            $("#main-expired-content > div").show();
+        }
+    });
+
     $("#btn-logout").on("click", (e) => {
         logout();
     })

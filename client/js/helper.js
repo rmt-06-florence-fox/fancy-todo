@@ -258,7 +258,7 @@ function fetchTodos(){
                 if(new Date(result.due_date) < today) {
                     $("#main-expired-content").append(`
                     <div class="card" style="width:100%">
-                        <div class="card-body">
+                        <div class="card-body expired">
                             <h5 class="card-title" style="background-color:#ff6666">${result.title}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">${due_date}</h6>
                             <p class="card-text">${result.description}</p>
@@ -272,7 +272,7 @@ function fetchTodos(){
                 } else {
                     $("#main-uncompleted-content").append(`
                     <div class="card" style="width:100%">
-                        <div class="card-body">
+                        <div class="card-body uncompleted">
                             <h5 class="card-title" style="background-color:#ffd280">${result.title}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">${due_date}</h6>
                             <p class="card-text">${result.description}</p>
@@ -287,7 +287,7 @@ function fetchTodos(){
             } else if (result.status === "completed") {
                 $("#main-completed-content").append(`
                 <div class="card" style="width:100%">
-                    <div class="card-body">
+                    <div class="card-body completed">
                         <h5 class="card-title" style="background-color:#80ff80">${result.title}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">${due_date}</h6>
                         <p class="card-text">${result.description}</p>
