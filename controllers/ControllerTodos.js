@@ -1,19 +1,50 @@
-const { ToDo } = require('../models/index')
+const {
+    ToDo
+} = require('../models/index')
+
+const axios = require('axios')
 
 class ControllerTodos {
 
+    static showCovid(req, res, next) {
+        axios({
+            url: 'https://covid-api.mmediagroup.fr/v1/cases?country=Indonesia',
+            method: 'GET'
+        })
+        .then(response => {
+            res.status(200).json(response.data.All);
+        })
+        .catch(err => {
+            next(err)
+        })
+    }
+
     static showToDos(req, res, next) {
         ToDo.findAll({
-            where: {
-                UserId: req.loggedInUser.id
-            }
-        })
+                where: {
+                    UserId: req.loggedInUser.id,
+                    due_date: new Date()
+                }
+            })
             .then(data => {
                 res.status(200).json(data)
             })
             .catch(err => {
-                console.log(err);
                 // res.status(500).json('Internal Server Error!')
+                next(err)
+            })
+    }
+
+    static showAllToDos(req, res, next) {
+        ToDo.findAll({
+                where: {
+                    UserId: req.loggedInUser.id
+                }
+            })
+            .then(data => {
+                res.status(200).json(data)
+            })
+            .catch(err => {
                 next(err)
             })
     }

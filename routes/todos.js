@@ -5,6 +5,8 @@ const ControllerTodos = require('../controllers/ControllerTodos')
 
 router.use(authenticate)
 router.get('/', ControllerTodos.showToDos)
+router.get('/showAll', ControllerTodos.showAllToDos)
+router.get('/api', ControllerTodos.showCovid)
 router.post('/', ControllerTodos.addToDo)
 
 router.use('/:id', authorize)
