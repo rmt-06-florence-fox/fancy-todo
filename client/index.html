@@ -15,12 +15,12 @@
 
 <body>
     <nav class="navbar navbar-light bg-light" id="navbar">
-        <button class="navbar-brand rounded">
+        <button type="button" onclick="showMainPage()" class="navbar-brand rounded">
             <img src="/images/navbar-logo.svg" width="30" height="30" class="d-inline-block align-top" alt=""
                 loading="lazy">
             Fancy ToDo
         </button>
-        <button type="button" class="btn btn-light" id="nav-home">Home</button>
+        <button onclick="showMainPage()" type="button" class="btn btn-light" id="nav-home">Home</button>
         <button type="button" class="btn btn-light ml-auto" id="btn-logout">Log out</button>
     </nav>
     <div id="notification-container"></div>
