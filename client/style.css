@@ -8,11 +8,16 @@ body{
     background-image: url('https://cdn.wallpaperhub.app/cloudcache/7/4/f/3/d/5/74f3d51cbec9db78da32e103de1b28538af1b76a.jpg');
     background-size: cover;
     color: beige;
+    font-family: 'Annie Use Your Telescope';
+}
+
+.logout-btn{
+    float: right;
 }
 
 .form-login{
     margin-left: 30%;
-    margin-top: 17%;
+    margin-top: -3%;
     font-size: 30px;
 }
 
@@ -28,6 +33,12 @@ h1{
     margin:0;
 }
 
+.logo-login{
+    position:absolute;
+    width: 70px;
+    height: 70px;
+}
+
 
 .todos{
     border-style: dotted;
@@ -39,6 +50,7 @@ h1{
     background-image: url('https://i.pinimg.com/originals/fd/3c/cd/fd3ccd7b49e366b4206f5ac7f8fa8dac.gif');
     background-size: cover;
     color: beige;
+    font-size: 20px;
 }
 
 
@@ -46,6 +58,7 @@ h1{
     margin-left: 30%;
     font-style: italic;
     font-size: 20px;
+    border-radius: 3px;
 }
 
 input{
@@ -54,7 +67,7 @@ input{
 
 input:focus {
     border: 3px solid #555;
-  }
+}
 
 input[type=button], input[type=submit], input[type=reset] {
     background-color: #4CAF50;
@@ -64,6 +77,16 @@ input[type=button], input[type=submit], input[type=reset] {
     text-decoration: none;
     margin: 4px 2px;
     cursor: pointer;
+}
+
+input[type=text], input[type=password] {
+    width: 50%;
+    padding: 8px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-size: 20px;
+    background-color: rgb(245, 250, 235);
 }
 
 button{
