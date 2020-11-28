@@ -49,7 +49,11 @@ function login(){
             localStorage.setItem("fullName", response.fullName);
             getQuote();
             showMainPage();
-            
+            Swal.fire(
+                'Logged In!',
+                "Welcome!",
+                'success'
+                )
         })
         .fail((err) => {
             console.log(err);
@@ -130,6 +134,11 @@ function register(){
     })
         .done((response) => {
             showLoginPage();
+            Swal.fire(
+                'Registered!',
+                "Please sign in!",
+                'success'
+                )
         })
         .fail((err) => {
             console.log(err);
@@ -164,6 +173,11 @@ function onSignIn(googleUser) {
         localStorage.setItem("fullName", response.fullName);
         getQuote();
         showMainPage();
+        Swal.fire(
+            'Logged In!',
+            "Welcome!",
+            'success'
+            )
     })
     .fail((err) => {
         console.log(err);
@@ -341,6 +355,11 @@ function createTask() {
     })
     .done((response) => {
         fetchTodos();
+        Swal.fire(
+            "Created!",
+            "The task has been created.",
+            'success'
+            )
     })
     .fail((err) => {
         console.log(err);
@@ -364,6 +383,11 @@ function completeTask(id) {
     })
     .done((response) => {
       showMainPage();
+      Swal.fire(
+        'Edited!',
+        "The task has been marked as done.",
+        'success'
+        )
     })
     .fail((err) => {
         console.log(err);
@@ -383,6 +407,11 @@ function uncompleteTask(id) {
         }
     })
     .done((response) => {
+        Swal.fire(
+            'Edited!',
+            "The task has been marked as undone.",
+            'success'
+            )
         fetchTodos();
     })
     .fail((err) => {
@@ -431,6 +460,11 @@ function editTask(event, id) {
     .done((response) => {
         fetchTodos();
         $("#edit-task-modal").modal("hide");
+        Swal.fire(
+            'Edited!',
+            "The task has been edited.",
+            'success'
+            )
     })
     .fail((err) => {
         console.log(err);
@@ -452,6 +486,11 @@ function deleteTask(id) {
     })
     .done((response) => {
         fetchTodos();
+        Swal.fire(
+            'Deleted!',
+            response.message,
+            'success'
+            )
     })
     .fail((err) => {
         console.log(err);

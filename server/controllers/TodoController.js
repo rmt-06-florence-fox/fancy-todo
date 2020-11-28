@@ -91,7 +91,7 @@ class TodoController {
                     id
                 }
             });
-            res.status(200).json({ message: "The todo has been successfully deleted." });
+            res.status(200).json({ message: "The task has been successfully deleted." });
         } catch (err) {
             next(err);
         }
