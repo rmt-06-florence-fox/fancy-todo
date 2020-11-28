@@ -57,7 +57,7 @@ $(document).ready(()=>{
     $("#logoutButton").click(()=>{
         logout();
     })
-    $("#addTodoForm").on("submit", function(event){
+    $("#addTodoFormButton").on("click", function(event){
         event.preventDefault();
         addTodo();
     })

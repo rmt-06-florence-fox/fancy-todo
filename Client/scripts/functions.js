@@ -1,5 +1,3 @@
-const { access } = require("fs");
-
 function showTodos(){
     $.ajax({
         method: "GET",
@@ -9,24 +7,32 @@ function showTodos(){
         }
     })
     .done((response)=>{
-        $("#todosTable").empty();
-        $("#todosTable").append(`<tr>
-            <th>No</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Due Date</th>
-            <th>Action</th>
-        </tr>`);
+        $("#todosTableHead").empty();
+        $("#todosTableBody").empty();
+        $("#todosTableHead").append(`
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Status</th>
+            <th scope="col">Due Date</th>
+            <th scope="col">Action</th>
+        </tr>
+    `);
         for(let i = 0; i < response.length; i++){
-            $("#todosTable").append(`<tr>
-            <td>${i + 1}</td>
-            <td>${response[i].title}</td>
-            <td>${response[i].description}</td>
-            <td>${response[i].status}</td>
-            <td>${response[i].due_date}</td>
-            <td><button onclick="deleteTodo(${response[i].id})">Delete</buton> <button onclick="editFormTodo(${response[i].id})">Edit</buton>
-        </tr>`)
+            $("#todosTableBody").append(`
+            <tr>
+                <th>${i + 1}</th>
+                <td>${response[i].title}</td>
+                <td>${response[i].description}</td>
+                <td>${response[i].status}</td>
+                <td>${response[i].due_date}</td>
+                <td class ="text-right">
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#editTodoModal" onclick="editFormTodo(${response[i].id})" style="width: 80px;">Edit</button>
+                    <button class="btn btn-danger" onclick="deleteTodo(${response[i].id})" style="width: 80px;">Delete</button>
+                </td>
+            </tr>
+        `)
         }
     })
     .fail((xhr)=>{
@@ -63,11 +69,12 @@ function addTodo(){
 
 function editFormTodo(id){
     $("#editTodoForm").empty();
+    $("#editTodoFormButton").remove();
     $("#editTodoForm").show();
-    $("#editTodoForm").on("submit", (event)=>{
-        event.preventDefault();
-    })
-    
+    // $("#editTodoForm").on("submit", (event)=>{
+    //     event.preventDefault();
+    // })
+    $("editTodoModal").modal();
     $.ajax({
         method: "GET",
         url: "http://localhost:3000/todos/" + `${id}`,
@@ -76,21 +83,44 @@ function editFormTodo(id){
         }
     })
     .done((response)=>{
-        $("#editTodoForm").append(`<label for="editTitleForm">Title:</label><br>
-        <input type="text" id="editTitle" name="title" required>
-        <br>
-        <label for="editDescForm">Description:</label><br>
-        <input type="text" id="editDesc" name="description"><br><br>
-        <label for="editStatusForm">Status:</label>
-        <select name="status" id="editStatus" required>
-            <option value="Akan dikerjakan">Akan dikerjakan</option>
-            <option value="Sedang dikerjakan">Sedang dikerjakan</option>
-            <option value="Sudah dikerjakan">Sudah dikerjakan</option>
-        </select> 
-        <br><br>
-        <label for="editDueDate">Due Date:</label>
-        <input type="date" id="editDueDate" name="due_date" required><br><br>
-        <button onclick="editTodo(${response.id})">Edit</buton>`)
+        // $("#editTodoForm").append(`<label for="editTitleForm">Title:</label><br>
+        // <input type="text" id="editTitle" name="title" required>
+        // <br>
+        // <label for="editDescForm">Description:</label><br>
+        // <input type="text" id="editDesc" name="description"><br><br>
+        // <label for="editStatusForm">Status:</label>
+        // <select name="status" id="editStatus" required>
+        //     <option value="Akan dikerjakan">Akan dikerjakan</option>
+        //     <option value="Sedang dikerjakan">Sedang dikerjakan</option>
+        //     <option value="Sudah dikerjakan">Sudah dikerjakan</option>
+        // </select> 
+        // <br><br>
+        // <label for="editDueDate">Due Date:</label>
+        // <input type="date" id="editDueDate" name="due_date" required><br><br>
+        // <button onclick="editTodo(${response.id})">Edit</buton>`)
+        console.log(response);
+        $("#editTodoForm").append(`<div class="form-group">
+        <label for="editTitleForm">Title:</label>
+        <input type="text" id="editTitle" name="title" class="form-control" required>
+      </div>
+      <div class="form-group">
+          <label for="editDescForm">Description:</label>
+          <input type="text" id="editDesc" name="description" class="form-control">
+      </div>
+      <div class="form-group">
+          <label for="editStatusForm">Status</label>
+          <select name = "status" class="form-control" id="editStatus" required>
+              <option value="Akan dikerjakan">Akan dikerjakan</option>
+              <option value="Sedang dikerjakan">Sedang dikerjakan</option>
+              <option value="Sudah dikerjakan">Sudah dikerjakan</option>
+          </select>
+      </div>
+      <div class="form-group">
+          <label for="editDueDate">Due Date:</label>
+          <input type="date" id="editDueDate" name="due_date" class="form-control" required>
+      </div>`);
+
+        $("#editButton").append(`<button type="button" onclick="editTodo(${response.id})" class="btn btn-primary" id="editTodoFormButton">Edit Todo</button>`)
         $("#editTitle").val(response.title),
         $("#editDesc").val(response.description),
         $("#editStatus").val(response.status),
@@ -129,17 +159,25 @@ function editTodo(id){
         $("#editTodoForm").trigger("reset")
         $("#editTodoForm").empty();
         $("#editTodoForm").hide();
+        $("#editTodoFormButton").remove();
+        $("#editTodoModal").modal("hide");
     })
 
 }
 
 function showLoginPage(){
+    $('#createNewAccount').on("click", (event)=>{
+        event.preventDefault();
+    })
     $('#registerPage').hide();
     $('#loginPage').show();
     $('#main-page').hide();
     $('#logoutButton').hide();
 }
 function showRegisterPage(){
+    $('#alreadyHaveAccount').on("click", (event)=>{
+        event.preventDefault();
+    })
     $('#registerPage').show();
     $('#loginPage').hide();
     $('#main-page').hide();
