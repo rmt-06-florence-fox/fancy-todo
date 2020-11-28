@@ -9,7 +9,7 @@ class TodoController{
         res.status(200).json(list)
       } else {
         throw {
-          status : 400,
+          status : 404,
           message: `error not found`
         }
       }
@@ -36,7 +36,7 @@ class TodoController{
       if (obj.city[0] !== obj.city[0].toUpperCase()) {
         throw {
           status : 400,
-          message: `Must Capitalize`
+          message: `Must Capitalize on first letter`
         }
       } else {
         const weather = await axios({

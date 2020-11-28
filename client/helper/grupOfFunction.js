@@ -369,9 +369,24 @@ function destroy(id) {
     method: 'DELETE',
     headers: {access_token : localStorage.getItem('access_token')}
   })
-  .done(()=>{
-    console.log('deleted');
-    mainPage()
+  .done((res)=>{
+    $('.error').empty()
+    $('.error').append(`
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="mr-auto">Notification!</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        ${res.message}
+      </div>
+    </div>
+      `)
+      $('.toast').toast({delay: 5000})
+      $('.toast').toast('show')
+      mainPage()
   })
   .fail((xhr, textStatus)=>{
     $('.error').empty()
