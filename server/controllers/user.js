@@ -77,25 +77,6 @@ class UserController {
             next(error)
         }
     }
-
-    static async kucing(req, res){
-
-        axios({
-            url: "https://api.thecatapi.com/v1/images/search",
-            method: "GET",
-            headers: {
-                "x-api-key": "a6e5d737-a3fb-45b6-bec7-123f2779c615"
-            }
-        })
-        .then(response => {
-            console.log(response.data)
-            res.status(200).json({data : response.data})
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json(err)
-        })
-    }
 }
 
 
