@@ -26,7 +26,7 @@ class Helper{
       }
     })
     let mailOptions = {
-      from: 'h8fancytodo@gmail.com',
+      from: process.env.EMAIL,
       to: payload.email,
       subject: payload.subject,
       html: payload.text
