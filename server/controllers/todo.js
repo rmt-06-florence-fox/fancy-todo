@@ -36,11 +36,11 @@ class TodoController {
       if (todo) {
         res.status(200).json(todo)
       } else {
-        //aslinya ga perlu sih, make sure aja
+        //katanya perlu, yaudah perlu deh
         throw { status: 404, message: 'data not found' }
       }
     } catch (error) {
-      //aslinya ga perlu sih, make sure aja
+        //katanya perlu, yaudah perlu deh
       next(error)
     }
   }
