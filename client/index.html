@@ -13,39 +13,54 @@
     <nav class="navbar navbar-dark bg-primary justify-content-between fixed-top">
         <a class="navbar-brand">Fancy To-Do</a>
         <form class="form-inline">
-          <button id="btn-logout" class="btn btn-outline-success btn-lg my-2 my-sm-0" type="submit">Logout</button>
+          <button id="btn-logout" class="btn btn-outline-light btn-lg my-2 my-sm-0" type="submit">Logout</button>
         </form>
       </nav>
     <!-- <nav>
     </nav> -->
     <!-- Register -->
-    <div id="register-form">
-        <h1>Register Form</h1>
+    <br><br><br>
+    <div id="register-form" class="container">
+        <div class="row ">
+            <div class="col-md-8">
+                <img id='registImg' src="img/2953998.jpg" class="img-fluid" alt="Responsive image">
+            </div>
+            <div class="col-md-4 mt-50">
+        <br><br><br>
+        <h1 class="text-center">Register Form</h1>
+        <br>
+        <div style="width: 200px;">
+
         <form action="" method="post">
+            
             <label for="input-email" >Email</label>
             <input type="text"id="regist-email">
             <br><br>
             <label for="input-password">Password</label>
             <input type="password"id='regist-password'>
             <br><br>
-            <input type="submit" value="Sign Up">
+            <input type="submit" class="bg-primary text-light" value="Sign Up">
         </form>
+        <br>
         <button onclick="showLogin()" >Back</button>
+        </div>
+    </div>
+
+    
+        </div>
 
     </div>
     <!-- Login -->
-    <br><br>
-    <br>
     <div id="login-form" class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <img id='loginImg' src="img/2953998.jpg" class="img-fluid" alt="Responsive image">
+        <div class="row ">
+            <div id='login-img'class="col-md-8 ">
+                <img id='loginImg' style="image-resolution: 500;" src="img/2953998.jpg" class="img-fluid" alt="Responsive image">
             </div>
-            <div class="col-md-4 mt-50">
+            <div id= 'form-login' class="col-md-4 mt-50">
                 <br><br><br>
         <h1 class="text-center">Login Form</h1>
         <br>
-                <div class="mx-auto" style="width: 200px;"  >
+                <div class="" style="width: 200px;"  >
                     <form id="login-form2" action="" method="post">
                         <label for="input-email">Email</label>
                         <input type="text"id="login-email">
@@ -94,12 +109,14 @@
                     <input   type="date" id="input-date">
                 </div>
                     <br>
-                    <input type="submit" value="Add New">
-                </div>
-            </form>
-
-
+                    <input type="submit" class="btn-lg" value="Add New">
+                </form>
+            </div>
+            
+            
         </div>
+        <br>
+        <button id="show-form" class="ml-5 btn btn-warning btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> New List</button>
         <br><br>
         <div class="row text-center ml-4 " id="todo-list">
             
@@ -184,11 +201,15 @@
         })
         .done(response =>{
             // console.log('sampai putSubmit DONE', response)
+            
             mainPage()
             $("#putTodo-form").empty()
 
         })
         .fail(err =>{
+            $("#putTodo-form").prepend(`
+            <br>
+            <p class="text-danger"><b>Date must be greater than today</b></p>`)
             console.log(err)
         })
     }
@@ -206,37 +227,41 @@
         })
         .done(response =>{
             console.log(response)
+
             $("#putTodo-form").append(
                 `
              <h1 class="text-center">Edit Todo</h1>
-
+             <br><br>
+             <button class="btn-sm btn-light" onclick="mainPage()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
                 <div class="d-flex justify-content-center ">
                     <div>
-                       <label for="input-putTitle">Title</label>
+                       <label for="input-putTitle"><b>Title</b></label>
                         <br>
                         <input type="text" id="input-putTitle" value="${response.title}">
                     </div>
                     <div>
-                        <label for="input-putDescription">Description</label>
+                        <label for="input-putDescription"><b>Description</b></label>
                         <br>
                         <input type="text" id="input-putDescription" value="${response.description}">
                         
                     </div>
                     <div>
-                        <label for="input-putStatus">Status</label>
+                        <label for="input-putStatus"><b>Status</b></label>
                         <br>
                         <input type="text" id="input-putStatus" value="${response.status}">
                     </div>
                     <div>
-                        <label for="input-putDate">Due Date</label>
+                        <label for="input-putDate"><b>Due Date</b></label>
                         <br>
                         <input type="date" id="input-putDate" value="${response.date.substr(0, 10)}">
                     </div>
                 </div>
                 <br>
                 <br>
-                <input type="submit" class="btn-info btn-lg " value="Edit">
                 <input type="hidden" id="editId" value="${response.id}">
+                <div class= "text-center">
+                <input type="submit" class="btn-info btn-lg" value="Edit">
+                </div>
             `)
         })
         .fail(err =>{
@@ -268,11 +293,15 @@
         })
         .done(response =>{
             console.log(response)
-            fetchTodo()
+            mainPage()
             $("#addNew-form").trigger("reset")
 
         })
         .fail((err, text) =>{
+            $("#addNew-form").prepend(`
+            <br>
+            <p class="text-danger"><b>Date must be greater than today</b></p>
+            `)
             console.log('>>>',err)
             console.log(text)
         })
@@ -295,6 +324,8 @@
                 `
                 <h1 class="">Change Status</h1>
                 <br>
+                <button class="btn-sm btn-light" onclick="mainPage()"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+
                 <div class="form-group row" >
                     <label class="col-sm-2 col-form-label" for="input-putTitle"><b>Title</b></label>
                     <div class="col-sm-10">
@@ -340,8 +371,7 @@
     }
     
     function fetchTodo(){
-        $('#quote').remove()
-
+        
         let token_access = localStorage.token_access
         $.ajax({
             method: 'GET',
@@ -349,8 +379,9 @@
             headers: {token_access}
         })
         .done(response =>{
+            $('#quote').remove()
             $("#todo-list").empty()
-            $('#todo-table').after(`<br><br><div id="quote"><h4>${response.quote.quoteText}</h4><p>- ${response.quote.quoteAuthor} -</p> </div>`)
+            $('#todo-list').before(`<div id="quote" class = "container"><h6 class="text-monospace "><b>${response.quote.quoteText}</b></h6><p class = "text-muted">- ${response.quote.quoteAuthor} -</p> </div>`)
             response.listTodo.forEach(todo => {
                 $("#todo-list").prepend(`         
                     <div class="col-lg-3 col-md-6 mb-4 ">
@@ -360,7 +391,7 @@
                         <p class="card-text">${todo.description}</p>
                         <h6 class="card-title"><b style="font-size: larger;" >Status : </b>${todo.status} <button class="btn btn-outline-success btn-sm" onclick="getStatus(${todo.id})">update</button></h6> 
                         <h6 class="card-title"><b style="font-size: larger;">Due date :</b> ${todo.date.substr(0, 10)}</h6> 
-                        <button class="btn btn-danger btn-lg mr-1" onclick="deleteTodo(${todo.id})"><i style='font-size:26px' class='fas'>&#xf2ed;</i></button><button class="btn btn-info btn-lg "  onclick="putTodo(${todo.id})"><i style='font-size:26px' class='fas'>&#xf044;</i> </button>
+                        <button class="btn btn-success btn-lg mr-1" onclick="deleteTodo(${todo.id})"><i style='font-size:26px' class='fa fa-check'></i></button><button class="btn btn-info btn-lg "  onclick="putTodo(${todo.id})"><i style='font-size:26px' class='fas'>&#xf044;</i> </button>
                     </div>
                     </div>
                 </div>
@@ -382,9 +413,10 @@
     }
     function showLogin() {
         $("#register-form").hide()
-        $("#login-form").show()
         $("#main-page").hide()
         $("#putTodo-form").hide()
+        $("#putTodo").hide()
+        $("#login-form").show()
         $("#btn-logout").hide()
         $("#btn-register").show()
     }
@@ -394,6 +426,10 @@
         $("#putTodo-form").hide()
         $("#main-page").show()
         $("#btn-logout").show()
+        $("#jumbotron").slideUp()
+        $("#putTodo-form").empty()
+
+        $('#quote').remove()
 
         fetchTodo()
         console.log('MAIN PAGE')
@@ -460,7 +496,8 @@
                 status : $("#input-status").val(),
                 date :$("#input-date").val()
             }
-        createNew(newData)
+
+            createNew(newData)
         })
         $("#putTodo-form").on('submit', function (e) {
             e.preventDefault();
@@ -471,7 +508,6 @@
                 status : $("#input-putStatus").val(),
                 date :$("#input-putDate").val()
             }
-            console.log(editId)
             putSubmit(editedData, editId)
 
         })
@@ -481,6 +517,11 @@
         $("#btn-register").on("click", (e) =>{
             $("#btn-register").hide()
             showRegister()
+        })
+
+        $("#show-form").on("click", ()=>{
+            $("#jumbotron").slideToggle()
+
         })
 
        

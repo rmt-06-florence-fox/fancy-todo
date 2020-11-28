@@ -20,7 +20,18 @@
 #loginImg{
     height: 30%;
 }
-
+#registImg{
+    height: 30%;
+}
+#login-form {
+    height: 700px;
+}
+#form-login {
+    height: 700px;
+}
+#login-img{
+    height: inherit;
+}
 /* #putTodo{
     background-image: url(img/6685.jpg);
     background-size: cover;
