@@ -306,8 +306,20 @@ const weather = () => {
 		console.log("enter in weather bro");
 		console.log(response)
 		$('#weather').append(`
-		<p>${response.name}</p>
-		<p>${response.weather[0].description}</p>
+		<h5>Current Weather</h5>
+		<p><strong>Place</strong>
+		<br /><span id="weather-place">${response.name}</span></p>
+
+		<p><strong>Description</strong>
+		<br /><span id="weather-description">${response.weather[0].main}</span>
+		<img src="${source(response.weather[0].main)}" width="30px" height="30px" id="weather-icon" alt="weather-icon"></p>
+
+		<p><strong>Temperature</strong>
+		<br />Temperature: <span id="weather-temp">${response.main.temp.toFixed(1)}°C</span>
+		<br />Feels Like: <span id="feels">${response.main.feels_like.toFixed(1)}°C</span></p>
+
+		<p><strong>Humidity</strong>
+		<br /><span id="weather-humid">${response.main.humidity}%</span></p>
 		`)
 	})
 	.fail(err => {

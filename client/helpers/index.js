@@ -11,3 +11,33 @@ function formatDate(date) {
 
   return [year, month, day].join('-');
 }
+
+function source(description) {
+  description = description.toLowerCase()
+  let source
+  console.log(description)
+  switch (description) {
+      case "thunderstorm":
+          source = "https://www.flaticon.com/svg/static/icons/svg/222/222506.svg"
+          break;
+      case "mist":
+          source = "https://www.flaticon.com/svg/static/icons/svg/414/414927.svg"
+          break;
+      case "clouds":
+          source = "https://www.flaticon.com/svg/static/icons/svg/414/414927.svg"
+          break;
+      case "sunny":
+          source = "https://www.flaticon.com/svg/static/icons/svg/2917/2917242.svg"
+          break;
+      case "clear":
+          source = "https://www.flaticon.com/svg/static/icons/svg/2917/2917242.svg"
+          break;
+      case "windy":
+          source = "https://www.flaticon.com/svg/static/icons/svg/2917/2917242.svg"
+          break;
+      case "rain" :
+          source = "https://www.flaticon.com/svg/static/icons/svg/414/414974.svg"
+          break;
+  }
+  return source
+}
