@@ -1,30 +1,31 @@
 # FANCY TO-DO
-#
+### This application to keep your todo list
 #
 ## Route
 #
-- Request Header
+### POST /todos
+
+- Request Headers
 ```JS
 {
-    Content-Type: application/json;
+    access_token = token
 }
 ```
-### POST /todos
-#
-##### SUCCESS
+##### SUCCESS 
 - Request Body
 ```JS
 {
-        "title": "Belajar",
-        "description": "belajar Restful API",
-        "status": "belum dikerjakan",
-        "due_date": "2020-11-24"
-    }
+    "title": "Belajar",
+    "description": "belajar Restful API",
+    "status": "belum dikerjakan",
+    "due_date": "2020-11-24"
+}
 ```
-- Response
+
+- Response *200*
 ```JS
 {
-  "id": 7,
+  "id": 1,
   "title": "Belajar",
   "description": "belajar Restful API",
   "status": "belum dikerjakan",
@@ -35,17 +36,17 @@
 ```
 #
 ##### ERROR *`'Date must be greater than today' `*
-#
+
 - Request Body
 ```JS
 {
-        "title": "Belajar",
-        "description": "belajar Restful API",
-        "status": "belum dikerjakan",
-        "due_date": "2020-11-23"
-    }
+    "title": "Belajar",
+    "description": "belajar Restful API",
+    "status": "belum dikerjakan",
+    "due_date": "2020-11-23"
+}
 ```
-- Response
+- Response *400*
 ``` JS
 {
     "name": "SequelizeValidationError",
@@ -74,16 +75,32 @@
 }
 ```
 #
+##### ERROR *`'Internal Server Error'`*
+
+- Response *500*
+```JS
+{
+    "message": 'Internal Server Error'
+}
+```
+
 #
 ### GET /todos
-#
+
+- Request Headers
+```JS
+{
+    access_token = token
+}
+```
+
 ##### SUCCESS
-- Response
+- Response *200*
 ```JS
 {
     "data": [
         {
-            "id": 3,
+            "id": 1,
             "title": "Belajar",
             "description": "Belajar Restful API",
             "status": "selesai",
@@ -91,50 +108,41 @@
             "createdAt": "2020-11-23T09:30:14.808Z",
             "updatedAt": "2020-11-23T10:51:09.092Z"
         },
-        {
-            "id": 6,
-            "title": "Belajar",
-            "description": "belajar Restful API",
-            "status": "belum dikerjakan",
-            "due_date": "2020-11-23",
-            "createdAt": "2020-11-23T13:21:58.978Z",
-            "updatedAt": "2020-11-23T13:21:58.978Z"
-        },
-        {
-            "id": 7,
-            "title": "Belajar",
-            "description": "belajar Restful API",
-            "status": "belum dikerjakan",
-            "due_date": "2020-11-24",
-            "createdAt": "2020-11-23T13:23:01.564Z",
-            "updatedAt": "2020-11-23T13:23:01.564Z"
-        },
-        {
-            "id": 8,
-            "title": "Belajar",
-            "description": "belajar Restful API",
-            "status": "belum dikerjakan",
-            "due_date": "2020-11-24",
-            "createdAt": "2020-11-23T13:25:19.409Z",
-            "updatedAt": "2020-11-23T13:25:19.409Z"
-        }
+        .
+        .
+        .
+
     ]
 }
 ```
 #
+##### ERROR *`'Internal Server Error'`*
+
+- Response *500*
+```JS
+{
+    "message": 'Internal Server Error'
+}
+```
 #
 ### GET /todos/:id
-#
-##### SUCCESS
+
+- Request Headers
+```JS
+{
+    access_token = token
+}
+```
 - Request Params
 ```
-|   id   |   3   |
+    id = [integer]
 ```
-- Response
+##### SUCCESS
+- Response *200*
 ``` JS
 {
     "data": {
-        "id": 3,
+        "id": 1,
         "title": "Belajar",
         "description": "Belajar Restful API",
         "status": "selesai",
@@ -145,29 +153,35 @@
 }
 ```
 #
-#
 ##### ERROR *`'Error Not Found'`*
-#
-- Request Params
-```
-|   id   |   1   |
-```
-- Response
+- Response *404*
 ```JS
 {
     "message": "Error Not Found"
 }
 ```
 #
+##### ERROR *`'Internal Server Error'`*
+- Response *500*
+```JS
+{
+    "message": 'Internal Server Error'
+}
+```
 #
 ### PUT /todos/:id
-#
-##### SUCCESS
-#
+- Request Headers
+```JS
+{
+    access_token = token
+}
+```
 - Request Params
 ```
-|   id   |   3   |
+    id = [integer]
 ```
+##### SUCCESS
+
 - Request Body
 ``` JS
 {
@@ -177,12 +191,12 @@
     "due_date": "2020-12-01"
 }
 ```
-- Response
+- Response *200*
 ```JS
 {
     "result": [
         {
-            "id": 3,
+            "id": 1,
             "title": "Study",
             "description": "Studying Restful API",
             "status": "belum dikerjakan",
@@ -196,10 +210,6 @@
 #
 ##### ERROR *`'Error Not Found'`*
 #
-- Request Params
-```
-|   id   |   1   |
-```
 - Request Body
 ``` JS
 {
@@ -209,7 +219,7 @@
     "due_date": "2020-12-01"
 }
 ```
-- Response
+- Response *404*
 ```JS
 {
     "message": "Error Not Found"
@@ -217,11 +227,7 @@
 ```
 #
 ##### ERROR *`'Sequelize Validation Error'`*
-#
-- Request Params
-```
-|   id   |   3   |
-```
+
 - Request Body
 ``` JS
 {
@@ -231,7 +237,7 @@
     "due_date": ""
 }
 ```
-- Response
+- Response *400*
 ```JS
 {
     "name": "SequelizeValidationError",
@@ -277,14 +283,24 @@
 }
 ```
 #
+##### ERROR *`'Internal Server Error'`*
+- Response *500*
+```JS
+{
+    "message": 'Internal Server Error'
+}
+```
 #
 ### PATCH /todos/:id
-#
-##### SUCCESS
-#
+- Request Headers
+```JS
+{
+    access_token = token
+}
+```
 - Request Params
 ```
-|   id   |   3   |
+    id = [integer]
 ```
 - Request Body
 ``` JS
@@ -292,12 +308,14 @@
     "status": "hampir selesai",
 }
 ```
-- Response
+##### SUCCESS
+
+- Response *200*
 ```JS
 {
     "result": [
         {
-            "id": 3,
+            "id": 1,
             "title": "Study",
             "description": "Studying Restful API",
             "status": "hampir selesai",
@@ -310,18 +328,8 @@
 ```
 #
 ##### ERROR *`'Error Not Found'`*
-#
-- Request Params
-```
-|   id   |   1   |
-```
-- Request Body
-``` JS
-{
-    "status": "hampir selesai",
-}
-```
-- Response
+
+- Response *404*
 ```JS
 {
     "message": "Error Not Found"
@@ -330,17 +338,13 @@
 #
 ##### ERROR *`'Sequelize Validation Error'`*
 #
-- Request Params
-```
-|   id   |   3   |
-```
 - Request Body
 ``` JS
 {
     "status": "",
 }
 ```
-- Response
+- Response *400*
 ```JS
 {
     "name": "SequelizeValidationError",
@@ -372,16 +376,27 @@
 }
 ```
 #
+##### ERROR *`'Internal Server Error'`*
+- Response *500*
+```JS
+{
+    "message": 'Internal Server Error'
+}
+```
 #
 ### DELETE /todos/:id
-#
-##### SUCCESS
-#
+- Request Headers
+```JS
+{
+    access_token = token
+}
+```
 - Request Params
 ```
-|   id   |   8   |
+    id = [integer]
 ```
-- Response
+##### SUCCESS
+- Response *200*
 ```JS
 {
     "message": "todo success to delete"
@@ -389,11 +404,6 @@
 ```
 #
 ##### ERROR *`'Error Not Found'`*
-#
-- Request Params
-```
-|   id   |   1   |
-```
 - Response
 ```JS
 {
@@ -401,18 +411,24 @@
 }
 ```
 #
+##### ERROR *`'Internal Server Error'`*
+- Response *500*
+```JS
+{
+    "message": 'Internal Server Error'
+}
+```
 #
 ### POST /register
-#
+
 ##### SUCCESS
-#
 - Request Body
 ```JS
 username	User
 email	    user@gmail.com
 password	1234567
 ```
-- Response
+- Response *200*
 ```JS
 {
   "id": 2,
@@ -420,19 +436,54 @@ password	1234567
 }
 ```
 #
+##### ERROR *`'Validation Error'`*
+- Request Body
+```JS
+username	""
+email	    ""
+password	""
+```
+- Response *404*
+```JS
+{
+    "messages": [
+        {
+            "message": "Username can't be empty"
+        },
+        {
+            "message": "Email is required!"
+        },
+        {
+            "message": "Email must be a format sample@mail.com"
+        },
+        {
+            "message": "Password is required!"
+        },
+        {
+            "message": "Password must be more than 6 character"
+        }
+    ]
+}
+```
+##### ERROR *`'Internal Server Error'`*
+- Response *500*
+```JS
+{
+    "message": 'Internal Server Error'
+}
+```
 #
-### POST /login
-#
-##### SUCCESS
+### POST /login 
 - Request Body
 ```JS
 email	    user@gmail.com
 password	1234567
 ```
-- Response
+##### SUCCESS
+- Response *200*
 ```JS
 {
-  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTYwNjE0MDEwMn0.QG58LPRUeSf5N8lRjUKJTPSnSm9OA_E_Xzc7u6uQ5GA"
+  "accessToken": "access token"
 }
 ```
 #
@@ -442,7 +493,7 @@ password	1234567
 email	    user2@gmail.com
 password	1234567
 ```
-- Response
+- Response *400*
 ```JS
 {
     "message": "Invalid account! "
@@ -455,10 +506,97 @@ password	1234567
 email	    user@gmail.com
 password	12345678
 ```
-- Response
+- Response *400*
 ```JS
 {
     "message": "Invalid email/password"
 }
 ```
---------------------------------------------------------------------
+#
+##### ERROR *`'Internal Server Error'`*
+- Response *500*
+```JS
+{
+    "message": 'Internal Server Error'
+}
+```
+#
+### GET /restaurants
+##### SUCCESS 
+- Response *200*
+```JS
+{
+    "data": [
+        {
+            "restaurant": {
+                "R": {
+                    "res_id": 18460102,
+                    "is_grocery_store": false,
+                    "has_menu_status": {
+                        "delivery": -1,
+                        "takeaway": -1
+                    }
+                },
+                ...
+            }
+        }
+    ]
+}
+```
+#
+##### ERROR *`'Internal Server Error'`*
+- Response *500*
+```JS
+{
+    "message": 'Internal Server Error'
+}
+```
+#
+### GET /quotes
+- Response *200*
+```JS
+{
+    "result": {
+        "statusCode": 200,
+        "message": "All quotes",
+        "totalPages": 26032,
+        "currentPage": "55",
+        "quotes": [
+            ...
+        ]
+    }
+}
+```
+#
+##### ERROR *`'Internal Server Error'`*
+- Response *500*
+```JS
+{
+    "message": 'Internal Server Error'
+}
+```
+#
+### POST /googleLogin
+> login with google account
+- Request Body
+```JS
+{
+    googleToken = "user google token"
+}
+```
+##### SUCCESS 
+- Response *200*
+```JS
+{
+    "accessToken" : 'access token'
+}
+```
+#
+##### ERROR *`'Internal Server Error'`*
+- Response *500*
+```JS
+{
+    "message": 'Internal Server Error'
+}
+```
+#
