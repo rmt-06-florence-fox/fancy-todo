@@ -13,8 +13,6 @@ module.exports = (err,req,res,next) => {
    }else if(err.name === 'SequelizeDatabaseError'){
       res.status(400).json([{message:err.message}])
    }else{
-      console.log(err)
-      console.log("Masuk case terakhir");
       res.status(500).json([{message:err.message}])
    }
 }

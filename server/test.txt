@@ -1,2 +1,0 @@
-SECRET=sshhh
-GOOGLE_CLIENT_ID=432825779164-qgaq96fgcqgr7vfnlstqjbf4ckjpau04.apps.googleusercontent.com

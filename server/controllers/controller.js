@@ -51,6 +51,8 @@ class Controller {
       
    }
 
+
+
    static async getTodo(req,res,next){
       const UserId = req.loggedIn.id
       try {
@@ -59,7 +61,13 @@ class Controller {
                UserId
             }
          })
-         res.status(200).json(todos)
+         let holidays = await axios({
+            url:'https://date.nager.at/api/v2/publicholidays/2020/ID',
+            method:'GET'
+         })
+
+         holidays = holidays.data
+         res.status(200).json([todos,holidays])
       } catch (error) {
          next(error)
       }
@@ -191,6 +199,13 @@ class Controller {
          password:req.body.password
       }
       try{
+         const duplicate = await User.findOne({where:{email:target.email}})
+         if(duplicate){
+            throw{
+               status:400,
+               message:'email already in use'
+            }
+         }
          const user = await User.create(target,{
             returning:true
          })
@@ -235,9 +250,6 @@ class Controller {
       })
    }
 
-   static getGithubLogin(req,res){
-      res.redirect("https://github.com/login/oauth/authorize?client_id=e576cf43557f362a6995&scope=user:email")
-   }
 
    static githubLogin(req,res,next){
       let email
@@ -257,6 +269,8 @@ class Controller {
          }
       })
       .then(response => {
+         console.log('Barter Token')
+         console.log(response)
          return axios({
             url:'https://api.github.com/user/emails',
             method:'GET',
@@ -282,7 +296,7 @@ class Controller {
       .then(data => {
         const access_token = sign({id:data.id,email:data.email})
         
-        res.status(200).json({token:access_token})
+        res.status(200).json({token:access_token,email:data.email})
       })
       .catch(err => {
          console.log(err)

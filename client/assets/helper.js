@@ -91,6 +91,10 @@ function login(code=null){
          timerProgressBar:true
       })
       localStorage.setItem('access_token',response.token);
+      if(response.email)
+         localStorage.setItem('user_email',response.email)
+      else
+         localStorage.setItem('user_email',data.email)
       //showMainPage();
       $("#errormessage").empty()
       Swal.fire({
@@ -161,6 +165,7 @@ function addTodo(){
 }
 function getAllTodo(){
    $("#todos").empty();
+   $("#holidays").empty();
    $.ajax({
       url:"http://localhost:3000/todos",
       method:"GET",
@@ -169,6 +174,7 @@ function getAllTodo(){
       }
    })
    .done(response => {
+      console.log(response)
       $("#todos").append(
          `
          <table id=table-todos class="table" >
@@ -182,7 +188,7 @@ function getAllTodo(){
          </table>
          `
       )
-      response.forEach(item => {
+      response[0].forEach(item => {
          let currStatus = item.status === false ?'Not Done' :'Done'
          $("#table-todos").append( 
          `  <tr scope="row">
@@ -194,6 +200,28 @@ function getAllTodo(){
                   <button id="delete-btn" class='btn btn-danger' onclick=delTodo(${item.id})>Delete</button>|
                   <button id="updateStatus-btn" class='btn btn-success' onclick=updateStatus(${item.id})>Update Progress</button>
                </td>
+            </tr>
+         `
+      )
+      })
+
+      $("#holidays").append(
+         `
+         <table id=holiday-todos class="table" >
+            <tr>
+               <th scope="col">date</th>
+               <th scope="col">Description</th>
+            </tr>
+         </table>
+         `
+      )
+
+      response[1].forEach(item => {
+         // let currStatus = item.status === false ?'Not Done' :'Done'
+         $("#holiday-todos").append( 
+         `  <tr scope="row">
+               <td>${item.date}</td>
+               <td>${item.localName}</td>
             </tr>
          `
       )
@@ -280,7 +308,7 @@ function onSignIn(googleUser) {
    //console.log('Name: ' + profile.getName());
    //console.log('Image URL: ' + profile.getImageUrl());
    //console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-   
+   localStorage.setItem('user_email',profile.getEmail());
    $.ajax({
       url:'http://localhost:3000/users/googleLogin',
       method:"POST",
@@ -301,7 +329,7 @@ function onSignIn(googleUser) {
       setTimeout(() => {
          showMainPage();
       },1100)
-      
+   
    })
    .fail(err => {
       
