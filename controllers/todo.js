@@ -1,5 +1,7 @@
 const {Todo} = require('../models')
-const { login } = require('./user')
+const axios = require('axios')
+
+
 
 class Controller {
   static async getTodo(req,res,next){
@@ -100,8 +102,12 @@ class Controller {
         where: {id}, returning:true
       })
       console.log(data)
+      
       if (data[1].length === 0){
-        res.status(404).json({message : 'Data not found'})
+        throw {
+          status: 404,
+          message: 'Data not found'
+        }
       }
       else{
         res.status(200).json(data[1][0])
@@ -109,18 +115,9 @@ class Controller {
     
     }
     catch (error){
-      // if(error.name === "SequelizeValidationError"){
-      //   throw {
-      //     status: 400,
-      //     message: error.errors[0].message
-      //   }
-        // res.status(400).json(error.errors[0].message)
-      // }
-      // else {
+  
         next(error)
-      // }
-      
-
+  
     }
   }
 
@@ -146,6 +143,23 @@ class Controller {
       }
 
   }
+
+  static async quote (req, res, next){
+  
+    try {
+      let response = await axios({
+          url: 'https://quote-garden.herokuapp.com/api/v2/quotes/random',
+          method : 'GET',
+          responseType : 'json'
+      })
+
+      //console.log(response)
+      res.status(200).json(response.data.quote)
+  
+  } catch (err){
+      next(err)
+  }
+}
 
 }
 

@@ -8,11 +8,7 @@ module.exports = async (req,res,next) => {
     const loggedUserId = req.loginUser.id
     console.log(loggedUserId)
     let id = +req.params.id
-      console.log(id)
-   
-   
-      
-      
+
       let data = await Todo.findOne({where: {id: id}})
       console.log(data)
       if (data.UserId === loggedUserId) {
@@ -25,14 +21,11 @@ module.exports = async (req,res,next) => {
       
       }
     
-
   }
   catch(error){
-    console.log(error)
+
     next(error)
 
   }
-  
-
 
 }

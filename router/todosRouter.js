@@ -6,6 +6,7 @@ const otorisesion = require('../middlewares/autorisesion')
 const router = express.Router()
 
 router.use(authentication)
+router.get('/quote',Controller.quote)
 router.post('/', Controller.postTodo) //add
 router.get('/',Controller.getTodo) //show all
 router.get('/:id', Controller.getTodoId)
