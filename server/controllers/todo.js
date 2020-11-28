@@ -91,7 +91,7 @@ class TodosController {
     })
     .then(data => {
       if(data != 0){
-        res.status(200).json(data[1][0])
+        res.status(200).json(data)
       } else {
         next({name: "ErrorNotFound"})
       }

@@ -1,6 +1,3 @@
-const { response } = require("express")
-const e = require("express")
-
 $(document).ready( () => {
 
   launch()
@@ -211,14 +208,14 @@ function getTodos() {
     console.log(data)
     let todos = ``
     data.forEach(el => {
-      const date = el.due_date.substring(0,10).split('-').reverse().join('/')
+      const date = el.due_date.substring(0,10)
       todos += `
       <div class="card mt-2">
         <div id="todo-${el.id}">
           <header class="card-header">
             <h5 class="card-header-title">${el.title}</h5>
             <span class="icon">
-              <input type="checkbox" >
+              <input id="check-status-${el.id}" type="checkbox" ${el.status == false ? "" : "checked"} onclick="changeStatus(${el.id}, ${el.status} )">
             </span>
           </header>
           <div class="card-content">
@@ -270,6 +267,31 @@ function getTodos() {
   })
 }
 
+function changeStatus(id, status) {
+    if ($(`#check-status-${id}`).prop("checked")) {
+      status = true
+    } else {
+      status = false
+    }
+    console.log(status, id)
+    $.ajax({
+      url: `http://localhost:3000/todos/${id}`,
+      method: 'PATCH',
+      headers: {
+        access_token: localStorage.getItem('access_token')
+      },
+      data: {
+        status
+      }
+    })
+    .done(() => {
+      getTodos()
+    })
+    .fail((err) => {
+      console.log(err)
+    })
+}
+
 function editTodo(id) {
   const title = $(`#todo-title-${id}`).val()
   const description = $(`#todo-description-${id}`).val()
@@ -312,7 +334,6 @@ function deleteTodo(id) {
 }
 
 function logOut() {
-  e.preventDefault()
   localStorage.clear()
   $('#news').empty()
   $('#todo-list').empty()
@@ -359,25 +380,6 @@ function getNews() {
 	.fail((err) => {
 		console.log(err)
 	})
-}
-
-function patchToDo(id) {
-  $.ajax({
-    url: `http://localhost:3000/todos/${id}`,
-    method: 'PATCH',
-    headers: {
-      access_token: localStorage.getItem('access_token')
-    },
-    data: {
-      status
-    }
-  })
-  .done((response) => {
-    getTodos()
-  })
-  .fail((err) => {
-    console.log(err)
-  })
 }
 
 
