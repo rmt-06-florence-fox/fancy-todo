@@ -4,7 +4,7 @@ function showMainPage() {
     $('#main-page').show()
     $('#btn-logout').show()
     $('#navbar').show()
-    $('#change-todo').show()
+    $('#change-todo').hide()
     $('#body-main').css('background', 'none')
     
 }
