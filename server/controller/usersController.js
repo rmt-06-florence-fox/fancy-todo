@@ -2,7 +2,6 @@ const { User } = require('../models')
 const {comparePassword} = require('../helpers/bcrypt')
 const jwt = require('jsonwebtoken');
 const { generateToken } = require('../helpers/jwt');
-const {generateToken} = require('../helpers/jwt')
 const verifiyGoogle = require('../helpers/verifiyGoogleToken')
 
 class UserController {
