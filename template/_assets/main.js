@@ -10,9 +10,10 @@ $(document).ready(() => {
         createTodos()
     })
     
-    $('#btn-register').on('submit', (e) => {
+    $('#register-form').on('submit', (e) => {
         e.preventDefault()
         register()
+        showFrontPage()
     })
 
     $('#login-form').on('submit', (e) => {
@@ -20,7 +21,16 @@ $(document).ready(() => {
         login()
     })
 
+    $('#btn-to-register').on('click', () => {
+        showRegisterPage()
+    })
+
+    $('#cancel').on('click', () => {
+        showFrontPage()
+    })
+
     $('#btn-logout').on('click', () => {
         logout()
     })
 })    
+

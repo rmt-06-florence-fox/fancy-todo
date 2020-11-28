@@ -32,6 +32,9 @@
             justify-content: center;
             margin: 0 auto;
         }
+        #btn-to-register {
+            display: flex;
+        }
     </style>
     <title>Todo Apps</title>
 </head>
@@ -54,9 +57,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary btn-center" id="btn-login">Submit</button>
                 </form>
-                <!-- <p class="text-center">Don't have an account? please register first</p>
-                <button type="submit" class="btn btn-primary btn-center" id="btn-to-register">Register</button>
-                <br> <br> -->
+                <button class="btn btn-secondary btn-center" id="btn-to-register">I don't have an account</button>
                 <br> <hr> 
             </div>  
             <!-- form register -->
@@ -73,10 +74,12 @@
                     </div>
                     <button type="submit" class="btn btn-primary btn-center" id="btn-register">Submit</button>
                 </form>
+                <button class="btn btn-secondary btn-center" id="cancel">Cancel</button>
                 <br> <hr>
             </div>
+            <!-- google sign in -->
             <div id="google-login">
-                <p class="text-center">Or you can easily register with your google account</p>
+                <p class="text-center">Or you can easily login/register with your google account</p>
                 <div class="g-signin2 btn-center" data-onsuccess="onSignIn"></div>
                 <br> <br> <br> 
             </div>
@@ -88,6 +91,35 @@
             <!-- form update -->
             <div id="update-form"> <br></div>
 
+            <!-- shollu -->
+            <!-- <div id="shollu">
+                <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Subuh</th>
+                        <th scope="col">Dzuhur</th>
+                        <th scope="col">Ashar</th>
+                        <th scope="col">Maghrib</th>
+                        <th scope="col">Isya</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th ></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td colspan="5" class="text-center"><strong>Jadwal Sholat Hari Ini</strong></th>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <br>
+                  <hr><hr>
+            </div>
+ -->
             <!-- form add -->
             <div id="add-form">
                 <h1 class="center">Add Todo</h1> <br>
