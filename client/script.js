@@ -1,3 +1,6 @@
+const { response } = require("express")
+const e = require("express")
+
 $(document).ready( () => {
 
   launch()
@@ -208,15 +211,19 @@ function getTodos() {
     console.log(data)
     let todos = ``
     data.forEach(el => {
+      const date = el.due_date.substring(0,10).split('-').reverse().join('/')
       todos += `
       <div class="card mt-2">
         <div id="todo-${el.id}">
           <header class="card-header">
             <h5 class="card-header-title">${el.title}</h5>
+            <span class="icon">
+              <input type="checkbox" >
+            </span>
           </header>
           <div class="card-content">
             <div class="content">
-              <time>${el.due_date}</time>
+              <time>${date}</time>
               <br>
               <p>${el.description}</p>
             </div>
@@ -236,7 +243,7 @@ function getTodos() {
               <div class="card-content">
                 <div class="content">
                   <div class="field">
-                    <input id="todo-due_date-${el.id}" value="${el.due_date}" type="date" class="input">
+                    <input id="todo-due_date-${el.id}" value="${date}" type="date" class="input">
                   </div>
                   <br>
                   <div class="field">
@@ -305,9 +312,14 @@ function deleteTodo(id) {
 }
 
 function logOut() {
-  localStorage.removeItem('access_token')
+  e.preventDefault()
+  localStorage.clear()
   $('#news').empty()
   $('#todo-list').empty()
+  const auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.');
+  });
   launch()
   displayLogin()
 }
@@ -349,6 +361,25 @@ function getNews() {
 	})
 }
 
+function patchToDo(id) {
+  $.ajax({
+    url: `http://localhost:3000/todos/${id}`,
+    method: 'PATCH',
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    },
+    data: {
+      status
+    }
+  })
+  .done((response) => {
+    getTodos()
+  })
+  .fail((err) => {
+    console.log(err)
+  })
+}
+
 
 function onSignIn(googleUser) {
   const googleToken = googleUser.getAuthResponse().id_token;
@@ -377,11 +408,4 @@ function onSignIn(googleUser) {
     $('#login-email').val('')
     $('#login-password').val('')
   })
-}
-
-function signOut() {
-  var auth2 = gapi.auth2.getAuthInstance();
-  auth2.signOut().then(function () {
-    console.log('User signed out.');
-  });
 }
