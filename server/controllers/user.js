@@ -42,6 +42,21 @@ class UserController {
             next(error)
         }
     }
+    static googleLogin (req, res, next) {
+        client.verifyIdToken({
+            idToken: req.body.googleToken,
+            audience: process.env.GOOGLE_CLIENT_ID
+        })
+        .then(ticket => {
+            console.log(ticket.getPayload)
+            res.status(200).json('ok')
+        })
+        .catch(error => {
+            next(error)
+        })
+    }
+
+
 }
 
 

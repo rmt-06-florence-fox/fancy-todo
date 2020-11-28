@@ -37,7 +37,7 @@ class TodoController{
             else{
                 if(dataTodo){
                     console.log(dataTodo)
-                    const data = Todo.findOne({where: {UserId: req.loggedInUser.id}, returning: true})
+                    const data = await Todo.findOne({where: {UserId: req.loggedInUser.id}, returning: true})
                     res.status(200).json(data)
                 }
                 else{
