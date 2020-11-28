@@ -19,4 +19,22 @@ $(document).ready(function() {
         e.preventDefault()
         createTodo()
     })
+
+    $('#toLoginForm').on("click", function(e) {
+        e.preventDefault()
+        showLoginPage()
+    })
+    
+    $('#toRegisterForm').on("click", function(e) {
+        e.preventDefault()
+        showRegisterPage()
+    })
+    
+    $('#btn-logout').on("click", function(e) {
+        logout()
+    })
+
+    $('#btn-AddTodo').on("click", function(e) {
+        showAddTodo()
+    })
 })

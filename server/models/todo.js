@@ -30,6 +30,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     UserId: DataTypes.INTEGER
   }, {
+    hooks: {
+      beforeCreate : (instance, opt) => {
+        if (!instance.status) {
+          instance.status = "Not Done Yet"
+        }
+      }
+    },
     sequelize,
     modelName: 'Todo',
   });

@@ -6,7 +6,6 @@ class TodoController {
         const payload = {
             title: req.body.title,
             description: req.body.description,
-            status: req.body.status,
             due_date: req.body.due_date,
             UserId: req.loggedInUser.id
         }
@@ -53,7 +52,6 @@ class TodoController {
             const payload = {
                 title: req.body.title,
                 description: req.body.description,
-                status: req.body.status,
                 due_date: req.body.due_date
             }
             const data = await Todo.findByPk(idTodo)
@@ -118,11 +116,18 @@ class TodoController {
 
     static async date(req, res, next) {
         try {
-            axios({
-                url: `https://calendarific.com/api/v2/holidays?&api_key=${process.env.CALENDARIFIC_SECRET}&country=ID&year=2020`,
+            const currentDate = new Date().toISOString().split("-")
+            let tempHolidays = []
+            const response = await axios({
+                url: `https://calendarific.com/api/v2/holidays?api_key=${process.env.CALENDARIFIC_SECRET}&country=ID&year=${currentDate[0]}`,
                 method: "GET"
             })
-            res.status(200).json(response.data)
+            response.data.response.holidays.forEach(e => {
+                if (e.date.datetime.month == currentDate[1]) {
+                    tempHolidays.push(e)
+                }
+            });
+            res.status(200).json(tempHolidays)
         } catch(err) {
             next(err)
         }
