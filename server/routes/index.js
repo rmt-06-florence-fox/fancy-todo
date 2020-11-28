@@ -10,6 +10,6 @@ router.post('/googleLogin', UserController.googleLogin)
 router.use(authentication)
 router.use('/todos', todoRouter)
 router.get('/news', TodoController.news)
-router.get('/weather', TodoController.weather)
+router.post('/weather', TodoController.weather)
 
 module.exports = router

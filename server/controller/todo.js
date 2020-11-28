@@ -4,7 +4,7 @@ const axios = require('axios')
 class TodoController{
   static async show(req,res,next){
     try {
-      const list = await Todo.findAll({where : {UserId : req.userLogin.id}, order: [['due_date', 'DESC']]})
+      const list = await Todo.findAll({where : {UserId : req.userLogin.id}, order: [['status', 'DESC']]})
       if (list) {
         res.status(200).json(list)
       } else {
@@ -31,12 +31,27 @@ class TodoController{
   }
 
   static async weather(req,res,next){
+    let obj = {city : req.body.city}
     try {
-      const weather = await axios({
-        url: `http://api.weatherstack.com/current?access_key=${process.env.weatherSECRET}&query=Bandung`,
-        method : 'GET'
-      })
-      res.status(200).json(weather.data)
+      if (obj.city[0] !== obj.city[0].toUpperCase()) {
+        throw {
+          status : 400,
+          message: `Must Capitalize`
+        }
+      } else {
+        const weather = await axios({
+          url: `http://api.weatherstack.com/current?access_key=${process.env.weatherSECRET}&query=${obj.city}`,
+          method : 'GET'
+        })
+        if (weather.data.success === false) {
+          throw {
+            status : 404,
+            message: `error not found`
+          }
+        } else {
+          res.status(200).json(weather.data)
+        }
+      }
     } catch (error) {
       next(error)
     }

@@ -78,7 +78,8 @@ class UserController{
           email : findUser.email
         }
         const access_token = makeToken(obj)
-        res.status(200).json({access_token})
+        const fullname = findUser.fullname
+        res.status(200).json({access_token, fullname})
       } else {
         let sign = {
           first_name : payload.given_name,
@@ -94,7 +95,8 @@ class UserController{
           email : data.email
         }
         const access_token = makeToken(obj)
-        res.status(201).json({access_token})
+        const fullname = data.fullname
+        res.status(201).json({access_token, fullname})
       }
     } catch (error) {
       next(error)

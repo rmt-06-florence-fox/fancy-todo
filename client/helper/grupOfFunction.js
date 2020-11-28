@@ -17,11 +17,11 @@ function mainPage() {
   $('.mainPage').show()
   $('#toDoForm').show()
   $('#forLogout').show()
-  $('#toDoEdit').hide()
   $('.loginPage').hide()
   $('.registerPage').hide()
   seeList()
   getNews()
+  greetings()
 }
 
 
@@ -419,6 +419,7 @@ function onSignIn(googleUser) {
     $('#error').remove()
     $('#errorLogin').remove()
     localStorage.setItem('access_token', Response.access_token)
+    localStorage.setItem('fullname', Response.fullname)
     mainPage()
   })
 
@@ -502,45 +503,56 @@ function getNews() {
   })
 }
 
-function getWeather() {
+function greetings() {
+  $('#intro').empty()
+  $('#intro').append(`<div id="greeting" style="padding-top: 20px;"> <h3> Hola and Welcome, ${localStorage.getItem('fullname')}!</h3>
+  <h5> if you wanna know about weather today, you can fill your city with capitalize the first letter below.</h5> </div>
+  `)
+  $(`#intro`).append(`<form action="" method="post" id='formCity' style="padding-top: 25px;">
+  <div class="form-group">
+    <label for="InputCity" style="font-size: 22px;">City :</label>
+    <input type="text" class="form-control" id="city" placeholder="e.g. Bandung">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>`)
+}
+
+function getWeather(input) {
+  const city = $('#city').val()
   $.ajax({
-      method: "GET",
+      method: "POST",
       url: "http://localhost:3000/weather",
       headers: {
           access_token: localStorage.getItem('access_token')
+      },
+      data: {
+        city
       }
   })
   .done(res => {
-      $(".carousel-inner").empty()
-      $(".carousel-indicators").empty()
-      const list = res.articles
-      for (let i = 0; i < list.length; i++) {
-        if (!list[i].urlToImage) {
-          continue
-        } else {
-          if (i === 0) {
-            $(".carousel-indicators").append(`<li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>`)
-            $(".carousel-inner").prepend(` 
-            <div class="carousel-item active rounded shadow p-8">
-            <img src="${list[i].urlToImage}" class="rounded mx-auto d-block" style="height: 300px; opacity: 0.5;" alt="...">
-            <div class="carousel-caption d-md-block text-center">
-            <a href='${list[i].url}' style="text-decoration: none;color: white;"><h6 style="font-size: 12px;">${list[i].title}</h6></a>
-            <a href='${list[i].url}' style="text-decoration: none;color: white;"><p style="font-size: 10px;">${list[i].description} Klik untuk melanjutkan.</p></a>
-            </div>
-          </div>`)
-            } else {
-            $(".carousel-indicators").prepend(`<li data-target="#carouselExampleCaptions" data-slide-to="${i}"></li>`)
-            $(".carousel-inner").prepend(` 
-            <div class="carousel-item rounded shadow p-8">
-            <img src="${list[i].urlToImage}" style="height: 300px; opacity: 0.5;" class="rounded mx-auto d-block" alt="...">
-            <div class="carousel-caption d-md-block text-center">
-            <a href='${list[i].url}' style="text-decoration: none;color: white;"><h6 style="font-size: 12px;">${list[i].title}</h6></a>
-            <a href='${list[i].url}' style="text-decoration: none;color: white;"><p style="font-size: 10px;">${list[i].description} Klik untuk melanjutkan.</p></a>
-            </div>
-          </div>`) 
-            }
-        }  
-      } 
+      $('#intro').empty()
+      $('#intro').append(`<h5 id="alert"> Alright ${localStorage.getItem('fullname')}, the weather for your city today is,</h5>
+  <div class="row" id="info">
+    <div id="status" class="col-sm">
+      <h5 id="result">${res.current.weather_descriptions[0]}</h5>
+<img id="resultIcon" src="${res.current.weather_icons[0]}" alt="${res.current.weather_descriptions[0]}">
+<h6 id="place">${res.location.name}, ${res.location.country}</h6>
+<button class="btn btn-warning" type="button" id="back">Back</button>
+    </div>
+    <div id="desc" class="col-sm">
+      <p>Temperature: ${res.current.temperature} C</p>
+      <p>Feels Like: ${res.current.feelslike} C</p>
+      <p>Cloud cover: ${res.current.cloudcover} %</p>
+      <p>Visibility: ${res.current.visibility} km</p>
+      <p>Humidity: ${res.current.humidity} %</p>
+      <p>Pressure: ${res.current.pressure} MB</p>
+      <p>UV Index: ${res.current.uv_index}</p>
+    </div>
+  </div>`)
+  $('#back').on('click', (e)=>{
+    e.preventDefault()
+    mainPage()
+  })
   })
   .fail((xhr, textStatus)=>{
     $('.error').empty()
@@ -559,5 +571,8 @@ function getWeather() {
       `)
       $('.toast').toast({delay: 5000})
       $('.toast').toast('show')
+  })
+  .always(()=>{
+    $('#city').val('')
   })
 }

@@ -39,4 +39,10 @@ $(document).ready(function(){
     e.preventDefault()
     loginPage()
   })
+
+  $(`#formCity`).on('submit', (e)=>{
+    e.preventDefault()
+    getWeather()
+  })
+
 })

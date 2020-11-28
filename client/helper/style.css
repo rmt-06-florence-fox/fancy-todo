@@ -1,6 +1,7 @@
 body{
   height: 100%;
-  background-color: #444a54;
+  background-image: url('https://images.unsplash.com/photo-1566617089625-1809173be38d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=564&q=80');
+  background-repeat: repeat;
   background-size: cover;
 }
 
@@ -93,13 +94,13 @@ body{
 
 #intro {
   top: 15%;
-  left: 12%; 
+  left: 10.6%; 
   position: absolute;
   opacity: 95%;
-  background-color: #ffd369;
-  padding: 10px;
+  background-color: #117085;
+  padding: 8px;
   height: 360px;
-  color: #222831;
+  color: white;
  }
 
  #news {
@@ -107,8 +108,58 @@ body{
   left: 10.8%; 
   position: absolute;
   opacity: 95%;
-  background-color: #ffd369;
+  background-color: #3ed00d;
   padding: 10px;
   height: 360px;
   color: #222831;
  }
+
+ #info {
+  left: 5%;
+ }
+
+ #resultIcon {
+   position: relative;
+   width: 100px;
+   top: 5%;
+   left: 34%;
+ }
+
+ #result {
+  position: relative;
+  top: 1%;
+  left: 4%;
+  color: white;
+  text-align: center;
+ }
+
+ #place {
+  position: relative;
+  top: 10%;
+  left: 4%;
+  color: white;
+  text-align: center;
+ }
+
+ #desc {
+   font-size: 14px;
+   position: relative;
+   left: 10%;
+   bottom: 10%;
+   color: white;
+ }
+
+ #alert {
+   position: relative;
+   padding: 0px 7%;
+   color: white;
+   text-align: center;
+ }
+
+ #back {
+  position: relative;
+  width: 100px;
+  top: 10%;
+  left: 34%;
+}
+
