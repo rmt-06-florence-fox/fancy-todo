@@ -1,4 +1,5 @@
-let baseURL = 'http://localhost:3000'
+// let baseURL = 'http://localhost:3000'
+let baseURL = 'https://hisyam-todo.herokuapp.com'
 
 $(document).ready(function() {
     checkauth()
