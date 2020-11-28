@@ -9,44 +9,89 @@
 </head>
 
 <body>
-    <header class="container-fluid navbar-nav">
-        <button class="nav-bar"><a href="/" class="nav-link">FANCY TO DO</a></button>
-        <button class="nav-bar" id="logoutBtn">Log Out</button>
+    <header class="container-fluid page-header bg-dark d-flex flex-row justify-content-around">
+        <div class="container-fluid">
+            <h1 id="home" class="text-white">FANCY TO DO</h1>
+            <p class="text-white">listing your todo in a fancy way</p>
+        </div>
+        <button class="nav-bar justify-content-end text-white bg-dark" id="logoutBtn">Log Out</button>
     </header>
 
     <br>
-    <div id="login-form" class="">
-        <form action="" method="POST" class="">
-            <label for="email">Email : </label> <br>
-            <input type="email" name="email" id="login-email"> <br>
-            
-            <label for="password">Password : </label> <br>
-            <input type="password" name="password" id="login-password"> <br>
+    <div id="login-form" class="d-flex justify-content-center container-fluid">
+        <div>
+            <form action="" method="POST">
+                <div class="form-group">
+                    <label for="email">Email : </label> <br>
+                    <input type="email" name="email" id="login-email" class="form-control"> <br>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password : </label> <br>
+                    <input type="password" name="password" id="login-password" class="form-control"> <br>
+                </div>
 
-            <input type="submit" value="login">
-        </form>
-        <p>or register <button id="register-anchor">here</button></p>
+                <input type="submit" value="login" class="bg-dark text-white form-control">
+                <br>
+            </form>
+            <p>or register <button id="register-anchor" class="bg-secondary text-white">here</button></p>
+        </div>
     </div>
     <br>
-    <div id="register-form">
-        <form action="" method="POST" class="">
+    <div id="register-form" class="d-flex justify-content-center container-fluid">
+        <form action="" method="POST">
+            <div class="form-group">
+                <label for="fullName">Name : </label> <br>
+                <input type="text" name="fullName" id="fullName" class="form-control"> <br>
+            </div>
+            
+            <div class="form-group">
+                <label for="userName">User Name : </label> <br>
+                <input type="text" name="userName" id="userName" class="form-control"> <br>
+            </div>
+            <div class="form-group">
+                <label for="email">Email : </label> <br>
+                <input type="email" name="email" id="email" class="form-control"> <br>
+            </div>
 
-            <label for="fullName">Name : </label> <br>
-            <input type="text" name="fullName" id="fullName"> <br>
-
-            <label for="userName">User Name : </label> <br>
-            <input type="text" name="userName" id="userName"> <br>
-
-            <label for="email">Email : </label> <br>
-            <input type="email" name="email" id="email"> <br>
+            <div class="form-group">
+                    <label for="password">Password : </label> <br>
+                    <input type="password" name="password" id="password" class="form-control"> <br>
+            </div>
         
-            <label for="password">Password : </label> <br>
-            <input type="password" name="password" id="password"> <br>
-        
-            <input type="submit" value="register">
+            <input type="submit" value="register" class="form-control btn-dark">
         </form>
     </div>
 
+    <br>
+    <div id="edit-form" class="d-flex justify-content-center">
+        <div class="d-flex flex-column">
+            <h4>Edit here</h4><br>
+            <form action="" method="POST">
+                <input type="text" placeholder="title goes here" id="title-edit" class="form-group form-control"> <br>
+                <textarea name="" id="description-edit"  cols="25" rows="5" placeholder="description goes here"></textarea>
+
+                <div class="form-group">
+                    <label for="due_date">Due Date</label><br>
+                    <input type="date" id="due_date-edit" name="due_date" class="form-control">
+                </div>
+                <button type="submit" class="bg-dark text-white form-control">Edit</button>
+            </form>
+        </div>
+    </div>
+    <div id="add-form" class="d-flex justify-content-center">
+        <div class="d-flex flex-column">
+            <br><h4>Create todo here</h4><br>
+            <form action="" method="POST">
+                <input type="text" placeholder="title goes here" id="title-add" class="form-group form-control"> <br>
+                <textarea name="" id="descriptio-add" cols="25" rows="5" placeholder="description goes here" class="form-control"></textarea>
+                <div class="form-group">
+                    <label for="due_date">Due Date</label><br>
+                    <input type="date" id="due_date-add" name="due_date" class="form-control">
+                </div>
+                <button type="submit" class="form-control bg-dark text-white">Create</button>
+            </form>
+        </div>
+    </div>
     <div id="content" class="row">
         
     </div>
