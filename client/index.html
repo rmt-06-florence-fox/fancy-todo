@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-signin-client_id" content="413611539602-dqo9svvbt60l1pfqdhkpbpsnv9bbbflr.apps.googleusercontent.com">
+    <style>
+        *{
+            background-image: url("https://img.uxfree.com/wp-content/uploads/2016/08/macro-plex-4k-motion-background-loop.jpg");
+        }
+        table{
+            color: white;
+        }
+        h1{
+            color: cornflowerblue;
+        }
+    </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>Fancy Todo</title>
@@ -65,7 +76,7 @@
     <!--Main Page-->
     <div id="main-page">
         <center><h1>Create And See Your Todo</h1></center> 
-        <button id="btn-logout" class="btn btn-danger" style="text-align: center; ">Logout</button>
+        <button id="btn-logout" class="btn btn-danger" style="text-align: center; float: right;">Logout</button><br>
         <!--Form Create Todo-->
         <form class="form-inline" id="todos-form" method="POST">
             <label class="sr-only" for="title">Title</label>
@@ -91,16 +102,18 @@
               </div>
               <input type="date" class="form-control" id="due_date" name="due_date" placeholder="Due Date">
             </div>
-            <button type="submit" class="btn btn-primary mb-2" id="btn-submit-todo">Submit</button>
+            <button type="submit" class="btn btn-primary mb-2" id="btn-submit-todo">Add Todo</button>
           </form>
         <!--Form Create Todo-->
-        <table id="table-todo" border="1"></table>
+        <table id="table-todo" border="1" class="table"></table>
     </div>
     <!--Main Page-->
     <!--Edit Todo-->
     <div id="edit-todo-page">
+        <center><h1>Edit Your Todo</h1></center>
     <form id="edit-todos-form" method="POST">
     </form>
+    <button id="back-to-main-page" class="btn btn-link">Go Back</button>
     </div>
     <!--Edit Todo-->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
@@ -125,21 +138,40 @@
                 $('#main-page').hide()
                 $('#register-page').hide()
                 $('#edit-todo-page').show()
-                $('#edit-todos-form').append(`<label for="title">Title</label><br>
-                <input type="text" id="title-edit" name="title" value=""><br><br>
-                <label for="description">Description</label><br>
-                <input type="text" id="description-edit" name="description" value=""><br><br>
-                <label for="description">Status</label><br>
-                <input type="text" id="status-edit" name="status" value=""><br><br>
-                <label for="due_date">Due date</label><br>
-                <input type="date" id="due_date-edit" name="due_date" value=""><br><br>
-                <button id="btn-submit-edit-todo" class="btn btn-primary" onclick="editTodo(${value.id})">Add</button>
-                <br><br>`)
+                $('#edit-todos-form').append(`<form class="form-inline" id="todos-form-edit" method="POST">
+            <label class="sr-only" for="title">Title</label>
+            <input type="text" class="form-control mb-2 mr-sm-2" id="title-edit" name="title" placeholder="Title">
+          
+            <label class="sr-only" for="description">Description</label>
+            <div class="input-group mb-2 mr-sm-2">
+              <div class="input-group-prepend">
+              </div>
+              <input type="text" class="form-control" id="description-edit" name="description" placeholder="Description">
+            </div>
+
+            <label class="sr-only" for="status">Status</label>
+            <div class="input-group mb-2 mr-sm-2">
+              <div class="input-group-prepend">
+              </div>
+              <input type="text" class="form-control" id="status-edit" name="status" placeholder="Status">
+            </div>
+
+            <label class="sr-only" for="due_date">Due date</label>
+            <div class="input-group mb-2 mr-sm-2">
+              <div class="input-group-prepend">
+              </div>
+              <input type="date" class="form-control" id="due_date-edit" name="due_date" placeholder="Due Date">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2"id="btn-submit-edit-todo">Submit</button>
+          </form>`)
                 $('#title-edit').val(`${value.title}`)
                 $('#description-edit').val(`${value.description}`)
                 $('#status-edit').val(`${value.status}`)
                 $('#due_date-edit').val(`${value.due_date}`)
-                
+                $(`#todos-form-edit`).on('submit', (e) => {
+                    e.preventDefault()
+                    editTodo(value.id)
+                })
             })
             .fail((xhr, textStatus) => {
                 console.log(xhr, textStatus);
@@ -283,20 +315,20 @@
                 }
             })
             .done(response => {
-                $('#table-todo').append(`<tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Due Date</th>
-                <th>Action</th>
-                </tr>`)
+                $('#table-todo').append(`<thead class="thead-dark"><tr>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Action</th>
+                </tr></thead>`)
                 response.forEach(todo => {
                     $("#table-todo").append(`<tr>
-                    <td>${todo.title}</td>
+                    <th scope="row">${todo.title}</th>
                     <td>${todo.description}</td>
                     <td>${todo.status}</td>
                     <td>${todo.due_date}</td>
-                    <td><button onClick="deleteTodo(${todo.id})" class="btn btn-warning">Delete</button> <button onClick="editTodoDisplay(${todo.id})">Edit</button></td>
+                    <td><button onClick="deleteTodo(${todo.id})" class="btn btn-warning">Delete</button> <button onClick="editTodoDisplay(${todo.id})" class="btn btn-success">Edit</button></td>
                         </tr>`);
                 })
             })
@@ -375,6 +407,9 @@
         $('#todos-form').on('submit', (e) => {
             e.preventDefault()
             createTodo()
+        })
+        $('#back-to-main-page').click(() => {
+            mainDisplay()
         })
         // $('#btn-submit-edit-todo').on('submit', (e) => {
         //     e.preventDefault()
