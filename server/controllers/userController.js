@@ -13,7 +13,11 @@ class UserController{
             let newUser = await User.create(obj)
             res.status(201).json(newUser)
         } catch (err) {
-            next(err)
+            console.log(err.message);
+            next({
+                status: 400,
+                msg: err.message
+            })
         }
     }
     static async postLogin(req,res,next){

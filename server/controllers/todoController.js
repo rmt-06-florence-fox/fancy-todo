@@ -21,7 +21,8 @@ class TodoController{
             let allTodo = await Todo.findAll({
                 where:{
                     UserId: req.loggedIn.id
-                }
+                },
+                order:[['due_date','ASC']]
             })
             res.status(200).json(allTodo)
         } catch (err) {
@@ -75,7 +76,7 @@ class TodoController{
         let id = req.params.id
         try {
             let newData = {
-                status: req.body.status
+                status: 'done'
             }
             let updatedTodo = await Todo.update(newData, {
                 where:{

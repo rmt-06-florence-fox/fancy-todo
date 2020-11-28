@@ -1,3 +1,4 @@
+const { LoginTicket } = require('google-auth-library')
 const jwt = require('jsonwebtoken')
 
 function generateToken(payload){

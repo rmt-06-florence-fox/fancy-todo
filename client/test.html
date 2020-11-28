@@ -1,0 +1,74 @@
+
+    <div id="navbar">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: mediumturquoise;">
+            <a class="navbar-brand">F Todo</a>
+            <button onclick="loginPage()" class="btn" id="btn-login">login</button>
+            <button onclick="registerPage()" class="btn" id="btn-register">register</button>
+            <button class="btn" onclick="logout()" id="btn-logout">logout</button>
+            <div class="g-signin2" data-onsuccess="onSignIn" id="btn-google"></div>
+          </nav>
+    </div>
+    <div id="home-page" class="container">
+    </div>
+    <section id="login-page">
+        <div  class="container">
+            <form action="" id="login-form">
+                <label for="">email</label>
+                <input type="email" id="login-email-input" placeholder="email"><br>
+                <label for="">password</label>
+                <input type="password" id="login-password-input" placeholder="password"><br>
+                <input type="submit" >
+            </form><br>
+            <div class="g-signin2" data-onsuccess="onSignIn">
+            </div>
+        </div>
+    </section>
+    <section id="register-page">
+        <div class="container">
+            <form action="" id="register-form" >
+                <label for="">email</label>
+                <input type="email" id="register-email-input" placeholder="email">
+                <br>
+                <label for="">password</label>
+                <input type="password" id="register-password-input" placeholder="password"><br>
+                <input type="submit" >
+                <div class="g-signin2" data-onsuccess="onSignIn" id="btn-google"></div>
+            </form>
+        </div>
+    </section>
+    <section id="todo-page">
+        <div class="container">
+            <h1>todo page</h1><br>
+            <button onclick="showTodoForm()" class="btn btn-secondary">add todo</button>
+            <form action="" id="todo-form" style="display: none;" class="row">
+                <div class="form-group col-sm">
+                    <label for="" >title</label>
+                    <input type="text" placeholder="title" id="todo-form-title" class="form-control">
+                </div>
+                <div class="form-group col-sm">
+                    <label for="" >description</label>
+                    <input type="text" placeholder="description" id="todo-form-description" class="form-control">
+                </div>
+                <div class="form-group col-sm">
+                    <label for="" >due date</label>
+                    <input type="date" id="todo-form-due_date" class="form-control">
+                </div>
+                <input type="submit" class="btn" style="max-height: 30px;margin-top: 30px;">
+            </form>
+            <table id="table-todos" class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">title</th>
+                        <th scope="col">desc</th>
+                        <th scope="col">status</th>
+                        <th scope="col">due date</th>
+                      </tr>
+                      <tbody id="table-todos-body">
+                        
+                      </tbody>
+                </thead>
+            </table>
+        </div>
+
+    </section>

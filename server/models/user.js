@@ -19,7 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type:DataTypes.STRING,
       allowNull:false,
-      unique: true,
+      unique: {
+        msg: 'email must be unique'
+      },
       validate:{
         notEmpty: {msg: 'email cannot be empty'},
         isEmail: {msg: 'please input correct email'}
@@ -31,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         notEmpty: {msg: 'input password correctly'},
         morethan6(value){
-          if(value.length <= 6){
+          if(value.length < 6){
             throw new Error('password min. 6 characters');
           }
         }
