@@ -8,6 +8,7 @@ router.get("/", (req, res) => {
 
 router.post("/login", userController.loginPost)
 router.post("/register", userController.registerPost)
+router.post("/googleLogin", userController.googleLogin)
 
 router.use("/todos", todo)
 

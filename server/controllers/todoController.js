@@ -19,15 +19,13 @@ class todoController {
                     UserId: req.loggedInUser.id
                 }
             })
-            console.log(todo);
-            res.status(200).json({ todo })
+            res.status(200).json(todo)
         } catch (err) {
             next(err)
         }
     }
     static async todoById(req, res, next) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< static
         try {
-            console.log("disini");
             const id = +req.params.id
             const todo = await Todo.findOne({ 
                 where: {
@@ -53,7 +51,7 @@ class todoController {
     }
     static async todoUpdatePatch(req, res, next) {
         const id = req.params.id
-        const input = { status: req.body.status }
+        const input = { status: true }
         try {
             const todo = await Todo.update(input, { where: {id}, returning: true })
             res.status(200).json(todo[1][0])

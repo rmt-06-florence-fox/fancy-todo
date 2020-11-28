@@ -1,0 +1,74 @@
+body {
+    font-family: 'Abel', sans-serif;
+    
+}
+
+.img-avatar {
+    width: 35%;
+    margin-bottom: 20px;
+}
+
+.img-avatar2 {
+    width: 30%;
+    margin-bottom: 30px;
+}
+
+.container { 
+    width: 100%; 
+    margin-top: 100px;
+    margin-bottom: 100px;
+    border-radius: 20px;
+    
+}
+
+#img-login {
+    position: relative;
+    opacity: 90%;
+    padding-left: 15%;
+}
+
+#avatar-login {
+    position: relative;
+}
+
+#avatar-signUp {
+    position: relative;
+}
+
+.head-login {
+    position: absolute;
+    top: 5%;
+    left: 70%;
+    color: rgba(111, 102, 93, 0.452);
+}
+
+.sign-in {
+    position: absolute;
+    top: 76%;
+    left: 73%;
+    color: rgba(0, 0, 255, 0.466);
+}
+
+#title {
+    color: #64c5cf;
+}
+
+#register-page {
+    margin-top: 10%;
+}
+
+#login-page {
+    margin-top: 12%;
+    margin-left: 17%;
+}
+
+.navbar {
+    margin-top: -8%;
+}
+
+.g-signin2 {
+    position: relative;
+    margin-top: -10%;
+    margin-left: 90%;
+    color: rgb(119, 123, 123);
+}

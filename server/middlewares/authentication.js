@@ -6,19 +6,21 @@ module.exports = async (req, res, next) => {
         console.log("test udah masuk auth");
         const { access_token } = req.headers
         if (!access_token) {
+            console.log("error2");
             throw {
                 status: 401,
                 message: "Please Login or Register First"
             }
         } else {
             const decode = verifyToken(access_token)
-            req.loggedInUser = decode
             const user = await User.findOne({ where: { 
                 id: decode.id
             }})
             if (user) {
+                req.loggedInUser = decode
                 next()
             } else {
+                console.log("error3");
                 throw {
                     status: 401,
                     message: "Please Login or Register First"
