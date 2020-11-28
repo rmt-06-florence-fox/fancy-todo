@@ -12,88 +12,99 @@
   <title>Document</title>
 </head>
 <body>
-
-  <div id="homepage" class="container">
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#login-page">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#register-page">Register</a>
-      </li>
-    </ul>
-  
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <div id="login-page" class="container tab-pane active"><br>
-        <div class="row">
-          <div class="col-sm-8">
-
-          </div>
-          <div class="col-sm-4">
-            <div id="invalidlogin">
-  
+  <section id="homepage">
+    <div class="container">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#login-page">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#register-page">Register</a>
+        </li>
+      </ul>
+    
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div id="login-page" class="container tab-pane active"><br>
+          <div class="row">
+            <div class="col-sm-8">
+              <img src="https://c.files.bbci.co.uk/9396/production/_115528773_header_976.png" style="width: 700px; margin-top: 30px;">
             </div>
-            <h3>Login</h3>
-            <form id="submit-login-form">
-              <div class="form-group">
-                Email:<br>
-                <input type="text" name="email" id="email-login" required><br>
+  
+            <div class="col-sm-4 card">
+  
+              <div id="invalidlogin">
+    
               </div>
-              <div class="form-group">
-                Password:<br>
-                <input type="password" name="password" id="password-login" required><br>
-              </div>
-            
-              <button type="submit" class="btn btn-primary">Login</button>
-             
-            </form>
+              
+              <img src="assets/967a732d-efc0-4a82-8cbd-bf7317f2ed74_200x200.png" style="width: auto;" class="mx-auto">
+              
+              <h3 class="card-header">Login</h3>
+              <form id="submit-login-form" class="card-body">
+                <div class="form-group">
+                  Email:<br>
+                  <input type="text" name="email" id="email-login" required><br>
+                </div>
+                <div class="form-group">
+                  Password:<br>
+                  <input type="password" name="password" id="password-login" required><br>
+                </div>
+              
+                <button type="submit" class="btn btn-primary">Login</button>
+               
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-      <div id="register-page" class="container tab-pane fade"><br>
-        <div class="row">
-          <div class="col-sm-8">
-
-          </div>
-          <div class="col-sm-4">
-            <div id="register">
-  
+        <div id="register-page" class="container tab-pane fade"><br>
+          <div class="row">
+            <div class="col-sm-8">
+              <img src="https://c.files.bbci.co.uk/9396/production/_115528773_header_976.png" style="width: 700px; margin-top: 30px;">
             </div>
-            <h3>Register</h3>
-            <form id="submit-register-form">
-              <div class="form-group">
-                First Name:<br>
-                <input type="text" name="first_name" id="first_name-register" required><br>
+            <div class="col-sm-4 card">
+              <div id="register">
+    
               </div>
-              <div class="form-group">
-                Last Name: <br>
-                <input type="text" name="last_name" id="last_name-register"><br>
-              </div>
-              <div class="form-group">
-                Username: <br>
-                <input type="text" name="last_name" id="username-register" required><br>
-              </div>
-              <div class="form-group">
-                Email:<br>
-                <input type="text" name="email" id="email-register" required><br>
-              </div>
-              <div class="form-group">
-                Password:<br>
-                <input type="password" name="password" id="password-register" required><br>
-              </div>
-              <button type="submit" class="btn btn-primary">Register</button>
-            </form>
-        </div>
+              <img src="assets/967a732d-efc0-4a82-8cbd-bf7317f2ed74_200x200.png" style="width: auto;" class="mx-auto">
+              <h3 class="card-header">Register</h3>
+              <form id="submit-register-form" class="card-body">
+                <div class="form-group">
+                  First Name:<br>
+                  <input type="text" name="first_name" id="first_name-register" required><br>
+                </div>
+                <div class="form-group">
+                  Last Name: <br>
+                  <input type="text" name="last_name" id="last_name-register"><br>
+                </div>
+                <div class="form-group">
+                  Username: <br>
+                  <input type="text" name="last_name" id="username-register" required><br>
+                </div>
+                <div class="form-group">
+                  Email:<br>
+                  <input type="text" name="email" id="email-register" required><br>
+                </div>
+                <div class="form-group">
+                  Password:<br>
+                  <input type="password" name="password" id="password-register" required><br>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+              </form>
+          </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
+  
+  </section>
+  
   <div id ="main-page">
-    <nav class="navbar bg-dark">
-      <button id="btn-logout" class="btn btn-success ml-auto">logout</button>
+    <nav class="navbar bg-light">
+      <div class="navbar-brand">
+        <img src="./assets/logonavbar.png" width="50" height="50" alt=""> FancyToDo
+      </div>
+      <button id="btn-logout" class="btn btn-secondary ml-auto">logout</button>
     </nav>
     <br>
     <div style="padding-left: 10px;">
