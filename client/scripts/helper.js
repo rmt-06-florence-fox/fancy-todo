@@ -269,7 +269,8 @@ function getSuggest () {
     $('#homepage').hide()
     $('#newtask').hide()
     $('#edit-task').hide()
-    
+    $('#pickdue').show()
+
     loadSuggest()
 }
 

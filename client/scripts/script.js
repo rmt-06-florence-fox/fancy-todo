@@ -179,5 +179,21 @@ $(document).ready (function(){
       })
      
 
+      //
+      $('#get-suggest-due_date').on(
+        {
+          focus: _=> {
+            $('#pickdue').hide()
+          },
+          blur: _=> {
+            console.log($('#get-suggest-due_date').val())
+            if ($('#get-suggest-due_date').val() == null || $('#get-suggest-due_date').val() == '') {
+              $('#pickdue').show()
+            } else {
+              $('#pickdue').hide()
+            }
+          }
+        }
+      )
 
   });
