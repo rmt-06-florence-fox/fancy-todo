@@ -1,0 +1,114 @@
+body{
+  height: 100%;
+  background-color: #444a54;
+  background-size: cover;
+}
+
+.error {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+}
+
+.loginPage, .registerPage {
+  min-height: 91.5vmin;
+  background-image: linear-gradient(to top, transparent, #222831), url('https://casso.cc/preview1.gif');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#forLogin {
+ width: 600px; 
+ top: 30%;
+ left: 30%; 
+ position: absolute;
+ padding: 10px;
+ opacity: 95%;
+}
+
+#loginHead {
+  font-weight: 500;
+  color: white;
+  font-size: 45px;
+  top: 20%;
+  left: 46%; 
+  position: absolute;
+ }
+
+ #registerHead {
+  font-weight: 500;
+  color: white;
+  font-size: 45px;
+  top: 15%;
+  left: 44%; 
+  position: absolute;
+ }
+
+ #forRegister {
+  width: 600px; 
+  top: 25%;
+  left: 30%; 
+  position: absolute;
+  padding: 10px;
+  opacity: 95%;
+ }
+
+ .g-signin2 {
+  padding-top: 10px;
+  padding-bottom: 8px;
+ }
+
+ #successRegister {
+  font-weight: 100;
+  color: white;
+  font-size: 25px;
+  top: 77%;
+  left: 34%; 
+  position: absolute;
+ }
+
+ /* Login Register Page */
+
+.toDoSection {
+ width: 600px; 
+ top: 15%;
+ right: 11%; 
+ position: absolute;
+ padding: 10px;
+ opacity: 95%;
+ background-color: #ffd369;
+}
+
+#createButton {
+  width: 580px;
+}
+
+#createToDo{
+  padding: 20px;
+}
+
+#listTask{
+  padding-top: 8px;
+}
+
+#intro {
+  top: 15%;
+  left: 12%; 
+  position: absolute;
+  opacity: 95%;
+  background-color: #ffd369;
+  padding: 10px;
+  height: 360px;
+  color: #222831;
+ }
+
+ #news {
+  top: 64%;
+  left: 10.8%; 
+  position: absolute;
+  opacity: 95%;
+  background-color: #ffd369;
+  padding: 10px;
+  height: 360px;
+  color: #222831;
+ }
