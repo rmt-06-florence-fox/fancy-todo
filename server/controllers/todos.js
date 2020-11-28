@@ -1,7 +1,7 @@
 const { Todo } = require('../models')
 
 class TodosController {
-  static async createTodos(req, res) {
+  static async createTodos(req, res, next) {
     const value = {
       title: req.body.title,
       description: req.body.description,
@@ -18,26 +18,31 @@ class TodosController {
     }
   }
 
-  static async showTodos(req, res) {
+  static async showTodos(req, res, next) {
     try {
-      const data = await Todo.findAll({ where: { UserId: req.SignedIn.id } })
+      const data = await Todo.findAll({ 
+        where: { 
+          UserId: req.SignedIn.id
+        },
+        order: [['status', 'desc']]
+      })
       res.status(200).json(data)
     } catch (error) {
       res.status(500).json(error)
     }
   }
 
-  static async showTodosId(req, res) {
+  static async showTodosId(req, res, next) {
     try {
       const id = +req.params.id
       const data = await Todo.findByPk(id)
       res.status(200).json(data)
     } catch (error) {
-      res.status(500).json(error)
+      res.status(404).json(error)
     }
   }
 
-  static async editTodos(req, res) {
+  static async editTodos(req, res, next) {
     try {
       const id = +req.params.id
       const value = {
@@ -54,14 +59,11 @@ class TodosController {
     }
   }
 
-  static async updateTodos(req, res) {
-    // console.log(req.SignedIn);
-    // console.log('ini update todo');
-    // res.status(200).json({msg: `lewat midelwer`})
+  static async updateTodos(req, res, next) {
     try {
       const id = +req.params.id
       const value = {
-        status: req.body.status
+        status: `Done`
       }
 
       const data = await Todo.update(value, { where: { id }, returning: true })
@@ -71,11 +73,13 @@ class TodosController {
     }
   }
 
-  static async deleteTodos(req, res) {
+  static async deleteTodos(req, res, next) {
     try {
       const id = +req.params.id
       const data = await Todo.destroy({ where: { id } })
-      res.status(201).json(data)
+      res.status(201).json({
+        msg: `Todo Success to delete`
+      })
     } catch (error) {
       res.status(500).json(error)
     }

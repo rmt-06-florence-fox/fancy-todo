@@ -16,8 +16,24 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Todo.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty:{
+          msg: `Title must be filled`
+        }
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty:{
+          msg: `Description must be filled`
+        }
+      }
+    },
     status: DataTypes.STRING,
     due_date: {
       type: DataTypes.DATEONLY,
@@ -25,11 +41,19 @@ module.exports = (sequelize, DataTypes) => {
         isAfter: {
           args: new Date(day.setDate(day.getDate() - 1)).toString(),
           msg: `Must be today or greater than today`
+        },
+        notEmpty: {
+          msg: `Due Date must be filled`
         }
       }
     },
     UserId: DataTypes.INTEGER 
   }, {
+    hooks:{
+      beforeCreate(todo){
+        todo.status = `On progress`
+      }
+    },
     sequelize,
     modelName: 'Todo',
   });
