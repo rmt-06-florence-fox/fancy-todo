@@ -12,11 +12,13 @@ class TodoController {
                 due_date: req.body.due_date,
                 UserId: +req.loggedInUser.id
             }
-            const dataUser = await User.findOne({where:{id: +req.loggedInUser.id}})
-            submitTodo(process.env.NODEMAILER_EMAIL, process.env.NODEMAILER_PASS, dataUser.email, payload)
             
             const data = await Todo.create(payload)
             res.status(201).json(data)
+            if(data){
+                const dataUser = await User.findOne({where:{id: +req.loggedInUser.id}})
+                submitTodo(process.env.NODEMAILER_EMAIL, process.env.NODEMAILER_PASS, dataUser.email, payload)
+            }
         } catch (error){
             next(error)
         }
