@@ -10,7 +10,4 @@ router.put('/:id', authorization, TodoController.updateTodo)
 router.patch('/:id', authorization, TodoController.updateStatusTodo)
 router.delete('/:id', authorization, TodoController.deleteTodo)
 
-
-
-
 module.exports = router

@@ -1,11 +1,12 @@
 const router = require('express').Router()
 const { UserController } = require('../controller')
-const authentication = require('../middleware/Authentification')
+const ThirdParty = require('../controller/thirdParty')
 
 router.post('/register',  UserController.register)
 router.post('/login', UserController.login)
+router.post('/googleLogin', UserController.googleLogin)
+router.get('/sholat', ThirdParty.sholatTime)
 
-// router.post('/register',  UserController.register)
-// router.post('/login', UserController.login)
+
 
 module.exports = router
