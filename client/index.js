@@ -133,10 +133,13 @@ function registerPage () {
     })
   .done((response) => {
    console.log("BERHASIL REGISTER")
+   $("#Notification").hide()
+   alert("Your Registration is Successful");
    loginPage()
   })
   .fail((error) => {
     console.log (error)
+    alert("ERROR!!!\Your Registration has failed");
   })
   .always(() => {
     $("#email-register").val("")
@@ -144,6 +147,11 @@ function registerPage () {
     $("#password-resgister").val("")
   })
   })
+
+  $("#Back-Login").on("click", function (e) {
+    e.preventDefault()
+      loginPage()
+    })
 }
 
 function dashboard () {
@@ -160,6 +168,10 @@ function dashboard () {
     e.preventDefault()
     localStorage.clear()
     loginPage()
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
   })
 
   $("#Add-Todo").on("click", function (e) {
@@ -272,4 +284,33 @@ $(document).ready(function(){
   }
 });
 
+// function onSignIn(googleUser) {
+//   var profile = googleUser.getBasicProfile();
+//   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+//   console.log('Name: ' + profile.getName());
+//   console.log('Image URL: ' + profile.getImageUrl());
+//   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+// }
 
+function onSignIn(googleUser) {
+  const googleToken = googleUser.getAuthResponse().id_token;
+  $.ajax({
+    method: "POST",
+    url: `http://localhost:3000/users/googlelogin`,
+    data : {
+      googleToken
+     }
+    })
+  .done((response) => {
+    localStorage.token = response.token
+    localStorage.setItem("token", response.token)
+    if (localStorage.token) {
+      dashboard()
+    } else {
+      loginPage()
+    }
+  })
+  .fail((error) => {
+    console.log (error)
+  })
+}
