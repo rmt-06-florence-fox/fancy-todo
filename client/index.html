@@ -147,9 +147,46 @@
         </div>
       </div>
 
-
     <!-- main-page -->
-
+    <div id="main-page" class="main-page" style="margin-top: 6em;">
+      <div class="container d-flex justify-content-center">
+        <div class="w-100 d-flex justify-content-center align-items-center">
+          <div class="card shadow mb-5">
+            <form id="add-form" class="card-body">
+              <div class="form-group">
+                <label for="input-title">title</label>
+                <input
+                type="text"
+                id="input-title"
+                class="form-control"
+                required>
+                <small>kamu mau ngapain</small>
+              </div>
+              <div class="form-group">
+                <label for="input-description">description</label>
+                <input
+                type="text"
+                id="input-description"
+                class="form-control"
+                required>
+                <small>kasih deskripsi dong</small>
+              </div>
+              <div class="form-group">
+                <label for="input-due_date">due date</label>
+                <input
+                type="date"
+                id="input-due_date"
+                class="form-control"
+                required>
+                <small>deadlinenya kapan? gaboleh hari ini</small>
+              </div>
+              <input type="submit" id="submit-add" value="add">
+            </form>
+          </div>
+        </div>
+      </div>
+      <div id="edit-page"></div>
+    </div>
     <!-- end main-page -->
     
     <!-- SCRIPT SCRIPT -->
@@ -201,7 +238,6 @@
         })
       }
 
-
       //login google
       function onSignIn(googleUser) {
       var id_token = googleUser.getAuthResponse().id_token;
@@ -221,7 +257,8 @@
           console.log(xhr, textStatus);
         })
     }
-      // register
+
+    // register
       function showRegister(e) {
         hideAll()
         $('#register-page').show()
@@ -261,12 +298,50 @@
         showLogin()
       }
 
+      //liatin mainpage
       function showMainPage() {
         hideAll()
         $('#in-session-nav').show()
         $('#main-page').show()
       }
 
+      //CRUD
+      //create
+      function create() {
+        const title = $('#input-title').val()
+        const description = $('#input-description').val()
+        const due_date = $('#input-due_date').val()
+
+        console.log(title, description, due_date)
+
+        $.ajax({
+          method: 'POST',
+          url: "http://localhost:3000/todos",
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          },
+          data: {
+            title, description, due_date
+          }
+        })
+        .done(_ => {
+          
+        })
+        .fail((xhr, text) => {
+          console.log(xhr, text)
+        })
+        .always(_ => {
+          $('#add-form').trigger('reset')
+        })
+      }
+      //read
+
+      //update
+      
+      //delete
+
+
+      //document ready sob
       $(document).ready(() => {
         if (localStorage.getItem("access_token")) {
           showMainPage()
@@ -293,7 +368,15 @@
           e.preventDefault()
           register()
         })
-        
+
+        //CRUD
+        //add-form
+        $('#add-form').on('submit', (e) => {
+          e.preventDefault();
+          create()
+        })
+
+
       })
     </script>
     <!-- END SCRIPT SCRIPT -->

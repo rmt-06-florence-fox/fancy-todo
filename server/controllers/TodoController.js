@@ -8,7 +8,7 @@ class TodoController {
       const payload = {
         title: req.body.title,
         description: req.body.description,
-        status: req.body.status,
+        // status: req.body.status,
         due_date: req.body.due_date,
         UserId: req.loggedin.id,
       };

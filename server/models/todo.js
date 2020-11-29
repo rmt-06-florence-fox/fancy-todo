@@ -51,13 +51,6 @@ module.exports = (sequelize, DataTypes) => {
     if (!instance.status) {
       instance.status = "ongoing";
     }
-  
-    // kalau misal due_date kosong, diisi besok
-    if (!due_date) {
-      const today = new Date()
-      const tomorrow = today.setDate(today.getDate() + 1)
-      instance.due_date = tomorrow
-    }
   });
   
   return Todo;
