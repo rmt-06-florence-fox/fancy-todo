@@ -320,22 +320,22 @@
         <div class="container d-flex justify-content-center">
           <div class="w-100 d-flex justify-content-center align-items-center">
             <div class="card shadow mb-5">
-              <form id="add-form" class="card-body">
+              <form id="edit-form" class="card-body" onsubmit="updateTodo(${data.id})">
                 <div class="form-group">
-                  <label for="input-title">title</label>
+                  <label for="edit-title">title</label>
                   <input
                   type="text"
-                  id="input-title"
+                  id="edit-title"
                   class="form-control"
                   value="${data.title}"
                   required>
                   <small>kamu mau ngapain</small>
                 </div>
                 <div class="form-group">
-                  <label for="input-description">description</label>
+                  <label for="edit-description">description</label>
                   <input
                   type="text"
-                  id="input-description"
+                  id="edit-description"
                   class="form-control"
                   value="${data.description}"
                   required>
@@ -345,7 +345,7 @@
                   <label for="input-due_date">due date</label>
                   <input
                   type="date"
-                  id="input-due_date"
+                  id="edit-due_date"
                   class="form-control"
                   value="${data.due_date}"
                   required>
@@ -358,17 +358,23 @@
         </div>
         `)
       }
+      function updateTodo(id) {
+        const title = $('#edit-title').val()
+        const description = $('#edit-description').val()
+        const due_date = $('#edit-due_date').val()
 
-      function editTodo(id) {
         $.ajax({
-          method: 'GET',
+          method: 'PUT',
           url: `http://localhost:3000/todos/${id}`,
           headers: {
             access_token: localStorage.getItem('access_token')
+          },
+          data: {
+            title, description, due_date
           }
         })
-        .done(data => {
-          showEditForm(data)
+        .done(_=> {
+          showMainPage()
         })
         .fail(xhr => {
           console.log(xhr)
@@ -376,7 +382,34 @@
       }
 
       //CRUD
-      
+      //create
+      function create() {
+        const title = $('#input-title').val()
+        const description = $('#input-description').val()
+        const due_date = $('#input-due_date').val()
+
+        console.log(title, description, due_date)
+
+        $.ajax({
+          method: 'POST',
+          url: "http://localhost:3000/todos",
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          },
+          data: {
+            title, description, due_date
+          }
+        })
+        .done(_ => {
+          fetchAll()
+        })
+        .fail((xhr, text) => {
+          console.log(xhr, text)
+        })
+        .always(_ => {
+          $('#add-form').trigger('reset')
+        })
+      }
 
       //read
       //fetchAll
@@ -416,36 +449,23 @@
         .always()
       }
 
-      //create
-      function create() {
-        const title = $('#input-title').val()
-        const description = $('#input-description').val()
-        const due_date = $('#input-due_date').val()
-
-        console.log(title, description, due_date)
-
+      
+      //update
+      function editTodo(id) {
         $.ajax({
-          method: 'POST',
-          url: "http://localhost:3000/todos",
+          method: 'GET',
+          url: `http://localhost:3000/todos/${id}`,
           headers: {
             access_token: localStorage.getItem('access_token')
-          },
-          data: {
-            title, description, due_date
           }
         })
-        .done(_ => {
-          fetchAll()
+        .done(data => {
+          showEditForm(data)
         })
-        .fail((xhr, text) => {
-          console.log(xhr, text)
-        })
-        .always(_ => {
-          $('#add-form').trigger('reset')
+        .fail(xhr => {
+          console.log(xhr)
         })
       }
-      //update
-
       
       //delete
       function deleteTodo(id) {
