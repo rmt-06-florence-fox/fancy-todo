@@ -1,4 +1,5 @@
 module.exports = (err, req, res, next) => {
+    console.log(err);
     if (err.message == "Email/Password Invalid"){
         res.status(400).json({
             message : "Email/Password Invalid"
@@ -21,17 +22,17 @@ module.exports = (err, req, res, next) => {
         })
     } else if (err.message == null){
         res.status(500).json(err.message)
-    } else if (err.errors[0].message == "Validation isEmail on email failed"){
-        res.status(400).json({
-            message : "Please input your email"
-        })
-    } else if (err.errors[0].message == "Validation len on password failed"){
-        res.status(400).json({
-            message : "Password minimum 6 character"
-        })
-    } else if (err.errors[0].message == "email must be unique"){
-        res.status(400).json({
-            message : "Email registered"
-        })
+    // } else if (err.errors[0].message == "Validation isEmail on email failed"){
+    //     res.status(400).json({
+    //         message : "Please input your email"
+    //     })
+    // } else if (err.errors[0].message == "Validation len on password failed"){
+    //     res.status(400).json({
+    //         message : "Password minimum 6 character"
+    //     })
+    // } else if (err.errors[0].message == "email must be unique"){
+    //     res.status(400).json({
+    //         message : "Email registered"
+    //     })
     } 
 }

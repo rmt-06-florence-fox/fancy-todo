@@ -10,7 +10,7 @@ $(document).ready(function(){
         signupProcess()
     })
     $('#f-signin').on('submit', function(){
-        // e.preventDefault()
+        e.preventDefault()
         signinProcess()
     }) 
     $('#f-createTodo').on('submit', function(e){

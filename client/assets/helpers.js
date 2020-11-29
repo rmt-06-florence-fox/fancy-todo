@@ -101,24 +101,22 @@ function showlist(){
         }
     })
     .done(result => {
-        $('#listToDo').empty()
+        $('#card-todo').empty()
         result.forEach(data => {
-            $('#listToDo').append(`
-            <div class="card-deck">
+            $('#card-todo').append(`
             <div class="card bg-dark text-white" >
-            <div class="card-header">
-            <p style="text-align: center;"> ${data.status} </p>
+                <div class="card-header">
+                    <p style="text-align: center;"> ${data.status} </p>
+                </div>
+                <div class="card-body">
+                    <p style="text-align: center;"> ${data.title} </p>
+                    <p style="text-align: center;"> ${data.description} </p>
+                    <p style="text-align: center;"> ${data.due_date} </p>
+                </div>
+                <div class="card-footer" >
+                <button class="btn btn-primary" onclick="finishTodo(${data.id})"> Finish </button> <button class="btn btn-primary" onclick="pendingTodo(${data.id})"> Pending </button> <button class="btn btn-primary" onclick="editTodoProcess(${data.id})"> Edit </button> <button class="btn btn-primary"s onclick="deleteTodo(${data.id})"> Delete </button>
+                </div>
             </div>
-            <div class="card-body">
-                <p style="text-align: center;"> ${data.title} </p>
-                <p style="text-align: center;"> ${data.description} </p>
-                <p style="text-align: center;"> ${data.due_date} </p>
-            </div>
-            <div class="card-footer" >
-            <button class="btn btn-primary" onclick="finishTodo(${data.id})"> Finish </button> <button class="btn btn-primary" onclick="pendingTodo(${data.id})"> Pending </button> <button class="btn btn-primary" onclick="editTodoProcess(${data.id})"> Edit </button> <button class="btn btn-primary"s onclick="deleteTodo(${data.id})"> Delete </button>
-            </div>
-          </div>
-          </div>
           `)
         })
     })
@@ -191,7 +189,7 @@ function createTodo(){
         console.log(xhr)
     })
     .always(_ => {
-        $('#createtodo').trigger('reset')
+        $('#f-createTodo').trigger('reset')
     })
 }
 function deleteTodo(id){
@@ -289,24 +287,22 @@ function onSignIn(googleUser) {
     
 //API
 function weather(){
+    $("#card-col").empty()
     $.ajax({
         url : port + "weather",
         method : "get"
     })
     .done(data => {
-        console.log(data);
         data.forEach(element => {
-            $("#weather").append(`
-            <div class="card-deck">
-                <div class="card" >
-                    <div class="card-header">
-                        <p style="text-align: center;"> ${element.applicable_date} </p>
-                    </div>
-                    <div class="card-body">
-                        <p style="text-align: center;"> ${element.weather_state_name} </p>
-                        <p style="text-align: center;"> Minimum Temperature : ${element.min_temp} </p>
-                        <p style="text-align: center;"> Maximum Temperature : ${element.max_temp} </p>
-                    </div>
+            $("#card-weather").append(`
+            <div class="card">
+                <div class="card-header">
+                    <p style="text-align: center;"> ${element.applicable_date} </p>
+                </div>
+                <div class="card-body">
+                    <p style="text-align: center;"> ${element.weather_state_name} </p>
+                    <p style="text-align: center;"> Min Temperature : ${element.min_temp} </p>
+                    <p style="text-align: center;"> Max Temperature : ${element.max_temp} </p>
                 </div>
             </div>
             `)  

@@ -77,7 +77,7 @@
             </div>
             <div class="form-group">
               <label for="due_date">Due Date:</label>
-              <input type="date" name="due_date" id="due_dateTodo" class="form-control">
+              <input type="text" name="due_date" id="due_dateTodo" class="form-control" placeholder="Enter due date ex = yyyy-mm-dd">
             </div>
             <button type="submit" class="btn btn-primary" >Create To Do</button>
           </form>
@@ -86,10 +86,16 @@
 
         <div id="listToDo">
           <h1 style="text-align: center;"> List To Do </h1>
+          <div id="card-todo" class="card-columns">
+
+          </div>
         </div>
 
         <div id="weather">
           <h1 style="text-align: center;"> Weather Prediction </h1>
+          <div id="card-weather" class="card-columns">
+
+          </div>
         </div>
         
       </div>
@@ -110,7 +116,7 @@
             </div>
             <div class="form-group">
               <label for="due_date">Due Date:</label>
-              <input type="date" name="due_date" id="editdue_dateTodo" class="form-control">
+              <input type="text" name="due_date" id="editdue_dateTodo" class="form-control" placeholder="Enter due date ex = 30-10-2020" >
             </div>
             <button type="submit" class="btn btn-primary">Create To Do</button>
           </form>

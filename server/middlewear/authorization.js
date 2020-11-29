@@ -9,7 +9,7 @@ module.exports = async (req, res, next) => {
       } else {
           throw{
               status : 401,
-              msg : 'Unauthorized'
+              message : 'Unauthorized'
           }
       }
     } catch (err) {

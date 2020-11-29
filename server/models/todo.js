@@ -1,4 +1,5 @@
 'use strict';
+const date = `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`
 const {
   Model
 } = require('sequelize');
@@ -18,7 +19,13 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     description: DataTypes.STRING,
     status: DataTypes.STRING,
-    due_date: DataTypes.DATE,
+    due_date: {
+      type : DataTypes.STRING,
+      validate : {
+        isDate : true,
+        isAfter : '2020-11-29'
+      }
+    },
     userId : DataTypes.INTEGER
   }, {
     sequelize,

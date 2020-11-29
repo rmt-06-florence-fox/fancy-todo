@@ -27,21 +27,12 @@ class Controller{
             title : req.body.title,
             description : req.body.description,
             status : "Pending",
-            due_date : new Date (req.body.due_date),
+            due_date : req.body.due_date,
             userId : activeUser.id
         }
         try {
-            if (newToDo.due_date.getDate() == new Date().getDate()){
-                if(newToDo.due_date.getMonth() == new Date().getMonth()){
-                    throw{
-                        status : 400,
-                        message : "Due Date"
-                    }
-                }
-            } else {
-                const newData = await ToDo.create(newToDo)
-                res.status(201).json(newData) 
-            }
+            const newData = await ToDo.create(newToDo)
+            res.status(201).json(newData) 
         } catch (err) {
             next(err)
         }        
@@ -70,7 +61,7 @@ class Controller{
             title : req.body.title,
             description : req.body.description,
             status : "Pending",
-            due_date : new Date (req.body.due_date),
+            due_date : req.body.due_date,
             createdAt : new Date(),
             updatedAt : new Date()
         }
