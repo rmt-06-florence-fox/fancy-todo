@@ -1,6 +1,6 @@
 # fancy-todo
 
-**LINK DEPLOY : **
+**LINK DEPLOY :**
 
 > https://to-do-app.5apps.com/
 
