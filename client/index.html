@@ -8,49 +8,12 @@
     <title>fancy~todo</title>
   </head>
   <body>
-    <!-- Out Session Navbar -->
-    <nav
-      class="navbar fixed-top navbar-expand-lg navbar-light bg-light"
-      id="out-session-nav"
-    >
-      <a class="navbar-brand" href="" onclick="toLandingPage(event)"
-        >Fancy DooDoo</a
-      >
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-target="#out-session-nav-toggler"
-        onclick="$('#out-session-nav #out-session-nav-toggler').collapse('toggle')"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="out-session-nav-toggler">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a
-              class="nav-link font-weight-bold"
-              href=""
-              onclick="toSignUpPage(event)"
-              >Sign Up</a
-            >
-          </li>
-          <li class="nav-item">
-            <a href="" class="nav-link" onclick="toSignInPage(event)"
-              >Sign In</a
-            >
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <!-- End Out Session Navbar -->
-
     <!-- In Session Navbar -->
     <nav
       class="navbar fixed-top navbar-expand-lg navbar-light bg-light"
       id="in-session-nav"
     >
-      <a class="navbar-brand" href="" onclick="toDashboardPage(event)"
+      <a class="navbar-brand" href="" onclick="showMainPage(event)"
         >fancy~todo</a
       >
         <ul class="navbar-nav ml-auto">
@@ -159,7 +122,7 @@
                     required
                   />
                   <small class="form-text text-muted"
-                    >Must at least have 6 characters length.</small
+                    >passwordnya yang susah ditebak</small
                   >
                 </div>
                 <div class="d-inline-flex align-items-center">
@@ -186,31 +149,8 @@
 
 
     <!-- main-page -->
-    <div id="main-page">
-      <div id="create-todo-form">
-        <form id="add-form">
-          <div class="form-group">
-            <label for="inputTittle">Tittle</label>
-            <input type="text" id="inputTittle" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="inputDescription">Description</label>
-            <input type="text" id="inputDescription" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="inputDuedate">Due date</label>
-            <input type="date" id="inputDuedate" class="form-control">
-          </div>
-          <input type="submit" id="submit-add" value="add">
-        </form>
-      </div>
-      <br>
-      <div id="list-todo" class="row row-cols-1 row-cols-md-4"></div>
 
-    </div>
-    <div id="edit-page"></div>
-  </div>
-  <!-- end main-page -->
+    <!-- end main-page -->
     
     <!-- SCRIPT SCRIPT -->
     <script src="./js/main.js"></script>
@@ -222,6 +162,8 @@
       const URL = "http://localhost:3000/"
       //hidesemua
       function hideAll() {
+        $('#out-session-nav').hide()
+        $('#in-session-nav').hide()
         $('#login-page').hide()
         $('#register-page').hide()
         $('#main-page').hide()
@@ -232,6 +174,7 @@
       //login
       function showLogin() {
         hideAll()
+        $('#out-session-nav').show()
         $('#login-page').show()
       }
 
@@ -281,7 +224,6 @@
       // register
       function showRegister(e) {
         hideAll()
-        $("#login-page").hide()
         $('#register-page').show()
       }
 
@@ -321,8 +263,10 @@
 
       function showMainPage() {
         hideAll()
+        $('#in-session-nav').show()
         $('#main-page').show()
       }
+
       $(document).ready(() => {
         if (localStorage.getItem("access_token")) {
           showMainPage()
@@ -349,7 +293,7 @@
           e.preventDefault()
           register()
         })
-
+        
       })
     </script>
     <!-- END SCRIPT SCRIPT -->
