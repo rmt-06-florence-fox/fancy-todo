@@ -10,7 +10,7 @@
   <body>
     <!-- In Session Navbar -->
     <nav
-      class="navbar fixed-top navbar-expand-lg navbar-light bg-light"
+      class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark"
       id="in-session-nav"
     >
       <a class="navbar-brand" href="" onclick="showMainPage(event)"
@@ -461,6 +461,25 @@
         })
         .done(data => {
           showEditForm(data)
+        })
+        .fail(xhr => {
+          console.log(xhr)
+        })
+      }
+
+      function doneTodo(id) {
+        $.ajax({
+          method: "PATCH",
+          url: `http://localhost:3000/todos/${id}`,
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          },
+          data: {
+            status: `completed ✔`
+          }
+        })
+        .done(_ => {
+          showMainPage()
         })
         .fail(xhr => {
           console.log(xhr)
