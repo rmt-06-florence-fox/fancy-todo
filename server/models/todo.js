@@ -46,19 +46,19 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  // Todo.addHook("beforeCreate", (ini) => {
-  //   //kalau misal status kosong, maka diisi ongoing
-  //   if (!ini.status) {
-  //     ini.status = "ongoing";
-  //   }
-  //
-  //   //kalau misal due_date kosong, diisi besok
-  //   // if (!due_date) {
-  //   //   const today = new Date()
-  //   //   const tomorrow = new Date(today)
-  //   //   ini.due_date = tomorrow.setDate(tomorrow.getDate() + 1)
-  //   // }
-  // });
+  Todo.addHook("beforeCreate", (instance) => {
+    //kalau misal status kosong, maka diisi ongoing
+    if (!instance.status) {
+      instance.status = "ongoing";
+    }
+  
+    // kalau misal due_date kosong, diisi besok
+    if (!due_date) {
+      const today = new Date()
+      const tomorrow = today.setDate(today.getDate() + 1)
+      instance.due_date = tomorrow
+    }
+  });
   
   return Todo;
 };
