@@ -355,7 +355,35 @@
         .always()
       }
 
+      //create
+      function create() {
+        const title = $('#input-title').val()
+        const description = $('#input-description').val()
+        const due_date = $('#input-due_date').val()
 
+        console.log(title, description, due_date)
+
+        $.ajax({
+          method: 'POST',
+          url: "http://localhost:3000/todos",
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          },
+          data: {
+            title, description, due_date
+          }
+        })
+        .done(_ => {
+          fetchAll()
+        })
+        .fail((xhr, text) => {
+          console.log(xhr, text)
+        })
+        .always(_ => {
+          $('#add-form').trigger('reset')
+        })
+      }
+      
       //document ready sob
       $(document).ready(() => {
         if (localStorage.getItem("access_token")) {
