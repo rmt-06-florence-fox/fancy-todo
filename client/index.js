@@ -4,6 +4,22 @@ function putPage (response) {
   $("#Dashboard").hide()
   $("#Patch-Page").hide()
   $("#Put-Page").show()
+  $.ajax({
+    method: "GET",
+    url: `http://localhost:3000/todos/${response}`,
+    headers : {
+       token : localStorage.getItem('token')
+     }
+    })
+  .done((response) => {
+    $("#Put-Title").val(response.title)
+    $("#Put-Description").val(response.description)
+    $("#Put-Status").val(response.status)
+    $("#Put-Date").val(response.due_date)
+  })
+  .fail((error) => {
+    console.log (error) 
+  })
   $("#Add-Page").hide()
   $("#Put-Form").on("submit", function (e) {
     e.preventDefault()
@@ -45,6 +61,19 @@ function patchPage (response) {
   $("#Login-Page").hide()
   $("#Dashboard").hide()
   $("#Patch-Page").show()
+  $.ajax({
+    method: "GET",
+    url: `http://localhost:3000/todos/${response}`,
+    headers : {
+       token : localStorage.getItem('token')
+     }
+    })
+  .done((response) => {
+    $("#Patch-Status").val(response.status)
+  })
+  .fail((error) => {
+    console.log (error) 
+  })
   $("#Put-Page").hide()
   $("#Add-Page").hide()
   $("#Patch-Form").on("submit", function (e) {
@@ -55,10 +84,10 @@ function patchPage (response) {
       url: `http://localhost:3000/todos/${response}`,
       data: { 
         status
-       },
-       headers : {
-         token : localStorage.getItem('token')
-       }
+      },
+      headers : {
+        token : localStorage.getItem('token')
+      }
       })
     .done((response) => {
      console.log("BERHASIL Edit Todo")
@@ -72,6 +101,7 @@ function patchPage (response) {
     })
     })
 }
+
 
 function loginPage () {
   $("#Register-Page").hide()
