@@ -30,8 +30,17 @@
     </nav>
     <!-- End In Session Navbar -->
     <!-- login-page -->
+    <!-- video bg -->
+    <div id="bg-video">
+      <div class="bg-video">
+          <video class="bg-video-content" autoplay muted loop>
+              <source src="assets/video.mp4" type="video/mp4">
+                  not supported
+              </video>
+          </div>
+      </div>
     <div id="login-page" class="login-page">
-      <div class="jumbotron">
+      <div class="jumbotron jumbotron-fluid">
         <div class="container d-flex justify-content-center">
           <!-- Sign In Form -->
           <div class="w-100 d-flex justify-content-center align-items-center">
@@ -425,18 +434,20 @@
           $('#list-todo').empty()
           todos.forEach(e => {
             $('#list-todo').append(`
-            <div class="col md-4">
-              <div class="card shadow mb-5">
-                <h5 class="card-header">${e.title} <a href="#" class="btn btn-primary" onclick = "deleteTodo(${e.id})">✕</a> </h5>
-                <div class="card-body">
-                  <small>status</small>
-                  <h3 class="card-title">${e.status}</h3>
-                  <small>description</small>
-                  <p class="card-text">${e.description}</p>
-                  <small>due date</small>
-                  <p class="card-text">${e.due_date}</p>
-                  <a href="#" class="btn btn-primary" onclick = "editTodo(${e.id})">✏</a>
-                  <a href="#" class="btn btn-primary" onclick = "doneTodo(${e.id})">✔</a>
+            <div class="w-100 d-flex justify-content-center align-items-center">
+              <div class="col md-4">
+                <div class="card shadow mb-5">
+                  <h5 class="card-header">${e.title} <a href="#" class="btn btn-primary" onclick = "deleteTodo(${e.id})">✕</a> </h5>
+                  <div class="card-body">
+                    <small>status</small>
+                    <h3 class="card-title">${e.status}</h3>
+                    <small>description</small>
+                    <p class="card-text">${e.description}</p>
+                    <small>due date</small>
+                    <p class="card-text">${e.due_date}</p>
+                    <a href="#" class="btn btn-primary" onclick = "editTodo(${e.id})">✏</a>
+                    <a href="#" class="btn btn-primary" onclick = "doneTodo(${e.id})">✔</a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -495,7 +506,7 @@
           headers: {
             access_token: localStorage.getItem('access_token')
           }
-        })
+        })  
         .done(_ => {
           fetchAll()
         })

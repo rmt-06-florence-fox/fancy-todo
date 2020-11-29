@@ -49,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
   Todo.addHook("beforeCreate", (instance) => {
     //kalau misal status kosong, maka diisi ongoing
     if (!instance.status) {
-      instance.status = "ongoing";
+      instance.status = "ongoing 🏃‍♂️💨";
     }
   });
   
