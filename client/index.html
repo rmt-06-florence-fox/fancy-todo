@@ -148,43 +148,51 @@
       </div>
 
     <!-- main-page -->
-    <div id="main-page" class="main-page" style="margin-top: 6em;">
-      <div class="container d-flex justify-content-center">
-        <div class="w-100 d-flex justify-content-center align-items-center">
-          <div class="card shadow mb-5">
-            <form id="add-form" class="card-body">
-              <div class="form-group">
-                <label for="input-title">title</label>
-                <input
-                type="text"
-                id="input-title"
-                class="form-control"
-                required>
-                <small>kamu mau ngapain</small>
-              </div>
-              <div class="form-group">
-                <label for="input-description">description</label>
-                <input
-                type="text"
-                id="input-description"
-                class="form-control"
-                required>
-                <small>kasih deskripsi dong</small>
-              </div>
-              <div class="form-group">
-                <label for="input-due_date">due date</label>
-                <input
-                type="date"
-                id="input-due_date"
-                class="form-control"
-                required>
-                <small>deadlinenya kapan? gaboleh hari ini</small>
-              </div>
-              <input type="submit" id="submit-add" value="add">
-            </form>
+    <div class="container p-5">
+      
+      <div id="main-page" class="main-page" style="margin-top: 6em;">
+        <div class="container d-flex justify-content-center">
+          <div class="w-100 d-flex justify-content-center align-items-center">
+            <div class="card shadow mb-5">
+              <form id="add-form" class="card-body">
+                <div class="form-group">
+                  <label for="input-title">title</label>
+                  <input
+                  type="text"
+                  id="input-title"
+                  class="form-control"
+                  required>
+                  <small>kamu mau ngapain</small>
+                </div>
+                <div class="form-group">
+                  <label for="input-description">description</label>
+                  <input
+                  type="text"
+                  id="input-description"
+                  class="form-control"
+                  required>
+                  <small>kasih deskripsi dong</small>
+                </div>
+                <div class="form-group">
+                  <label for="input-due_date">due date</label>
+                  <input
+                  type="date"
+                  id="input-due_date"
+                  class="form-control"
+                  required>
+                  <small>deadlinenya kapan? gaboleh hari ini</small>
+                </div>
+                <input type="submit" id="submit-add" value="add">
+              </form>
+            </div>
           </div>
         </div>
+    
+        <br>
+        <div id="list-todo" class="row row-cols-1 row-cols-sm-4"></div>
       </div>
+    </div>
+    <div cass="container p-5">
       <div id="edit-page"></div>
     </div>
     <!-- end main-page -->
@@ -199,7 +207,6 @@
       const URL = "http://localhost:3000/"
       //hidesemua
       function hideAll() {
-        $('#out-session-nav').hide()
         $('#in-session-nav').hide()
         $('#login-page').hide()
         $('#register-page').hide()
@@ -211,7 +218,6 @@
       //login
       function showLogin() {
         hideAll()
-        $('#out-session-nav').show()
         $('#login-page').show()
       }
 
@@ -303,42 +309,51 @@
         hideAll()
         $('#in-session-nav').show()
         $('#main-page').show()
+        $('#list-todo').show()
+        $('#create-todo').show()
+        fetchAll()
       }
 
       //CRUD
-      //create
-      function create() {
-        const title = $('#input-title').val()
-        const description = $('#input-description').val()
-        const due_date = $('#input-due_date').val()
-
-        console.log(title, description, due_date)
-
-        $.ajax({
-          method: 'POST',
-          url: "http://localhost:3000/todos",
-          headers: {
-            access_token: localStorage.getItem('access_token')
-          },
-          data: {
-            title, description, due_date
-          }
-        })
-        .done(_ => {
-          
-        })
-        .fail((xhr, text) => {
-          console.log(xhr, text)
-        })
-        .always(_ => {
-          $('#add-form').trigger('reset')
-        })
-      }
-      //read
-
-      //update
       
-      //delete
+
+      //read
+      //fetchAll
+      function fetchAll() {
+      $.ajax({
+        method: "GET",
+        url: "http://localhost:3000/todos",
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .done(todos => {
+          $('#list-todo').empty()
+          todos.forEach(e => {
+            $('#list-todo').append(`
+            <div class="col md-4">
+              <div class="card shadow mb-5">
+                <h5 class="card-header">${e.title} <a href="#" class="btn btn-primary" onclick = "deleteTodo(${e.id})">✕</a> </h5>
+                <div class="card-body">
+                  <small>status</small>
+                  <h3 class="card-title">${e.status}</h3>
+                  <small>description</small>
+                  <p class="card-text">${e.description}</p>
+                  <small>due date</small>
+                  <p class="card-text">${e.due_date}</p>
+                  <a href="#" class="btn btn-primary" onclick = "editTodo(${e.id})">✏</a>
+                  <a href="#" class="btn btn-primary" onclick = "doneTodo(${e.id})">✔</a>
+                </div>
+              </div>
+            </div>
+            `)
+          });
+        })
+        .fail((xhr, textStatus) => {
+          console.log(xhr, textStatus);
+        })
+        .always()
+      }
 
 
       //document ready sob
