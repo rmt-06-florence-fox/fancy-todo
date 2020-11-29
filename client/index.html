@@ -168,8 +168,9 @@
 
         })
         .fail((err, text) =>{
-            console.log('>>>',err)
-            console.log(text)
+            $('#login-form2').append(`
+                <p class="text-warning" > Invalid email / password </p>
+            `)
         })
     }
     // function patchSubmit(payload, id){
