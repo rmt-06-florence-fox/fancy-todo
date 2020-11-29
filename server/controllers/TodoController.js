@@ -4,7 +4,7 @@ const axios = require('axios')
 class TodoController {
     static async listTodos(req, res, next) {
         try {
-            const data = await Todo.findAll({where: {UserId: req.loggedInUser.id}})
+            const data = await Todo.findAll({where: {UserId: req.loggedInUser.id}, order: [['status', 'DESC'], ['due_date', 'ASC'], ['title', 'ASC']]})
             res.status(200).json(data)
         } catch (error) {
             next(error)
