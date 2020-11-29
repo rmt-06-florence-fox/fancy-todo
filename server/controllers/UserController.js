@@ -72,7 +72,7 @@ class UserController {
       })
       if (!user) {
         const gUser = await User.create({
-          username: `${payload.given_name}${payload.family_name}`,
+          username: `${(payload.given_name).split(' ').join('_')}${(payload.family_name).split(' ').join('_')}`,
           email: payload.email,
           password: process.env.PASSWORD
         })
