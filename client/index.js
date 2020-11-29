@@ -134,12 +134,10 @@ function registerPage () {
   .done((response) => {
    console.log("BERHASIL REGISTER")
    $("#Notification").hide()
-   alert("Your Registration is Successful");
    loginPage()
   })
   .fail((error) => {
     console.log (error)
-    alert("ERROR!!!\Your Registration has failed");
   })
   .always(() => {
     $("#email-register").val("")
@@ -284,13 +282,6 @@ $(document).ready(function(){
   }
 });
 
-// function onSignIn(googleUser) {
-//   var profile = googleUser.getBasicProfile();
-//   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-//   console.log('Name: ' + profile.getName());
-//   console.log('Image URL: ' + profile.getImageUrl());
-//   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-// }
 
 function onSignIn(googleUser) {
   const googleToken = googleUser.getAuthResponse().id_token;
@@ -302,8 +293,8 @@ function onSignIn(googleUser) {
      }
     })
   .done((response) => {
-    localStorage.token = response.token
-    localStorage.setItem("token", response.token)
+    localStorage.token = response.googleToken
+    localStorage.setItem("token", response.googleToken)
     if (localStorage.token) {
       dashboard()
     } else {
@@ -313,4 +304,4 @@ function onSignIn(googleUser) {
   .fail((error) => {
     console.log (error)
   })
-}
+} 

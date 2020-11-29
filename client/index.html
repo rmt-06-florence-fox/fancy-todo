@@ -32,8 +32,9 @@
             <input type="password" class="form-control" id="password-login">
           </div>
           <button type="submit" class="btn btn-primary mb-2" style="margin-right: 10px;">Login</button>
+          <button type="button" class="btn btn-primary mb-2" id="Button-Register" style="margin-bottom: 8px;">Sign Up</button>
         </form>
-          <button type="button" class="btn btn-light" id="Button-Register" style="margin-bottom: 8px;">Sign-in</button>
+        <small id="loginHelp" class="form-text text-muted" style="margin-bottom: 10px;">Or login using google account</small>
           <div class="g-signin2" data-onsuccess="onSignIn"></div>
       </div>
     </div>
@@ -78,7 +79,7 @@
           <a class="nav-link active" id="logout" href="#">Logout</a>
         </li>
       </ul>
-
+      
       <div id="Card-List">
         <div class="card w-50" style="margin: 10px;">
           <div class="card-body">
@@ -186,5 +187,12 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     <script src="./index.js"></script>
+
+    <!-- Responsive Voice API -->
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=qHYenPHT"></script>
+    <script>
+      responsiveVoice.speak("Welcome to the Fancy To do, This App Help You to manage your schedule")
+    </script>
+
   </body>
 </html>
