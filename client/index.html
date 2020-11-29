@@ -383,7 +383,26 @@
           $('#add-form').trigger('reset')
         })
       }
+      //update
       
+      //delete
+      function deleteTodo(id) {
+        console.log(id)
+        $.ajax({
+          method: "DELETE",
+          url: `http://localhost:3000/todos/${id}`,
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          }
+        })
+        .done(_ => {
+          fetchAll()
+        })
+        .fail((xhr, text) => {
+          console.log(xhr, text)
+        })
+      }
+
       //document ready sob
       $(document).ready(() => {
         if (localStorage.getItem("access_token")) {
