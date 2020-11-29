@@ -192,7 +192,7 @@ function printError(error){
         const messages = error.responseJSON.messages;
         messages.forEach((message) => {
             $("#notification-container").append(`
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">${message}
+                <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">${message}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -202,7 +202,7 @@ function printError(error){
     } else if (error.responseJSON.message) {
         const message = error.responseJSON.message; 
         $("#notification-container").append(`
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">${message}
+        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">${message}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -218,7 +218,7 @@ function printErrorEditForm(error){
         const messages = error.responseJSON.messages;
         messages.forEach((message) => {
             $("#edit-form-notification-container").append(`
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">${message}
+                <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">${message}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -228,7 +228,7 @@ function printErrorEditForm(error){
     } else if (error.responseJSON.message) {
         const message = error.responseJSON.message; 
         $("#edit-form-notification-container").append(`
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">${message}
+        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">${message}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -704,7 +704,7 @@ function getDailyForecast() {
                 const date = unixToLocal(data.dt)[0];
                 const time = unixToLocal(data.dt)[1];
                 const description = firstLetterUpperCase(data.weather[0].description);
-                const morningTemp = `${Math.round(data.temp.mor)} \xB0C`;
+                const morningTemp = `${Math.round(data.temp.morn)} \xB0C`;
                 const dayTemp = `${Math.round(data.temp.day)} \xB0C`;
                 const nightTemp = `${Math.round(data.temp.night)} \xB0C`;
                 const wind = `${Math.round(data.wind_speed)} m/s`;
@@ -719,7 +719,7 @@ function getDailyForecast() {
                                     style="background-color:white;position:relative;top:0.5rem">
                         </div>
                         <div class="ml-4">
-                            <h3>Light Rain</h3>
+                            <h3><h3>${description}</h3></h3>
                             <p>Morning: ${morningTemp}</p>
                             <p>Day: ${dayTemp}</p>
                             <p>Night: ${nightTemp}</p>
