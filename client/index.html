@@ -148,8 +148,7 @@
       </div>
 
     <!-- main-page -->
-    <div class="container p-5">
-      
+    <div class="container p-5"></div>
       <div id="main-page" class="main-page" style="margin-top: 6em;">
         <div class="container d-flex justify-content-center">
           <div class="w-100 d-flex justify-content-center align-items-center">
@@ -314,6 +313,68 @@
         fetchAll()
       }
 
+      //edit Form
+      function showEditForm(data) {
+        hideAll()
+        $('#edit-page').show().empty().append(`
+        <div class="container d-flex justify-content-center">
+          <div class="w-100 d-flex justify-content-center align-items-center">
+            <div class="card shadow mb-5">
+              <form id="add-form" class="card-body">
+                <div class="form-group">
+                  <label for="input-title">title</label>
+                  <input
+                  type="text"
+                  id="input-title"
+                  class="form-control"
+                  value="${data.title}"
+                  required>
+                  <small>kamu mau ngapain</small>
+                </div>
+                <div class="form-group">
+                  <label for="input-description">description</label>
+                  <input
+                  type="text"
+                  id="input-description"
+                  class="form-control"
+                  value="${data.description}"
+                  required>
+                  <small>kasih deskripsi dong</small>
+                </div>
+                <div class="form-group">
+                  <label for="input-due_date">due date</label>
+                  <input
+                  type="date"
+                  id="input-due_date"
+                  class="form-control"
+                  value="${data.due_date}"
+                  required>
+                  <small>deadlinenya kapan? gaboleh hari ini</small>
+                </div>
+                <input type="submit" id="submit-add" value="add">
+              </form>
+            </div>
+          </div>
+        </div>
+        `)
+      }
+
+      function editTodo(id) {
+        $.ajax({
+          method: 'GET',
+          url: `http://localhost:3000/todos/${id}`,
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          }
+        })
+        .done(data => {
+          showEditForm(data)
+        })
+        .fail(xhr => {
+          console.log(xhr)
+        })
+      }
+
       //CRUD
       
 
@@ -384,6 +445,7 @@
         })
       }
       //update
+
       
       //delete
       function deleteTodo(id) {

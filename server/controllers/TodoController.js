@@ -22,7 +22,11 @@ class TodoController {
   //read
   static async read(req, res, next) {
     try {
-      const data = await Todo.findAll();
+      const data = await Todo.findAll({
+        where: {
+          UserId: req.loggedin.id
+        }
+      });
       res.status(200).json(data);
     } catch (error) {
       next(error);
