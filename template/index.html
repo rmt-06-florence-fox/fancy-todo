@@ -82,6 +82,7 @@
             <p>Form Add ToDo</p>
           <div class="d-flex justify-content-center align-items-center" style="height: 100vh;" >
           <div class="p-5 bg-light shadow" style="width: auto; height: auto; border-radius: 10px;">
+            <p>Add ToDo</p>
           <div class="form-group" >
             <label for="title">Title</label>
             <input type="text" id="add-title" class="form-control">
@@ -102,7 +103,7 @@
         </form>
     </div>
 <!-- list-todos -->
-      <div id="list-todos"></div>
+      <div id="list-todos" class="row row-cols-1 row-cols-md-3" ></div>
       <!-- quote -->
      
       
@@ -339,13 +340,14 @@
             
                 <div class="col mb-5 md-8">
                   <section id="content" class="container-fluid" >
-               <div class="d-flex " style="height: auto;">
-                <div class="p-5 bg-light shadow" style="width: auto; height: auto; border-radius: 10px;">
+                    <div class="col mb-3">
+                      <div class="d-flex " style="height: auto;">
+                        <div class="p-5 bg-light shadow" style="width: auto; height: auto; border-radius: 10px;">
     
                     <p> title: ${el.title}</p>
                     <p> description: ${el.description}</p>
-                   <p>  status: ${el.status}</p>
-                   <p>  due date: ${el.due_date}</p>
+                    <p>  status: ${el.status}</p>
+                    <p>  due date: ${el.due_date}</p>
                     <button type="submit" class="btn btn-primary" style="background-color: green;" onClick="getEdit(${el.id})">Edit</button>
                     <button type="submit" class="btn btn-primary" style="background-color: red;" onClick="deleteTodo(${el.id})">Delete</button>
                 </div>
@@ -457,6 +459,7 @@
      $(document).ready(function(){
        if (localStorage.getItem('access_token')){
          showMainPage()
+
          
        }
        else {
