@@ -42,12 +42,13 @@ class UserController {
     }
 
     static googleLogin (req, res, next) {
+        let payload;
         client.verifyIdToken({
             idToken: req.body.googleToken,
             audience: process.env.GOOGLE_CLIENT_ID
         })
         .then(ticket => {
-            const payload = ticket.getPayload()
+            payload = ticket.getPayload()
             return User.findOne({ where: { email: payload.email }})
         })
         .then(user => {
