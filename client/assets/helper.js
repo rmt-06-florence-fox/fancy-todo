@@ -124,7 +124,7 @@ function doSignUp() {
     method: 'POST',
     data: { username, email, password }
   })
-    .done(() => showSignInPage())
+    .done(() => methodShow())
     .fail(err => console.log(err))
     .always(_ => $('#signup-container').trigger('reset'))
 }
