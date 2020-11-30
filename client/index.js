@@ -18,7 +18,7 @@ const login=()=>{
   let email=$("#email").val()
   let password=$("#password").val()
   $.ajax({
-    url: "http://localhost:3000/login",
+    url: "https://muchsin-todo.herokuapp.com/login",
     method: "POST",
     data:{
       email,
@@ -43,7 +43,7 @@ const register=()=>{
   let email=$("#reg-email").val()
   let password=$("#reg-password").val()
   $.ajax({
-    url: "http://localhost:3000/register",
+    url: "https://muchsin-todo.herokuapp.com/register",
     method: "POST",
     data:{
       name,
@@ -71,7 +71,7 @@ const addTodo=()=>{
   let category=$("input[name='category']:checked").val();
   let due=$("#due").val()
   $.ajax({
-    url: "http://localhost:3000/todos",
+    url: "https://muchsin-todo.herokuapp.com/todos",
     method: "POST",
     headers:{
       access_token: localStorage.access_token
@@ -101,7 +101,7 @@ const addTodo=()=>{
 const delTodo=(id)=>{
   // let id=$("#delete-button").val()
   $.ajax({
-    url: `http://localhost:3000/todos/${id}`,
+    url: `https://muchsin-todo.herokuapp.com/todos/${id}`,
     method: "DELETE",
     headers:{
       access_token: localStorage.access_token
@@ -121,7 +121,7 @@ const delTodo=(id)=>{
 
 const getTodo=()=>{
   $.ajax({
-    url: "http://localhost:3000/todos",
+    url: "https://muchsin-todo.herokuapp.com/todos",
     method: "GET",
     headers:{
       access_token: localStorage.access_token
@@ -134,7 +134,7 @@ const getTodo=()=>{
       $("#todos").append(`
       <div class="col-md-4">
         <div class="card mb-4 shadow-sm ">
-          <img src="https://www.targettraining.eu/wp-content/uploads/2019/02/meetings-practice.jpg" class="card-img-top" alt="...">
+          
           <div class="card-body text-left">
             <h5 class="card-title">${todo.name}</h5>
             <h6 class="card-subtitle mb-2 text-muted">${todo.category}</h6>
@@ -173,7 +173,7 @@ function onSignIn(googleUser) {
   const google_token = googleUser.getAuthResponse().id_token;
 
   const request = $.ajax({
-      url: "http://localhost:3000/google-login",
+      url: "https://muchsin-todo.herokuapp.com/google-login",
       method: "POST",
       data: {google_token}
   });
