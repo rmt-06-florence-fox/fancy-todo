@@ -5,7 +5,9 @@ const port = process.env.PORT || 3000
 const cors = require('cors')
 const errorHandler = require('./middleware/errorHandler')
 
-require('dotenv').config()
+if (process.env.NODE_ENV != 'production') {
+  require('dotenv').config()
+}
 app.use(cors())
 app.use(express.urlencoded({extended : false}))
 app.use(express.json())
