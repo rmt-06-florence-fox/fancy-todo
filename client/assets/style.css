@@ -8,6 +8,10 @@
   margin-bottom: 30px
 }
 
+.nav-bgc {
+  background-color: #303030;
+}
+
 .text-setter {
   color: whitesmoke;
   margin: 8px

@@ -1,9 +1,8 @@
-const URL = "http://localhost:3000/"
+const URL = "https://fancy-todo207.herokuapp.com/"
 
 $(document).ready(() => {
   // membedakan user dengan access token
-  if (localStorage.getItem('accessToken')) showMainPage()
-  else showSignInPage()
+  methodShow()
 
   $('#signin').click((e) => {
     e.preventDefault()
@@ -25,6 +24,11 @@ $(document).ready(() => {
     doSignOut()
   })
 })
+
+function methodShow() {
+  if (localStorage.getItem('accessToken')) showMainPage()
+  else showSignInPage()
+}
 
 function showSignInPage() {
   $('#signin-container').show()
@@ -137,17 +141,21 @@ function fetchTodos() {
     .done(result => {
       result.forEach(e => {
         $('#todo-list').append(`
-          <div class="card">
-            <div class="card-header">
-              <h5 class="card-header">${e.title}</h5>
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-header">${e.title}</h5>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">${e.description}</li>
+                <li class="list-group-item">${e.status}</li>
+                <li class="list-group-item">${e.dueDate}</li>
+              </ul>
+              <div class="form-group form-text">
+                <button type="submit" onclick="showEditPage(${e.id})" class="btn btn-margin col-md-4 btn-primary">Edit</button>
+                <button type="submit" onclick="deleteTodo(${e.id})" class="btn btn-margin col-md-4 btn-primary">Delete</button>
+              </div>
             </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">${e.description}</li>
-              <li class="list-group-item">${e.status}</li>
-              <li class="list-group-item">${e.dueDate}</li>
-            </ul>
-            <button type="submit" onclick="showEditPage(${e.id})" class="btn btn-primary">Edit</button>
-            <button type="submit" onclick="deleteTodo(${e.id})" class="btn btn-primary">Delete</button>
           </div>
         `)
       })
