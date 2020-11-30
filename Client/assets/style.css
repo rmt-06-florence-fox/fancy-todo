@@ -1,0 +1,55 @@
+.img-zomato{
+  height: 100px; 
+  width: 150px; 
+  display: flex; 
+  justify-content: center;
+}
+.zomato{
+  background-color: #ad9d9d;
+}
+.quote{
+  background-color: #d9adad;
+}
+
+#create-todo h1{
+  color: #965d62;
+}
+#create-todo label{
+  color: #854f53;
+}
+.btn-add{
+  background-color: #d9adad;
+  width: 100px;
+}
+
+.todo-header{
+  color: #965d62;
+  
+}
+#todo-list h5{
+  color: #c9555f;
+  text-align: center;
+  font-weight: 500;
+  font-size: 30px;
+}
+#todo-list th{
+  color: #854f53;
+}
+#edit-todo label{
+  color: #854f53;
+}
+.btn-edit{
+  background-color: #d9adad;
+  width: 100px;
+}
+.btn-create{
+  background-color: #d9adad;
+  width: 200px;
+  margin-left: 230px;
+}
+.header-zomato-list{
+  background-color: #eec7c7;
+}
+.table-zomato th{
+  color: #965d62;
+}
