@@ -24,14 +24,14 @@ class UserController{
     }
     try {
       let user= await User.findOne({where:{email: input.email}})
-      if(user == null){
+      if(!user){
         throw{
           status:404,
           message: "User Not Found"
         }
       }else if(checkPassword(input.password,user.password)){
         const access_token= generateToken({id:user.id, email:user.email, name:user.name})
-        res.status(200).json({access_token, name:user.name})
+        res.status(200).json({access_token, name:user.name, email:user.email})
       }else{
         throw{
           status:400,

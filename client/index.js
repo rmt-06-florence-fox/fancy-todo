@@ -27,6 +27,7 @@ const login=()=>{
   })
   .done(response =>{
     localStorage.setItem('access_token', response.access_token)
+    console.log(response)
     showMainPage()
   })
   .fail((xhr, textStatus)=>{
@@ -180,8 +181,7 @@ function onSignIn(googleUser) {
 
   request.done((message) => {
       localStorage.setItem('access_token', message.access_token);
-      localStorage.setItem('name', message.name);
-      console.log(message.access_token,message.name);
+      console.log(message);
       $("#user-name").text(message.name)
       $("#user-email").text(message.email)
       showMainPage()
