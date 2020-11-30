@@ -30,6 +30,7 @@ class UserController {
 				res.status(200).json({ access_token: token })
 			}
 		} catch (error) {
+			console.log("🚀 ~ file: user.js ~ line 49 ~ UserController ~ login ~ error", error)
 			res.status(400).json(error)
 		}
 	}
