@@ -36,7 +36,7 @@ function login() {
     const email = $("#email-login").val()
     const password = $("#password-login").val()
     $.ajax({
-        url: 'http://localhost:3000/login',
+        url: 'https://todo-taufiq-ismail-server.herokuapp.com/login',
         method: 'POST',
         data: {
             email,
@@ -60,7 +60,7 @@ function register() {
     const email = $("#email-register").val()
     const password = $("#password-register").val()
     $.ajax({
-        url: 'http://localhost:3000/register',
+        url: 'https://todo-taufiq-ismail-server.herokuapp.com/register',
         method: 'POST',
         data: {
             email,
@@ -83,7 +83,7 @@ function register() {
 function onSignIn(googleUser) {
     const googleToken = googleUser.getAuthResponse().id_token;
     $.ajax({
-        url: 'http://localhost:3000/googlelogin',
+        url: 'https://todo-taufiq-ismail-server.herokuapp.com/googlelogin',
         method: 'POST',
         data: {
             googleToken
@@ -99,7 +99,7 @@ function onSignIn(googleUser) {
 function fetchTodo() {
     $.ajax({
         method: "GET",
-        url: "http://localhost:3000/todos",
+        url: "https://todo-taufiq-ismail-server.herokuapp.com/todos",
         headers: {
             access_token: localStorage.getItem("access_token")
         }
@@ -134,7 +134,7 @@ function createTodo() {
 
     $.ajax({
         method: 'POST',
-        url: 'http://localhost:3000/todos',
+        url: 'https://todo-taufiq-ismail-server.herokuapp.com/todos',
         headers: {
             access_token: localStorage.getItem('access_token')
         },
@@ -160,7 +160,7 @@ let editId
 function getEditTodo(id) {
     $.ajax({
         method: "GET",
-        url: "http://localhost:3000/todos/" + id,
+        url: "https://todo-taufiq-ismail-server.herokuapp.com/todos/" + id,
         headers: {
             access_token: localStorage.getItem("access_token")
         }
@@ -183,7 +183,7 @@ function editTodo() {
 
     $.ajax({
         method: 'PUT',
-        url: 'http://localhost:3000/todos/' + editId,
+        url: 'https://todo-taufiq-ismail-server.herokuapp.com/todos/' + editId,
         headers: {
             access_token: localStorage.getItem('access_token')
         },
@@ -208,7 +208,7 @@ function editTodo() {
 function deleteTodo(id) {
     $.ajax({
         method: "DELETE",
-        url: "http://localhost:3000/todos/" + id,
+        url: "https://todo-taufiq-ismail-server.herokuapp.com/todos/" + id,
         headers: {
             access_token: localStorage.getItem('access_token')
         }
@@ -225,7 +225,7 @@ function deleteTodo(id) {
 function completeTodo(id) {
     $.ajax({
         method: "PATCH",
-        url: "http://localhost:3000/todos/" + id,
+        url: "https://todo-taufiq-ismail-server.herokuapp.com/todos/" + id,
         headers: {
             access_token: localStorage.getItem('access_token')
         }
@@ -250,7 +250,7 @@ function logout() {
 function weather() {
     $.ajax({
         method: "GET",
-        url: "http://localhost:3000/todos/weather",
+        url: "https://todo-taufiq-ismail-server.herokuapp.com/todos/weather",
         headers: {
             access_token: localStorage.getItem("access_token")
         }
