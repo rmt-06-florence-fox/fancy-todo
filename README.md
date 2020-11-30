@@ -1,6 +1,6 @@
 # fancy-todo
 # Demo Site
-- https://whispering-ocean-74932.herokuapp.com/
+https://jarooda-fancy-todo.web.app/
 
 # API Documentation
 https://documenter.getpostman.com/view/13590441/TVewXiZ3

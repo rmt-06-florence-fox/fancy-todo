@@ -30,7 +30,7 @@ let login = () => {
     const email = $("#login-email").val()
     const password = $("#login-password").val()
     const request = $.ajax({
-        url: "http://localhost:3000/login",
+        url: "https://jarooda-fancy-todo.herokuapp.com/login",
         method: "POST",
         data: {email, password}
     });
@@ -60,7 +60,7 @@ let register = () => {
     const email = $("#register-email").val()
     const password = $("#register-password").val()
     const request = $.ajax({
-        url: "http://localhost:3000/register",
+        url: "https://jarooda-fancy-todo.herokuapp.com/register",
         method: "POST",
         data: {email, password}
     })
@@ -87,7 +87,7 @@ let register = () => {
 // ! fetch todo
 let fetchTodo = () => {
     const request = $.ajax({
-        url: "http://localhost:3000/todos",
+        url: "https://jarooda-fancy-todo.herokuapp.com/todos",
         method: "GET",
         headers: {access_token:localStorage.getItem('access_token')}
     })
@@ -180,7 +180,7 @@ let addTodo = () => {
 
     // console.log(title, description, due_date);
     const request = $.ajax({
-        url: "http://localhost:3000/todos",
+        url: "https://jarooda-fancy-todo.herokuapp.com/todos",
         method: "POST",
         data: {
             title,
@@ -215,7 +215,7 @@ let clearAddForm = () => {
 let deleteTodo = (id) => {
     const request = $.ajax({
         method: "DELETE",
-        url:`http://localhost:3000/todos/${id}`,
+        url:`https://jarooda-fancy-todo.herokuapp.com/todos/${id}`,
         headers: {access_token:localStorage.getItem('access_token')}
     })
 
@@ -234,7 +234,7 @@ let deleteTodo = (id) => {
 // ! patch todo
 let patchTodo = (id, status) => {
     const request = $.ajax({
-        url: `http://localhost:3000/todos/${id}`,
+        url: `https://jarooda-fancy-todo.herokuapp.com/todos/${id}`,
         method: 'PATCH',
         headers: {access_token:localStorage.getItem('access_token')},
         data: {status}
@@ -258,7 +258,7 @@ let updateTodo = (id) => {
     const due_date = $(`#update-due-date-${id}`).val()
     
     const request = $.ajax({
-        url: `http://localhost:3000/todos/${id}`,
+        url: `https://jarooda-fancy-todo.herokuapp.com/todos/${id}`,
         method: "PUT",
         data: {
             title,
@@ -284,7 +284,7 @@ let updateTodo = (id) => {
 function onSignIn(googleUser) {
     const google_token = googleUser.getAuthResponse().id_token;
     const request = $.ajax({
-        url: "http://localhost:3000/googleLogin",
+        url: "https://jarooda-fancy-todo.herokuapp.com/googleLogin",
         method: "POST",
         data: {google_token}
     });
@@ -334,7 +334,7 @@ function saveLocation(position) {
 // ! get weather
 let getWeather = () => {
     const request = $.ajax({
-        url: "http://localhost:3000/weathers",
+        url: "https://jarooda-fancy-todo.herokuapp.com/weathers",
         method: "GET",
         headers: {
             access_token:localStorage.getItem('access_token'),
