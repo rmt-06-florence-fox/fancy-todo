@@ -1,19 +1,25 @@
 .body-color {
-  background-color: #8bcdcd
+  background-color: #212121
 }
 
 .nav-color {
-  background-color: lightsalmon;
+  background-color: #303030;
   padding: 5px;
   margin-bottom: 30px
 }
 
 .text-setter {
-  margin-left: 8px
+  color: whitesmoke;
+  margin: 8px
+}
+
+.form-group {
+  margin: 25px 0
 }
 
 .form-text {
-  text-align: center
+  text-align: center;
+  color: whitesmoke
 }
 
 .btn-margin {
@@ -27,7 +33,7 @@
 
 .form-color {
   border-radius: 10px;
-  background-color: lightsalmon;
+  background-color: #303030;
   padding: 10px;
   margin: auto auto
 }
