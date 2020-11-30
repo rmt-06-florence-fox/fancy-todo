@@ -31,7 +31,7 @@ function inputRegister() {
   const email = $('#emailRegister').val()
   const password = $('#passwordRegister').val()
   $.ajax({
-    url:'http://localhost:3000/register',
+    url:'https://gentle-meadow-81433.herokuapp.com/register',
     method: 'POST',
     data: {
       first_name,
@@ -76,7 +76,7 @@ function inputLogin() {
   const email = $('#emailLogin').val()
   const password = $('#passwordLogin').val()
   $.ajax({
-    url:'http://localhost:3000/login',
+    url:'https://gentle-meadow-81433.herokuapp.com/login',
     method: 'POST',
     data: {
       email,
@@ -113,7 +113,7 @@ function inputLogin() {
 }
 function seeList() {
   $.ajax({
-    url:'http://localhost:3000/todos',
+    url:'https://gentle-meadow-81433.herokuapp.com/todos',
     method: 'GET',
     headers: {access_token : localStorage.getItem('access_token')}
   })
@@ -205,7 +205,7 @@ function create() {
   const description = $('#description').val()
   const due_date = $('#due_date').val()
   $.ajax({
-    url:'http://localhost:3000/todos',
+    url:'https://gentle-meadow-81433.herokuapp.com/todos',
     method: 'POST',
     headers: {access_token : localStorage.getItem('access_token')},
     data: {
@@ -247,7 +247,7 @@ function create() {
 }
 function edit(id) {
   $.ajax({
-    url:`http://localhost:3000/todos/${id}`,
+    url:`https://gentle-meadow-81433.herokuapp.com/todos/${id}`,
     method: 'GET',
     headers: {access_token : localStorage.getItem('access_token')}
   })
@@ -301,7 +301,7 @@ function getEdit(id) {
   const description = $(`#descriptionEdit${id}`).val()
   const due_date = $(`#due_dateEdit${id}`).val()
   $.ajax({
-    url:`http://localhost:3000/todos/${id}`,
+    url:`https://gentle-meadow-81433.herokuapp.com/todos/${id}`,
     method: 'PUT',
     headers: {access_token : localStorage.getItem('access_token')},
     data: {
@@ -335,7 +335,7 @@ function getEdit(id) {
 function changeStatus(id) {
   let isId = id
   $.ajax({
-    url:`http://localhost:3000/todos/${isId}`,
+    url:`https://gentle-meadow-81433.herokuapp.com/todos/${isId}`,
     method: 'PATCH',
     headers: {access_token : localStorage.getItem('access_token')}
   })
@@ -365,7 +365,7 @@ function changeStatus(id) {
 function destroy(id) {
   let isId = id
   $.ajax({
-    url:`http://localhost:3000/todos/${isId}`,
+    url:`https://gentle-meadow-81433.herokuapp.com/todos/${isId}`,
     method: 'DELETE',
     headers: {access_token : localStorage.getItem('access_token')}
   })
@@ -423,7 +423,7 @@ function onSignIn(googleUser) {
   const googleToken = googleUser.getAuthResponse().id_token;
   gapi.auth2.getAuthInstance().disconnect()
   $.ajax({
-    url:'http://localhost:3000/googleLogin',
+    url:'https://gentle-meadow-81433.herokuapp.com/googleLogin',
     method: 'POST',
     data: {
       googleToken
@@ -461,7 +461,7 @@ function onSignIn(googleUser) {
 function getNews() {
   $.ajax({
       method: "GET",
-      url: "http://localhost:3000/news",
+      url: "https://gentle-meadow-81433.herokuapp.com/news",
       headers: {
           access_token: localStorage.getItem('access_token')
       }
@@ -536,7 +536,7 @@ function getWeather(input) {
   const city = $('#city').val()
   $.ajax({
       method: "POST",
-      url: "http://localhost:3000/weather",
+      url: "https://gentle-meadow-81433.herokuapp.com/weather",
       headers: {
           access_token: localStorage.getItem('access_token')
       },
