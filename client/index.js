@@ -28,8 +28,8 @@ const login=()=>{
   .done(response =>{
     localStorage.setItem('access_token', response.access_token)
     localStorage.setItem('name', response.name)
-    $("#user-name").text(response.name)
-    $("#user-email").text(response.email)
+    $("#user-name").text(localStorage.name)
+    $("#user-email").text(localStorage.email)
     showMainPage()
   })
   .fail((xhr, textStatus)=>{
