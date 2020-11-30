@@ -184,7 +184,6 @@ function onSignIn(googleUser) {
 
   request.done((message) => {
       localStorage.setItem('access_token', message.access_token);
-      console.log(message);
       $("#user-name").text(message.name)
       $("#user-email").text(message.email)
       showMainPage()
