@@ -1,9 +1,14 @@
 function showFrontPage() {
     $('#login-form').show()
-    $('#register-form').show()
+    $('#register-form').hide()
     $('#google-login').show()
     $('#main-page').hide()
     $('#btn-logout').hide()
+}
+
+function showRegisterPage() {
+    $('#login-form').hide()
+    $('#register-form').show()
 }
 
 function login() {
@@ -36,6 +41,7 @@ function showMainPage() {
     $('#btn-logout').show()
     $('#add-form').show()
     $('#content').show()
+    // fetchShollu()
     fetchTodos()
 }
 
@@ -43,7 +49,7 @@ function logout() {
     localStorage.clear()
     showFrontPage()
     var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
+    auth2.signOut().then(() => {
       console.log('User signed out.');
     });
 }
@@ -59,6 +65,10 @@ function fetchTodos() {
             .done(response => {
                 $('#todo-list').empty()
                 response.todo.forEach(todo => {
+                    const date = todo.due_date.split('')
+                    todo.due_date = ''
+                    for (let i = 0; i < 10; i++) { todo.due_date += date[i] }
+            
                     $('#todo-list').append(`
                     <div class="card text-center">
                         <div class="card-header">${todo.status}</div>
@@ -77,6 +87,48 @@ function fetchTodos() {
             })
 }
 
+// function fetchShollu() {
+//     $.ajax({
+//         method: "GET",
+//         url: "http://localhost:3000/shollu",
+//         headers: {
+//             access_token: localStorage.getItem('access_token')
+//         }
+//     })
+//         .done(response => {
+//             console.log(response)
+//             // $('#shollu').empty()      
+//             //     $('#shollu').append(`
+//             //     <table class="table">
+//             //         <thead class="thead-dark">
+//             //           <tr>
+//             //             <th scope="col">#</th>
+//             //             <th scope="col">First</th>
+//             //             <th scope="col">Last</th>
+//             //             <th scope="col">Handle</th>
+//             //           </tr>
+//             //         </thead>
+//             //         <tbody>
+//             //           <tr>
+//             //             <th scope="row">1</th>
+//             //             <td>Mark</td>
+//             //             <td>Otto</td>
+//             //             <td>@mdo</td>
+//             //           </tr>
+//             //           <tr>
+//             //             <th scope="row">2</th>
+//             //             <td>Jacob</td>
+//             //             <td>Thornton</td>
+//             //             <td>@fat</td>
+//             //           </tr>
+//             //         </tbody>
+//             //       </table>`)                  
+//         })
+//         .fail(xhr => {
+//             console.log(xhr)
+//         })
+// }
+
 function createTodos() {
     const title = $('#title-add').val()
     const description = $('#description-add').val()
@@ -92,7 +144,7 @@ function createTodos() {
     })
         .done(response => {
             fetchTodos()
-            console.log(response)
+            // fetchShollu()
         })
         .fail(xhr => {
             console.log(xhr)
@@ -112,6 +164,7 @@ function deleteTodos(id) {
     })
         .done(response => {
             fetchTodos()
+            // fetchShollu()
         })
         .fail(xhr => {
             console.log(xhr)
@@ -123,6 +176,7 @@ function getOneTodos(id) {
     $('#btn-logout').hide()
     $('#add-form').hide()
     $('#content').hide()
+    $('#update-form').empty()
     $.ajax({
         method: "GET",
         url: "http://localhost:3000/todos/" + id,
@@ -131,6 +185,10 @@ function getOneTodos(id) {
         }
     })
         .done(todo => {
+            const date = todo.due_date.split('')
+            todo.due_date = ''
+            for (let i = 0; i < 10; i++) { todo.due_date += date[i] }
+
             $('#update-form').append(`
             <h1 class="center">update Todo</h1> <br>
                 <form>
@@ -192,13 +250,14 @@ function register() {
         data: { email, password }
     })
         .done(response => {
-            console.log(response)
+            alert('register succes')
         })
         .fail(xhr => {
             console.log(xhr)
         })
         .always(_ => {
-            $('#register-form').trigger('reset')
+            $('#email-register').val('')
+            $('#password-register').val('')
         })
 
 }
@@ -212,7 +271,8 @@ function onSignIn(googleUser) {
         data: { googleToken }
     })
     .done(response => {
-        console.log(response)
+        localStorage.setItem('access_token', response.access_token)
+        showMainPage()
     })
     .fail(xhr => {
         console.log(xhr)
