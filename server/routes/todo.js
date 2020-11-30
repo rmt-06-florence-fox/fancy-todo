@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const {TodoController} = require('../controller')
-const Authorization = require('../middleware/Authorization')
+const Authorization = require('../middleware/theAuthorization')
  
 router.get('/', TodoController.show)
 router.post('/', TodoController.create)
