@@ -184,8 +184,8 @@ function onSignIn(googleUser) {
 
   request.done((response) => {
       localStorage.setItem('access_token', response.access_token);
-      localStorage.setItem('name', response.name)
-      localStorage.setItem('email', response.email)
+      // localStorage.setItem('name', response.name)
+      // localStorage.setItem('email', response.email)
       showMainPage()
   })
 
