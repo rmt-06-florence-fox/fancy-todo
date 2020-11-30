@@ -121,7 +121,6 @@
       $('#main-page').show();
       $('#create-todo').show();
       $('#sign-out-button').show();
-      console.log(checkToken());
       fetchAll();
     }
     function showRegister() {
@@ -153,7 +152,6 @@
 
     function onSignIn(googleUser) {
       var id_token = googleUser.getAuthResponse().id_token;
-      console.log(id_token);
       $.ajax({
         url: 'http://localhost:3000/googlelogin',
         method: 'POST',
@@ -174,7 +172,6 @@
 
       const email = $('#inputEmail').val()
       const password = $('#inputPassword').val()
-      console.log(email, password);
 
       $.ajax({
         method: "POST",
@@ -185,9 +182,7 @@
         }
       })
         .done((response) => {
-          console.log(response);
           localStorage.setItem('access_token', response.access_token)
-          console.log(localStorage.getItem('access_token'));
           showMainPage();
         })
         .fail((xhr, textStatus) => {
@@ -205,7 +200,6 @@
       showLogin();
       var auth2 = gapi.auth2.getAuthInstance();
       auth2.signOut().then(function () {
-        console.log('User signed out.');
       });
       swal({
             title: "Byee!",
@@ -218,7 +212,6 @@
     function register() {
       const email = $('#inputEmailRegister').val()
       const password = $('#inputPasswordRegister').val()
-      console.log(email, password);
       $.ajax({
         method: "POST",
         url: "http://localhost:3000/register",
@@ -253,15 +246,17 @@
           todos.forEach(e => {
             $('#list-todo').append(`
             <div class="col mb-4">
-              <div class="card">
-                <h5 class="card-header">${e.tittle}</h5>
+              <div class="card shadow mb-5">
+                <h5 class="card-header">${e.tittle} <button type ="button" aria-label="close" href="#" class="close" onclick="deleteTodo(${e.id})" style="color:red">&times;</button> </h5> 
                 <div class="card-body">
-                  <h3 class="card-title">status : ${e.status}</h3>
-                  <p class="card-text">description : ${e.description}</p>
-                  <p class="card-text">due date : ${e.due_date}</p>
-                  <a href="#" class="btn btn-primary" onclick = "editTodo(${e.id})">edit</a>
-                  <a href="#" class="btn btn-primary" onclick = "deleteTodo(${e.id})">del</a>
-                  <a href="#" class="btn btn-primary" onclick = "doneTodo(${e.id})">done</a>
+                  <small> status : </small>
+                  <p class="card-title">${e.status}</p>
+                  <small> description : </small>
+                  <p class="card-text">${e.description}</p>
+                  <small> due date :  </small>
+                  <p class="card-text">${e.due_date}</p>
+                  <a href="#" class="btn btn-primary" onclick = "editTodo(${e.id})">📝</a>
+                  <a href="#" class="btn btn-primary" onclick = "doneTodo(${e.id})">✔️</a>
                 </div>
               </div>
             </div>
@@ -278,8 +273,6 @@
       const tittle = $('#inputTittle').val();
       const description = $('#inputDescription').val();
       const due_date = $('#inputDuedate').val();
-
-      console.log(tittle, description, status, due_date);
 
       $.ajax({
         method: 'POST',
@@ -312,7 +305,6 @@
     }
 
     function deleteTodo(id) {
-      console.log(id);
       swal({
         title: "Delete?",
         text: "Once deleted, you will not be able to recover this todo!",
@@ -367,7 +359,7 @@
       const tittle = $('#editTittle').val();
       const description = $('#editDescription').val();
       const due_date = $('#editDuedate').val();
-      console.log(id, tittle, description, status, due_date);
+
 
       $.ajax({
         method: "PUT",
@@ -391,7 +383,7 @@
     }
 
     function doneTodo(id) {
-      console.log(id);
+
       $.ajax({
         method: "PATCH",
         url: `http://localhost:3000/todos/${id}`,

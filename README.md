@@ -90,7 +90,6 @@ _Response (200)_
 {
   access_token : "access_token"
 }
-
 ```
 _Response(500)_
 ```
