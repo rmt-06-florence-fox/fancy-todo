@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-signin-client_id" content="529209285357-51pm70ne0e2cf2v66a09i0rjtav530s6.apps.googleusercontent.com">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <!-- <link href="./styles/styles.css" rel="stylesheet" type="text/css" /> -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <title>Fancy Todo</title>
+</head>
+<body>
+  <!--NAVBAR-->
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+        <img src="styles/img/logo.png" height="30" width="30">
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item">
+          Home
+        </a>
+        <a class="navbar-item">
+          Add Todo
+        </a>
+        <a class="navbar-item">
+          Settings
+        </a>
+      </div>
+        
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a id="login-button" class="button is-primary">Log In</a>
+            <a id="logout-button" class="button is-light">Log Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+ 
+  <div class="container is-fluid mt-6 is-justify-content-center" id="login-form">
+    <div class="columns">
+      <div class="column is-6 p-0">
+        <section class="hero is-primary is-bold is-medium"> 
+          <div class="hero-body"> 
+            <div class="container"> 
+              <h1 class="title"> 
+                Fancy To-Do 
+              </h1> 
+              <h3 class="description"> 
+                A simple todo app to organize
+                your daily tasks, plan an event,
+                increase your productivity, and manage your life
+              </h3> 
+            </div> 
+          </div> 
+        </section> 
+      </div>
+    <!--LOGIN-->
+      <div class="column is-6 p-3">
+        <div class="hero is-white is-medium">
+          <form>
+            <div class="field">
+              <label for="login-email" class="label">Email address:</label>
+              <input type="email" class="input" id="login-email" placeholder="Enter email">
+            </div>
+            <div class="field">
+              <label for="login-password" class="label">Password:</label>
+              <input type="password" class="input" id="login-password" placeholder="Password">
+            </div>
+            <div class="control">
+              <button class="button is-primary" type="submit">Log in</button>
+            </div>
+            <p>Don't have an account yet?<span><a href="" class="" id="register-button">Register an account</a></span></p>
+            <small>or sign in with</small>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          </form>
+        </div >
+      </div>
+    </div>
+    <!--REGISTER-->
+      <div class="section is-medium is-justify-content-center">
+        <div class="hero is-white is-medium" id="register-form">
+          <h1 class="is-size-1 has-text-black-ter"> Register an Account </h1>
+          <form>
+            <div class="field">
+              <label for="register-name" class="label">Name:</label>
+              <input type="text" class="input" id="register-name" placeholder="Enter your name">
+            </div>
+            <div class="field">
+              <label for="register-email" class="label">Email address:</label>
+              <input type="email" class="input" id="register-email" placeholder="Enter email">
+            </div>
+            <div class="field">
+              <label for="register-password" class="label">Password</label>
+              <input type="password" class="input" id="register-password" placeholder="Password">
+            </div>
+            <p>Already have an account?<span><a href="" class="">Login</a></span></p>
+            <button class="button is-primary" type="submit">Sign Up</button>
+          </form>
+        </div>
+      </div>
+  </div>
+  
+  
+  
+  <!--DASHBOARD-->
+  <div id="main-page" class="container is-fluid mt-5">
+    <div class="section p-0 is-medium is-justify-content-center">
+      <div>
+        <h1 class="title notification is-primary has-text-white-ter">Todo List:</h1> 
+      </div>     
+      <div id="add-todo" class="hero is-white">
+        <form>
+          <div class="field">
+            <label for="todo-title">Title:</label>
+            <input id="todo-title" class="input" placeholder="Enter Todo Title">
+          </div>
+          <div class="field">
+            <label for="todo-description" >Description</label>
+            <textarea id="todo-description" class="textarea" rows="3" placeholder="Enter description"></textarea>
+          </div>
+          <div class="field">
+            <label for="todo-due_date">Due Date</label>
+            <input id="todo-due_date" type="date" class="input">
+          </div>
+          <div class="field is-grouped">
+            <div class="control">
+              <button type="submit" class="button is-link">Add</button>
+              <button id="cancel-add" class="button is-danger">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="columns is-white">
+        <div id="news-today" class="column">
+          <h1 class="is-size-4 has-text-black-ter m-3">News Today</h1>
+          <div id="news">
+          </div>
+        </div>
+        <div id="dashboard-main"class="column is-8 mt-3">
+          <a id="add-button" class="button is-link" href=# onclick="addTodoForm()">Add Todo</a><br>
+          <div id="todo-list">
+          </div>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is licensed
+        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+        is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+      </p>
+    </div>
+  </footer>
+  <script
+  src="https://code.jquery.com/jquery-3.5.0.min.js"
+  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+  crossorigin="anonymous"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
