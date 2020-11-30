@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-signin-client_id" content="787087558897-pqkrcgh6vhnhqbu30vefh8ifsifjf4na.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
+  <body style="background-color: lightblue;">
+
+    <div class="container">
+      <div id="home">
+        <h1 style="text-align: center;"> To Do App </h1>
+        <button id="bt-signup" type="button" class="btn btn-light" onclick="signup()" style="margin-left: 42.5%;"> Sign Up </button>
+        <button id="bt-signin" type="button" class="btn btn-light" onclick="signin()" style="margin-left: auto;"> Sign In </button>
+      </div>
+      
+      <nav id="navbar" class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href=""> Home </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="" onclick="signOut()"> Log Out </a>
+          </li>
+        </ul>
+      </nav>
+
+        <div id="signin">
+          <h1 style="text-align: center;"> Sign In </h1>
+          <form id="f-signin">
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="emailsignin" placeholder="Enter email" name="email">
+            </div>
+            <div class="form-group">
+              <label for="pwd">Password:</label>
+              <input type="password" class="form-control" id="passwordsignin" placeholder="Enter password" name="pswd">
+            </div>
+            <button type="submit" class="btn btn-primary">Sign In</button>
+          </form>
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      </div>
+
+      <div id="signup">
+        <h1 style="text-align: center;"> Sign Up </h1>
+          <form id="f-signup">
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="emailsignup" placeholder="Enter email" name="email">
+            </div>
+            <div class="form-group">
+              <label for="pwd">Password:</label>
+              <input type="password" class="form-control" id="passwordsignup" placeholder="Enter password" name="pswd">
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>           
+          </form>
+          <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      </div>
+
+      <div id="mainhome">
+
+        <div id="createtodo">
+
+          <h1 style="text-align: center;"> Create To Do </h1>
+          <form id="f-createTodo">
+            <div class="form-group">
+              <label for="title">Title:</label>
+              <input type="text" name="title" id="titleToDo" class="form-control" placeholder="Enter title">
+            </div>
+            <div class="form-group">
+              <label for="description">Description:</label>
+              <input type="text" name="description" id="descriptionToDo" class="form-control" placeholder="Enter description">
+            </div>
+            <div class="form-group">
+              <label for="due_date">Due Date:</label>
+              <input type="text" name="due_date" id="due_dateTodo" class="form-control" placeholder="Enter due date ex = yyyy-mm-dd">
+            </div>
+            <button type="submit" class="btn btn-primary" id="btn-createtodo" >Create To Do</button>
+          </form>
+
+        </div>
+
+        <div id="listToDo">
+          <h1 style="text-align: center;"> List To Do </h1>
+          <div id="card-todo" class="card-columns">
+
+          </div>
+        </div>
+
+        <div id="weather">
+          <h1 style="text-align: center;"> Weather Prediction </h1>
+          <div id="card-weather" class="card-columns">
+
+          </div>
+        </div>
+        
+      </div>
+
+      
+
+      <div id="editTodo">
+
+        <h1 style="text-align: center;"> Edit To Do </h1>
+          <form id="f-editTodo">
+            <div class="form-group">
+              <label for="title">Title:</label>
+              <input type="text" name="title" id="edittitleToDo" class="form-control" placeholder="Enter title">
+            </div>
+            <div class="form-group">
+              <label for="description">Description:</label>
+              <input type="text" name="description" id="editdescriptionToDo" class="form-control" placeholder="Enter description">
+            </div>
+            <div class="form-group">
+              <label for="due_date">Due Date:</label>
+              <input type="text" name="due_date" id="editdue_dateTodo" class="form-control" placeholder="Enter due date ex = 30-10-2020" >
+            </div>
+            <button type="submit" class="btn btn-primary">Create To Do</button>
+          </form>
+
+      </div>
+
+    </div>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="./assets/helpers.js"></script>
+    <script src="./assets/main.js"></script> 
+  </body>
+</html>
