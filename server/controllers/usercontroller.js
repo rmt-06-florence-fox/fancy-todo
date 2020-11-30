@@ -2,17 +2,24 @@ const { User } = require('../models')
 const { comparePwd } = require('../helpers/password')
 const { generateToken }= require('../helpers/jsonwebtoken')
 const {OAuth2Client} = require('google-auth-library')
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
+const sendEmail = require('../helpers/nodemailer')
 
 class UserController {
   static signUpUser(req, res, next) {
-    let userAccount = {
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password
-    }
-    User.create(userAccount)
-      .then(data => res.status(201).json({ id: data.id, email: data.email }))
+    sendEmail(req.body.username, req.body.email)
+      .then(() => {
+        const userAccount = {
+          username: req.body.username,
+          email: req.body.email,
+          password: req.body.password
+        }
+        return User.create(userAccount)
+      })
+      .then(data => {
+        const accessToken = generateToken({ id: data.id, email: data.email })
+        res.status(201).json({ accessToken })
+      })
       .catch(error => next(error))
   }
 
@@ -45,6 +52,7 @@ class UserController {
       .then(user => {
         if (user) return user
         else {
+          sendEmail(payload.given_name, payload.email)
           return User.create({
             username: payload.given_name,
             email: payload.email,
