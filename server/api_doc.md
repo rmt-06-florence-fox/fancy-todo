@@ -388,3 +388,51 @@ RESTfull API Doc
 
   * **Code:** 500 <br />
     **Content:** `{ "message": "Internal server error" }`
+
+**Show All Todos**
+----
+  show all databases belong to user while logged in
+
+* **URL**
+
+  /shollu
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+  None
+
+* **Header Params**
+
+  **Required:**
+ 
+   `access_token=[string]`
+
+
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    **Content:** `{"ashar": "15:09","dhuha": "05:53","dzuhur": "11:44","imsak": "03:55","isya": "19:13","maghrib": "17:58","subuh": "04:05","tanggal": "Senin, 30 Nov 2020","terbit": "05:25"}`
+ 
+* **Error Response:**
+
+  * **Code:** 400 BAD REQUEST <br />
+    **Content:** `{ "message": "Data is missing/Access Denied" }`
+
+  OR
+
+  * **Code:** 401 Unauthorized <br />
+    **Content:** `{ "message": "Access denied, please login first" }`
+
+  OR
+
+  * **Code:** 500 <br />
+    **Content:** `{ "message": "Internal server error" }`

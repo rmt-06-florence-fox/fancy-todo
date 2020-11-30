@@ -7,13 +7,13 @@ class SholluController {
         for (let i = 0; i < 10; i++) { today += date[i] }
         try {
             let response = await axios({
-                url: `https://api.banghasan.com/sholat/format/json/jadwal/kota/703/tanggal/${Number(today)}`,
+                url: `https://api.banghasan.com/sholat/format/json/jadwal/kota/703/tanggal/${today}`,
                 method: 'GET',
                 responseType: 'json'
             })
-            res.status(200).json({response})
+            // console.log(response.data.jadwal.data)
+            res.status(200).json(response.data.jadwal.data)
         } catch (err) {
-            console.log(err)
             next(err)
         }
 
