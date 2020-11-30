@@ -27,6 +27,7 @@ const login=()=>{
   })
   .done(response =>{
     localStorage.setItem('access_token', response.access_token)
+    localStorage.setItem('name', response.name)
     console.log(response)
     showMainPage()
   })
