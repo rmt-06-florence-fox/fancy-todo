@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.ToDo)
     }
   };
+  
   User.init({
     fullName: DataTypes.STRING,
     userName: DataTypes.STRING,
