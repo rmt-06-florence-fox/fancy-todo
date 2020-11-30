@@ -30,7 +30,7 @@
                     </div>
                     <button type="submit " class="btn btn-primary">Login</button>
                 </form>
-                <button id= "btn-register" class="btn btn-danger" >register</button> <br> <br>
+                <button id= "btn-register" class="btn btn-danger">register</button> <br> <br>
                 
                 <div class="g-signin2" data-onsuccess="onSignIn"></div>
             </div>
@@ -41,13 +41,17 @@
 
   
   <!-- register -->
-  <div id="register">
+
     <form id="register-form">
       <section id="landing" class="container">
         <div class="row justify-content-center mt-5">
             <div class="col-4">
-                <form onsubmit="register(event)">
+                <form  onsubmit="login(event)">
                   <h2>Create New Account</h2>
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="name" name="name" id="registname" class="form-control">
+                </div>
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" name="email" id="registemail" class="form-control">
@@ -56,7 +60,7 @@
                         <label for="password">Password</label>
                         <input type="password" name="password" id="registpassword" class="form-control">
                     </div>
-                    <button type="submit " class="btn btn-primary">register</button>
+                    <button type="submit " class="btn btn-primary" >register</button>
                 </form>
                
             </div>
@@ -64,7 +68,7 @@
     </section>
     </form>
 
-  </div>
+
 <!-- edit -->
 <button id= "btn-logout" class="btn btn-danger" onclick="logout()">Logout</button>
     <div id="edit"></div>
@@ -115,18 +119,19 @@
       $("#login-page").show()
       $("#form-add").hide()
       $("#edit").hide()
-      $("#register").hide()
+      $("#register-form").hide()
       $("#show").hide()
       $("#btn-logout").hide()
-      $("#fetchData").hide()
+      $("#list-todos").hide()
+      $("#quote").hide()
      
 
     }
     function showMainPage (){
-      // quote()
+      quote()
       $("#login-page").hide()
       $("#edit").hide()
-      $("#register").hide()
+      $("#register-form").hide()
       $("#btn-logout").show()
       fetchData()
       $("#form-add").show()
@@ -140,7 +145,9 @@
       $("#show").hide()
       $("#btn-logout").show()
       $("#fetchData").hide()
-      $('#register').show();
+      $('#register-form').show()
+      $("#quote").hide()
+
     }
 
     function login (){
@@ -173,6 +180,8 @@
     }
     
     function register() {
+      
+      const namae = $('#registname').val()
       const email = $('#registemail').val()
       const password = $('#registpassword').val()
       console.log(email, password);
@@ -180,17 +189,21 @@
         method: "POST",
         url: "http://localhost:3000/register",
         data: {
+          namae,
           email,
           password
         }
       })
-        .done(_ => {
-          showLogin()
+        .done(response=> {
+          console.log(response)
+          localStorage.clear()
+          showlogin () 
         })
         .fail((xhr, textStatus) => {
           console.log(xhr);
         })
         .always(_ => {
+          $('#registname').val()
           $('#registemail').val("")
           $('#registpassword').val("")
         })
@@ -202,9 +215,8 @@
           console.log('User signed out.');
        });
       localStorage.clear()
-      $("#fetchData").hide()
-      
-      showlogin()
+    
+      showlogin ()
     }
     function onSignIn(googleUser) {
       let googleToken = googleUser.getAuthResponse().id_token;
@@ -368,7 +380,7 @@
       $("#btn-logout").hide()
       $("#fetchData").hide()
       $("#register").hide()
-      // $("#quote").hide()
+      $("#quote").hide()
 
       console.log(data);
       $('#edit').show().empty().append(`
@@ -457,6 +469,7 @@
        }
        else {
         showlogin ()
+        $("#fetchData").hide()
         
        }
        $("#form-add").on("submit",function(e){
@@ -464,10 +477,14 @@
        addTodo()
   
        })
-
        $('#btn-register').on('click', (e) => {
+        e.preventDefault();
+        showRegister();
+      })
+
+      $('#register-form').on("submit", (e) => {
           e.preventDefault();
-          showRegister();
+          register()
       })
        $("#login-form").on("submit",function(e){
         e.preventDefault()

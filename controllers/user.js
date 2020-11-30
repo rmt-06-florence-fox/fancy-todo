@@ -5,13 +5,17 @@ const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client("545344196508-bb4sd2s0aeo1f6ivigm1ekcqg5eeiujg.apps.googleusercontent.com");
 
 class UserController {
-  static register (req,res){
+  
+  static register (req,res,next){
+    console.log('masuk regist')
     const newUser = {
+      namae: req.body.namae,
       email: req.body.email,
       password: req.body.password
     }
     User.create(newUser)
       .then (data=>{
+        console.log(data)
         res.status(201).json({id: data.id,email: data.email})
       })
       .catch (err=>{
@@ -22,7 +26,7 @@ class UserController {
   }
 
   static login(req,res){
-    console.log('masuk')
+    console.log('masuk login')
     User.findOne({where: {email:req.body.email}})
       .then (data=>{
         if(!data){
