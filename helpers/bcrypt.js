@@ -1,16 +1,16 @@
-const bycript = require('bcryptjs')
+const bcrypt = require('bcryptjs')
 
 
 class PassHelper{
 
   static convert(plain){
-    const salt = bycript.genSaltSync(10)
-    const hash = bycript.hashSync(plain,salt)
+    const salt = bcrypt.genSaltSync(10)
+    const hash = bcrypt.hashSync(plain,salt)
     return hash
   }
 
   static compare(plain, hash){
-    return bycript.compareSync(plain,hash)
+    return bcrypt.compareSync(plain,hash)
   }
 }
 
