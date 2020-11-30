@@ -1,4 +1,3 @@
-require('dotenv').config()
 const {Todo, User} = require('../models/index')
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.googleClient);
