@@ -15,7 +15,9 @@ function putPage (response) {
     $("#Put-Title").val(response.title)
     $("#Put-Description").val(response.description)
     $("#Put-Status").val(response.status)
-    $("#Put-Date").val(response.due_date)
+    let str = response.due_date
+    let date = str.slice(0, 10);
+    $("#Put-Date").val(date)
   })
   .fail((error) => {
     console.log (error) 

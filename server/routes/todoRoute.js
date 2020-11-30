@@ -10,6 +10,5 @@ router.get ("/:id", authorization, TodoController.findTodoById)
 router.patch ("/:id", authorization, TodoController.updateTodo)
 router.put ("/:id", authorization, TodoController.updateTodoo)
 router.delete ("/:id", authorization, TodoController.removeTodo)
-router.get ("/:id", authorization, TodoController.findTodoById)
 
 module.exports = router
