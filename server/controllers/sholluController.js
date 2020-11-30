@@ -11,7 +11,6 @@ class SholluController {
                 method: 'GET',
                 responseType: 'json'
             })
-            // console.log(response.data.jadwal.data)
             res.status(200).json(response.data.jadwal.data)
         } catch (err) {
             next(err)
