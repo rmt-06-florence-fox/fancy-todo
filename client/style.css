@@ -89,3 +89,7 @@ body {
     max-width: 300px;
     background: hsla(175, 38%, 89%, 0.7);
 }
+
+#card-holiday {
+    margin-left: 900px;
+}
