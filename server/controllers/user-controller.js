@@ -1,6 +1,6 @@
 const { User } = require('../models')
 const {createToken} = require('../helper/jwt')
-const  {comparePw}  = require('../helper/password')
+const  {comparePw, generatePw}  = require('../helper/password')
 const {OAuth2Client} = require('google-auth-library');
 
 class UserController{
@@ -33,6 +33,8 @@ class UserController{
                 } else if (comparePw(req.body.password, data.password)){
                     // console.log(comparePw(req.body.password, data.password),'<<<');
                     const access_token = createToken({id: data.id, email: data.email})
+                    // console.log(Object.keys(req));
+                    // console.log(req.headers);
                     res.status(200).json({access_token})
                 } else {
                     throw{
