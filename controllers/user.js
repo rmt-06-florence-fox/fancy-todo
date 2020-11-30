@@ -1,10 +1,8 @@
 const {User} = require('../models')
 const helpbcrypt = require('../helpers/bcrypt')
-
 const {generateToken} = require('../helpers/jwt')
-const jwt = require('jsonwebtoken')
 const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client(process.env.CLIENT_ID);
+const client = new OAuth2Client("545344196508-bb4sd2s0aeo1f6ivigm1ekcqg5eeiujg.apps.googleusercontent.com");
 
 class UserController {
   static register (req,res){
@@ -24,6 +22,7 @@ class UserController {
   }
 
   static login(req,res){
+    console.log('masuk')
     User.findOne({where: {email:req.body.email}})
       .then (data=>{
         if(!data){
@@ -50,24 +49,29 @@ class UserController {
 
   static googleLogin(req,res,next){
     // console.log('berhasil')
+   let payload
        client.verifyIdToken({
-            google_token: req.body.google_token,
-            audience: process.env.CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
+        idToken: req.body.googleToken,
+        audience: "545344196508-bb4sd2s0aeo1f6ivigm1ekcqg5eeiujg.apps.googleusercontent.com",  // Specify the CLIENT_ID of the app that accesses the backend
             // Or, if multiple clients access the backend:
             //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
         })
         .then ((ticket)=>{
-          payload = ticket.getPayload()
-          User.findOne({ where: {email: payload.email}})
+           payload = ticket.getPayload()
+          const email = payload.email
+            return User.findOne({ where: {email:email}})
         })
           .then(user=>{
+            // console.log(user)
             if(user){
               return user
             }
             else {
+              // console.log(ticket)
+          
                return User.create({
                 email: payload.email,
-                password: process.env.GOOGlE_PASSWORD
+                password: process.env.GOOGLE_PASSWORD
               })
             }
           })
@@ -76,6 +80,7 @@ class UserController {
             res.status(200).json({access_token})
           })
         .catch(err=>{
+          console.log(err)
           next(err)
         })
        

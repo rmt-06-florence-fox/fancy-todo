@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
     namae: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,
+      unique: {
+        args: false,
+        msg: 'Email address already in use!'
+      },
       validate: {
         isEmail: {
           args: true,
@@ -29,11 +33,7 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: 'Email Cannot be Blank'
         },
-        unique: {
-          args: true,
-          msg: 'Email address already in use!'
-        }
-      }
+      },
   },
     password: DataTypes.STRING
   }, {
@@ -42,9 +42,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.beforeCreate((instance, options) => {
-    const salt = bcrypt.genSaltSync(10)
-    const hash = bcrypt.hashSync(instance.password, salt)
-    instance.password = hash
+    // const salt = bcrypt.genSaltSync(10)
+    // const hash = bcrypt.hashSync(instance.password, salt)
+   instance.password = helpbcrypt.convert(instance.password)
   });
   return User;
 };

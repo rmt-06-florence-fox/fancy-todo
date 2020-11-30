@@ -1,5 +1,4 @@
 const express = require('express')
-const Controller = require('../controllers/todo')
 const UserController =  require('../controllers/user')
 const routerTodos = require('./todosRouter')
 const router = express.Router()
