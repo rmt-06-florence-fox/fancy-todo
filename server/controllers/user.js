@@ -31,7 +31,7 @@ class UserController{
         }
       }else if(checkPassword(input.password,user.password)){
         const access_token= generateToken({id:user.id, email:user.email, name:user.name})
-        res.status(200).json({access_token})
+        res.status(200).json({access_token, name:user.name})
       }else{
         throw{
           status:400,
