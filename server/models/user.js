@@ -1,4 +1,6 @@
 'use strict';
+const helper = require('../helpers/helper.js')
+
 const {
   Model
 } = require('sequelize');
@@ -11,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.todo, {foreignKey: 'UserId'})
+      // User.hasMany(models.todo, {foreignKey: 'UserId'})
     }
   };
   User.init({

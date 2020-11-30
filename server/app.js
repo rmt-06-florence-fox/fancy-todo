@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const port = 3000
-const { router } = require('./routes/index.js')
+const router = require('./routes/index.js')
 const errorHandler = require('./middleware/errorHandler')
 
 app.use(cors())

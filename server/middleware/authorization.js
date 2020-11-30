@@ -1,4 +1,4 @@
-const { ToDo } = require('../../models');
+const { ToDo } = require('../models');
 
 module.exports = async (req, res, next) => {
   try {

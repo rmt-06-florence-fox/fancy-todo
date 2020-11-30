@@ -20,6 +20,7 @@ class userController {
       })
     }
     catch(err) {
+      console.log(err, '<< error register')
       next({
         status: 400,
         message: 'Bad Request'

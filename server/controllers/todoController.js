@@ -76,9 +76,10 @@ class ToDoController {
         }
       } else {
         const output = await ToDo.update(obj, {
-          where: {id}
+          where: {id},
+          returning: true
         })
-        res.status(200).json({ output })
+        res.status(200).json({ output: output[1][0] })
       }
     }
     catch(err) {
@@ -100,10 +101,11 @@ class ToDoController {
         }
       } else {
         const output = await ToDo.update(obj, {
-          where: {id}
+          where: {id},
+          returning: true
         })
+        res.status(200).json({ output: output[1][0] })
       }
-      res.status(200).json({ output })
     }
     catch(err) {
       next(err)
