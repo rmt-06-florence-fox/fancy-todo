@@ -84,9 +84,18 @@
   * **Code:** 200 <br />
     **Content:**
     ```md
-    {
-
+  {
+    "output": {
+        "id": 2,
+        "title": "belajar koding",
+        "description": "belajar koding di hacktiv8",
+        "status": "incomplete",
+        "due_date": "2020-01-11T17:00:00.000Z",
+        "UserId": 1,
+        "createdAt": "2020-11-30T09:05:20.906Z",
+        "updatedAt": "2020-11-30T09:06:15.076Z"
     }
+  }
     ```
 
 * **Error Response**
@@ -103,9 +112,18 @@
   * **Code:** 200 <br />
     **Content:**
     ```md
-    {
-        
+   {
+    "output": {
+        "id": 2,
+        "title": "belajar koding",
+        "description": "belajar koding di hacktiv8",
+        "status": "incomplete",
+        "due_date": "2020-01-11T17:00:00.000Z",
+        "UserId": 1,
+        "createdAt": "2020-11-30T09:05:20.906Z",
+        "updatedAt": "2020-11-30T09:06:15.076Z"
     }
+  }
     ```
 
 * **Error Response**
@@ -122,9 +140,18 @@
   * **Code:** 200 <br />
     **Content:**
     ```md
-    {
-        
+  {
+    "output": {
+        "id": 2,
+        "title": "koding dan ngopi",
+        "description": "tentunya di hacktiv8",
+        "status": "complete",
+        "due_date": "2020-01-11T17:00:00.000Z",
+        "UserId": 1,
+        "createdAt": "2020-11-30T09:05:20.906Z",
+        "updatedAt": "2020-11-30T09:07:38.642Z"
     }
+  }
     ```
 
 * **Error Response**
@@ -144,9 +171,18 @@
   * **Code:** 200 <br />
     **Content:**
     ```md
-    {
-        
+  {
+    "output": {
+        "id": 2,
+        "title": "belajar koding",
+        "description": "belajar koding di hacktiv8",
+        "status": "complete",
+        "due_date": "2020-01-11T17:00:00.000Z",
+        "UserId": 1,
+        "createdAt": "2020-11-30T09:05:20.906Z",
+        "updatedAt": "2020-11-30T09:07:01.953Z"
     }
+  }
     ```
 
 * **Error Response**
@@ -163,9 +199,9 @@
   * **Code:** 200 <br />
     **Content:**
     ```md
-    {
-        
-    }
+   {
+    "message": "Task has been successfully deleted"
+  }
     ```
 
 * **Error Response**
