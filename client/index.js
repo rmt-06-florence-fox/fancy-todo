@@ -1,4 +1,5 @@
-const url = 'http://localhost:3000/'
+// const url = 'http://localhost:3000/'
+const url = 'https://guarded-fjord-79973.herokuapp.com/'
 
 $(document).ready(function(){
   const access_token = localStorage.getItem('access_token')
