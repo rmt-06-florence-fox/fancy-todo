@@ -10,124 +10,125 @@
     <title>Fancy Todo App</title>
 </head>
 <body>
-    <nav class="navbar navbar-dark bg-primary justify-content-between fixed-top">
-        <a class="navbar-brand">Fancy To-Do</a>
-        <form class="form-inline">
-          <button id="btn-logout" class="btn btn-outline-light btn-lg my-2 my-sm-0" type="submit">Logout</button>
-        </form>
-      </nav>
-    <!-- <nav>
-    </nav> -->
-    <!-- Register -->
-    <br><br><br>
-    <div id="register-form" class="container">
-        <div class="row ">
-            <div class="col-md-8">
-                <img id='registImg' src="img/2953998.jpg" class="img-fluid" alt="Responsive image">
-            </div>
-            <div class="col-md-4 mt-50">
+    <div style="max-height: 100vh;"> 
+        <nav class="navbar navbar-dark bg-primary justify-content-between fixed-top">
+            <a class="navbar-brand">Fancy To-Do</a>
+            <form class="form-inline">
+            <button id="btn-logout" class="btn btn-outline-light btn-lg my-2 my-sm-0" type="submit">Logout</button>
+            </form>
+        </nav>
+        <!-- <nav>
+        </nav> -->
+        <!-- Register -->
         <br><br><br>
-        <h1 class="text-center">Register Form</h1>
-        <br>
-        <div style="width: 200px;">
-
-        <form action="" method="post">
-            
-            <label for="input-email" >Email</label>
-            <input type="text"id="regist-email">
-            <br><br>
-            <label for="input-password">Password</label>
-            <input type="password"id='regist-password'>
-            <br><br>
-            <input type="submit" class="bg-primary text-light" value="Sign Up">
-        </form>
-        <br>
-        <button onclick="showLogin()" >Back</button>
-        </div>
-    </div>
-
-    
-        </div>
-
-    </div>
-    <!-- Login -->
-    <div id="login-form" class="container">
-        <div class="row ">
-            <div id='login-img'class="col-md-8 ">
-                <img id='loginImg' style="image-resolution: 500;" src="img/2953998.jpg" class="img-fluid" alt="Responsive image">
-            </div>
-            <div id= 'form-login' class="col-md-4 mt-50">
-                <br><br><br>
-        <h1 class="text-center">Login Form</h1>
-        <br>
-                <div class="" style="width: 200px;"  >
-                    <form id="login-form2" action="" method="post">
-                        <label for="input-email">Email</label>
-                        <input type="text"id="login-email">
-                        <br><br>
-                        <label  for="input-password">Password</label>
-                        <input type="password"id="login-password">
-                        <br>
-                        <br>
-                        <input type="submit" value="Login">
-                    </form>
-                    <br>
-                    <div class="row justify-content-center">
-                            <button  id="btn-register" class="btn btn-outline-primary mr-3">Register</button>
-                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                    </div>                
+        <div id="register-form" style="max-height: 100vh;" class="container">
+            <div class="row ">
+                <div class="col-md-8">
+                    <img id='registImg' src="img/2953998.jpg" class="img-fluid" alt="Responsive image">
                 </div>
-            </div>
-        </div>
-    </div>
-    <div id="main-page">
-    <!-- main page -->
-    <div id="jumbotron" class="row jumbotron jumbotron-fluid">
-        <div class="container ml-5">
-            <form action="" id="addNew-form">
-                <h1>To Do List</h1>
-                
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="input-title">Title</label>
-                    <input  type="text" id="input-title">
-                </div>
-               
-                <br>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="input-description">Description</label>
-                    <input  type="text" id="input-description">
-                </div>
-                    
-                    <br>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="input-status">Status</label>
-                    <input  type="text" id="input-status">
-                </div>
-                    <br>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="input-date">Due Date</label>
-                    <input   type="date" id="input-date">
-                </div>
-                    <br>
-                    <input type="submit" class="btn-lg" value="Add New">
-                </form>
-            </div>
-            
-            
-        </div>
-        <br>
-        <button id="show-form" class="ml-5 btn btn-warning btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> New List</button>
-        <br><br>
-        <div class="row text-center ml-4 " id="todo-list">
-            
-
-        </div>
-    </div>
-    <div id="putTodo">
-        <form action="" id="putTodo-form" class="container">
+            <div class="col-md-4 mt-5">
+            <h1 class="text-center">Register Form</h1>
             <br>
-        </form>
+            <div style="width: 200px;">
 
+            <form action="" method="post">
+                
+                <label for="input-email" >Email</label>
+                <input type="text"id="regist-email">
+                <br><br>
+                <label for="input-password">Password</label>
+                <input type="password"id='regist-password'>
+                <br><br>
+                <input type="submit" class="bg-primary text-light" value="Sign Up">
+            </form>
+            <br>
+            <button onclick="showLogin()" >Back</button>
+            </div>
+            </div>
+
+        
+            </div>
+
+        </div>
+        <!-- Login -->
+        <div id="login-form" class="container">
+            <div class="row ">
+                <div id='login-img'class="col-md-8 ">
+                    <img id='loginImg' style="image-resolution: 500;" src="img/2953998.jpg" class="img-fluid" alt="Responsive image">
+                </div>
+                <div id= 'form-login' class="col-md-4 mt-50">
+                    <br><br><br>
+            <h1 class="text-center">Login Form</h1>
+            <br>
+                    <div class="" style="width: 200px;"  >
+                        <form id="login-form2" action="" method="post">
+                            <label for="input-email">Email</label>
+                            <input type="text"id="login-email">
+                            <br><br>
+                            <label  for="input-password">Password</label>
+                            <input type="password"id="login-password">
+                            <br>
+                            <br>
+                            <input type="submit" value="Login">
+                        </form>
+                        <br>
+                        <div class="row justify-content-center">
+                                <button  id="btn-register" class="btn btn-outline-primary mr-3">Register</button>
+                                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="main-page">
+        <!-- main page -->
+        <div id="jumbotron" class="row jumbotron jumbotron-fluid">
+            <div class="container ml-5">
+                <form action="" id="addNew-form">
+                    <h1>To Do List</h1>
+                    
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="input-title">Title</label>
+                        <input  type="text" id="input-title">
+                    </div>
+                
+                    <br>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="input-description">Description</label>
+                        <input  type="text" id="input-description">
+                    </div>
+                        
+                        <br>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="input-status">Status</label>
+                        <input  type="text" id="input-status">
+                    </div>
+                        <br>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="input-date">Due Date</label>
+                        <input   type="date" id="input-date">
+                    </div>
+                        <br>
+                        <input type="submit" class="btn-lg" value="Add New">
+                    </form>
+                </div>
+                
+                
+            </div>
+            <br>
+            <button id="show-form" class="ml-5 btn btn-warning btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> New List</button>
+            <br><br>
+            <div class="row text-center ml-4 " id="todo-list">
+                
+
+            </div>
+        </div>
+        <div id="putTodo">
+            <form action="" id="putTodo-form" class="container">
+                <br>
+            </form>
+
+        </div>
     </div>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>    
@@ -173,25 +174,6 @@
             `)
         })
     }
-    // function patchSubmit(payload, id){
-    //     let token_access = localStorage.token_access
-    //     $.ajax({
-    //         method: "PATCH",
-    //         url: `${baseUrl}/todos/${id}`,
-    //         data: payload,
-    //         headers: {token_access}
-    //     })
-    //     .done(response =>{
-    //         console.log('sampai patchSubmit DONE', response)
-    //         mainPage()
-    //         $("#putTodo-form").empty()
-
-    //     })
-    //     .fail(err =>{
-    //         console.log('sampai patchSubmit')
-    //         console.log(err)
-    //     })
-    // }
     function putSubmit(payload, EditId){
         let token_access = localStorage.token_access
         $.ajax({
@@ -530,5 +512,6 @@
     })
     
     </script>
+    
 </body>
 </html>
