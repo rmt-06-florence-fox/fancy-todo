@@ -49,18 +49,18 @@ class UserController{
           id: findData.id,
           email: findData.email
         }, process.env.SECRET)
-        if(accessToken){
-          Helper.sendingEmail({
-           email: findData.email,
-           subject: `Welcome to Fancy Todo App !`,
-           text: `
-            <h1> Hello ${findData.username}! </h1> 
-            <p> How are you today ? </p>
-            <p> Let's create your schedule and finished it ! </p>
-            <br> <p> Enjoy :) <p>
-           `
-          })
-        }
+        // if(accessToken){
+        //   Helper.sendingEmail({
+        //    email: findData.email,
+        //    subject: `Welcome to Fancy Todo App !`,
+        //    text: `
+        //     <h1> Hello ${findData.username}! </h1> 
+        //     <p> How are you today ? </p>
+        //     <p> Let's create your schedule and finished it ! </p>
+        //     <br> <p> Enjoy :) <p>
+        //    `
+        //   })
+        // }
         res.status(200).json({accessToken})
       }else{
         throw {

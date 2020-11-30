@@ -46,21 +46,21 @@ function regist(){
     })
       .done(response => {
         showLoginPage()
-        Swal.fire(
-          'Good job!',
-          'Please log in now!',
-          'success'
-        )
+        swal({
+          title: 'Good Job !',
+          text: 'Please log in now !',
+          icon: 'success'
+        })
       })
       .fail(err =>{
         console.log('--- gagal regist ---');
         console.log(err)
-        let messageError = err.responseJSON.messages.map(e => e.message).join('<br>')
-        Swal.fire(
-          'Error!!!',
-          messageError,
-          'error'
-        )
+        let messageError = err.responseJSON.messages.map(e => e.message).join(', ')
+        swal({
+          title: 'Error !!!',
+          text: messageError,
+          icon: 'error'
+        })
       })
       .always(_ =>{
         $('#registUsername').val("")
@@ -87,19 +87,29 @@ function login(){
         localStorage.setItem('access_token', response.accessToken)
         console.log(localStorage, '<<< local storage');
         showMainPage()
-        Swal.fire(
-          'Welcome!',
-          'Welcome to the Fancy Todo App !',
-          'success'
-        )
+        // Swal.fire(
+        //   'Welcome!',
+        //   'Welcome to the Fancy Todo App !',
+        //   'success'
+        // )
+        swal({
+          title: 'Welcome !',
+          text: 'Welcome to the Fancy Todo App !',
+          icon: 'success'
+        })
       })
       .fail((err) =>{
         console.log(err)
-        Swal.fire(
-          'Error!!!',
-          err.responseJSON.message,
-          'error'
-        )
+        swal({
+          title: 'Error !!!',
+          text: err.responseJSON.message,
+          icon: 'error'
+        })
+        // Swal.fire(
+        //   'Error!!!',
+        //   err.responseJSON.message,
+        //   'error'
+        // )
       })
       .always(_ =>{
         $('#login-page').trigger('reset')
@@ -116,12 +126,13 @@ function logout(){
 }
 function showMainPage(){
   $('.navbar').show()
-  $('#btn-nav-login').hide()
-  $('#btn-nav-regist').hide()
-  $('#login-page').hide()
-  $('#regist-page').hide()
+  $('#user-container').hide()
   $('#btn-logout').show()
   $('#main-page').show()
+  $('#todo-header').show()
+  $('#page-api').show()
+  $('#todo-page').show()
+  $('#todo-list').show()
   $('#create-todo').hide()
   $('#edit-todo').hide()
   fetchDataTodoList()
@@ -129,16 +140,18 @@ function showMainPage(){
   zomato()
 }
 function showEditPage(data){
-  $('.navbar').show()
-  $('#btn-nav-login').hide()
-  $('#btn-nav-regist').hide()
+  $('.navbar').hide()
   $('#login-page').hide()
   $('#regist-page').hide()
   $('#btn-logout').show()
+  $('#main-page').show()
+  $('#todo-header').hide()
   $('#create-todo').hide()
   $('#todo-list').hide()
   $('#edit-todo').show()
+  $('#edit-todo').empty()
   $('#edit-todo').append(`
+    <h1 class="text-center todo-header"> Edit Your Todo List</h1>
     <form id="form-edit-todo" onsubmit="updateData(${data.id})">
         <div class="form-group row">
           <label for="editTitle" class="col-sm-2 col-form-label">Title</label>
@@ -150,12 +163,6 @@ function showEditPage(data){
           <label for="editDescription" class="col-sm-2 col-form-label">Description</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="editDescription" value="${data.description}">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="editStatus" class="col-sm-2 col-form-label">Status</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="editStatus" value="${data.status}">
           </div>
         </div>
         <div class="form-group row">
@@ -179,7 +186,7 @@ function showCreateTodo(){
 function createTodo(){
   const title = $('#inputTitle').val()
   const description = $('#inputDescription').val()
-  const status = $('#inputStatus').val()
+  const status = 'not yet'
   const due_date = $('#inputDueDate').val()
   $.ajax({
     method: 'POST',
@@ -196,39 +203,62 @@ function createTodo(){
   })
     .done(response =>{
       showMainPage()
-      Swal.fire(
-        'Success !!!',
-        'Successfully create todo !!!',
-        'success'
-      )
+      swal({
+        title: 'Success !!!',
+        text: 'Successfully created your todo',
+        icon: 'success'
+      })
     })
     .fail(err =>{
       console.log(err)
-      let messageError = err.responseJSON.messages.map(e => e.message).join('<br>')
-      Swal.fire(
-        'Error!!!',
-        messageError,
-        'error'
-      )
+      let messageError = err.responseJSON.messages.map(e => e.message).join(', ')
+      swal({
+        title: 'Error !!!',
+        text: messageError,
+        icon: 'error'
+      })
     })
     .always(_ => {
       $('#inputTitle').val("")
       $('#inputDescription').val("")
-      $('#inputStatus').val("")
       $('#inputDueDate').val("")
       $('#form-create-todo').trigger('reset')
     })
 }
 function deleteData(id){
-  $.ajax({
-    method: 'DELETE',
-    url: `http://localhost:3000/todos/${id}`,
-    headers:{
-      access_token: localStorage.getItem('access_token')
-    }
+  swal({
+    title: 'Delete ?',
+    text: 'Once deleted, you will not be able to recover this todo !',
+    icon: 'warning',
+    buttons: true,
+    dangerMode: true
   })
-    .done(response => fetchDataTodoList())
-    .fail(xhr => console.log(xhr))
+    .then((willDelete)=>{
+      if(willDelete){
+        $.ajax({
+          method: 'DELETE',
+          url: `http://localhost:3000/todos/${id}`,
+          headers:{
+            access_token: localStorage.getItem('access_token')
+          }
+        })
+          .done(response => {
+            fetchDataTodoList()
+            swal({
+              title: 'Deleted',
+              text: 'Successfully deleted your todo',
+              icon: 'success'
+            })
+            // Swal.fire(
+            //   "Deleted",
+            //   `Successfully deleted your todo`,
+            //   'success'              
+            // )
+          })
+          .fail(xhr => console.log(xhr))
+      } else swal("Well... okay...")
+    })
+
 }
 function editData(id){
   $.ajax({
@@ -246,9 +276,8 @@ function editData(id){
 function updateData(id){
   const title = $('#editTitle').val()
   const description = $('#editDescription').val()
-  const status = $('#editStatus').val()
+  const status = 'not yet'
   const due_date = $('#editDueDate').val()
-  // console.log(title, description, status, due_date, id, "<<< hasil update");
   $.ajax({
     method: 'PUT',
     url: `http://localhost:3000/todos/${id}`,
@@ -264,21 +293,21 @@ function updateData(id){
   })
     .done(response =>{
       showMainPage()
-      Swal.fire(
-        'Success !!!',
-        'Todo successfully editing !!!',
-        'success'
-      )
+      swal({
+        title: 'Success !!!',
+        text: 'Successfully editing your todo',
+        icon: 'success'
+      })
     })
     .fail(err =>{
       console.log(err)
       console.log(err)
-      let messageError = err.responseJSON.messages.map(e => e.message).join('<br>')
-      Swal.fire(
-        'Error!!!',
-        messageError,
-        'error'
-      )
+      let messageError = err.responseJSON.messages.map(e => e.message).join(', ')
+      swal({
+        title: 'Error !!!',
+        text: messageError,
+        icon: 'error'
+      })
     })
     .always(_ => $('#edit-todo').trigger('reset'))
 }
