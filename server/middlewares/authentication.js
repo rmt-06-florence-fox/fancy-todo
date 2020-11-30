@@ -2,6 +2,7 @@ const {verifyToken} = require('../helpers/jwt')
 const {User} = require('../models')
 
 const authentication = async (req, res, next) => {
+  console.log('enter in authentication');
   const {access_token} = req.headers
   try {
     if (!access_token) {

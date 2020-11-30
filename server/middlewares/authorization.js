@@ -4,7 +4,6 @@ const authorization = async (req, res, next) => {
   const id = +req.params.id
   try {
     const todo = await Todo.findByPk(id)
-    console.log("🚀 ~ file: authorization.js ~ line 7 ~ authorization ~ todo", todo)
 
     if (!todo) {
       throw {msg: 'Todo not found', status: 404}

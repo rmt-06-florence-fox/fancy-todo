@@ -1,6 +1,5 @@
 'use strict';
 const {Model} = require('sequelize');
-const {dateValidate} = require('../helpers/validateDate')
 module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
     static associate(models) {
@@ -31,12 +30,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     due_date: {
       type: DataTypes.DATE,
-      dateValidate(currentDate) {
-        if (currentDate > new Date()) {
-          throw new Error ('Date must be greater than today')
-        }
-        console.log("🚀 ~ file: todo.js ~ line 47 ~ dateValidate ~ currentDate", currentDate)
-      }
     },
     UserId: DataTypes.INTEGER }, {
      sequelize,
