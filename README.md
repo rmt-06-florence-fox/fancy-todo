@@ -1,5 +1,7 @@
 # fancy-todo
 ----
+https://fancy-todo-yopikape.web.app/
+
 List of available endpoints:
 * POST /register
 * POST /login
