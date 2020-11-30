@@ -16,7 +16,7 @@
   "production": {
     "username": "lnvzjuqziphuqu",
     "password": "de58e518f507f1b78e535f8a52c9a6a89a69df5d69ae611958fe5eac99cb224e",
-    "database": "database_production",
+    "database": "ddf7tgsj3sgckv",
     "host": "ec2-34-200-106-49.compute-1.amazonaws.com",
     "dialect": "postgres"
   }
