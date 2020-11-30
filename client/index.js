@@ -29,7 +29,7 @@ const login=()=>{
     localStorage.setItem('access_token', response.access_token)
     localStorage.setItem('name', response.name)
     localStorage.setItem('email', response.email)
-    $("#user-name").text(localStorage.getItem(name))
+    $("#user-name").text(localStorage.getItem("name"))
     $("#user-email").text(localStorage.getItem("email"))
     showMainPage()
   })
