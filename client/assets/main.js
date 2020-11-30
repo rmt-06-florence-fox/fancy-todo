@@ -16,8 +16,17 @@ $(document).ready(function(){
         login()
     })
 
+    $("#register-form").on("submit", function (e) {
+        e.preventDefault()
+        register()
+    })
+
+    $("#register").on("click", function (e) {
+        showRegisterPage()
+    })
+
     $("#btn-logout").on("click", function () {
         logout()
     })
-
+    
 });

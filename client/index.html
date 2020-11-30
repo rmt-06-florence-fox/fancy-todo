@@ -13,7 +13,7 @@
   <script src="https://use.fontawesome.com/c4ffff370a.js"></script>
     <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Fancy Todo</a>
+        <a class="navbar-brand" href="#">PranoTodo</a>
         
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -43,11 +43,38 @@
             <input type="password" class="form-control" id="password-input">
           </div>
          
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary">Login</button>
       </form>
-      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      <p>Don't have an account?'</p>
+      <div class="g-signin2" data-onsuccess="onSignIn"></div><br> <p>or <div id="register" style="color: blue">Sign up</div> for a new account</p>
     </div>
 
+    
+    
+    <!-- FORM UPDATE -->
+    <div id="updateTodo-page">
+      
+    </div>
+    <!-- FORM REGISTER -->
+    <div id="register-page">
+      <form class="mb-5" id="register-form">
+          <div class="form-group">
+            <label for="email-input2">Email address</label>
+            <input type="email" class="form-control" id="email-input2" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="password-input2">Password</label>
+            <input type="password" class="form-control" id="password-input2">
+          </div>
+         
+          <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </div>
+
+
+
+    
     </div>
 
 
@@ -92,7 +119,6 @@
                 </form>
             </div>
 
-            
 
             <!-- FORM LIST TODO -->
             <div id="todos-list">
@@ -125,7 +151,7 @@
                         <div class="scroll-area-sm">
                             <perfect-scrollbar class="ps-show-limits">
                                 <div style="position: static;" class="ps ps--active-y" id="todo-list-done">
-                                    
+                                     
                                 </div>
                             </perfect-scrollbar>
                         </div>

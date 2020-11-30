@@ -11,6 +11,10 @@ body {
     /* background-color: rgb(255, 255, 255); */
 }
 
+#register {
+    cursor: pointer;
+}
+
 label {
     color: #fff;
 }
@@ -167,6 +171,13 @@ i {
     border-color: #3f6ad8
 }
 
+.widget-content-left {
+    cursor: pointer;
+}
+
+.widget-content-left:hover {
+    background-color: lightblue;
+}
 .btn {
     position: relative;
     transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
@@ -183,6 +194,14 @@ i {
     align-items: center;
     /* background-color: red; */
     /* height: 800px; */
+}
+
+#updateTodo-page {
+    margin: 200px auto;
+}
+
+#register-page {
+    margin: 200px auto;   
 }
 
 #login-page {
