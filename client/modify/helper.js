@@ -35,7 +35,7 @@ function register(){
     const password = $('#password-register').val()
     console.log(name, email, password);
     $.ajax({
-            url: "http://localhost:3000/register",
+            url: "https://todo-fancys.herokuapp.com/register",
             method: "POST",
             data: {
                 name,
@@ -61,7 +61,7 @@ function login() {
     const email = $('#email-login').val()
     const password = $('#password-login').val()
     $.ajax({
-            url: "http://localhost:3000/login",
+            url: "https://todo-fancys.herokuapp.com/login",
             method: "POST",
             data: {
                 email,
@@ -97,7 +97,7 @@ function logout(){
 
 function fetchNews(){
     $.ajax({
-        url: 'http://localhost:3000/todos/news',
+        url: 'https://todo-fancys.herokuapp.com/todos/news',
         method: 'GET',
         headers: {
             access_token: localStorage.getItem('access_token')
@@ -127,7 +127,7 @@ function fetchNews(){
 function fetchTodos() {
     $('#table-todo').empty()
     $.ajax({
-            url: 'http://localhost:3000/todos',
+            url: 'https://todo-fancys.herokuapp.com/todos',
             method: 'GET',
             headers: {
                 access_token: localStorage.getItem('access_token')
@@ -172,7 +172,7 @@ function createTodo(){
     const due_date = $('#due_date').val()
     console.log(title, '>>>');
     $.ajax({
-        url: 'http://localhost:3000/todos',
+        url: 'https://todo-fancys.herokuapp.com/todos',
         method: 'POST',
         headers: {
             access_token: localStorage.getItem('access_token')
@@ -195,7 +195,7 @@ function createTodo(){
 function deleteTodo(id){
     console.log(id);
     $.ajax({
-        url: 'http://localhost:3000/todos/' + id,
+        url: 'https://todo-fancys.herokuapp.com/todos/' + id,
         method: 'DELETE',
         headers: {
             access_token: localStorage.getItem('access_token')
@@ -233,7 +233,7 @@ function updateTodo(){
     const due_date = $('#change-due_date').val()
     console.log(title, description, status, due_date , '>>>');
     $.ajax({
-        url: 'http://localhost:3000/todos/' + localStorage.getItem('todos_id'),
+        url: 'https://todo-fancys.herokuapp.com/todos/' + localStorage.getItem('todos_id'),
         method: 'PUT',
         headers: {
             access_token: localStorage.getItem('access_token')
@@ -255,7 +255,7 @@ function updateTodo(){
 function onSignIn(googleUser) {
     const googleToken = googleUser.getAuthResponse().id_token;
     $.ajax({
-        url: 'http://localhost:3000/login/google',
+        url: 'https://todo-fancys.herokuapp.com/login/google',
         method: 'POST',
         data: {
             googleToken
