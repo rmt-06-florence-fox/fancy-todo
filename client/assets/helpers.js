@@ -29,7 +29,7 @@ function signup(){
     $("#editTodo").hide()
 }
 
-function mainhome(){
+function basehome(){
     $("#signin").hide()
     $("#signup").hide()
     $("#home").hide()
@@ -37,6 +37,15 @@ function mainhome(){
     $("#mainhome").show()
     showlist()
     weather()
+}
+
+function mainhome(){
+    $("#signin").hide()
+    $("#signup").hide()
+    $("#home").hide()
+    $("#editTodo").hide()
+    $("#mainhome").show()
+    showlist()
 }
 
 //process
@@ -287,7 +296,7 @@ function onSignIn(googleUser) {
     
 //API
 function weather(){
-    $("#card-col").empty()
+    $("#card-col").remove()
     $.ajax({
         url : port + "weather",
         method : "get"

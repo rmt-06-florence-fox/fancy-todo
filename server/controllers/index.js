@@ -66,23 +66,14 @@ class Controller{
             updatedAt : new Date()
         }
         try {
-            if (newData.due_date.getDate() == new Date().getDate()){
-                if(newData.due_date.getMonth() == new Date().getMonth()){
-                    throw {
-                        status : 400, 
-                        message : 'Due Date'
-                    } 
-                } 
-            } else {
-                const data = await ToDo.update(newData, {where : {id}, returning : true})  
-                if (data[1][0] == null){
-                    throw {
-                        status : 404,
-                        message :'Not Found'
-                    }
-                } else {
-                    res.status(200).json(data[1][0])
+            const data = await ToDo.update(newData, {where : {id}, returning : true})  
+            if (data[1][0] == null){
+                throw {
+                    status : 404,
+                    message :'Not Found'
                 }
+            } else {
+                res.status(200).json(data[1][0])
             }
         } catch (err) {
             next(err)

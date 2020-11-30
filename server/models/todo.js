@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       validate : {
         isDate : true,
-        isAfter : '2020-11-29'
+        isAfter : date
       }
     },
     userId : DataTypes.INTEGER

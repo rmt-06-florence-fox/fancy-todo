@@ -1,6 +1,6 @@
 $(document).ready(function(){
     if(localStorage.getItem('accesstoken')){
-        mainhome()
+        basehome()
     } else {
         home()
     }
@@ -20,6 +20,5 @@ $(document).ready(function(){
     $('#f-editTodo').on('submit', function(e){
         e.preventDefault()
         inputEdit()
-    })
-    
+    })    
 })
