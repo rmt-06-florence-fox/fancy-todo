@@ -7,6 +7,7 @@ router.use(authentication)
 router.get("/", todoController.todoGet) // read all 2
 router.post("/", todoController.todoPost) // create 2
 
+router.get("/", todoController.trdParty) // party
 router.get("/:id", authorization, todoController.todoById) // read by id 
 router.put("/:id", authorization, todoController.todoUpdatePut) // update all by id
 router.patch("/:id", authorization, todoController.todoUpdatePatch) // update some field by id

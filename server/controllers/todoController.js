@@ -1,4 +1,5 @@
 const { Todo } = require("../models")
+const axios = require('axios')
 
 class todoController {
     static async todoPost(req, res, next) { //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< static
@@ -67,6 +68,8 @@ class todoController {
         } catch (error) {
             next(err)
         }
+    }
+    static trdParty(req, res) {
     }
 }
 
