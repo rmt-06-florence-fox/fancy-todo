@@ -1,0 +1,24 @@
+body {
+    background-color: lavender
+}
+
+#btn-logout {
+    position: relative;
+    float: right;
+}
+
+#login-header {
+    text-align: center;
+}
+
+#list-title {
+    text-align: center;
+}
+
+#create-title {
+    text-align: center;
+}
+
+#holiday-title {
+    text-align: center;
+}
