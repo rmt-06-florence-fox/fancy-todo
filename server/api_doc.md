@@ -1,4 +1,4 @@
-# Recipe List Documentation
+# Fancy Todo Documentation
 
 Fancy Todo is an application to manage your task with third API integration that shows weather and quotes.
 This app has : 
