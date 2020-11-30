@@ -9,16 +9,16 @@
     <meta name="google-signin-client_id" content="545344196508-bb4sd2s0aeo1f6ivigm1ekcqg5eeiujg.apps.googleusercontent.com">
   </head>
 
-<body>
+<body style="background-color:aliceblue;">
 
 
 <!-- login -->
-  <div id="login-page">
+  <div id="login-page" >
     <form id="login-form">
       <section id="landing" class="container">
        
-        <div class="row justify-content-center mt-5">
-            <div class="col-4">
+        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;"  >
+          <div class="p-5 bg-light shadow" style="width: auto; height: auto; border-radius: 10px; background-color: yellow;">
                 <form onsubmit="login(event)">
                     <div class="form-group">
                         <label for="email">Email</label>
@@ -31,7 +31,6 @@
                     <button type="submit " class="btn btn-primary">Login</button>
                 </form>
                 <button id= "btn-register" class="btn btn-danger">register</button> <br> <br>
-                
                 <div class="g-signin2" data-onsuccess="onSignIn"></div>
             </div>
         </div>
@@ -42,7 +41,7 @@
   
   <!-- register -->
 
-    <form id="register-form">
+    <form id="register-form"  >
       <section id="landing" class="container">
         <div class="row justify-content-center mt-5">
             <div class="col-4">
@@ -90,10 +89,6 @@
           <div class="form-group">
             <label for="description">Description</label>
             <input type="text" id="add-description" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="status">Status</label>
-            <input type="text" id="add-status" class="form-control">
           </div>
           <div class="form-group">
             <label for="due_date">Due date</label>
@@ -299,7 +294,6 @@
 
      let title = $('#add-title').val();
       let description = $('#add-description').val();
-      let status = $('#add-status').val();
       let due_date = $('#add-due_date').val();
 
       $.ajax({
@@ -311,7 +305,6 @@
         data:{
           title,
           description,
-          status,
           due_date
         }
       })
@@ -325,7 +318,6 @@
       .always(_=>{
         $('#add-title').val("");
         $('#add-description').val("");
-        $('#add-status').val("");
         $('#add-due_date').val("");
       })
     }
