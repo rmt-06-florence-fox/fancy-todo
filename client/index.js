@@ -184,7 +184,7 @@ function showUpdateTodo(id) {
         if (response.status) {
             $("#form-update").append(`
                 <p style="color: #63F1FF">update todo</p>
-                <form id="fm-update" onsubmit="updateTodo(event,${response.id})">
+                <form id="fm-update" onsubmit="updateTodo(event, ${response.id})">
                     <div class="form-group">
                         <label for="email">Title</label>
                         <input type="text" class="form-control form-control-sm" id="update-title" name="title" value="${response.title}">
