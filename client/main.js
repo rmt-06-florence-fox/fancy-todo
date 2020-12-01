@@ -111,9 +111,9 @@ function createTodo() {
 	const description = $('#description_input').val();
 	const status = $('#status_input').val();
 	const due_date = $('#due_date_input').val();
-	// console.log(title, description, status, due_date);
+	console.log(title, description, status, due_date);
 	$.ajax({
-		url: 'https://fancy-todo-app-amp.herokuapp.com/todos/',
+		url: 'https://fancy-todo-app-amp.herokuapp.com/todos',
 		method: 'POST',
 		headers: {
 			access_token: localStorage.getItem('access_token'),
@@ -159,7 +159,7 @@ function deleteTodo(id) {
 
 function fetchTodo() {
 	$.ajax({
-		url: 'https://fancy-todo-app-amp.herokuapp.com/todos/',
+		url: 'https://fancy-todo-app-amp.herokuapp.com/todos',
 		method: 'GET',
 		headers: {
 			access_token: localStorage.getItem('access_token'),

@@ -52,10 +52,6 @@ module.exports = (sequelize, DataTypes) => {
 						args: true,
 						msg: 'Due Date Cannot be Empty',
 					},
-					isAfter: {
-						args: true,
-						msg: 'Due Date Must Grather Than Today',
-					},
 				},
 			},
 			UserId: DataTypes.INTEGER,
