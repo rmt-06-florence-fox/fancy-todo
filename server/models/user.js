@@ -23,16 +23,25 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       validate: {
+        notEmpty: {
+          msg: "Email can't be empty"
+        },
         isEmail: {
           msg: "Email must be unique"
         }
       }
     },
-    password: DataTypes.STRING
+    password: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: "Password can't be empty"
+        }
+      }
+    }
   }, {
     hooks: {
       beforeCreate: (user, opt) => {
-        // const salt = bcrypt.genSaltSync(8)
         user.password = hashPass(user.password)
       }
     },

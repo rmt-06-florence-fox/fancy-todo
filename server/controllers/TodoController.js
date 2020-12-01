@@ -4,10 +4,6 @@ const axios = require("axios")
 class TodoController {
 
     static postTodo(req, res, next) {
-        // console.log("success")
-        // console.log(req.body)
-        // console.log(req.logInUser)
-        // res.status(201).json({message: "masuk create"})
         const payload = {
             title: req.body.title,
             description: req.body.description,
@@ -21,9 +17,6 @@ class TodoController {
                 res.status(201).json(data)
             })
             .catch(err => {
-                // if (err.name === "SequelizeValidationError") {
-                //     res.status(400).json({msg: err.errors[0].message})
-                // }
                 next(err)
             })
     }
@@ -32,18 +25,15 @@ class TodoController {
         
         Todo.findAll({where: {UserId: req.logInUser.id}})
             .then(data => {
-                // res.send(data)
                 if (data.length === 0) {
-                    throw {
-                        status: 404,
-                        msg: "DataNotFound"
-                    }
+                    next({
+                        name: "DataNotFound"
+                    })
                 } else {
                     res.status(200).json(data)
                 }
             })
             .catch(err => {
-                // res.send(err)
                 next(err)
             })
     }
@@ -56,10 +46,9 @@ class TodoController {
                 if (data) {
                     res.status(200).json(data)
                 } else {
-                    throw {
-                        status: 404,
-                        msg: "DataNotFound"
-                    }
+                    next({
+                        name: "DataNotFound"
+                    })
                 }
             })
             .catch(err => {
@@ -85,10 +74,9 @@ class TodoController {
         )
             .then(data => {
                 if (!data[1][0]) {
-                    throw {
-                        status: 404,
-                        msg: "DataNotFound"
-                    }
+                    next({
+                        name: "DataNotFound"
+                    })
                 } else {
                     res.status(200).json(data[1][0])
                 }
@@ -110,10 +98,9 @@ class TodoController {
             .then(data => {
                 // console.log(data)
                 if (!data[1][0]) {
-                    throw {
-                        status: 404,
-                        msg: "DataNotFound"
-                    }
+                    next({
+                        name: "DataNotFound"
+                    })
                 } else {
                     res.status(200).json(data[1][0])
                 }
@@ -123,7 +110,7 @@ class TodoController {
             })
     }
 
-    static async deleteTodoById(req, res) {
+    static async deleteTodoById(req, res, next) {
         const id = req.params.id
 
         const payload = {
@@ -142,10 +129,9 @@ class TodoController {
             .then(data => {
                 console.log(data)
                 if (!data) {
-                    throw {
-                        status: 404,
-                        msg: "DataNotFound"
-                    }
+                    next({
+                        name: "DataNotFound"
+                    })
                 } else {
                     res.status(200).json({msg: "todo success to delete"})
                 }
@@ -156,14 +142,16 @@ class TodoController {
     }
 
     static getHolidays(req, res, next) {
+        const month = new Date().toISOString().split("T")[0].split("-")[1]
+        const year = new Date().toISOString().split("T")[0].split("-")[0]
         axios({
             url: "https://calendarific.com/api/v2/holidays",
             method: "GET",
             params: {
                 api_key: process.env.CAL_SECRET,
                 country: "ID",
-                year: "2020",
-                month: "12"
+                year,
+                month
             }
         })
             .then(response   => {
@@ -171,7 +159,6 @@ class TodoController {
             })
             .catch(err => {
                 next(err)
-                console.log(err)
             })
     }
 }

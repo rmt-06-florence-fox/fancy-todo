@@ -19,7 +19,7 @@ class UserControllers {
                 })
             })
             .catch(err => {
-                console.log(err)
+                // console.log(err)
                 next(err)
             })
     }
@@ -27,22 +27,18 @@ class UserControllers {
     static signIn(req, res, next) {
         User.findOne({ where: { email: req.body.email }})
             .then(data => {
-                console.log(data)
                 if(!data) {
-                    // tidak boleh memberikan spesifik error
-                    throw {
-                        status: 404,
-                        msg: "DataNotFound"
-                    }
+                    next({
+                        name: "Invalid Account"
+                    })
                 } else {
                     const access_token = generateToken({id: data.id, email: data.email})
                     if (comparePass(req.body.password, data.password)) {
-                        res.status(200).json({access_token, data: req.body.password})                        
+                        res.status(200).json({access_token})                        
                     } else {
-                        throw {
-                            status: 401,
-                            msg: "InvalidAccount"
-                        }
+                        next({
+                            name: "Invalid Account"
+                        })
                     }
                 }
             })

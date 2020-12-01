@@ -63,66 +63,63 @@
                     </ul>
             </div>
         </div>
-        <div id="list-todo">
-            <h1 style="background-color: orange; text-align: center; border-radius: 10px;">TODO LIST</h1>
-            <div id="card-todo">
-                <!-- TODO LIST -->
-                
+        <div class="todo">
+            <div id="list-todo">
+                <!-- data -->
             </div>
-        </div>
-        <div>
-            <h1 style="background-color: orange; text-align: center; border-radius: 10px;">Todo Form</h1>
-            <div id="form">
-                <form id="todo-form">
-                    <h1>Add Todo</h1>
-                    <div class="form-group">
-                      <label for="title-input">Title</label>
-                      <input type="text" class="form-control" id="title-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="description-input">Description</label>
-                        <input type="text" class="form-control" id="description-input" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="status-input">Status</label> <br>
-                        <input type="radio" id="status-input" name="status-input" value="Do">
-                        <label for="status">Do</label>
-                        <input type="radio" id="status-input" name="status-input" value="Done">
-                        <label for="status">Done</label><br>
-                    </div>
-                    <div class="form-group">
-                        <label for="due_date-input">Due Date</label>
-                        <input type="date" class="form-control" id="due_date-input" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-
-
-                  <!-- UPDATE TODO -->
-                <form id="update-form">
-                    <h1>Edit Todo</h1>
-                    <div class="form-group">
-                        <input type="text" hidden id="id-update">
-                      <label for="title-input">Title</label>
-                      <input type="text" class="form-control" id="title-update" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="description-update">Description</label>
-                        <input type="text" class="form-control" id="description-update" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="status-update">Status</label> <br>
-                        <input type="radio" id="status-update" name="status" value="Do">
-                        <label for="status">Do</label>
-                        <input type="radio" id="status-update" name="status" value="Done">
-                        <label for="status">Done</label><br>
-                    </div>
-                    <div class="form-group">
-                        <label for="due_date-update">Due Date</label>
-                        <input type="date" class="form-control" id="due_date-update" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+            <div class="form-page">
+                <div id="form">
+                    <form id="todo-form">
+                        <h1>Add Todo</h1>
+                        <div class="form-group">
+                          <label for="title-input">Title</label>
+                          <input type="text" class="form-control" id="title-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description-input">Description</label>
+                            <input type="text" class="form-control" id="description-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="status-input">Status</label> <br>
+                            <input type="radio" id="status-input" name="status-input" value="Do">
+                            <label for="status">Do</label>
+                            <input type="radio" id="status-input" name="status-input" value="Done">
+                            <label for="status">Done</label><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="due_date-input">Due Date</label>
+                            <input type="date" class="form-control" id="due_date-input" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+    
+    
+                      <!-- UPDATE TODO -->
+                    <form id="update-form">
+                        <h1>Edit Todo</h1>
+                        <div class="form-group">
+                            <input type="text" hidden id="id-update">
+                          <label for="title-input">Title</label>
+                          <input type="text" class="form-control" id="title-update" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description-update">Description</label>
+                            <input type="text" class="form-control" id="description-update" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="status-update">Status</label> <br>
+                            <input type="radio" id="status-update" name="status" value="Do">
+                            <label for="status">Do</label>
+                            <input type="radio" id="status-update" name="status" value="Done">
+                            <label for="status">Done</label><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="due_date-update">Due Date</label>
+                            <input type="date" class="form-control" id="due_date-update" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -176,8 +173,8 @@
                     console.log(response)
                     showLoginPage()
                 })
-                .fail(xhr => {
-                    console.log(xhr)
+                .fail(err => {
+                    console.log(err.responseJSON.msg)
                 })
                 .always(() => {
                     $("#email-register").val("")
@@ -201,8 +198,8 @@
                     localStorage.setItem("access_token", response.access_token)
                     showMainPage()
                 })
-                .fail(xhr => {
-                    console.log(xhr)
+                .fail(err => {
+                    console.log(err.responseJSON.msg)
                 })
                 .always(() => {
                     $("#email").val("")
@@ -227,37 +224,19 @@
             })
                 .done(response => {
                     // console.log(response)
-                    $("#card-todo").empty()
+                    $("#list-todo").empty()
                     response.forEach(data => {
-                        $("#card-todo").append(`<div>
-                    <h1 style="text-align: center;">${data.title}</h1>
-                </div>
-                <div id="data">
-                    <div id="left">
-                        <p>Description</p>
-                    </div>
-                    <div style="margin-left: 30px;">
-                        <p>${data.description}</p>
-                    </div>
-                </div>
-                <div id="data">
-                    <div id="left">
-                        <p>Status</p>
-                    </div>
-                    <div style="margin-left: 30px;">
-                        <p>${data.status}</p>
-                    </div>
-                </div>
-                <div id="data">
-                    <div id="left">
-                        <p>Due Date</p>
-                    </div>
-                    <div style="margin-left: 30px;">
-                        <p>${data.due_date}</p>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-primary" onclick="getTodoById(${data.id})">Edit</button>
-                <button type="button" class="btn btn-danger" onclick="deleteTodo(${data.id})">Delete</button>`)
+                        $("#list-todo").append(`
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">${data.title}</h5>
+                                <p class="card-text">${data.description}</p>
+                                <p class="card-text">${data.status}</p>
+                                <p class="card-text">${data.due_date}</p>
+                                <button type="button" onClick="getTodoById(${data.id})" class="btn btn-primary">Edit</button>
+                                <button type="button" onClick="deleteTodo(${data.id})" class="btn btn-danger">Delete</button>
+                            </div>
+                        </div>`)
                     })
                 })
                 .fail(xhr => {
@@ -294,7 +273,7 @@
                 })
         }
         function deleteTodo(id) {
-            console.log(id)
+            // console.log(id)
             $.ajax({
                 method: "DELETE",
                 url: "http://localhost:3000/todos/" + id,
@@ -397,7 +376,6 @@
                 console.log(xhr)
             })
         }
-
         $(document).ready(() => {
             if (localStorage.getItem("access_token")) {
                 showMainPage()

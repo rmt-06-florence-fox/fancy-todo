@@ -10,50 +10,52 @@
 #nav-bar {
     display: flex;
     justify-content: space-between;
-    background-color: orange;
+    background-color: teal;
+    color: white;
+    font-size: 30px;
+
+}
+
+#holiday h1 {
+    text-align: center;
 }
 
 #main-page {
     display: flex;
-    justify-content: space-around;
+    background-color: rgb(233, 233, 233);
+}
+
+.todo {
     padding: 20px;
-    background-image: url(https://cdn.britannica.com/17/83817-050-67C814CD/Mount-Everest.jpg);
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
 }
 
 #API {
     padding: 10px;
-    background: rgb(9,186,157);
-    background: linear-gradient(164deg, rgba(9,186,157,1) 0%, rgba(24,62,48,1) 100%);border: 1px solid black;
-    flex-direction: column;
+    width: 20%;
 }
 
-#card-todo {
-    color: white;
-    width: 400px;
-    padding: 20px;
-    border-radius: 10px;
-    background: rgb(9,186,157);
-    background: linear-gradient(164deg, rgba(9,186,157,1) 0%, rgba(24,62,48,1) 100%);border: 1px solid black;
-}
-
-#form {
-    color: white;
-    background: rgb(9,186,157);
-    background: linear-gradient(164deg, rgba(9,186,157,1) 0%, rgba(24,62,48,1) 100%);border: 1px solid black;
+.form-page {
     border-radius: 10px;
     width: 350px;
-    padding: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0px 1px 7px grey;
 }
 
 #list-todo {
-    flex-direction: column;
-}
-
-#data {
+    width: 650px;
     display: flex;
-    /* justify-content: space-around; */
+    flex-wrap: wrap;
 }
 
-#left {
-    width: 100px;
+.card {
+    margin-left: 20px;
+    margin-top: 20px;
+    height: 250px;
+    border-radius: 10px;
+    box-shadow: 0px 1px 7px grey;
 }
