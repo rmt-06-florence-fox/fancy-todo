@@ -279,10 +279,13 @@ class Controller {
 
 
         req.end(function (result) {
-            if (result.error) throw new Error(result.error);
+            if (result.error) {
+                res.status(200).json('We are very sorry that this feature is currently unavailable due to limit')
+            } else {
+                res.status(200).json(result.body)
+                console.log(result.body);
+            }
 
-            res.status(200).json(result.body)
-            console.log(result.body);
         });
     }
 }

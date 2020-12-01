@@ -184,29 +184,49 @@ function fetchTodo() {
         let dataa = new Date().getFullYear() + '-' + Number(new Date().getMonth()+1) + '-' + Number(new Date().getDate()+1)
         response.forEach(todo => {
             // console.log(todo.due_date);
-            // let date = todo.due_date.split('T')[0]
-            console.log(date <= dataa);
+            let date = todo.due_date.split('T')[0].split('-')
             let condition = ''
-            
             let warning = ''
-            if (date <= new Date().getFullYear() + '-' + Number(new Date().getMonth()+1) + '-' + Number(new Date().getDate()+1)) {
-                warning = 'danger'
-                condition = 'badge badge-danger ml-2'
-                date = 'tomorrow'
-            } else if (date > new Date().getFullYear() + '-' + Number(new Date().getMonth()+1) + '-' + Number(new Date().getDate()+1) && date <= new Date().getFullYear() + '-' + Number(new Date().getMonth()+1) + '-' + Number(new Date().getDate()+3)) {
-                warning = 'warning'
-                condition = 'badge badge-warning ml-2'
-            } else if (date > new Date().getFullYear() + '-' + Number(new Date().getMonth()+1) + '-' + Number(new Date().getDate()+3)) {
-                warning = 'success'
-                condition = 'badge badge-success ml-2'
+            if (date[0] >= new Date().getFullYear()) {
+                if (date[1] == new Date().getMonth() + 1) {
+                    if (date[2] <= new Date().getDate() + 1) {
+                        warning = 'danger'
+                        condition = 'badge badge-danger ml-2'
+                        date = 'tomorrow'
+                    } else if (date[2] > new Date().getDate() + 1 && date[2] <= new Date().getDate()+3) {
+                        warning = 'warning'
+                        condition = 'badge badge-warning ml-2'
+                    } else if (date[2] > new Date().getDate() + 3) {
+                        warning = 'success'
+                        condition = 'badge badge-success ml-2'
+                    }
+                } else {
+                    warning = 'info'
+                    condition = 'badge badge-info ml-2'
+                }
             } else {
-                warning = 'info'
+                warning = 'danger'
+                condition = 'badge badge-info ml-2'
             }
 
+            // if (date <= new Date().getFullYear() + '-' + Number(new Date().getMonth()+1) + '-' + Number(new Date().getDate()+1)) {
+            //     warning = 'danger'
+            //     condition = 'badge badge-danger ml-2'
+            //     date = 'tomorrow'
+            // } else if (date > new Date().getFullYear() + '-' + Number(new Date().getMonth()+1) + '-' + Number(new Date().getDate()+1) && date <= new Date().getFullYear() + '-' + Number(new Date().getMonth()+1) + '-' + Number(new Date().getDate()+3)) {
+            //     warning = 'warning'
+            //     condition = 'badge badge-warning ml-2'
+            // } else if (date > new Date().getFullYear() + '-' + Number(new Date().getMonth()+1) + '-' + Number(new Date().getDate()+3)) {
+            //     warning = 'success'
+            //     condition = 'badge badge-success ml-2'
+            // } else {
+            //     warning = 'info'
+            // }
 
 
 
 
+            date = todo.due_date.split('T')[0]
             let button_checklist = `<button class="border-0 btn-transition btn btn-outline-success" onclick="updateStatus(${todo.id})"> <i class="fa fa-check"></i></button>`
             let status = `Due date: ${date}`
             if(todo.status == 'done') {
@@ -391,14 +411,22 @@ function onSignIn(googleUser) {
         url: "http://localhost:3333/weather",
     })
         .done(response => {
+            // console.log(response.length);
             // console.log(response.main.temp);
-            const suhu = (Math.round((response.main.temp - 274) * 100) / 100).toFixed(2);
-            $(".title").append(`<p>${response.name}</p>`)
-            $(".temp").append(`${suhu}<sup>&deg;</sup>C`)
+            if (response.length != 73) {
+                const suhu = (Math.round((response.main.temp - 274) * 100) / 100).toFixed(2);
+                $(".title").append(`<p>${response.name}</p>`)
+                $(".temp").append(`${suhu}<sup>&deg;</sup>C`)
+                
+            
+            } else {
+                $(".temp").append(`${response}`)
+            }
             
             
     })
     .fail((xhr, textStatus) => {
         console.log(xhr, textStatus);
+        console.log('okk');
     })
   }
