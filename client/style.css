@@ -1,0 +1,54 @@
+.div-text{
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 30px;
+
+}
+.check-box{
+    width: 50px;
+    margin: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.desc-card{
+    margin: auto;
+    text-align: left;
+    padding-left: 20px;
+}
+
+#myCheck{
+    width: 20px;
+    height: 20px;
+}
+#cuaca-container{
+    /* background-color: #6495ed; */
+    justify-content: center;
+    margin: auto;
+}
+#logout-btn{
+    float: right;
+}
+#edit-form{
+    /* border: black 2px solid; */
+    /* background-color: blue; */
+    justify-content: center;
+    margin: auto;
+}
+#add-new-todo-btn{
+    width: 100%;
+}
+.edit-form-class{
+    /* border: blue 2px solid; */
+    margin: auto;
+    width: 500px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.add-form-class{
+    /* border: blue 2px solid; */
+    margin: auto;
+    width: 500px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
