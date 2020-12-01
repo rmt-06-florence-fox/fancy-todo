@@ -22,7 +22,7 @@ function register() {
     
     $.ajax({
         method: "POST",
-        url: "http://localhost:3333/register",
+        url: "https://fancy-todo-297000.firebaseapp.com/register",
         data: { email, password },
     })
         .done(response => {
@@ -53,7 +53,7 @@ function showUpdatePage(id) {
     $("#updateTodo-page").empty()
     $.ajax({
         method: "GET",
-        url: "http://localhost:3333/todos/" + id,
+        url: "https://fancy-todo-297000.firebaseapp.com/todos/" + id,
         headers: {
             access_token: localStorage.getItem("access_token")
         }
@@ -119,7 +119,7 @@ function updateTodo(id) {
     const due_date = $("#duedate-input2").val()
     $.ajax({
         method: "PUT",
-        url: "http://localhost:3333/todos/" + id,
+        url: "https://fancy-todo-297000.firebaseapp.com/todos/" + id,
         headers: {
             access_token: localStorage.getItem("access_token")
         }, 
@@ -143,7 +143,7 @@ function login() {
     
     $.ajax({
         method: "POST",
-        url: "http://localhost:3333/login",
+        url: "https://fancy-todo-297000.firebaseapp.com/login",
         data: { email, password },
     })
         .done(response => {
@@ -171,7 +171,7 @@ function logout() {
 function fetchTodo() {
     $.ajax({
         method: "GET",
-        url: "http://localhost:3333/todos",
+        url: "https://fancy-todo-297000.firebaseapp.com/todos",
         headers: {
             access_token: localStorage.getItem("access_token")
         }
@@ -326,7 +326,7 @@ function createTodo() {
     const due_date = $("#duedate-input").val()
     $.ajax({
         method: "POST",
-        url: "http://localhost:3333/todos",
+        url: "https://fancy-todo-297000.firebaseapp.com/todos",
         headers: {
             access_token: localStorage.getItem("access_token")
         },
@@ -351,7 +351,7 @@ function createTodo() {
 function deleteTodo(id) {
     $.ajax({
         method: "DELETE",
-        url: "http://localhost:3333/todos/" + id,
+        url: "https://fancy-todo-297000.firebaseapp.com/todos/" + id,
         headers: {
             access_token: localStorage.getItem("access_token")
         }
@@ -367,7 +367,7 @@ function deleteTodo(id) {
 function updateStatus(id) {
     $.ajax({
         method: "PATCH",
-        url: "http://localhost:3333/todos/" + id,
+        url: "https://fancy-todo-297000.firebaseapp.com/todos/" + id,
         headers: {
             access_token: localStorage.getItem("access_token")
         }, 
@@ -388,7 +388,7 @@ function onSignIn(googleUser) {
     const googleToken = googleUser.getAuthResponse().id_token;
     $.ajax({
         method: "POST",
-        url: "http://localhost:3333/googleLogin",
+        url: "https://fancy-todo-297000.firebaseapp.com/googleLogin",
         data: { googleToken },
     })
         .done(response => {
@@ -408,10 +408,11 @@ function onSignIn(googleUser) {
 
     $.ajax({
         method: "GET",
-        url: "http://localhost:3333/weather",
+        url: "https://fancy-todo-297000.firebaseapp.com/weather",
     })
         .done(response => {
-            // console.log(response.length);
+            console.log(response);
+            console.log(response.length);
             // console.log(response.main.temp);
             if (response.length != 73) {
                 const suhu = (Math.round((response.main.temp - 274) * 100) / 100).toFixed(2);
