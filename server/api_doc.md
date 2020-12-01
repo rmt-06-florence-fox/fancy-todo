@@ -28,7 +28,7 @@ _Request Body_
 _Response (200 - OK)_
 ```
 {
-  "access_token": "<your access token>"
+  "access_token": "<your access token>",
   "fullName": "<your full name>"
 }
 ```
@@ -106,7 +106,7 @@ _Request Body_
 ```
 {
   "title": "<title to get insert into>",
-  "description": "<description to get insert into>"
+  "description": "<description to get insert into>",
   "due_date": "<due_date to get insert into>",
 }
 ```
@@ -245,7 +245,7 @@ _Request Body_
 ```
 {
   "title": "<todo previous title>",
-  "description": "<todo previous description>"
+  "description": "<todo previous description>",
   "due_date": "<todo previous due_date>",
 }
 ```
