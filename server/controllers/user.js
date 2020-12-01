@@ -56,7 +56,7 @@ class UserController {
    let payload
        client.verifyIdToken({
         idToken: req.body.googleToken,
-        audience: "545344196508-bb4sd2s0aeo1f6ivigm1ekcqg5eeiujg.apps.googleusercontent.com",  // Specify the CLIENT_ID of the app that accesses the backend
+        audience: GOOGLE_PASSWORD,  // Specify the CLIENT_ID of the app that accesses the backend
             // Or, if multiple clients access the backend:
             //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
         })
