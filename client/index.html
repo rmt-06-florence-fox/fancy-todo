@@ -311,7 +311,7 @@
       })
       .done(response=>{
         console.log(response)
-        fetchData()
+        showMainPage()
       })
       .fail((xhr,textStatus)=>{
         console.log(xhr,textStatus);
@@ -468,7 +468,7 @@
        }
        $("#form-add").on("submit",function(e){
         e.preventDefault();
-       addTodo()
+      showMainPage()
   
        })
        $('#btn-register').on('click', (e) => {
