@@ -1,40 +1,42 @@
 module.exports = function (err, req, res, next) {
+	// ini base value untuk error-nya
     let message = 'internal server error'
-    let statusCode = 500
-    let errorCode = 'INTERNAL_SERVER_ERROR'
+	let statusCode = 500
+	let { errorDesc } = err
+	
+	console.log(err, errorDesc);
 
+	// ini buat cek kalo error-nya itu
+	// bukan error dari server
 	switch (errorDesc) {
 		case "SequelizeValidationError":
-			status = 400;
+			statusCode = 400;
 			message = err.errors.map(el => {
 				return el.message
 			}).join(", ");
             break;
             
 		case "InvalidEmailorPassword":
-			status = 400;
+			statusCode = 400;
 			message = "Email or Password is Invalid!";
             break;
             
 		case "AuthenticationFailed":
-			status = 401;
+			statusCode = 401;
 			message = "Authentication failed!"
             break;
             
 		case "Unauthorized":
-			status = 403;
+			statusCode = 403;
 			message = "Unauthorized action!"
             break;
             
 		case "NotFound":
-			status = 404;
+			statusCode = 404;
 			message = "Not found!"
             break;
-            
-		default:
-			status = 500;
-			message = "Internal Server Error!"
 	}
 
-    return res.status(statusCode).json({message, errorCode})
+	// baru nilai error-nya diterusin ke sini
+    return res.status(statusCode).json({message})
 }

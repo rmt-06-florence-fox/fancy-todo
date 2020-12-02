@@ -1,7 +1,7 @@
 const { User } = require('../models')
 const {comparePassword} = require('../helpers/bcrypt')
 const jwt = require('jsonwebtoken');
-const { generateToken } = require('../helpers/jwt');
+const { generateToken, verifyToken } = require('../helpers/jwt');
 const verifiyGoogle = require('../helpers/verifiyGoogleToken')
 
 class UserController {
@@ -13,9 +13,7 @@ class UserController {
         User.create(userObject)
             .then(data => {
                 if(!data || !data.email || !data.password) {
-                throw{
-                    errrorDesc : 'InvalidEmailorPassword'
-                }
+                throw new Error({ errrorDesc : 'InvalidEmailorPassword' })
             } else {
                 res.status(201).json({email: data.email, id: data.id})
             }
@@ -55,7 +53,7 @@ class UserController {
         const google_token = req.headers.google_token
 
         try {
-            const payload = await verifiyGoogle(google_token)
+            const payload = await verifyGoogle(google_token)
             const email = payload.email
             const user = await User.findOne({
                 where: {
@@ -64,9 +62,9 @@ class UserController {
             })
             const password = process.env.DEFAULT_GOOGLE_PASSWORD
             if(user) {
-                let check = bcrypt.compareSync(password, user.password)
+                let check = comparePassword(password, user.password)
                 if(check) {
-                    const token = jwt.sign({id: user.id, email: user.email, }, process.env.SECRET)
+                    const token = verifyToken({id: user.id, email: user.email, }, process.env.SECRET)
                     res.status(200).json({user, token})
                 } else {
                     
@@ -76,7 +74,7 @@ class UserController {
                     email,
                     password
                 })
-                const token = jwt.sign({id: newUser.id, email: newUser.email, }, process.env.SECRET)
+                const token = generateToken({id: newUser.id, email: newUser.email, }, process.env.SECRET)
                 res.status(200).json({token})
                 
             }

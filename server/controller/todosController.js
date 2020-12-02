@@ -1,30 +1,31 @@
 const { Todo } = require('../models')
 class TodoController {
     static async getTodos(req, res, next) {
-    try {
-        const data = await Todo.findAll({
-            where : {
-                UserId : req.loggedInUser.id
-            }
-        })
-        res.status(200).json({data})
-    } catch (error) {
-        next(err)
-        
-    }
+        try {
+            const data = await Todo.findAll({
+                where : {
+                    UserId : req.loggedInUser.id
+                }
+            })
+            console.log(data);
+            res.status(200).json({data})
+        } catch (err) {
+            next(err)
+        }
     }
 
     static createTodo (req, res, next) {
         const payload = {
             title : req.body.title,
             description : req.body.description,
-            due_date : req.body.due_date,
-            status : req.body.status,
-            loggedInUser : req.body.id
+            due_date : new Date(req.body.dueDate),
+            status : true,
+            UserId : req.loggedInUser.id
             
         }
+        console.log(payload);
 
-        Todo.create(todo)
+        Todo.create(payload)
             .then(todo => res.status(201).json(todo))
             .catch(err => next(err))
 
@@ -50,12 +51,14 @@ class TodoController {
             const payload = {
                 title: req.body.title,
                 description: req.body.description,
-                due_date: req.body.due_date
+                due_date: req.body.dueDate,
+                status: req.body.status
             }
             const data = await Todo.findByPk(id)
             if (!data) {
                 throw {
-                    errorDesc : NotFound
+                    // errorDesc : NotFound
+                    errorDesc : "NotFound"
                 }
             } else {
                 const todo = await Todo.update(payload, {
@@ -85,16 +88,10 @@ class TodoController {
                     },
                     returning : true,
                 })
-
                 res.status(500).json(200)
-
-            
-
-        } catch (error) {
-            next(error)
+        } catch (err) {
+            next(err)
         }
-
-        
     }
 
     static async deleteTodo(req, res, next) {
@@ -103,7 +100,7 @@ class TodoController {
             const data = await Todo.findByPk(id)
             if (!data) {
                 throw {
-                    errorDesc : NotFound
+                    errorDesc : "NotFound"
                 }
             } else {
                 await Todo.destroy({

@@ -19,8 +19,8 @@ class ThirdParty {
             res.status(200).json(prayerTime)
             
         })
-        .catch(error => {
-            next(error)
+        .catch(err => {
+            next(err)
         })
     }
 }
