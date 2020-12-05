@@ -76,7 +76,7 @@ class UserController{
             res.status(200).json({access_token})
         }
     } catch (error) {
-        next(error)
+      res.status(500).json(error)
     }
   }
 }
