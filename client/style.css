@@ -93,3 +93,7 @@ body {
 #card-holiday {
     margin-left: 900px;
 }
+
+#id {
+    visibility: hidden;
+}
