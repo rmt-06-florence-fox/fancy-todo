@@ -1,3 +1,5 @@
+const Swal = require('sweetalert2')
+
 function showFrontPage() {
     $('#login-form').show()
     $('#register-form').hide()
@@ -16,7 +18,7 @@ function login() {
     const password = $('#password-login').val()
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/login",
+        url: "https://fancy-efrizal-todo.herokuapp.com/login",
         data: { email, password }
     })
         .done(response => {
@@ -24,7 +26,10 @@ function login() {
             showMainPage()
         })
         .fail((xhr, textStatus) => {
-            console.log(xhr.responseJSON, textStatus)
+            Swal.fire('Login Failed',
+            `${xhr.responseJSON.message}`,
+            'error'
+            )                    
         })
         .always(_ => {
             $('#email-login').val('')
@@ -41,7 +46,7 @@ function showMainPage() {
     $('#btn-logout').show()
     $('#add-form').show()
     $('#content').show()
-    // fetchShollu()
+    fetchShollu()
     fetchTodos()
 }
 
@@ -54,10 +59,55 @@ function logout() {
     });
 }
 
+function register() {
+    const email = $('#email-register').val()
+    const password = $('#password-register').val()
+    $.ajax({
+        method: "POST",
+        url: "https://fancy-efrizal-todo.herokuapp.com/register",
+        data: { email, password }
+    })
+    .done(response => {
+        Swal.fire(
+            'Register Success',
+            'Account is registered!',
+            'success'
+        )
+    })
+    .fail(xhr => {
+        Swal.fire('Register Failed',
+            `${xhr.responseJSON[0].message}`,
+            'error'
+        )                    
+    })
+    .always(_ => {
+        $('#email-register').val('')
+        $('#password-register').val('')
+    })
+}
+
+function onSignIn(googleUser) {
+    const googleToken = googleUser.getAuthResponse().id_token;
+
+    $.ajax({
+        method: "POST",
+        url: "https://fancy-efrizal-todo.herokuapp.com/googleLogin",
+        data: { googleToken }
+    })
+    .done(response => {
+        localStorage.setItem('access_token', response.access_token)
+        showMainPage()
+    })
+    .fail(xhr => {
+        console.log(xhr)
+    })
+}
+
+
 function fetchTodos() {
         $.ajax({
             method: "GET",
-            url: "http://localhost:3000/todos",
+            url: "https://fancy-efrizal-todo.herokuapp.com/todos",
             headers: {
                 access_token: localStorage.getItem('access_token')
             }
@@ -87,47 +137,48 @@ function fetchTodos() {
             })
 }
 
-// function fetchShollu() {
-//     $.ajax({
-//         method: "GET",
-//         url: "http://localhost:3000/shollu",
-//         headers: {
-//             access_token: localStorage.getItem('access_token')
-//         }
-//     })
-//         .done(response => {
-//             console.log(response)
-//             // $('#shollu').empty()      
-//             //     $('#shollu').append(`
-//             //     <table class="table">
-//             //         <thead class="thead-dark">
-//             //           <tr>
-//             //             <th scope="col">#</th>
-//             //             <th scope="col">First</th>
-//             //             <th scope="col">Last</th>
-//             //             <th scope="col">Handle</th>
-//             //           </tr>
-//             //         </thead>
-//             //         <tbody>
-//             //           <tr>
-//             //             <th scope="row">1</th>
-//             //             <td>Mark</td>
-//             //             <td>Otto</td>
-//             //             <td>@mdo</td>
-//             //           </tr>
-//             //           <tr>
-//             //             <th scope="row">2</th>
-//             //             <td>Jacob</td>
-//             //             <td>Thornton</td>
-//             //             <td>@fat</td>
-//             //           </tr>
-//             //         </tbody>
-//             //       </table>`)                  
-//         })
-//         .fail(xhr => {
-//             console.log(xhr)
-//         })
-// }
+function fetchShollu() {
+    $('#shollu').empty()
+    $.ajax({
+        method: "GET",
+        url: "https://fancy-efrizal-todo.herokuapp.com/shollu",
+        headers: {
+            access_token: localStorage.getItem('access_token')
+        }
+    })
+        .done(data => {
+            $('#shollu').append(`
+            <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Subuh</th>
+                <th scope="col">Dzuhur</th>
+                <th scope="col">Ashar</th>
+                <th scope="col">Maghrib</th>
+                <th scope="col">Isya</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th >${data.subuh}</th>
+                <td>${data.dzuhur}</td>
+                <td>${data.ashar}</td>
+                <td>${data.maghrib}</td>
+                <td>${data.isya}</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="text-center"><strong>Jadwal Sholat ${data.jadwal}</strong></th>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <hr><hr>
+            `)
+        })
+        .fail(xhr => {
+            console.log(xhr)
+        })
+}
 
 function createTodos() {
     const title = $('#title-add').val()
@@ -136,39 +187,58 @@ function createTodos() {
     const due_date = $('#due_date-add').val()
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/todos",
+        url: "https://fancy-efrizal-todo.herokuapp.com/todos",
         headers: {
             access_token: localStorage.getItem('access_token')
         },
         data: { title, description, status, due_date }
     })
         .done(response => {
+            Swal.fire(
+                'Done',
+                'Todo Added!',
+                'success'
+            )
             fetchTodos()
-            // fetchShollu()
+            fetchShollu()
         })
         .fail(xhr => {
-            console.log(xhr)
+            Swal.fire('Register Failed',
+                `${xhr.responseJSON[0].message}`,
+                'error'
+            )                    
         })
         .always(_ => {
-            $('#add-form').trigger('reset')
+            $('#title-add').val('')
+            $('#description-add').val('')
+            $('#status-add').val('')
+            $('#due_date-add').val('')
         })
 }
 
 function deleteTodos(id) {
     $.ajax({
         method: "DELETE",
-        url: "http://localhost:3000/todos/" + id,
+        url: "https://fancy-efrizal-todo.herokuapp.com/todos/" + id,
         headers: {
             access_token: localStorage.getItem('access_token')
         }
     })
         .done(response => {
+            Swal.fire(
+                'Done',
+                'Todo deleted!',
+                'success'
+            )
             fetchTodos()
-            // fetchShollu()
+            fetchShollu()
         })
         .fail(xhr => {
-            console.log(xhr)
-        })
+            Swal.fire('Failed',
+            `Fail to delete data`,
+            'error'
+        )
+    })
 }
 
 function getOneTodos(id) {
@@ -179,7 +249,7 @@ function getOneTodos(id) {
     $('#update-form').empty()
     $.ajax({
         method: "GET",
-        url: "http://localhost:3000/todos/" + id,
+        url: "https://fancy-efrizal-todo.herokuapp.com/todos/" + id,
         headers: {
             access_token: localStorage.getItem('access_token')
         }
@@ -224,57 +294,31 @@ function updateTodos(id) {
     const updatedAt = (new Date).toISOString()
     $.ajax({
         method: "PUT",
-        url: "http://localhost:3000/todos/" + id,
+        url: "https://fancy-efrizal-todo.herokuapp.com/todos/" + id,
         headers: {
             access_token: localStorage.getItem('access_token')
         },
         data: { title, description, status, due_date, updatedAt }
     })
         .done(response => {
+            Swal.fire(
+                'Done',
+                'Todo Updated!',
+                'success'
+            )
             showMainPage()
         })
         .fail(xhr => {
-            console.log(xhr.responseJSON)
+            Swal.fire('Failed',
+                `${xhr.responseJSON[0].message}`,
+                'error'
+            )
         })
         .always(_ => {
-            $('#add-form').trigger('reset')
+            $('#title-update').val('')
+            $('#description-update').val('')
+            $('#status-update').val('')
+            $('#due_date-update').val('')
         })
 }
 
-function register() {
-    const email = $('#email-register').val()
-    const password = $('#password-register').val()
-    $.ajax({
-        method: "POST",
-        url: "http://localhost:3000/register",
-        data: { email, password }
-    })
-        .done(response => {
-            alert('register succes')
-        })
-        .fail(xhr => {
-            console.log(xhr)
-        })
-        .always(_ => {
-            $('#email-register').val('')
-            $('#password-register').val('')
-        })
-
-}
-
-function onSignIn(googleUser) {
-    const googleToken = googleUser.getAuthResponse().id_token;
-
-    $.ajax({
-        method: "POST",
-        url: "http://localhost:3000/googleLogin",
-        data: { googleToken }
-    })
-    .done(response => {
-        localStorage.setItem('access_token', response.access_token)
-        showMainPage()
-    })
-    .fail(xhr => {
-        console.log(xhr)
-    })
-}
