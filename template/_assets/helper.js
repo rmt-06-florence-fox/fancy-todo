@@ -22,6 +22,8 @@ function login() {
         .done(response => {
             localStorage.setItem('access_token', response.access_token)
             showMainPage()
+            fetchTodos()
+            fetchShollu()
         })
         .fail((xhr, textStatus) => {
             Swal.fire('Login Failed',
@@ -44,8 +46,6 @@ function showMainPage() {
     $('#btn-logout').show()
     $('#add-form').show()
     $('#content').show()
-    fetchShollu()
-    fetchTodos()
 }
 
 function logout() {
@@ -95,6 +95,8 @@ function onSignIn(googleUser) {
     .done(response => {
         localStorage.setItem('access_token', response.access_token)
         showMainPage()
+        fetchTodos()
+        fetchShollu()
     })
     .fail(xhr => {
         console.log(xhr)
@@ -158,7 +160,7 @@ function fetchShollu() {
             </thead>
             <tbody>
               <tr>
-                <th >${data.subuh}</th>
+                <td>${data.subuh}</td>
                 <td>${data.dzuhur}</td>
                 <td>${data.ashar}</td>
                 <td>${data.maghrib}</td>
@@ -305,6 +307,8 @@ function updateTodos(id) {
                 'success'
             )
             showMainPage()
+            fetchTodos()
+            fetchShollu()
         })
         .fail(xhr => {
             Swal.fire('Failed',
