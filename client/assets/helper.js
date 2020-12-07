@@ -124,7 +124,10 @@ function doSignUp() {
     method: 'POST',
     data: { username, email, password }
   })
-    .done(() => methodShow())
+    .done(response => {
+      localStorage.setItem('accessToken', response.accessToken)
+      showMainPage()
+    })
     .fail(err => console.log(err))
     .always(_ => $('#signup-container').trigger('reset'))
 }
