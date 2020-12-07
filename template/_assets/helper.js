@@ -1,3 +1,5 @@
+const Swal = require('sweetalert2')
+
 function showFrontPage() {
     $('#login-form').show()
     $('#register-form').hide()
