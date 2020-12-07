@@ -1,0 +1,47 @@
+.body-color {
+  background-color: #212121
+}
+
+.nav-color {
+  background-color: #303030;
+  padding: 5px;
+  margin-bottom: 30px
+}
+
+.nav-bgc {
+  background-color: #303030;
+}
+
+.text-setter {
+  color: whitesmoke;
+  margin: 8px
+}
+
+.form-group {
+  margin: 25px 0
+}
+
+.form-text {
+  text-align: center;
+  color: whitesmoke
+}
+
+.btn-margin {
+  margin: 20px
+}
+
+.btn-place {
+  display: flex;
+  justify-content: center;
+}
+
+.form-color {
+  border-radius: 10px;
+  background-color: #303030;
+  padding: 10px;
+  margin: auto auto
+}
+
+.card {
+  width: 18rem
+}
