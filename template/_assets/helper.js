@@ -165,7 +165,7 @@ function fetchShollu() {
                 <td>${data.isya}</td>
               </tr>
               <tr>
-                <td colspan="5" class="text-center"><strong>Jadwal Sholat ${data.jadwal}</strong></th>
+                <td colspan="5" class="text-center"><strong>Jadwal Sholat ${data.tanggal}</strong></th>
               </tr>
             </tbody>
           </table>
@@ -274,7 +274,7 @@ function getOneTodos(id) {
                 </div>
                 <div class="form-group">
                     <label for="due_date">Due date</label>
-                    <input type="due_date" class="form-control" id="due_date-update" value="${todo.due_date}">
+                    <input type="date" class="form-control" id="due_date-update" value="${todo.due_date}">
                 </div>
                 <button type="submit" class="btn btn-primary" id="btn-update" onclick="updateTodos(${todo.id})">Submit</button>
             </form>`)
