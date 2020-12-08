@@ -84,6 +84,7 @@ class Controller {
         //   // res.status(400).json(error.errors[0].message)
         // }
         // else {
+          console.log(err)
           next(error)
         // }
         
