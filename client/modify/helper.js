@@ -221,8 +221,8 @@ function changeTodo(id, title, description, status, due_date){ //untuk change st
     localStorage.setItem('todos_id',id)
     $('#change-title').val(title)
     $('#change-description').val(description)
-    $('#change-status').val(status)
-    $('#change-due_date').val(due_date)
+    $('#change-status').val(due_date)
+    $('#change-due_date').val(due_date.split('T')[0])
     $('#change-todo').show()
 }
 

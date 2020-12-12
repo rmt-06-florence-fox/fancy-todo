@@ -43,6 +43,8 @@ $(document).ready(function () {
         updateTodo()
     })
 
-   
+   $('#cancelUpdate').on('click', function () {
+       showMainPage()
+   })
 
 });
