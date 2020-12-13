@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id"
+        content="938362063494-4v3dbamr65df2imcf8bf281c7v5j0k15.apps.googleusercontent.com">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <title>Todos Fancy</title>
+
+</head>
+
+<body id="body-main">
+    <!-- navbar bootstrap -->
+    <nav class="navbar navbar-expand-lg navbar-ligth bg-ligth" style="background-color: #e3f2fd;" id="navbar">
+        <a class="navbar-brand" href="#">Fancy ToDo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <a href="" id="btn-logout">Log Out</a>
+            </form>
+        </div>
+    </nav>
+    <!-- <div id='register-form'>
+        <h2>Register Form</h2>
+        <form action="/register" method="POST">
+            <label for="name">Name</label><br>
+            <input type="text" id="name" name="name" value=""><br><br>
+            <label for="email-register">Email</label><br>
+            <input type="text" id="email-register" name="email-register" value=""><br><br>
+            <label for="password-register">Password</label><br>
+            <input type="text" id="password-register" name="password-register" value=""><br><br>
+            <input type="submit" value="Submit">
+        </form>
+    </div> -->
+
+    <!-- login form  -->
+    <div class="login-box" id="login-form">
+        <h1>Login</h1>
+        <form action="/login" method="POST">
+            <div class="textbox">
+                <i class="fas fa-envelope"></i>
+                <input type="text" id="email-login" name="email-login" value="" placeholder="Email">
+            </div>
+
+            <div class="textbox">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password-login" name="password-login" value="" placeholder="Password">
+            </div>
+
+            <input type="submit" class="btn btn-outline-success" value="Log In" style="width: 100%;">
+        </form><br>
+        <p>Register <a href="" id="register-btn">here</a> or continue with Google</p>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    </div>
+    <!-- login form  -->
+
+
+    <!-- register  -->
+    <div class="login-box" id="register-form">
+        <h1>Register</h1>
+        <form action="/" method="POST">
+            <div class="textbox">
+                <i class="fas fa-user"></i>
+                <input type="text" id="name-register" name="name-register" value="" placeholder="Name">
+            </div>
+
+            <div class="textbox">
+                <i class="fas fa-envelope"></i>
+                <input type="text" id="email-register" name="email-register" value="" placeholder="Email">
+            </div>
+
+            <div class="textbox">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password-register" name="password-register" value="" placeholder="Password">
+            </div>
+
+            <input type="submit" class="btn btn-outline-success" value="Register" style="width: 100%;">
+        </form><br>
+        <p>Already have an account? <a href="" id='login-btn-regist'>Log In</a></p>
+    </div>
+    <!-- register -->
+
+
+
+    <!-- todos list -->
+    <div id='main-page'>
+        <h2 class="text-center">Add Todos</h2>
+        <!-- 
+        <form id="todos-form" method="POST">
+            <label for="title">Title</label><br>
+            <input type="text" id="title" name="title" value=""><br><br>
+            <label for="due_date">due_date</label><br>
+            <input type="text" id="description" name="description" value=""><br><br>
+            <label for="due_date">Due date</label><br>
+            <input type="date" id="due_date" name="due_date" value=""><br><br>
+            <input type="submit" value="Submit">
+            <br><br>
+        </form> -->
+
+        <dic class="container">
+            <form class="col-lg-6 offset-lg-3" id="todos-form">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" aria-describedby="emailHelp" value="">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="description" value="">
+                </div>
+                <div class="form-group">
+                    <label for="due_date">Due Date</label>
+                    <input type="date" class="form-control" id="due_date" value="">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </dic>
+        <table id="table-todo" class="table table-hover col-lg-8 offset-lg-2">
+        </table>
+
+
+        <!-- modal update data todo -->
+        <!-- Button trigger modal -->
+       
+
+
+
+
+
+
+        <br>
+        <hr>
+        <!-- api the guardian -->
+        <br>
+        <h3 class="text-center">Get the latest news from The Guardian</h3>
+        <br>
+        <div class="card-deck" id="card-news">
+        </div>
+
+    </div>
+
+
+    <!-- update todo -->
+    <dic class="container" id='change-todo'>
+        <form class="col-lg-6 offset-lg-3" id="change-todos-form">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="change-title" aria-describedby="emailHelp" value="">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" class="form-control" id="change-description" value="">
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <input type="text" class="form-control" id="change-status" value="">
+            </div>
+            <div class="form-group">
+                <label for="due_date">Due Date</label>
+                <input type="date" class="form-control" id="change-due_date" value="">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button id="cancelUpdate" value="Cancel" class="btn btn-danger">Cancel</button>
+        </form>
+    </dic>
+<!-- update todo -->
+
+
+
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="./modify/helper.js"></script>
+    <script src="./modify/main.js"></script>
+</body>
+
+</html>
