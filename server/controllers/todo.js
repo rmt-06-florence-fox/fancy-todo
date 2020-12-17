@@ -39,9 +39,9 @@ class TodoController {
 
   static async put (req, res, next) {
     try {
-      const {title, description, due_date} = req.body
+      const {title, description, due_date, status} = req.body
       const id = +req.params.id
-      const update = await Todo.update({title, description, due_date}, {where: {id}, returning: true})
+      const update = await Todo.update({title, description, due_date, status}, {where: {id}, returning: true})
       res.status(200).json(update)
     } catch (error) {
       next(error)
@@ -51,7 +51,11 @@ class TodoController {
   static async patch (req, res, next) {
     try {
       const completed = await Todo.update({status: true}, {where: {id: +req.params.id}, returning: true})
-      res.status(200).json(completed)
+      if (completed[0] !== 1) {
+        throw { msg: `todo with id ${+req.params.id} is not found`, status: 404 }
+      } else {
+          res.status(200).json(completed[1][0])
+      }
     } catch (error) {
       next(error)
     }

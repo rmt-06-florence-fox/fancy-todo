@@ -142,22 +142,41 @@ const fetchTodos = () => {
 			$('#todo-list').empty()
 			const todos = response
 			todos.forEach((item) => {
-				$('#todo-list').append(`
-        <div class="card">
-          <div class="card-left">
-            <div class="card-info">
-              <h5>${item.title}</h5>
-            </div>
-            <p>${item.description}</p>
-          </div>
-          <div class="card-right">
-            <p><span>status: </span>${item.status}</p>
-            <p>${formatDate(item.due_date)}</p>
-            <button type="button" onclick="updateToDoForm(${item.id}, '${item.title}', '${item.description}', '${item.due_date}')">Edit</button>
-            <button type="button" onclick="deleteTodo(${item.id})">Delete</button>
-          </div>
-          </div>
-      `)
+				if (item.status == false) {
+					$('#todo-list').append(`
+					<div class="card">
+						<div class="card-left">
+							<div class="card-info">
+								<h5>${item.title}</h5>
+							</div>
+							<p>${item.description}</p>
+						</div>
+						<div class="card-right">
+						Finish Task <input type="checkbox" onclick="finishToDo(${item.id})"> <br>
+							<p>${formatDate(item.due_date)}</p>
+							<button type="button" onclick="updateToDoForm(${item.id}, '${item.title}', '${item.description}', '${item.due_date}')">Edit</button>
+							<button type="button" onclick="deleteTodo(${item.id})">Delete</button>
+						</div>
+						</div>
+				`)
+				} else {
+					$('#todo-list').append(`
+					<div class="card">
+						<div class="card-left">
+							<div class="card-info">
+								<h5>${item.title}</h5>
+							</div>
+							<p>${item.description}</p>
+						</div>
+						<div class="card-right">
+						Task Finished <input type="checkbox" checked disabled> <br>
+							<p>${formatDate(item.due_date)}</p>
+							<button type="button" onclick="updateToDoForm(${item.id}, '${item.title}', '${item.description}', '${item.due_date}')">Edit</button>
+							<button type="button" onclick="deleteTodo(${item.id})">Delete</button>
+						</div>
+						</div>
+				`)
+				}
 			})
 		})
 		.fail((err) => {
@@ -261,6 +280,32 @@ const updateToDoForm = (id, title, description, due_date) => {
 	$('#edit-input-desc').val(description)
 	$('#edit_due_date').val(due_date)
 	idTemp = id
+}
+
+//finishTodo
+const finishToDo = id => {
+	const access_token = localStorage.getItem('access_token')
+	$.ajax({
+					method: 'PATCH',
+					url: `${SERVER}/todos/${id}`,
+					headers: {
+							access_token: access_token
+					}
+			})
+			.done(response => {
+					afterLogin()
+					Toast.fire({
+							icon: 'success',
+							title: `you have finished todo ${response.title}`
+					})
+			})
+			.fail(err => {
+					Swal.fire({
+							icon: 'error',
+							title: 'Error',
+							text: err.responseJSON.msg
+					})
+			})
 }
 
 function onSignIn(googleUser) {
