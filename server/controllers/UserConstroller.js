@@ -25,26 +25,19 @@ class UserControllers {
     }
 
     static signIn(req, res, next) {
-        User.findOne({ where: { email: req.body.email }})
+        User.findOne({where: {email: req.body.email}})
             .then(data => {
-                if(!data) {
-                    next({
-                        name: "Invalid Account"
-                    })
-                } else {
-                    const access_token = generateToken({id: data.id, email: data.email})
+                if (data) {
                     if (comparePass(req.body.password, data.password)) {
-                        res.status(200).json({access_token})                        
+                        const access_token = generateToken({id: data.id, email: data.email})
+                        res.status(200).json({access_token})
                     } else {
-                        next({
-                            name: "Invalid Account"
-                        })
+                        res.status(401).json({msg: "Invalid User/Password"})
                     }
                 }
             })
             .catch(err => {
-                console.log(err)
-                next(err)
+                res.status(500).json(err)
             })
     }
 

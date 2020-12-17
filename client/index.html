@@ -79,13 +79,13 @@
                             <label for="description-input">Description</label>
                             <input type="text" class="form-control" id="description-input" required>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="status-input">Status</label> <br>
                             <input type="radio" id="status-input" name="status-input" value="Do">
                             <label for="status">Do</label>
                             <input type="radio" id="status-input" name="status-input" value="Done">
                             <label for="status">Done</label><br>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label for="due_date-input">Due Date</label>
                             <input type="date" class="form-control" id="due_date-input" required>
@@ -107,11 +107,11 @@
                             <input type="text" class="form-control" id="description-update" required>
                         </div>
                         <div class="form-group">
-                            <label for="status-update">Status</label> <br>
+                            <!-- <label for="status-update">Status</label> <br>
                             <input type="radio" id="status-update" name="status" value="Do">
                             <label for="status">Do</label>
                             <input type="radio" id="status-update" name="status" value="Done">
-                            <label for="status">Done</label><br>
+                            <label for="status">Done</label><br> -->
                         </div>
                         <div class="form-group">
                             <label for="due_date-update">Due Date</label>
@@ -184,7 +184,7 @@
         function login() {
             const email = $("#email").val()
             const password = $("#password").val()
-
+            // console.log(email, password)
             $.ajax({
                 url: "http://localhost:3000/signIn",
                 method: "POST",
@@ -194,7 +194,7 @@
                 }
             })
                 .done(response => {
-                    // console.log(response)
+                    console.log(response)
                     localStorage.setItem("access_token", response.access_token)
                     showMainPage()
                 })
