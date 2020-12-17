@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class ToDo extends Model {
+  class Todo extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,56 +11,76 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // ToDo.belongsTo(models.User, {foreignKey: 'UserId'})
+      Todo.belongsTo(models.User, {foreignKey: 'UserId'})
     }
   };
-  ToDo.init({
+  Todo.init({
     title: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: true,
-        notEmpty: true
+        notEmpty: {
+          args: true,
+          msg: `Title must not be empty !`
+        },
+        notNull: {
+          args: true,
+          msg: `Title must not be empty !`
+        }
       }
     },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: true,
-        notEmpty: true
+        notEmpty: {
+          args: true,
+          msg: `Description must not be empty !`
+        },
+        notNull: {
+          args: true,
+          msg: `Description must not be empty !`
+        }
       }
     },
     status: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notNull: true,
-        notEmpty: true
+        notEmpty: {
+          args: true,
+          msg: `Status must not be empty !`
+        },
+        notNull: {
+          args: true,
+          msg: `Status must not be empty !`
+        }
       }
     },
     due_date: {
       type: DataTypes.DATE,
-      allowNull: false,
       validate: {
         notEmpty: {
           args: true,
           msg: `Date must not be empty !`
         },
-        notNull: true,
-        isGreaterThan(value) {
-          if(new Date().toISOString().split('T')[0] >= this.due_date) {
-            throw new Error(`Date invalid ! Date must not be prior from today !`)
-          }
+        isDate: true,
+        isAfter: {
+          args: new Date().toString(),
+          msg: `Due date must not be prior from today !`
         }
       }
-    },  
-    UserId: {
-      type: DataTypes.INTEGER
-    }
+    },
+    UserId: DataTypes.INTEGER
   }, {
+  hooks: {
+    beforeCreate(todo, options) {
+      todo.status = 'incomplete'
+    }
+  },
     sequelize,
-    modelName: 'ToDo',
+    modelName: 'Todo',
   });
-  return ToDo;
+  
+  return Todo;
 };

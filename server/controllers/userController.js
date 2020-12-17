@@ -1,60 +1,50 @@
+const Helper = require('../helpers/helper.js');
 const { User } = require('../models')
-const helper = require('../helpers/helper.js')
-require('dotenv').config()
-const jwt = require('jsonwebtoken')
-const { OAuth2Client } = require('google-auth-library')
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
-class userController {
-  static async register (req, res, next) {
-    try {
-      const obj = {
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
-      }
-      const output = await User.create(obj)
+class UserController {
+  static register (req, res, next) {
+    let payload = {
+      email: req.body.email,
+      password: req.body.password
+    }
+    User.create(payload)
+    .then(data => {
       res.status(201).json({
-        id: output.id,
-        email: output.email
+        id: data.id,
+        email: data.email
       })
-    }
-    catch(err) {
-      console.log(err, '<< error register')
-      next({
-        status: 400,
-        message: 'Bad Request'
-      })
-    }
+    })
+    .catch(err => {
+      next(err)
+    })
   }
 
-  static async login (req, res, next) {
-    try {
-      const data = await User.findOne({
-        where: { email: req.body.email }
-      })
-      if (!data) {
-        throw {
-          status: 400,
-          message: 'Invalid Email / Password'
-        }
-      } else if (helper.comparePassword(req.body.password, data.password)) {
-        const access_token = jwt.sign({
+  static login (req, res, next) {
+    User.findOne({
+      where: {
+        email: req.body.email
+      }
+    })
+    .then(data => {
+      if (data) {
+        const access_token = Helper.createToken({
           id: data.id,
           email: data.email
-        }, process.env.SECRET)
-        res.status(200).json({access_token})
+        })
+        res.status(200).json({ access_token })
       } else {
         throw {
-          status: 400,
-          message: 'Invalid Email / Password'
+          status: 401,
+          message: `Invalid Email / Password !`
         }
       }
-    }
-    catch(err) {
+    })
+    .catch(err => {
+      // console.log(err, '<-- dari login')
       next(err)
-    }
+    })
   }
+  
 }
 
-module.exports = userController
+module.exports = UserController

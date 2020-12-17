@@ -1,6 +1,5 @@
 'use strict';
-const helper = require('../helpers/helper.js')
-
+const Helper = require('../helpers/helper.js')
 const {
   Model
 } = require('sequelize');
@@ -13,40 +12,51 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // User.hasMany(models.todo, {foreignKey: 'UserId'})
+      User.hasMany(models.Todo, {foreignKey: 'UserId'})
     }
   };
   User.init({
     email: {
       type: DataTypes.STRING,
+      allowNull: false,
       unique: true,
       validate: {
         notEmpty: {
-          msg: `Require valid Email address !`
+          args: true,
+          msg: `Email must not be empty !`
+        },
+        notNull: {
+          args: true,
+          msg: `Email must not be empty !`
         },
         isEmail: {
+          args: true,
           msg: `Email must be in valid email format !`
         }
       }
     },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: `Password can not be empty !`
-          },
-          len: {
-            args: [8],
-            msg: `Password must contain at least 8 characters !`
-          }
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: `Password must not be empty !`
+        },
+        notNull: {
+          args: true,
+          msg: `Password must not be empty !`
+        },
+        len: {
+          args: [5],
+          msg: `Password must contain at least 5 characters !`
         }
       }
+    }
   }, {
     hooks: {
       beforeCreate(instance, options) {
-        const hash = helper.hashPassword(instance.password)
-        instance.password = hash
+        Helper.createPassword(instance.password)
       }
     },
     sequelize,

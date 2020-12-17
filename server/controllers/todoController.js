@@ -1,138 +1,109 @@
-const { ToDo } = require('../models')
+const { Todo } = require('../models')
 
-class ToDoController {
-  
-  static async listAll (req, res, next) {
-    try {
-      const UserId = req.loggedUser.id
-      const output = await ToDo.findAll({
-        where: {id : UserId}
-      })
-      res.status(200).json({data: output})
-    }
-    catch (err) {
+class TodoController {
+  static getAll (req, res, next) {
+    const UserId = req.loggedUser.id
+    Todo.findAll({
+      where: { UserId }
+    })
+    .then(data => {
+      // console.log(data, '<-- data dari getAll')
+      res.status(200).json(data)
+    })
+    .catch(err => {
+      // console.log(err, '<-- error dari getAll')
       next(err)
-    }
-  }
-
-  static async createToDo (req, res, next) {
-    try {
-      const todo = {
-        title: req.body.title,
-        description: req.body.description,
-        status: req.body.status,
-        due_date: req.body.due_date,
-        UserId: req.loggedUser.id
-      }
-      const output = await ToDo.create(todo);
-      res.status(201).json(output)
-    }
-    catch(err) {
-      if(err.name === 'SequelizeValidationError') {
-        next({
-          name: 'Validation Error',
-          status: 400,
-          message: err.errors
-        })
-      } else {
-        next(err)
-      }
-    }
+    })
   }
   
-  static async findData (req, res, next) {
-    try {
-      const id = req.params.id
-      const output = await ToDo.findByPk(id)
-      if (output) {
-        res.status(200).json({data: output})
-      } else {
-        throw {
-          status: 404,
-          message: `Not Found`
-        }
-      }
+  static createTodo (req, res, next) {
+    const obj = {
+      title: req.body.title,
+      description: req.body.description,
+      status: req.body.status,
+      due_date: req.body.due_date,
+      UserId: req.loggedUser.id
     }
-    catch(err) {
+    Todo.create(obj)
+    .then(data => {
+      // console.log(data, '<-- dari createTodo')
+      res.status(201).json(data)
+    })
+    .catch(err => {
+      // console.log(err, '<-- dari create Todo')
       next(err)
-    }
+    })
+    
   }
 
-  static async replaceData (req, res, next) {
-    try {
-      const id = req.params.id
-      const obj = {
-        title: req.body.title,
-        description: req.body.description,
-        status:  req.body.status,
-        due_date: req.body.due_date,
-        UserId: req.body.UserId 
-      }
-      const data = await ToDo.findByPk(id)
-      if (!data) {
-        throw {
-          status: 404,
-          message: `Data Not Found`
-        }
-      } else {
-        const output = await ToDo.update(obj, {
-          where: {id},
-          returning: true
-        })
-        res.status(200).json({ output: output[1][0] })
-      }
-    }
-    catch(err) {
+  static find (req, res, next) {
+    Todo.findOne({
+      where: { id: req.params.id }
+    })
+    .then(data => {
+      res.status(200).json(data)
+    })
+    .catch(err => {
       next(err)
-    }
+    })
+
   }
 
-  static async edit (req, res, next) {
-    try {
-      const id = req.params.id
-      const obj  = {
-        status: req.body.status
-      }
-      const data = await ToDo.findByPk(id)
-      if (!data) {
-        throw {
-          status: 404,
-          message: `Data Not Found`
-        }
-      } else {
-        const output = await ToDo.update(obj, {
-          where: {id},
-          returning: true
-        })
-        res.status(200).json({ output: output[1][0] })
-      }
+  static edit (req, res, next) {
+    const value = {
+      title: req.body.title,
+      description: req.body.description,
+      status: req.body.status,
+      due_date: req.body.due_date
     }
-    catch(err) {
-      next(err)
-    }
-  }
-
-  static async delete (req, res, next) {
-    try {
-      const id = req.params.id
-      const data = await ToDo.findByPk(id)
-      if (!data) {
-        throw {
-          status: 404,
-          message: `Data Not Found` 
-        }
-      } else {
-        const output = await ToDo.destroy({
+    const id = req.params.id
+    Todo.findByPk(id)
+    .then(data => {
+      if (data) {
+        Todo.update(value, {
           where: {id}
         })
-        res.status(200).json({ message: `Task has been successfully deleted`})
       }
-    }
-    catch(err) {
+      res.status(200).json(data)
+    })
+    .catch(err => {
       next(err)
-    }
+    })
+
   }
 
+  static update (req, res, next) {
+    const id = req.params.id
+    const value = {status: req.body.status}
+    // console.log(value, '<-- value dari update')
+    Todo.findByPk(id)
+    .then(data => {
+      if (data) {
+        Todo.update(value, {
+          where: {id}
+        })
+      }
+      // console.log(data, '<-- dari update')
+      res.status(200).json(data)
+    })
+    .catch(err => {
+      next(err)
+    })
+
+  }
+
+  static delete (req, res, next) {
+    const id = req.params.id
+    console.log(id, '<-- dari delete')
+    Todo.destroy({where: {id}})
+    .then(() => {
+      res.status(200).json({message: `Task successfully deleted !`})
+    })
+    .catch(err => {
+      // console.log(err, '<-- dari delete Todo')
+      next(err)
+    })
+  }
 }
 
-module.exports = ToDoController
+module.exports = TodoController
