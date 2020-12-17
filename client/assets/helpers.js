@@ -279,18 +279,52 @@ function editTodo(title, description, due_date, status, TodoId){
 
 
 function deleteTodo(id){
-  $.ajax({
-    method: "DELETE",
-    url: "http://localhost:3000/todos/" + id,
-    headers: {
-      access_token: localStorage.getItem("access_token")
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success',
+      cancelButton: 'btn btn-danger'
+    },
+    buttonsStyling: false
+  })
+  
+  swalWithBootstrapButtons.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel!',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        method: "DELETE",
+        url: "http://localhost:3000/todos/" + id,
+        headers: {
+          access_token: localStorage.getItem("access_token")
+        }
+      })
+      .done(response => {
+        showMainPage()
+      })
+      .fail(err => {
+        console.log(err)
+      })
+      swalWithBootstrapButtons.fire(
+        'Deleted!',
+        'Your file has been deleted.',
+        'success'
+      )
+    } else if (
+      /* Read more about handling dismissals below */
+      result.dismiss === Swal.DismissReason.cancel
+    ) {
+      swalWithBootstrapButtons.fire(
+        'Cancelled',
+        'Your imaginary file is safe :)',
+        'error'
+      )
     }
-  })
-  .done(response => {
-    showMainPage()
-  })
-  .fail(err => {
-    console.log(err)
   })
 }
 
@@ -372,13 +406,10 @@ function quotes(){
   .done(response => {
     $("#quotes").empty()
     $("#quotes").prepend(`
-    <figure class="card" style="background: #eee; width: 30rem;>
-      <blockquote class="text-center">
-      <p><strong>Quotes Of The Day</strong></p>
-        ${response.quotes}
-      </blockquote>
-      <figcaption class="text-center">&mdash; ${response.author} </figcaption>
-  </figure>
+      <div class="card-header"><strong>Quotes of The Day</strong></div>
+        <div class="card-body">
+        <p class="card-text">${response.quotes}<br> -${response.author}</p>
+      </div>
     `)
     console.log(response)
   })
@@ -390,13 +421,13 @@ function quotes(){
 function getDeadline(data){
   $("#closestDeadline").empty()
   $("#closestDeadline").prepend(`
-  <figure class="card" style="background: #eee; width: 40rem;>
-    <blockquote class="text-center">
-      <p><strong>Reminder<strong></p>
-      Your closest deadline: ${data.activity.join(", ")}<br>
-      Day(s) left: ${data.daysLeft} day(s)
-    </blockquote>
-  </figure>
+    <div class="card-header"><strong>Reminder</strong></div>
+      <div class="card-body">
+      <p class="card-text">
+        Your closest deadline: <strong>${data.activity.join(", ")}</strong><br>
+        Day(s) left: <strong>${data.daysLeft} day(s)</strong>
+      </p>
+    </div>
   `)
 }
 
