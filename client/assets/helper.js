@@ -229,7 +229,7 @@ function updateTodo(id) {
         showList()
     })
     .fail(xhr => console.log(xhr))
-    .always(_ => $('#edit-todo').trigger('reset'))
+    .always(_ => $('#todo-edit').trigger('reset'))
 }
 function onSignIn(googleUser) {
     const googleToken = googleUser.getAuthResponse().id_token;

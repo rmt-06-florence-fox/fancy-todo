@@ -52,6 +52,9 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           args: true,
           msg: 'date empty'
+        },
+        dateRequirement(value) {
+        if(this.updatedAt.toISOString().split('T')[0] >= this.due_date) throw new Error('Date must be greater than today')
         }
       },
     },
