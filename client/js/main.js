@@ -1,5 +1,4 @@
-// const SERVER = 'https://fancy-todo-ykp.herokuapp.com'
-const SERVER = 'http://localhost:3000'
+const SERVER = 'https://fancy-todo-ykp.herokuapp.com/'
 
 // function show login page
 function beforeLogin() {
