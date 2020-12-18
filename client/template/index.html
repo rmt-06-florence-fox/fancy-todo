@@ -161,6 +161,7 @@
         .done(response => {
           localStorage.setItem('access_token',response.access_token)
           console.log(response)
+          this.fetchData()
           showMainPage()
         })
         .fail((xHR, textStatus)  => {
@@ -483,6 +484,7 @@
       })
        $("#login-form").on("submit",function(e){
         e.preventDefault()
+        this.fetchData()
         login()
       })
       // $("#btn-logout").on("click",function(e){
