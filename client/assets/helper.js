@@ -44,11 +44,22 @@ function login() {
         }
     })
         .done(response => {
+            Swal.fire(
+                'Success!',
+                'Login Success!',
+                'success'
+              )
             localStorage.setItem('access_token', response.access_token)
             showMainPage()
         })
         .fail((xhr, textStatus) => {
-            console.log(xhr.responseJSON, textStatus);
+            Swal.fire({
+            icon: 'error',
+            title: 'Login Failed!',
+            text: xhr.responseJSON.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
         })
         .always(_ => {
             $("#email-login").val("")
@@ -68,10 +79,21 @@ function register() {
         }
     })
         .done(response => {
+            Swal.fire(
+                'Success!',
+                'Register Success!',
+                'success'
+              )
             showLoginPage()
         })
         .fail((xhr, textStatus) => {
-            console.log(xhr.responseJSON, textStatus);
+            Swal.fire({
+                icon: 'error',
+                title: 'Register Failed!',
+                text: xhr.responseJSON.message,
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
         .always(_ => {
             $("#email-register").val("")
@@ -90,10 +112,23 @@ function onSignIn(googleUser) {
         }
     })
         .done(response => {
+            Swal.fire(
+                'Success!',
+                'Login Success!',
+                'success'
+              )
             localStorage.setItem('access_token', response.access_token)
             showMainPage()
         })
-        .fail(err => console.log(err))
+        .fail((xhr, textStatus) => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Google Sign Failed!',
+                text: xhr.responseJSON.message,
+                showConfirmButton: false,
+                timer: 1500
+              })
+        })
 }
 
 function fetchTodo() {
@@ -122,7 +157,13 @@ function fetchTodo() {
             })
         })
         .fail(xhr => {
-            console.log(xhr);
+            Swal.fire({
+                icon: 'error',
+                title: 'Fetch Todo Failed!',
+                text: xhr.responseJSON.message,
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
 }
 
@@ -146,10 +187,21 @@ function createTodo() {
         }
     })
         .done(response => {
+            Swal.fire(
+                'Success!',
+                'Create Todo Success!',
+                'success'
+              )
             fetchTodo()
         })
         .fail(xhr => {
-            console.log(xhr);
+            Swal.fire({
+                icon: 'error',
+                title: 'Create Todo Failed!',
+                text: xhr.responseJSON.message,
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
         .always(_ => {
             $("add-todo-form").trigger("reset")
@@ -171,6 +223,15 @@ function getEditTodo(id) {
                 status = $("#status-edit").val(response.status),
                 due_date = $("#due_date-edit").val(response.due_date)
             editId = response.id
+        })
+        .fail(xhr => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Get Todo Failed!',
+                text: xhr.responseJSON.message,
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
 
 }
@@ -195,10 +256,21 @@ function editTodo() {
         }
     })
         .done(response => {
+            Swal.fire(
+                'Success!',
+                'Edit Todo Success!',
+                'success'
+              )
             fetchTodo()
         })
         .fail(xhr => {
-            console.log(xhr);
+            Swal.fire({
+                icon: 'error',
+                title: 'Edit Todo Failed!',
+                text: xhr.responseJSON.message,
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
         .always(_ => {
             $("add-todo-form").trigger("reset")
@@ -214,10 +286,21 @@ function deleteTodo(id) {
         }
     })
         .done(_ => {
+            Swal.fire(
+                'Success!',
+                'Delete Todo Success!',
+                'success'
+              )
             fetchTodo()
         })
         .fail(err => {
-            console.log(err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Delete Todo Failed!',
+                text: xhr.responseJSON.message,
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
 }
 
@@ -231,10 +314,21 @@ function completeTodo(id) {
         }
     })
         .done(_ => {
+            Swal.fire(
+                'Success!',
+                'Complete Todo Success!',
+                'success'
+              )
             fetchTodo()
         })
         .fail(err => {
-            console.log(err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Complete Todo Failed!',
+                text: xhr.responseJSON.message,
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
 }
 
@@ -243,7 +337,11 @@ function logout() {
     showLoginPage()
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
-      console.log('User signed out.');
+        Swal.fire(
+            'Success!',
+            'Logout Success!',
+            'success'
+          )
     });
 }
 
@@ -270,6 +368,12 @@ function weather() {
            
         })
         .fail(xhr => {
-            console.log(xhr);
+            Swal.fire({
+                icon: 'error',
+                title: 'Fetch Weather Failed!',
+                text: xhr.responseJSON.message,
+                showConfirmButton: false,
+                timer: 1500
+              })
         })
 }
