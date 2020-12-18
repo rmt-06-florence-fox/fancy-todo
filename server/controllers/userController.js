@@ -54,17 +54,15 @@ class ControllerUser {
     }
 
     static loginWithGoogle(req, res, next) {
-         // Verify Token
-        // Dapetin Token dari Client
-    
+        let tmpPayload = null
         client.verifyIdToken({
             idToken: req.body.googleToken,
             audience: process.env.CLIENT_ID, 
         })
             .then((ticket) => {
                 let payload = ticket.getPayload();
+                tmpPayload = payload 
                 let email = payload.email
-
                 return User.findOne({
                             where: {
                                 email
@@ -75,21 +73,22 @@ class ControllerUser {
                 if(user) {
                     return user
                 } else {
+                    // console.log(tmpPayload)
                     return User.create({
-                        firstName: payload.given_name,
-                        lastName: payload.family_name,
-                        email: payload.email,
+                        firstName: tmpPayload.given_name,
+                        lastName: tmpPayload.family_name,
+                        email: tmpPayload.email,
                         password: process.env.GOOGLE_SECRET
                     })
                 }
             }) 
-            .then(user => {
-                // console.log(user)
-                const accestoken = generateToken({ email: user.email, id: user.id, fullName: user.fullName()})
-                res.status(200).json({accestoken})
+            .then(user => {       
+                const acces_token = generateToken({ email: user.email, id: user.id, fullName: user.fullName()})
+                res.status(200).json({acces_token})
             })
 
             .catch(err => {
+                console.log(err)
                 next(err)
             })
     }
