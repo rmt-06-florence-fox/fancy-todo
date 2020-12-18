@@ -20,12 +20,30 @@ function registerPage(){
     $("#list-todo").hide()
     $("#btn-logout").hide()
 }
+function onSignIn(googleUser) {
+     // This is null if the 'email' scope is not present.
+     const googleToken = googleUser.getAuthResponse().id_token;
+
+    $.ajax({
+        method: "POST",
+        url: "http://localhost:3001/googleLogin",
+        data: { googleToken }
+    })
+    .done(response => {
+        localStorage.setItem('access_token', response.access_token)
+        showMainPage()
+        console.log(response)
+    })
+    .fail(xhr => {
+        console.log(xhr, "<<< error")
+    })
+}
 function login(){
     const email = $("#email-login").val()
     const password = $("#password-login").val()
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/login",
+        url: "http://localhost:3001/login",
         data: {
             email,
             password
@@ -45,7 +63,7 @@ function register(){
     const password = $("#password-regis").val()
         $.ajax({
             method: "POST",
-            url: "http://localhost:3000/register",
+            url: "http://localhost:3001/register",
             data: {
                 email,
                 password
@@ -61,13 +79,17 @@ function register(){
 }
 function logout(){
     localStorage.clear()
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
     showLoginPage()
 }
 function fetchTodo(){
     $("#todo-list").empty()
     $.ajax({
         method: "GET",
-        url: "http://localhost:3000/todos",
+        url: "http://localhost:3001/todos",
         headers: {
             access_token: localStorage.getItem("access_token")
         }
@@ -77,7 +99,7 @@ function fetchTodo(){
         response.forEach(element => {
             $("#todo-list").append(`
 
-            <div class="card bg-ligth mb=10 pd=10" >
+            <div class="card bg-ligth mt-5 pd=10" >
 
             <div class="card-deck m">
 
@@ -86,6 +108,7 @@ function fetchTodo(){
                     <p class="card-text">${element.title}</p>
                     <p class="card-text text-muted"> ${element.due_date.substr(0, 10)}</p>
                     <p class="card-text">${element.description}</p>
+                    <p class="card-text">${element.status}</p>
                     <button class="btn btn-primary" onclick="editTodoForm(${element.id})" id="edit-todo"> Edit</button>
                     <button class="btn btn-danger" onclick="deleteTodo(${element.id})" id="delete-todo"> Delete</button> 
 
@@ -104,7 +127,7 @@ function addTodo(){
 
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/todos",
+        url: "http://localhost:3001/todos",
         headers: {
             access_token: localStorage.getItem("access_token")
         },
@@ -116,6 +139,8 @@ function addTodo(){
         }
     })
     .done(response => {
+
+        fetchTodo()
         console.log(response)
     })
     .fail(xhr => {
@@ -124,16 +149,16 @@ function addTodo(){
 }
 function cancelEdit(event){
     event.preventDefault()
+    console.log(event)
     $("#todo-list").show()
-    $("#formEdit").remove()
-
+    $("#edit-form").hide()
 }
 function editTodoForm(id){
     todoId = id
-    console.log(todoId)
+    console.log(id)
     $.ajax({
         method: "GET",
-        url: `http://localhost:3000/todos/${todoId}`,
+        url: `http://localhost:3001/todos/${todoId}`,
         headers: {
             access_token: localStorage.getItem("access_token")
         }
@@ -141,7 +166,7 @@ function editTodoForm(id){
     .done(response => {
         $("#todo-list").hide()
         $("#edit-form").append(`
-        <form id="formEdit">
+        <form id="formEdit mt-2">
             <div class="row">
             <div class="col">
             <input type="text" class="form-control title" placeholder="Title" id="titleEdit" value="${response.title}">
@@ -150,14 +175,23 @@ function editTodoForm(id){
             <input type="date" class="form-control due_date" placeholder="due date" id="dueDateEdit" value="${response.due_date.split('T')[0]}">
             </div>
          </div>
-            <div class="form-group">
-                <textarea class="form-control description" id="descriptionEdit" rows="3" placeholder="Description Here....">${response.description}</textarea>
-                </div>
+         <div class="form-group">
+         <div class="form-group w-100 mt-2">
+             <textarea class="form-control description" id="descriptionEdit" rows="3" placeholder="Description Here....">${response.description}</textarea>
+             </div>
+                <label > Status</label>
+                <select id="status-edit">
+                    <option checked></option>
+                    <option value="finised">finished</option>
+                    <option value="unfinised">unfinished</option>
+
+                </select>
+            </div>
                 <button type="submit" class="btn btn-primary" id="edit-todo">Edit</button>
-                <button onclick="cancelEdit(event)" class="btn btn-danger">Cancel</button>
+                <button id="cancel-edit" onclick="cancelEdit(event)" class="btn btn-danger">Cancel</button>
             </form>
-            `)
-      
+        `)  
+        
     })
     .fail(xhr => {
         console.log(xhr)
@@ -167,11 +201,12 @@ function editTodoForm(id){
 function editTodo(){
     const title = $("#titleEdit").val()
     const due_date = $("#dueDateEdit").val()
-    const description = $("descriptionEdit").val()
-    const status = statusTodo
+    const description = $("#descriptionEdit").val()
+    const status = $("#status-edit").val()
+    console.log(status, description, due_date, title, "<<<< edit todo")
     $.ajax({
         method: "PUT",
-        url: "http://localhost:3000/todos/" + todoId,
+        url: "http://localhost:3001/todos/" + todoId,
         headers: {
             access_token: localStorage.getItem("access_token")
         },
@@ -183,6 +218,7 @@ function editTodo(){
         }
     })
     .done(response => {
+        fetchTodo()
         console.log(response)
     })
     .fail(xhr => {
@@ -192,9 +228,15 @@ function editTodo(){
 function deleteTodo(id){
     $.ajax({
         method: "delete",
-        url: "http://localhost:3000" + "/todos/" + id,
+        url: "http://localhost:3001" + "/todos/" + id,
         headers: {
             access_token: localStorage.access_token
         }
-    });
+    })
+        .done(_ => {
+            fetchTodo()
+        })
+        .fail(xhr => {
+            console.log(xhr)
+        })
 }
