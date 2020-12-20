@@ -4,14 +4,14 @@ class QuoteController {
     static async getRandomQuote(req, res, next) {
 
         try {
-            let response = await axios({
-                url: 'https://quote-garden.herokuapp.com/api/v2/quotes/random',
+            let { data } = await axios({
+                url: 'https://quote-garden.herokuapp.com/api/v3/quotes/random',
                 method: 'GET',
                 responseType: 'json'
             })
 
             //console.log(response)
-            res.status(200).json(response.data.quote)
+            res.status(200).json(data.data[0])
 
         } catch (err) {
             next(err)
