@@ -1,5 +1,5 @@
-// const server = 'https://todo-app-hndrbs.herokuapp.com'
-const server = 'http://localhost:3000'
+const server = 'https://todo-app-hndrbs.herokuapp.com'
+// const server = 'http://localhost:3000'
 
 function showLogin(){
     $('#login-page').show()
