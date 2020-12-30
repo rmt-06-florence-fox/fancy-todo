@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta name="google-signin-client_id" content="432825779164-qgaq96fgcqgr7vfnlstqjbf4ckjpau04.apps.googleusercontent.com">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+   <title>Fancy Todo</title>
+</head>
+<body>
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#" onclick="showLoginPage()">Fancy Todo</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <button class="btn btn-signOut my-2 my-sm-0 btn-danger" onclick="signOut()">Sign Out</button>
+        </div>
+      </div>
+   </nav>
+   <div id="errormessage"></div>
+   <div class="container">
+      <div id="register-page">
+         <h1>Register</h1>
+         <form action="" id="form-register" >
+            <div class="form-group" id="form-register">
+               <label for="exampleInputEmail1">Email address</label>
+               <input type="email" class="form-control" id="emailRegister-input" aria-describedby="emailHelp" placeholder="Enter email">
+               <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+             </div>
+             <div class="form-group">
+               <label for="exampleInputPassword1">Password</label>
+               <input type="password" class="form-control" id="passwordRegister-input" placeholder="Password">
+             </div>
+             <button type="submit" class="btn btn-primary">Register</button>
+         </form>
+      </div>
+      <div id="notLoggedIn-page">
+         <!-- <h1>Register</h1>
+         <form action="" id="form-register" >
+            <div class="form-group" id="form-register">
+               <label for="exampleInputEmail1">Email address</label>
+               <input type="email" class="form-control" id="emailRegister-input" aria-describedby="emailHelp" placeholder="Enter email">
+               <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+             </div>
+             <div class="form-group">
+               <label for="exampleInputPassword1">Password</label>
+               <input type="password" class="form-control" id="passwordRegister-input" placeholder="Password">
+             </div>
+             <button type="submit" class="btn btn-primary">Register</button>
+         </form> -->
+         <br>
+         <h1>Log In</h1>
+         
+         <form action="" id="form-login" class="form-group">
+            <div class="form-group" >
+               <label for="exampleInputEmail1">Email address</label>
+               <input type="email" class="form-control" id="emailLogin-input" aria-describedby="emailHelp" placeholder="Enter email">
+               <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+             </div>
+             <div class="form-group">
+               <label for="passwordLogin-input">Password</label>
+               <input type="password" class="form-control" id="passwordLogin-input" placeholder="Password">
+             </div>
+             <button type="submit" class="btn btn-primary">Log In</button>
+         </form>
+         
+         <div class="login-external" style="display: flex;">
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <div id='githubLogin' style="margin-left: 30px;">
+               <a href="https://github.com/login/oauth/authorize?client_id=e576cf43557f362a6995&scope=user:email">
+                  <img style="width: 80px;" src="./assets/img/Octocat.png" alt="">
+                  Github Login
+               </a>
+            </div>
+         </div>
+         Don't have account? <a  href="#"onclick="showRegisterPage()">Create account</a>
+      </div>
+      <br>
+      <div id="loggedIn-page">
+      
+         <h1>Add Todo</h1>
+         <form action="" id="form-addTodo">
+            <div class="form-group" >
+               <label for="title">Title</label><br>
+               <input type="text" name="title" id="title-input" class="form-control">
+             </div>
+             <div class="form-group">
+               <label for="description">Description:</label><br>
+               <textarea name="description" id="description-input" cols="30" rows="5" class="form-control"></textarea>
+             </div>
+             <div class="form-group">
+               <label for="due_date">Due Date:</label><br>
+               <input type="date" name="due_date" id="due_date-input" >
+             </div>
+             <button type="submit" class="btn btn-primary">Add todo</button>
+         </form>
+         
+         <h1 style="margin-top: 50px;">Your Todo</h1>
+         <div id='todos'>
+         </div>
+
+         <h1 style="margin-top: 50px;">Holidays Date</h1>
+         <div id='holidays'>
+         </div>
+
+         <div id="edit-page">
+            <h1>Edit Todo</h1>
+            <div class=""></div>
+            <form action="" id="form-editTodo">
+               <div class="form-group" >
+                  <label for="title">Title</label><br>
+                  <input type="text" name="title" id="title-edit" class="form-control"><br>
+                </div>
+                <div class="form-group">
+                  <label for="description">Description:</label><br>
+                  <textarea name="description" id="description-edit" cols="30" rows="5" class="form-control"></textarea><br>
+                </div>
+                <div class="form-group">
+                  <label for="due_date">Due Date:</label><br>
+                  <input type="date" name="due_date" id="due_date-edit" ><br>
+                </div>
+              
+               <button type="submit" class="btn btn-primary">Edit</button>
+            </form>
+         </div>
+      </div>
+   </div> 
+   <script src="https://apis.google.com/js/platform.js" async defer></script>
+   <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+   <script src="./assets/helper.js"></script>
+   <script src="./assets/main.js"></script>
+</body>
+</html>
