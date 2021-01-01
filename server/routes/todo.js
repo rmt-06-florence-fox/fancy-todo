@@ -7,9 +7,9 @@ router.use(Authentication)
 
 router.post('/', TodoController.create)
 router.get('/', TodoController.getAll)
-router.get('/:id', TodoController.getById)
 
 router.use('/:id',Authorization)
+router.get('/:id', TodoController.getById)
 
 router.patch('/:id',TodoController.update)
 router.put('/:id',TodoController.change)
