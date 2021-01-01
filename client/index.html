@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="1023382786550-ljouf7m7jkv8vecqcg63nap8cec48a98.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="./index.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <title>PranoTodo</title>
+</head>
+<body>
+  <script src="https://use.fontawesome.com/c4ffff370a.js"></script>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">PranoTodo</a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-danger my-2 my-sm-0" id="btn-logout">Logout</button>
+          </form>
+        </div>
+    </nav>
+
+    
+    <div id="wrapperr">
+      <!-- FORM LOGIN-->
+    <div id="login-page">
+      <form class="mb-5" id="login-form">
+          <div class="form-group">
+            <label for="email-input">Email address</label>
+            <input type="email" class="form-control" id="email-input" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="password-input">Password</label>
+            <input type="password" class="form-control" id="password-input">
+          </div>
+         
+          <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+      <p>Don't have an account?'</p>
+      <div class="g-signin2" data-onsuccess="onSignIn"></div><br> <p>or <div id="register" style="color: blue">Sign up</div> for a new account</p>
+    </div>
+
+    
+    
+    <!-- FORM UPDATE -->
+    <div id="updateTodo-page">
+      
+    </div>
+    <!-- FORM REGISTER -->
+    <div id="register-page">
+      <form class="mb-5" id="register-form">
+          <div class="form-group">
+            <label for="email-input2">Email address</label>
+            <input type="email" class="form-control" id="email-input2" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="password-input2">Password</label>
+            <input type="password" class="form-control" id="password-input2">
+          </div>
+         
+          <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </div>
+
+
+
+    
+    </div>
+
+
+
+   <div id="hiha"> 
+
+    <!--CONTAINER  -->
+    <div class="container">
+
+        
+        
+
+        <!-- MAIN PAGE -->
+        <div id="main-page">
+        
+           
+
+
+            <!-- FORM ADD TODO -->
+            <div id="addtodo-page">
+                <form class="mb-5" id="addtodo-form">
+                    <div class="form-group">
+                      <label for="title-input">Title</label>
+                      <input type="title" class="form-control" id="title-input" aria-describedby="titleHelp">
+                      <small id="emailHelp" class="form-text text-muted">Title is mandatory!</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="description-input">Description</label>
+                      <input type="description" class="form-control" id="description-input">
+                    </div>
+                    <!-- <div class="form-group">
+                        <label for="status-input">Status</label>
+                        <input type="status" class="form-control" id="status-input">
+                    </div> -->
+                    <div class="form-group">
+                        <label for="duedate-input">Due date</label>
+                        <input class="form-control" type="date" id="duedate-input">
+                        <small id="emailHelp" class="form-text text-muted">Task must be at least due to tomorrow!</small>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Add Task</button>
+                </form>
+            </div>
+
+
+            <!-- FORM LIST TODO -->
+            <div id="todos-list">
+              <div class="row d-flex justify-content-center wadah">
+                <div class="col-md-8">
+                    <div class="card-hover-shadow-2x mb-3 card">
+                        <div class="card-header-tab card-header">
+                            <div class="card-header-title font-size-lg text-capitalize font-weight-normal"><i class="fa fa-tasks"></i>&nbsp;Task Lists</div>
+                        </div>
+                        <div class="scroll-area-sm">
+                            <perfect-scrollbar class="ps-show-limits">
+                                <div style="position: static;" class="ps ps--active-y" id="todo-list">
+                                    
+                                </div>
+                            </perfect-scrollbar>
+                        </div>
+                        <!-- <div class="d-block text-right card-footer"><button class="mr-2 btn btn-link btn-sm">Cancel</button><button class="btn btn-primary">Add Task</button></div> -->
+                    </div>
+                </div>
+              </div>
+            
+
+            
+              <div class="row d-flex justify-content-center wadah">
+                <div class="col-md-8">
+                    <div class="card-hover-shadow-2x mb-3 card">
+                        <div class="card-header-tab card-header">
+                            <div class="card-header-title font-size-lg text-capitalize font-weight-normal"><i class="fa fa-tasks"></i>&nbsp;Done Lists</div>
+                        </div>
+                        <div class="scroll-area-sm">
+                            <perfect-scrollbar class="ps-show-limits">
+                                <div style="position: static;" class="ps ps--active-y" id="todo-list-done">
+                                     
+                                </div>
+                            </perfect-scrollbar>
+                        </div>
+                        <!-- <div class="d-block text-right card-footer"><button class="mr-2 btn btn-link btn-sm">Cancel</button><button class="btn btn-primary">Add Task</button></div> -->
+                    </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <!-- WEATHER -->
+            <div class="hujan">
+              <div class="weather">
+                  <div class="row">
+                      <div class=" col">
+                          <div class="card">
+                            <span class="icon"><img class="img-fluid" src="https://img.icons8.com/emoji/96/000000/sun-emoji.png" /></span>
+                              <div class="title">
+                                  
+                              </div>
+                              <div class="temp"></div>
+                        
+                          </div>
+                      </div>
+                      
+                      
+                  </div>
+              </div>
+          </div>
+          </div>
+
+
+
+            
+        </div>
+      </div>
+    </div>
+        
+        
+        
+        
+        
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script> 
+    <script src="./assets/helper.js"></script>
+    <script src="./assets/main.js"></script>
+</body>
+</html>
