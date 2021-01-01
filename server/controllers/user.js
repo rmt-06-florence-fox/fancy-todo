@@ -23,10 +23,10 @@ class UserController {
       password: req.body.password
     }
     try {
-      let user = await User.findOne({ 
-        where: { 
-          email: input.email 
-        } 
+      let user = await User.findOne({
+        where: {
+          email: input.email
+        }
       })
       if (!user) {
         throw {
@@ -43,7 +43,7 @@ class UserController {
         }
       }
     } catch (err) {
-      next(err)
+      console.log(err)
     }
   }
   static async gLogin(req, res, next) {
