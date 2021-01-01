@@ -1,0 +1,15 @@
+.center_form {
+    margin: auto auto;
+    width: 30%;
+}
+
+.card{
+    width: 25rem;
+}
+
+.widget-content{
+    margin: auto auto;
+    width: 15rem;
+    height: 20rem;
+    background-color: rgb(150, 180, 228)
+}
