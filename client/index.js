@@ -1,14 +1,14 @@
-const showLoginPage=()=>{
+const showLoginPage = () => {
   $('#register-page, #main-page').hide()
   $('#login-page').show()
 }
 
-const showRegisterPage=()=>{
+const showRegisterPage = () => {
   $('#register-page').show()
   $('#login-page, #main-page').hide()
 }
 
-const showMainPage=()=>{
+const showMainPage = () => {
   $('#register-page,#login-page').hide()
   $('#main-page').show()
   $("#user-name").text(localStorage.getItem("name"))
@@ -16,71 +16,71 @@ const showMainPage=()=>{
   getTodo()
 }
 
-const login=()=>{
-  let email=$("#email").val()
-  let password=$("#password").val()
+const login = () => {
+  let email = $("#email").val()
+  let password = $("#password").val()
   $.ajax({
-    url: "https://muchsin-todo.herokuapp.com/login",
+    url: "http://localhost:3000/login",
     method: "POST",
-    data:{
+    data: {
       email,
       password
     }
   })
-  .done(response =>{
-    localStorage.setItem('access_token', response.access_token)
-    localStorage.setItem('name', response.name)
-    localStorage.setItem('email', response.email)
-    showMainPage()
-  })
-  .fail((xhr, textStatus)=>{
-    console.log(xhr, textStatus)
-  })
-  .always(()=>{
-    $("#email").val("")
-    $("#password").val("")
-  })
+    .done(response => {
+      localStorage.setItem('access_token', response.access_token)
+      localStorage.setItem('name', response.name)
+      localStorage.setItem('email', response.email)
+      showMainPage()
+    })
+    .fail((xhr, textStatus) => {
+      console.log(xhr, textStatus)
+    })
+    .always(() => {
+      $("#email").val("")
+      $("#password").val("")
+    })
 }
 
-const register=()=>{
-  let name=$("#name").val()
-  let email=$("#reg-email").val()
-  let password=$("#reg-password").val()
+const register = () => {
+  let name = $("#name").val()
+  let email = $("#reg-email").val()
+  let password = $("#reg-password").val()
   $.ajax({
-    url: "https://muchsin-todo.herokuapp.com/register",
+    url: "http://localhost:3000/register",
     method: "POST",
-    data:{
+    data: {
       name,
       email,
       password
     }
   })
-  .done(response =>{
-    showLoginPage()
-  })
-  .fail((xhr, textStatus)=>{
-    console.log(xhr, textStatus)
-  })
-  .always(()=>{
-    $("name").val("")
-    $("#reg-email").val("")
-    $("#reg-password").val("")
-  })
+    .done(response => {
+      showLoginPage()
+    })
+    .fail((xhr, textStatus) => {
+      console.log(xhr, textStatus)
+    })
+    .always(() => {
+      $("name").val("")
+      $("#reg-email").val("")
+      $("#reg-password").val("")
+    })
 }
 
-const addTodo=()=>{
-  let name=$("#todo-name").val()
-  let description=$("#description").val()
-  let status= $("#status").find(":selected").text();
-  let category=$("input[name='category']:checked").val();
-  let due=$("#due").val()
+const addTodo = () => {
+  let name = $("#todo-name").val()
+  let description = $("#description").val()
+  let status = $("#status").find(":selected").text();
+  let category = $("input[name='category']:checked").val();
+  let due = $("#due").val()
   $.ajax({
-    url: "https://muchsin-todo.herokuapp.com/todos",
+    url: "http://localhost:3000/todos",
     method: "POST",
-    headers:{
+    headers: {
       access_token: localStorage.access_token
     },
-    data:{
+    data: {
       name,
       description,
       status,
@@ -88,54 +88,53 @@ const addTodo=()=>{
       due
     }
   })
-  .done(response =>{
-    console.log(response)
-    showMainPage()
-  })
-  .fail((xhr, textStatus)=>{
-    console.log(xhr, textStatus)
-  })
-  .always(()=>{
-    $("#todo-name").val("")
-    $("#description").val("")
-    $("#due").val("")
-  })
+    .done(response => {
+      console.log(response)
+      showMainPage()
+    })
+    .fail((xhr, textStatus) => {
+      console.log(xhr, textStatus)
+    })
+    .always(() => {
+      $("#todo-name").val("")
+      $("#description").val("")
+      $("#due").val("")
+    })
 }
 
-const delTodo=(id)=>{
+const delTodo = (id) => {
   // let id=$("#delete-button").val()
   $.ajax({
-    url: `https://muchsin-todo.herokuapp.com/todos/${id}`,
+    url: `http://localhost:3000/todos/${id}`,
     method: "DELETE",
-    headers:{
+    headers: {
       access_token: localStorage.access_token
     },
-    params:{
+    params: {
       id
     }
   })
-  .done(response =>{
-    console.log(response)
-    showMainPage()
-  })
-  .fail((xhr, textStatus)=>{
-    console.log(xhr, textStatus)
-  })
+    .done(response => {
+      console.log(response)
+      showMainPage()
+    })
+    .fail((xhr, textStatus) => {
+      console.log(xhr, textStatus)
+    })
 }
 
-const getTodo=()=>{
+const getTodo = () => {
   $.ajax({
-    url: "https://muchsin-todo.herokuapp.com/todos",
+    url: "http://localhost:3000/todos",
     method: "GET",
-    headers:{
+    headers: {
       access_token: localStorage.access_token
     }
   })
-  .done(response =>{
-    $("#todos").empty()
-    response.forEach(todo => {
-      console.log(todo)
-      $("#todos").append(`
+    .done(response => {
+      $("#todos").empty()
+      response.forEach(todo => {
+        $("#todos").append(`
       <div class="col-md-4">
         <div class="card mb-4 shadow-sm ">
           
@@ -146,27 +145,27 @@ const getTodo=()=>{
             <p class="card-text">${todo.description}</p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
-                <button type="button" id="edit-button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                <button type="button" id="edit-button" class="btn btn-sm btn-outline-secondary">Update</button>
                 <button type="button" id="delete-button" href="#" onclick = "delTodo(${todo.id})" class="btn btn-sm btn-outline-secondary">Delete</button>
               </div>
-              <small class="text-muted">Due ${todo.due}</small>
+              <small class="text-muted">Due ${todo.due} </small>
             </div>
           </div>
         </div>
       </div>
      `)
-    });
-  })
-  .fail((xhr, textStatus)=>{
-    console.log(xhr, textStatus)
-  })
+      });
+    })
+    .fail((xhr, textStatus) => {
+      console.log(xhr, textStatus)
+    })
 }
 
-const logout=()=>{
+const logout = () => {
   localStorage.clear()
   showLoginPage()
   const auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
+  auth2.signOut().then(function () {
     console.log('User signed out.');
   });
 }
@@ -177,59 +176,59 @@ function onSignIn(googleUser) {
   const google_token = googleUser.getAuthResponse().id_token;
 
   const request = $.ajax({
-      url: "https://muchsin-todo.herokuapp.com/google-login",
-      method: "POST",
-      data: {google_token}
+    url: "http://localhost:3000/google-login",
+    method: "POST",
+    data: { google_token }
   });
 
   request.done((response) => {
-      localStorage.setItem('access_token', response.access_token);
-      localStorage.setItem('name', response.name)
-      localStorage.setItem('email', response.email)
-      showMainPage()
+    localStorage.setItem('access_token', response.access_token);
+    localStorage.setItem('name', response.name)
+    localStorage.setItem('email', response.email)
+    showMainPage()
   })
 
   request.fail((jqxhr, status) => {
-      console.log(jqxhr.responseJSON);
+    console.log(jqxhr.responseJSON);
   })
 
   request.always(() => {
-      $("#email").val("")
-      $("#password").val("")
+    $("#email").val("")
+    $("#password").val("")
   })
 }
 
-$(document).ready(function(){
-  if(localStorage.getItem('access_token')){
+$(document).ready(function () {
+  if (localStorage.getItem('access_token')) {
     showMainPage()
-  }else{
+  } else {
     showLoginPage()
   }
 
-  $('#login-form').on('submit', (event)=>{
+  $('#login-form').on('submit', (event) => {
     event.preventDefault()
     login()
   });
 
-  $('#register-redirect').on('click',()=>{
+  $('#register-redirect').on('click', () => {
     showRegisterPage()
   })
 
-  $('#register-form').on('submit', (event)=>{
+  $('#register-form').on('submit', (event) => {
     event.preventDefault()
     register()
   })
 
-  $('#login-redirect').on('click',()=>{
+  $('#login-redirect').on('click', () => {
     showLoginPage()
   })
 
-  $('#add-todo-form').on('submit', (event)=>{
+  $('#add-todo-form').on('submit', (event) => {
     event.preventDefault()
     addTodo()
   })
 
-  $('#logout-button').on('click',()=>{
+  $('#logout-button').on('click', () => {
     logout()
   })
 
