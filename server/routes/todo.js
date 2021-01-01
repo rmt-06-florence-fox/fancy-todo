@@ -10,7 +10,6 @@ router.get('/', TodoController.getAll)
 
 router.use('/:id',Authorization)
 router.get('/:id', TodoController.getById)
-
 router.patch('/:id',TodoController.update)
 router.put('/:id',TodoController.change)
 router.delete('/:id',TodoController.delete)
