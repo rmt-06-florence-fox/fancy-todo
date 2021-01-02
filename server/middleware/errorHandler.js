@@ -6,7 +6,7 @@ function errorHandler(err, req, res, next) {
             let tempMessage;
             for (let i = 0; i < err.errors.length; i++) {
                 if(err.errors[i].message === "Password must be at least 6 characters.") {
-                    tempMessage = errors.message;
+                    tempMessage = err.errors[i].message;
                 } else if (err.errors[i].message === "Email is invalid.") {
                     if (!errors.includes("Email is required.")) {
                         errors.push(err.errors[i].message);
