@@ -58,7 +58,13 @@ label {
    font-weight: 700;
 }
 
-input[type=text], input[type=email], input[type=password], input[type=date]  {
+input[type=text], input[type=email], input[type=password], input[type=date] {
+   border: solid black .1rem;
+   border-radius: 0.5rem;
+   color: black;
+}
+
+.text-area {
    border: solid black .1rem;
    border-radius: 0.5rem;
    color: black;
@@ -126,6 +132,7 @@ input[type=text], input[type=email], input[type=password], input[type=date]  {
 
 .add-form-container {
    padding-top: 1rem;
+   padding-bottom: 2rem;
    min-width: 26rem;
    min-height: 30rem;
    border-radius: 1rem;
