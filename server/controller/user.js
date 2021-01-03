@@ -8,10 +8,10 @@ class UserController{
 
   static async register(req,res,next){
     let obj = {
-      first_name : req.body.first_name,
+      first_name : req.body.first_name || '',
       last_name : req.body.last_name,
-      email : req.body.email,
-      password : req.body.password,
+      email : req.body.email || '',
+      password : req.body.password || '',
     }
     try {
       const data = await User.create(obj)
@@ -28,22 +28,22 @@ class UserController{
 
   static async login(req,res,next){
     let obj = {
-      email : req.body.email,
-      password : req.body.password
+      email : req.body.email || '',
+      password : req.body.password || ''
     }
     try {
       const data = await User.findOne({where: {email : obj.email}})
       if (!data) {
         throw {
           status : 401,
-          message: `invalid email`
+          message: `invalid email/password`
         }
       } else {
         const compared = compare(obj.password, data.password)
         if (!compared) {
           throw {
             status : 401,
-            message: `invalid password`
+            message: `invalid email/password`
           }
         } else {
           let obj = {

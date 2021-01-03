@@ -4,7 +4,7 @@ const axios = require('axios')
 class TodoController{
   static async show(req,res,next){
     try {
-      const list = await Todo.findAll({where : {UserId : req.userLogin.id}, order: [['status', 'DESC']]})
+      const list = await Todo.findAll({where : {UserId : req.userLogin.id}, order: [['due_date', 'ASC']]})
       if (list) {
         res.status(200).json(list)
       } else {
@@ -59,12 +59,13 @@ class TodoController{
 
   static async create(req,res,next){
     let obj = {
-      title : req.body.title,
-      description : req.body.description,
+      title : req.body.title || '',
+      description : req.body.description || '',
       status : false,
-      due_date : req.body.due_date,
+      due_date : req.body.due_date || '',
       UserId : req.userLogin.id
     }
+    console.log(obj);
     try {
       const data = await Todo.create(obj)
       res.status(201).json(data)
