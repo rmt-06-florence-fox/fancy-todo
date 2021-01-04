@@ -1,0 +1,165 @@
+body{
+  height: 100%;
+  background-image: url('https://images.unsplash.com/photo-1566617089625-1809173be38d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=564&q=80');
+  background-repeat: repeat;
+  background-size: cover;
+}
+
+.error {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+}
+
+.loginPage, .registerPage {
+  min-height: 91.5vmin;
+  background-image: linear-gradient(to top, transparent, #222831), url('https://casso.cc/preview1.gif');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#forLogin {
+ width: 600px; 
+ top: 30%;
+ left: 30%; 
+ position: absolute;
+ padding: 10px;
+ opacity: 95%;
+}
+
+#loginHead {
+  font-weight: 500;
+  color: white;
+  font-size: 45px;
+  top: 20%;
+  left: 46%; 
+  position: absolute;
+ }
+
+ #registerHead {
+  font-weight: 500;
+  color: white;
+  font-size: 45px;
+  top: 15%;
+  left: 44%; 
+  position: absolute;
+ }
+
+ #forRegister {
+  width: 600px; 
+  top: 25%;
+  left: 30%; 
+  position: absolute;
+  padding: 10px;
+  opacity: 95%;
+ }
+
+ .g-signin2 {
+  padding-top: 10px;
+  padding-bottom: 8px;
+ }
+
+ #successRegister {
+  font-weight: 100;
+  color: white;
+  font-size: 25px;
+  top: 77%;
+  left: 34%; 
+  position: absolute;
+ }
+
+ /* Login Register Page */
+
+.toDoSection {
+ width: 600px; 
+ top: 15%;
+ right: 11%; 
+ position: absolute;
+ padding: 10px;
+ opacity: 95%;
+ background-color: #ffd369;
+}
+
+#createButton {
+  width: 580px;
+}
+
+#createToDo{
+  padding: 20px;
+}
+
+#listTask{
+  padding-top: 8px;
+}
+
+#intro {
+  top: 15%;
+  left: 10.6%; 
+  position: absolute;
+  opacity: 95%;
+  background-color: #117085;
+  padding: 8px;
+  height: 360px;
+  color: white;
+ }
+
+ #news {
+  top: 64%;
+  left: 10.8%; 
+  position: absolute;
+  opacity: 95%;
+  background-color: #3ed00d;
+  padding: 10px;
+  height: 360px;
+  color: #222831;
+ }
+
+ #info {
+  left: 5%;
+ }
+
+ #resultIcon {
+   position: relative;
+   width: 100px;
+   top: 5%;
+   left: 34%;
+ }
+
+ #result {
+  position: relative;
+  top: 1%;
+  left: 4%;
+  color: white;
+  text-align: center;
+ }
+
+ #place {
+  position: relative;
+  top: 10%;
+  left: 4%;
+  color: white;
+  text-align: center;
+ }
+
+ #desc {
+   font-size: 14px;
+   position: relative;
+   left: 10%;
+   bottom: 10%;
+   color: white;
+ }
+
+ #alert {
+   position: relative;
+   padding: 0px 7%;
+   color: white;
+   text-align: center;
+ }
+
+ #back {
+  position: relative;
+  width: 100px;
+  top: 10%;
+  left: 34%;
+}
+
