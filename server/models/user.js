@@ -59,10 +59,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        validatename(value) {
-          if (value === null || value === '') {
-            throw new Error ('Please enter your password!!')
-          }
+        notNull: {
+          args: true,
+          msg: 'Please enter your password!!'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'Please enter your password!!'
         }
       }
     }
