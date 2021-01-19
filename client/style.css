@@ -1,0 +1,39 @@
+
+.jumbotron {
+    background-image: url(img/8294.jpg);
+    background-size: cover;
+    background-position-y: center;
+    height: 100;
+    margin-top: 0%;
+    padding: 100;
+}
+
+#main-page {
+    margin-top: 0%;
+    margin-bottom: 0%;
+}
+
+#jumbotron {
+    padding: 100;
+    margin-bottom: 0%;
+}
+#loginImg{
+    height: 30%;
+}
+#registImg{
+    height: 30%;
+}
+#login-form {
+    height: 700px;
+}
+#form-login {
+    height: 700px;
+}
+#login-img{
+    height: inherit;
+}
+/* #putTodo{
+    background-image: url(img/6685.jpg);
+    background-size: cover;
+
+} */
